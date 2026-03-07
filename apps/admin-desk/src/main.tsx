@@ -1,10 +1,16 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
+import { TestTailwindcss } from '@salc/ui'
+
 
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <h1 className='text-3xl font-bold underline'>Hello world!</h1>
+    <div className="bg-red-500 text-white p-4 text-center font-bold text-2xl">
+      <h1>Admin Desk</h1>
+      <p>SI VES ESTO ROJO, TAILWIND ESTÁ VIVO</p>
+    </div>
+    <TestTailwindcss />
   </StrictMode>,
 )

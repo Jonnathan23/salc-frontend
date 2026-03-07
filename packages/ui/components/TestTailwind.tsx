@@ -1,4 +1,12 @@
-export default function TestTailwindcss() {
+import { CustomError } from '@salc/core/enums/errors/CustomError.error'
+
+
+
+export function TestTailwindcss() {
+
+    const handleError = () => {
+        throw CustomError.internalServer("Internal server error")
+    }
     return (
         <div className="flex flex-col items-center justify-center min-h-[50vh] p-8 space-y-6 bg-linear-to-br from-slate-900 to-slate-800 rounded-2xl shadow-2xl border border-slate-700 max-w-md mx-auto transform transition-all hover:scale-[1.02]">
             <div className="bg-indigo-500/10 p-4 rounded-full ring-4 ring-indigo-500/20">
@@ -28,7 +36,7 @@ export default function TestTailwindcss() {
                 está correctamente configurado y funcionando.
             </p>
 
-            <button className="px-8 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-medium rounded-lg shadow-lg shadow-indigo-500/30 transition-all active:scale-95 group flex items-center gap-2">
+            <button onClick={handleError} className="px-8 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-medium rounded-lg shadow-lg shadow-indigo-500/30 transition-all active:scale-95 group flex items-center gap-2">
                 <span>¡Funciona!</span>
                 <span className="group-hover:translate-x-1 transition-transform">🚀</span>
             </button>
