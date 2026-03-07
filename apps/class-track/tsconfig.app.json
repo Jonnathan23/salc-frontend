@@ -22,7 +22,14 @@
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@salc/core/*": ["../../packages/core/src/*"],
+      "@salc/ui": ["../../packages/ui/index.ts"],
+      "@salc/ui/*": ["../../packages/ui/*"]
+    }
   },
   "include": ["src"]
 }
