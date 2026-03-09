@@ -1,8 +1,7 @@
-export interface FormattedErrorResponse {
-    message: string;
-    path?: string;
-}
+import { ErrorResponseSchema, FormattedErrorResponseSchema } from "@salc/core/schemas";
+import { InferSchema } from "@salc/core/utils";
 
-export interface ErrorResponse {
-    errors: Array<FormattedErrorResponse>;
-}
+
+export type FormattedErrorResponse = InferSchema<typeof FormattedErrorResponseSchema>;
+
+export type ErrorResponse = InferSchema<typeof ErrorResponseSchema>;
