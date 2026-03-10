@@ -1,6 +1,7 @@
-import z, { ZodSchema, ZodTypeAny } from 'zod';
+import z, { ZodSchema, ZodType, ZodTypeAny } from 'zod';
 import { CustomError } from '../../enums/errors/CustomError.error';
 import { FormattedErrorResponse } from '../../interfaces/Errors';
+import { SuccessResponse } from '@salc/core/interfaces';
 
 export type InferSchema<T extends ZodTypeAny> = z.infer<T>;
 
@@ -20,5 +21,15 @@ export class DataAccessLayerAdapter {
         }
 
         return validationResult.data;
+    }
+
+    public static buildSuccessResponseSchema<ExpectedDataType = null>(dataSchema?: ZodType<ExpectedDataType>): ZodSchema<SuccessResponse<ExpectedDataType>> {
+
+        const schema = z.object({
+            success: z.boolean(),
+            message: z.string(),
+            data: dataSchema ? dataSchema.nullable() : z.null().optional()
+        });
+        return schema as ZodSchema<SuccessResponse<ExpectedDataType>>;
     }
 }

@@ -1,0 +1,1 @@
+export * from '@salc/core/features/shared/indentiy/domain/entities/User.entity'
