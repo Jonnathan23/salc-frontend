@@ -2,67 +2,89 @@ import { CustomError } from "@salc/core/enums";
 import { UserDataSource } from "@salc/core/features/shared/indentiy/domain/datasource";
 import { ChangePasswordDto, RegisterUserDto } from "@salc/core/features/shared/indentiy/domain/dtos";
 import { UserEntity } from "@salc/core/features/shared/indentiy/domain/entities";
-import { registerUserSchema } from "@salc/core/features/shared/indentiy/infrastructure/schemas";
+import { UserMapper } from "@salc/core/features/shared/indentiy/infrastructure/mappers/user.mapper";
 import { SuccessResponse } from "@salc/core/interfaces";
 import { apiSalc } from "@salc/core/lib";
-import { DataAccessLayerAdapter } from "@salc/core/utils";
-
 
 export class UserRepository implements UserDataSource {
 
-    async create(user: RegisterUserDto): Promise<SuccessResponse> {
+    public async create(user: RegisterUserDto): Promise<SuccessResponse> {
         try {
+            const url = '/user';
+            const rawResponse = await apiSalc.post<SuccessResponse, RegisterUserDto>(url, user);
 
-            const dataValidation = DataAccessLayerAdapter.validateData(registerUserSchema, user);
-
-            const url = '/user'
-            const rawResponse = await apiSalc.post<SuccessResponse, typeof dataValidation>(url, dataValidation);
-            
-            const validationResponse = this.validationNullInformation(rawResponse);
-
-            return validationResponse;
-
+            return this.validationNullInformation(rawResponse);
         } catch (error) {
-            throw this.handleError(error);
+            throw this.handleError(error, 'Error creating user');
         }
     }
 
-    async changePassword(id: string, newPassword: ChangePasswordDto): Promise<SuccessResponse> {
+    public async changePassword(id: string, newPassword: ChangePasswordDto): Promise<SuccessResponse> {
         try {
             const url = `/user/${id}/password`;
             const rawResponse = await apiSalc.patch<SuccessResponse, ChangePasswordDto>(url, newPassword);
-            
-            const validationResponse = this.validationNullInformation(rawResponse);
-            return validationResponse;
 
+            return this.validationNullInformation(rawResponse);
         } catch (error) {
-            throw this.handleError(error);
+            throw this.handleError(error, 'Error changing user password');
         }
     }
-    
-    async changeStateActive(id: string): Promise<SuccessResponse> {
-        throw new Error("Method not implemented.");
+
+    public async changeStateActive(id: string): Promise<SuccessResponse> {
+        try {
+            const url = `/user/${id}/state`;
+            const rawResponse = await apiSalc.post<SuccessResponse, {}>(url, {});
+
+            return this.validationNullInformation(rawResponse);
+        } catch (error) {
+            throw this.handleError(error, 'Error changing user state');
+        }
     }
 
-    async findById(id: string): Promise<SuccessResponse<UserEntity>> {
-        throw new Error("Method not implemented.");
+    public async findById(id: string): Promise<SuccessResponse<UserEntity>> {
+        try {
+            const url = `/user/${id}`;
+            const rawResponse = await apiSalc.get<SuccessResponse<UserEntity>>(url);
+
+            const entity = UserMapper.toEntity(rawResponse.data);
+
+            return {
+                ...rawResponse,
+                data: entity
+            };
+        } catch (error) {
+            throw this.handleError(error, 'Error fetching user details');
+        }
     }
 
-    async findAll(): Promise<SuccessResponse<UserEntity[]>> {
-        throw new Error("Method not implemented.");
+    public async findAll(): Promise<SuccessResponse<UserEntity[]>> {
+        try {
+            const url = '/user';
+            const rawResponse = await apiSalc.get<SuccessResponse<UserEntity[]>>(url);
+
+            if (!rawResponse.data) {
+                throw CustomError.notFound("No users found");
+            }
+
+            const entities = rawResponse.data.map((user) => UserMapper.toEntity(user));
+
+            return {
+                ...rawResponse,
+                data: entities
+            };
+        } catch (error) {
+            throw this.handleError(error, 'Error fetching user list');
+        }
     }
 
     private validationNullInformation(rawResponse: SuccessResponse): SuccessResponse {
-        const responseShcema = DataAccessLayerAdapter.buildSuccessResponseSchema();
-        const validationResponse = DataAccessLayerAdapter.validateData(responseShcema, rawResponse);
-
-        return validationResponse
-
+        return UserMapper.validationNullInformation(rawResponse);
     }
 
-    private handleError(error: unknown): never {
-        if (error instanceof CustomError) throw error;
-
-        throw CustomError.internalServer('Error al crear el usuario');
+    private handleError(error: unknown, fallbackMessage: string): never {
+        if (error instanceof CustomError) {
+            throw error;
+        }
+        throw CustomError.internalServer(fallbackMessage);
     }
 }
