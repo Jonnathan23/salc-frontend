@@ -25,6 +25,7 @@ export class Api {
         this.baseUrl = baseUrl;
         this.apiInstance = axios.create({
             baseURL: this.baseUrl,
+            withCredentials: true,
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -85,8 +86,7 @@ export class Api {
 
     private handleLogout(): void {
         //TODO: Borrar la cookie de sesión del usuario        
-        //TODO: Redirigir al usuario al login
-        //window.location.href = "/auth/login";
+        //TODO: Redirigir al usuario al login        
     }
 
     //* Public Methods
