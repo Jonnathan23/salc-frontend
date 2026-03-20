@@ -2,8 +2,14 @@ import { CustomError } from "@salc/core/enums";
 import { UserRoles } from "@salc/core/interfaces";
 import { Validators } from "@salc/core/utils";
 
+export interface RegisterUserDto {
+    us_full_name: string;
+    us_email: string;
+    us_password_hash: string;
+    us_role: UserRoles;
+}
 
-export class RegisterUserDto {
+export class RegisterUserDtoImpl implements RegisterUserDto {
 
     private constructor(
         public us_full_name: string,
@@ -32,7 +38,7 @@ export class RegisterUserDto {
             throw CustomError.badRequest('Invalid role');
         }
 
-        return new RegisterUserDto(
+        return new RegisterUserDtoImpl(
             us_full_name,
             us_email,
             us_password_hash,
