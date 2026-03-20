@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/cor
 import { Button } from '@/core/components/buttons/button';
 import { Input } from '@/core/components/ui/input';
 import { Label } from '@/core/components/ui/label';
-import { Alert, AlertDescription } from '@/core/components/ui/alert';
+import { Alert, AlertDescription } from '@/core/components/alerts/alert';
 import { LoginUserDto } from '@salc/core/features/shared/indentiy/domain/dtos';
 
 
