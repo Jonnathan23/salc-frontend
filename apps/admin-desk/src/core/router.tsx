@@ -12,7 +12,7 @@ export default function Router() {
             <Routes>
                 <Route element={<AppLayout />}>
                     <Route path="/" element={<DashboardPage />} />
-                    <Route path="/register" element={<RegisterPage />} />
+                    <Route path="/student-onboarding" element={<RegisterPage />} />
                 </Route>
             </Routes>
             <Routes>

@@ -1,5 +1,5 @@
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { Database, GraduationCap, Layers, LayoutDashboard, LogOut, UserPlus, Users } from "lucide-react";
+import { GraduationCap, LogOut } from "lucide-react";
 
 import { Button } from "@/core/components/buttons/button";
 import { Separator } from "@/core/components/ui/separator";
@@ -8,39 +8,8 @@ import {
     SidebarGroupLabel, SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuButton,
     SidebarMenuItem, SidebarProvider, SidebarTrigger
 } from "@/core/components/sidebar/sidebar";
+import { navItems } from "@/core/data";
 
-const navItems = [
-    {
-        title: 'Dashboard',
-        href: '/dashboard',
-        icon: LayoutDashboard,
-        adminOnly: false,
-    },
-    {
-        title: 'Migración de Datos',
-        href: '/dashboard/data-migration',
-        icon: Database,
-        adminOnly: true,
-    },
-    {
-        title: 'Matrícula de Estudiantes',
-        href: '/dashboard/student-onboarding',
-        icon: UserPlus,
-        adminOnly: false,
-    },
-    {
-        title: 'Niveles de Estudiantes',
-        href: '/dashboard/student-levels',
-        icon: Layers,
-        adminOnly: false,
-    },
-    {
-        title: 'Registro de Usuarios',
-        href: '/dashboard/user-registration',
-        icon: Users,
-        adminOnly: true,
-    },
-]
 
 
 
