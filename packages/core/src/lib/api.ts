@@ -1,5 +1,5 @@
 import { CustomError } from "@salc/core/enums";
-import { ErrorResponse, FormattedErrorResponse } from "@salc/core/interfaces";
+import { FormattedErrorResponse } from "@salc/core/interfaces";
 import { ErrorResponseSchema } from "@salc/core/schemas";
 import { DataAccessLayerAdapter } from "@salc/core/utils";
 import axios, { AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from "axios";
@@ -20,6 +20,7 @@ const statusCodeToErrorMap: Record<number, ErrorFactory> = {
 export class Api {
     private readonly apiInstance: AxiosInstance;
     private readonly baseUrl: string;
+    private onUnauthorizedCallback?: () => void;
 
     constructor(baseUrl: string) {
         this.baseUrl = baseUrl;
@@ -35,11 +36,15 @@ export class Api {
     }
 
     private initializeInterceptors(): void {
-        this.interceptorRequest();
         this.interceptorResponse();
     }
 
+    public setUnauthorizedCallback(callback: () => void): void {
+        this.onUnauthorizedCallback = callback;
+    }
+
     private interceptorRequest(): void {
+        //Se dejó el método por si en un futuro se necesita agregar un token
         this.apiInstance.interceptors.request.use(
             (config: InternalAxiosRequestConfig) => {
                 const token = localStorage.getItem("token");
@@ -53,9 +58,7 @@ export class Api {
 
     private interceptorResponse(): void {
         this.apiInstance.interceptors.response.use(
-            (response: AxiosResponse) => {
-                return response;
-            },
+            (response: AxiosResponse) => response,
             (error: AxiosError<unknown>) => {
                 if (!error.response) {
                     return Promise.reject(CustomError.internalServer("Network error or server is unreachable"));
@@ -85,8 +88,12 @@ export class Api {
     }
 
     private handleLogout(): void {
-        //TODO: Borrar la cookie de sesión del usuario        
-        //TODO: Redirigir al usuario al login        
+        if (this.onUnauthorizedCallback) {
+            this.onUnauthorizedCallback();
+            return;
+        }
+
+        window.location.href = '/auth/login';
     }
 
     //* Public Methods

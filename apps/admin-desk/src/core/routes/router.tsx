@@ -28,7 +28,7 @@ export default function Router() {
                         <Route path="/" element={<DashboardPage />} />
 
                         {/* Solo Administradores y Asesores pueden registrar estudiantes/usuarios */}
-                        <Route element={<ProtectedRoute allowedRoles={['ADMIN', 'ADVISOR']} />}>
+                        <Route element={<ProtectedRoute allowedRoles={['ADMIN']} />}>
                             <Route path="/student-onboarding" element={<RegisterPage />} />
                         </Route>
                         
