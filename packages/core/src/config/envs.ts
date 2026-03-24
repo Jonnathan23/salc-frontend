@@ -1,18 +1,18 @@
+import { CustomError } from "@salc/core/enums";
 import { enviromentSchema } from "@salc/core/schemas/envs.schema";
 import { InferSchema } from "@salc/core/utils";
 
 
+export type SystemConfiguration = InferSchema<typeof enviromentSchema>;
 
-export type SystemConfiguration = InferSchema<typeof enviromentSchema>
+export const envs = {} as SystemConfiguration;
 
-
-export let envs: SystemConfiguration;
-
-export const loadEnvs = (rawEnviroment: { [key: string]: any }) => {
+export const loadEnvs = (rawEnviroment: Record<string, any>) => {
     const result = enviromentSchema.safeParse(rawEnviroment);
+
     if (!result.success) {
-        throw new Error('Invalid environment variables');
+        throw CustomError.internalServer('Invalid environment variables: ' + result.error.message);
     }
 
-    envs.API_URL = result.data.API_URL;
+    Object.assign(envs, result.data);
 }
