@@ -2,11 +2,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/cor
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { navItems } from "@/core/data";
+import { useAuthStore } from "@/features/indentity/application/store/auth.store";
+import { useMemo } from "react";
 
 export default function DashboardPage() {
-    const isAdmin = true;
+    const { userResponse } = useAuthStore();
 
-    const filteredActions = navItems.filter(action => !action.adminOnly || isAdmin)
+    const isAdmin = useMemo(() => userResponse?.us_role === 'ADMIN', [userResponse])
+    const filteredActions = useMemo(() => navItems.filter(action => !action.adminOnly || userResponse?.us_role === 'ADMIN'), [userResponse])
 
     return (
         <div className="space-y-6">
@@ -56,7 +59,7 @@ export default function DashboardPage() {
             <Card>
                 <CardHeader>
                     <CardTitle>Estado del Sistema</CardTitle>
-                    <CardDescription>Resumen general del sistema SmartFlow</CardDescription>
+                    <CardDescription>Resumen general del sistema SALC - AdminDesk</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <div className="grid gap-4 sm:grid-cols-3">

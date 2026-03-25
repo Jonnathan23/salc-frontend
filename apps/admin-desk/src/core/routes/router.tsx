@@ -29,7 +29,7 @@ export default function Router() {
 
                         {/* Solo Administradores y Asesores pueden registrar estudiantes/usuarios */}
                         <Route element={<ProtectedRoute allowedRoles={['ADMIN']} />}>
-                            <Route path="/student-onboarding" element={<RegisterPage />} />
+                            <Route path="/new-user" element={<RegisterPage />} />
                         </Route>
                         
                     </Route>

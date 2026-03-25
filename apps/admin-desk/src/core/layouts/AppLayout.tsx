@@ -1,5 +1,5 @@
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { GraduationCap, LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
 
 import { Button } from "@/core/components/buttons/button";
 import { Separator } from "@/core/components/ui/separator";
@@ -9,38 +9,35 @@ import {
     SidebarMenuItem, SidebarProvider, SidebarTrigger
 } from "@/core/components/sidebar/sidebar";
 import { navItems } from "@/core/data";
+import { useAuthStore } from "@/features/indentity/application/store/auth.store";
 
 
 
 
 export default function AppLayout() {
 
-    const isAdmin = true;
     const pathname = useLocation().pathname;
 
-    const filteredNavItems = navItems.filter(item => !item.adminOnly || isAdmin)
+    const { userResponse } = useAuthStore();
+
+    const filteredNavItems = navItems.filter(item => !item.adminOnly || userResponse?.us_role === 'ADMIN')
 
     const logout = () => {
         console.log('logout');
     }
 
-    const user = {
-        userFullName: 'Jonna Rodriguez',
-        userRole: 'ADMIN',
-    }
-
-    return (
+    if (userResponse) return (
         <>
             <SidebarProvider>
                 <Sidebar>
                     <SidebarHeader className="border-b border-sidebar-border">
                         <div className="flex items-center gap-3 px-4 py-3">
                             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-sidebar-primary">
-                                <GraduationCap className="h-5 w-5 text-sidebar-primary-foreground" />
+                                <img src="/logo-salc.png" alt="Logo SALC" className="h-5 w-5 text-sidebar-primary-foreground" />
                             </div>
                             <div className="flex flex-col">
-                                <span className="font-semibold text-sidebar-foreground">SmartFlow</span>
-                                <span className="text-xs text-sidebar-foreground/70">Gestión Estudiantil</span>
+                                <span className="font-semibold text-sidebar-foreground">SALC</span>
+                                <span className="text-xs text-sidebar-foreground/70">Admin Desk</span>
                             </div>
                         </div>
                     </SidebarHeader>
@@ -70,10 +67,10 @@ export default function AppLayout() {
                         <div className="p-4">
                             <div className="mb-3 flex flex-col">
                                 <span className="text-sm font-medium text-sidebar-foreground">
-                                    {user.userFullName}
+                                    {userResponse?.us_full_name}
                                 </span>
                                 <span className="text-xs text-sidebar-foreground/70">
-                                    {user.userRole === 'ADMIN' ? 'Administrador' : 'Profesor'}
+                                    {userResponse?.us_role}
                                 </span>
                             </div>
                             <Button

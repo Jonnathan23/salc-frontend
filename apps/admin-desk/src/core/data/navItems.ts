@@ -38,7 +38,7 @@ export const navItems: NavItem[] = [
     {
         title: 'Registro de Usuarios',
         description: 'Crear cuentas para administradores y profesores',
-        href: '/user-registration',
+        href: '/new-user',
         icon: Users,
         adminOnly: true,
         color: 'bg-muted',
