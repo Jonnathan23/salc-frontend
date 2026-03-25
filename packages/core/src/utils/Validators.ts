@@ -1,4 +1,5 @@
-import { userRoles } from "@salc/core/interfaces";
+import { UseState, useState } from "@salc/core/features/shared/indentiy/domain/entities";
+import { UserRoles, userRoles } from "@salc/core/interfaces";
 
 export const Validators = {
     isEmail: (email: string): boolean => {
@@ -13,7 +14,7 @@ export const Validators = {
     },
 
     isRole: (role: string): boolean => {
-        return role === userRoles.ADMIN || role === userRoles.TEACHER;
+        return Object.values(userRoles).includes(role as UserRoles);
     },
 
     IsUUID: (identifier: string): boolean => {
@@ -30,7 +31,9 @@ export const Validators = {
     isPhoneNumber: (phoneNumber: string): boolean => {
         const phoneNumberRegex: RegExp = /^[0-9]{10}$/;
         return phoneNumberRegex.test(phoneNumber);
-    }
+    },
 
-    
+    isStateUser: (state: string): boolean => {
+        return Object.values(useState).includes(state as UseState);
+    }
 };

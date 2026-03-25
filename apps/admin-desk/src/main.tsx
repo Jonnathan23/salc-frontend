@@ -1,16 +1,29 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import './index.css'
-import { TestTailwindcss } from '@salc/ui'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
+import './index.css'
+import Router from '@/core/routes/router'
+import { loadCoreEnvs } from '@/core/config/envs-local';
+
+
+
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            refetchOnWindowFocus: false,
+            retry: 1,
+        },
+    },
+});
+
+loadCoreEnvs();
 
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <div className="bg-red-500 text-white p-4 text-center font-bold text-2xl">
-      <h1>Admin Desk</h1>
-      <p>SI VES ESTO ROJO, TAILWIND ESTÁ VIVO</p>
-    </div>
-    <TestTailwindcss />
-  </StrictMode>,
-)
+    <StrictMode>
+        <QueryClientProvider client={queryClient}>
+            <Router />
+        </QueryClientProvider>
+    </StrictMode>,
+);
