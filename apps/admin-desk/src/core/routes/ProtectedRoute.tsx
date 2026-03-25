@@ -1,26 +1,26 @@
+import { usePermissions } from '@/features/indentity/application/hooks/usePermissions.use';
 import { useAuthStore } from '@/features/indentity/application/store/auth.store';
+import type { SystemPermission } from '@salc/core/enums/Permissions';
 import { Navigate, Outlet } from 'react-router-dom';
 
 
 
 interface ProtectedRouteProps {
-    allowedRoles?: Array<string>;
+    requiredPermissions?: SystemPermission[];
 }
 
-export const ProtectedRoute = ({ allowedRoles }: ProtectedRouteProps) => {
+export const ProtectedRoute = ({ requiredPermissions }: ProtectedRouteProps) => {
     const { isAuthenticated, userResponse } = useAuthStore();
+    const { hasPermission } = usePermissions();
 
-    // 1. Si no hay sesión, lo expulsamos al login
     if (!isAuthenticated || !userResponse) {
         return <Navigate to="/auth/login" replace />;
     }
 
-    // 2. Validación de Roles (RBAC). Si la ruta exige roles y el usuario no los tiene
-    if (allowedRoles && !allowedRoles.includes(userResponse.us_role)) {
-        // Lo devolvemos al inicio (o puedes enviarlo a una vista de "No Autorizado")
-        return <Navigate to="/" replace />; 
-    }
+    if (requiredPermissions && requiredPermissions.length > 0 && !hasPermission(requiredPermissions)) {
 
-    // 3. Todo está en orden, renderizamos la ruta hija
+        return <Navigate to="/" replace />;
+    }
+    
     return <Outlet />;
 };

@@ -1,6 +1,8 @@
 import type { LucideProps } from "lucide-react";
 import type { ForwardRefExoticComponent, RefAttributes } from "react";
 
+import { type SystemPermission } from "@salc/core/enums/Permissions";
+
 type Icon = ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>
 
 export interface NavItem {
@@ -8,6 +10,6 @@ export interface NavItem {
     description: string;
     href: string;
     icon: Icon;
-    adminOnly: boolean;
+    permissions: SystemPermission[];
     color: string;
 }

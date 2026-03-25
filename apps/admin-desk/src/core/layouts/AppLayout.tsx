@@ -1,4 +1,4 @@
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { LogOut } from "lucide-react";
 
 import { Button } from "@/core/components/buttons/button";
@@ -10,6 +10,7 @@ import {
 } from "@/core/components/sidebar/sidebar";
 import { navItems } from "@/core/data";
 import { useAuthStore } from "@/features/indentity/application/store/auth.store";
+import { usePermissions } from "@/features/indentity/application/hooks/usePermissions.use";
 
 
 
@@ -17,14 +18,19 @@ import { useAuthStore } from "@/features/indentity/application/store/auth.store"
 export default function AppLayout() {
 
     const pathname = useLocation().pathname;
+    const navigate = useNavigate();
 
-    const { userResponse } = useAuthStore();
+    const { userResponse, setLogoutSession } = useAuthStore();
+    const { hasPermission } = usePermissions();
 
-    const filteredNavItems = navItems.filter(item => !item.adminOnly || userResponse?.us_role === 'ADMIN')
+    const filteredNavItems = navItems.filter((item) => hasPermission(item.permissions));
 
     const logout = () => {
-        console.log('logout');
-    }
+        setLogoutSession();
+        navigate('/auth/login', { replace: true });
+    };
+
+    if (!userResponse) return null;
 
     if (userResponse) return (
         <>
@@ -47,7 +53,7 @@ export default function AppLayout() {
                             <SidebarGroupContent>
                                 <SidebarMenu>
                                     {filteredNavItems.map((item) => {
-                                        const isActive = pathname === item.href
+                                        const isActive = pathname === item.href;
                                         return (
                                             <SidebarMenuItem key={item.href}>
                                                 <SidebarMenuButton asChild isActive={isActive}>
@@ -57,7 +63,7 @@ export default function AppLayout() {
                                                     </Link>
                                                 </SidebarMenuButton>
                                             </SidebarMenuItem>
-                                        )
+                                        );
                                     })}
                                 </SidebarMenu>
                             </SidebarGroupContent>
@@ -67,10 +73,10 @@ export default function AppLayout() {
                         <div className="p-4">
                             <div className="mb-3 flex flex-col">
                                 <span className="text-sm font-medium text-sidebar-foreground">
-                                    {userResponse?.us_full_name}
+                                    {userResponse.us_full_name}
                                 </span>
                                 <span className="text-xs text-sidebar-foreground/70">
-                                    {userResponse?.us_role}
+                                    {userResponse.us_role}
                                 </span>
                             </div>
                             <Button

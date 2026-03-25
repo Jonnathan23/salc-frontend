@@ -5,14 +5,15 @@ import { ProtectedRoute } from "@/core/routes/ProtectedRoute";
 import { PublicRoute } from "@/core/routes/PublicRoute";
 import LoginPage from "@/features/indentity/presentation/pages/login.page";
 import RegisterPage from "@/features/indentity/presentation/pages/register.page";
+import { systemPermissions } from "@salc/core/enums/Permissions";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 
 export default function Router() {
     return (
-        <BrowserRouter>            
+        <BrowserRouter>
             <Routes>
-                
+
                 {/* --- ZONA PÚBLICA (Solo para visitantes) --- */}
                 <Route element={<PublicRoute />}>
                     <Route element={<AuthLayout />}>
@@ -23,15 +24,13 @@ export default function Router() {
                 {/* --- ZONA PRIVADA (Solo para usuarios autenticados) --- */}
                 <Route element={<ProtectedRoute />}>
                     <Route element={<AppLayout />}>
-                        
-                        {/* Cualquier usuario logueado puede ver el Dashboard */}
+
                         <Route path="/" element={<DashboardPage />} />
 
-                        {/* Solo Administradores y Asesores pueden registrar estudiantes/usuarios */}
-                        <Route element={<ProtectedRoute allowedRoles={['ADMIN']} />}>
+                        <Route element={<ProtectedRoute requiredPermissions={[systemPermissions.SHARED_IDENTITY_WRITE]} />}>
                             <Route path="/new-user" element={<RegisterPage />} />
                         </Route>
-                        
+
                     </Route>
                 </Route>
 

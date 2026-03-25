@@ -1,4 +1,5 @@
 import { CustomError } from "@salc/core/enums";
+import { SystemPermission } from "@salc/core/enums/Permissions";
 import { UserAuthResponseEntity, UseState } from "@salc/core/features/shared/indentiy/domain/entities/UserAuthResponse";
 import { userAuthResponseSchema } from "@salc/core/features/shared/indentiy/infrastructure/schemas";
 import { UserRoles } from "@salc/core/interfaces";
@@ -31,7 +32,8 @@ export const UserAuthResponseMapper = {
             validationResponse.us_full_name,
             validationResponse.us_email,
             userRole,
-            userState
+            userState,
+            validationResponse.permissions as SystemPermission[]
         );
-    }    
+    }
 }
