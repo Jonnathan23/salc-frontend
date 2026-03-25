@@ -1,5 +1,6 @@
-import { useCreateUser } from "@/features/indentity/application/hooks";
-import type { RegisterUserDto } from "@salc/core/features/shared/indentiy/domain/dtos";
+import { useCreateUser, useLoginUser } from "@/features/indentity/application/hooks";
+import { useAuthStore } from "@/features/indentity/application/store/auth.store";
+import type { LoginUserDto, RegisterUserDto } from "@salc/core/features/shared/indentiy/domain/dtos";
 import type { UserRoles } from "@salc/core/interfaces";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -37,4 +38,27 @@ export const useFormUser = ({ onRoleChange, onSuccess }: UseFormUserProps) => {
         handleSetShowPassword
     }
 
+}
+
+export const useLoginForm = () => {
+    const defaultValues: LoginUserDto = { us_email: '', us_password_hash: '', };
+    const { register, handleSubmit, formState: { errors } } = useForm<LoginUserDto>({ defaultValues });
+
+    const { setLoginSession } = useAuthStore();
+
+    const { mutate: login, isPending: isPendingLogin } = useLoginUser({ setLoginSession });
+
+
+    const onSubmit = async (data: LoginUserDto) => {
+        console.log(data)
+         login(data); };
+
+
+    return {
+        register,
+        handleSubmit,
+        errors,
+        onSubmit,
+        isPendingLogin
+    }
 }

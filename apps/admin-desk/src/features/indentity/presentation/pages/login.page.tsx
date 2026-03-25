@@ -1,34 +1,23 @@
-
 import { GraduationCap, Loader2 } from 'lucide-react'
-import { useForm } from "react-hook-form";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/core/components/ui/card';
 import { Button } from '@/core/components/buttons/button';
 import { Input } from '@/core/components/ui/input';
 import { Label } from '@/core/components/ui/label';
 import { Alert, AlertDescription } from '@/core/components/alerts/alert';
-import { LoginUserDto } from '@salc/core/features/shared/indentiy/domain/dtos';
+
+import { useLoginForm } from '@/features/indentity/application/hooks';
+
 
 
 
 export default function LoginPage() {
 
-    // Constantes listas para ser reemplazadas por la desestructuración de tu custom hook de TanStack Query
+    
     const error = true;
-    const isLoading = false;
-    const isSubmitting = false;
+    const isLoading = false;    
 
-    const { register, handleSubmit, formState: { errors } } = useForm<LoginUserDto>({
-        defaultValues: {
-            us_email: '',
-            us_password: '',
-        },
-    });
-
-    const onSubmit = async (data: LoginUserDto) => {
-        console.log('submit login');
-        console.log(data);
-    };
+    const { register, handleSubmit, errors, isPendingLogin, onSubmit } = useLoginForm();
 
     // Show loading state while checking auth
     if (isLoading) {
@@ -81,16 +70,16 @@ export default function LoginPage() {
                                 id="userPassword"
                                 type="password"
                                 placeholder="••••••••"
-                                {...register('us_password')}
-                                aria-invalid={!!errors.us_password}
+                                {...register('us_password_hash')}
+                                aria-invalid={!!errors.us_password_hash}
                             />
-                            {errors.us_password && (
-                                <p className="text-sm text-destructive">{errors.us_password.message}</p>
+                            {errors.us_password_hash && (
+                                <p className="text-sm text-destructive">{errors.us_password_hash.message}</p>
                             )}
                         </div>
 
-                        <Button type="submit" className="w-full" disabled={isSubmitting}>
-                            {isSubmitting ? (
+                        <Button type="submit" className="w-full" disabled={isPendingLogin}>
+                            {isPendingLogin ? (
                                 <>
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                     Iniciando sesión...

@@ -1,8 +1,10 @@
 import { CustomError } from "@salc/core/enums";
 import { UserDataSource } from "@salc/core/features/shared/indentiy/domain/datasource";
-import { ChangePasswordDto, RegisterUserDto } from "@salc/core/features/shared/indentiy/domain/dtos";
-import { UserEntity } from "@salc/core/features/shared/indentiy/domain/entities";
+import { ChangePasswordDto, LoginUserDto, RegisterUserDto } from "@salc/core/features/shared/indentiy/domain/dtos";
+import { UserAuthResponseEntity, UserEntity, UserLoginEntity } from "@salc/core/features/shared/indentiy/domain/entities";
 import { UserMapper } from "@salc/core/features/shared/indentiy/infrastructure/mappers/user.mapper";
+import { UserAuthResponseMapper } from "@salc/core/features/shared/indentiy/infrastructure/mappers/userAuthResponse.mapper";
+import { UserLoginResponseMapper } from "@salc/core/features/shared/indentiy/infrastructure/mappers/userLoginResponse.mapper";
 import { SuccessResponse } from "@salc/core/interfaces";
 import { apiSalc } from "@salc/core/lib";
 
@@ -18,6 +20,35 @@ export class UserRepository implements UserDataSource {
             throw this.handleError(error, 'Error creating user');
         }
     }
+
+    public async login(user: LoginUserDto): Promise<SuccessResponse<UserAuthResponseEntity>> {
+        try {
+            const url = '/user/login';
+            console.log('\nservice user')
+            console.log(user)
+            const rawResponse = await apiSalc.post<SuccessResponse<UserAuthResponseEntity>, LoginUserDto>(url, user);
+            console.log('\nrawResponse')
+            console.log(rawResponse)
+
+            if(!rawResponse.data){
+                throw CustomError.notFound("User data is missing");
+            }            
+
+            const userLoginEntity = UserAuthResponseMapper.toEntity(rawResponse.data);            
+
+            const response:SuccessResponse<UserAuthResponseEntity> = {
+                ...rawResponse,
+                data: userLoginEntity
+            }            
+
+            return response;
+        } catch (error) {
+            console.log('\nerror')
+            console.log(error)
+            throw this.handleError(error, 'Error logging in user');
+        }
+    }
+
 
     public async changePassword(id: string, newPassword: ChangePasswordDto): Promise<SuccessResponse> {
         try {
