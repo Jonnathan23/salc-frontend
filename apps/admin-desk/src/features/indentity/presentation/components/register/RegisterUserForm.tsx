@@ -1,5 +1,5 @@
 import { Controller } from 'react-hook-form';
-import { Users, Loader2, Eye, EyeOff, ShieldCheck, GraduationCap } from 'lucide-react'
+import { Users, Loader2, Eye, EyeOff, ShieldCheck, GraduationCap, BookOpen, Briefcase } from 'lucide-react'
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/core/components/ui/card';
 import { Button } from '@/core/components/buttons/button';
@@ -15,7 +15,6 @@ interface RegisterUserFormProps {
     onRoleChange: (role: string) => void;
     onSuccess: () => void;
 }
-
 export const RegisterUserForm = ({ onRoleChange, onSuccess }: RegisterUserFormProps) => {
     const { register, handleSubmit, control, errors, isPending,
         onSubmit, showPassword, handleSetShowPassword } = useFormUser({ onRoleChange, onSuccess });
@@ -34,6 +33,7 @@ export const RegisterUserForm = ({ onRoleChange, onSuccess }: RegisterUserFormPr
             <CardContent>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                     <div className="grid gap-6 md:grid-cols-2">
+                        {/* ... Input de Nombre Completo se mantiene igual ... */}
                         <div className="space-y-2">
                             <Label htmlFor="userFullName">Nombre Completo</Label>
                             <Input
@@ -47,6 +47,7 @@ export const RegisterUserForm = ({ onRoleChange, onSuccess }: RegisterUserFormPr
                             )}
                         </div>
 
+                        {/* ... Input de Email se mantiene igual ... */}
                         <div className="space-y-2">
                             <Label htmlFor="userEmail">Correo Electrónico</Label>
                             <Input
@@ -61,6 +62,7 @@ export const RegisterUserForm = ({ onRoleChange, onSuccess }: RegisterUserFormPr
                             )}
                         </div>
 
+                        {/* ... Input de Contraseña se mantiene igual ... */}
                         <div className="space-y-2">
                             <Label htmlFor="userPassword">Contraseña</Label>
                             <div className="relative">
@@ -85,6 +87,7 @@ export const RegisterUserForm = ({ onRoleChange, onSuccess }: RegisterUserFormPr
                             )}
                         </div>
 
+                        {/* ¡ACTUALIZACIÓN: Nuevos Roles en el Select! */}
                         <div className="space-y-2">
                             <Label htmlFor="userRole">Rol de Usuario</Label>
                             <Controller
@@ -100,6 +103,18 @@ export const RegisterUserForm = ({ onRoleChange, onSuccess }: RegisterUserFormPr
                                                 <div className="flex items-center gap-2">
                                                     <ShieldCheck className="h-4 w-4 text-primary" />
                                                     Administrador
+                                                </div>
+                                            </SelectItem>
+                                            <SelectItem value="ADVISOR">
+                                                <div className="flex items-center gap-2">
+                                                    <Briefcase className="h-4 w-4 text-amber-500" />
+                                                    Asesor
+                                                </div>
+                                            </SelectItem>
+                                            <SelectItem value="ACADEMIC_DIRECTOR">
+                                                <div className="flex items-center gap-2">
+                                                    <BookOpen className="h-4 w-4 text-blue-500" />
+                                                    Director Académico
                                                 </div>
                                             </SelectItem>
                                             <SelectItem value="TEACHER">
