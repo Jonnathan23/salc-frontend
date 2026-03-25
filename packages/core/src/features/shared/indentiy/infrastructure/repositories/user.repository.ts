@@ -10,9 +10,11 @@ import { apiSalc } from "@salc/core/lib";
 
 export class UserRepository implements UserDataSource {
 
+    private readonly baseUrl = '/user';
+
     public async create(user: RegisterUserDto): Promise<SuccessResponse> {
         try {
-            const url = '/user';
+            const url = `${this.baseUrl}`;
             const rawResponse = await apiSalc.post<SuccessResponse, RegisterUserDto>(url, user);
 
             return this.validationNullInformation(rawResponse);
@@ -23,23 +25,19 @@ export class UserRepository implements UserDataSource {
 
     public async login(user: LoginUserDto): Promise<SuccessResponse<UserAuthResponseEntity>> {
         try {
-            const url = '/user/login';
-            console.log('\nservice user')
-            console.log(user)
+            const url = `${this.baseUrl}/login`;
             const rawResponse = await apiSalc.post<SuccessResponse<UserAuthResponseEntity>, LoginUserDto>(url, user);
-            console.log('\nrawResponse')
-            console.log(rawResponse)
 
-            if(!rawResponse.data){
+            if (!rawResponse.data) {
                 throw CustomError.notFound("User data is missing");
-            }            
+            }
 
-            const userLoginEntity = UserAuthResponseMapper.toEntity(rawResponse.data);            
+            const userLoginEntity = UserAuthResponseMapper.toEntity(rawResponse.data);
 
-            const response:SuccessResponse<UserAuthResponseEntity> = {
+            const response: SuccessResponse<UserAuthResponseEntity> = {
                 ...rawResponse,
                 data: userLoginEntity
-            }            
+            }
 
             return response;
         } catch (error) {
@@ -52,7 +50,7 @@ export class UserRepository implements UserDataSource {
 
     public async changePassword(id: string, newPassword: ChangePasswordDto): Promise<SuccessResponse> {
         try {
-            const url = `/user/${id}/password`;
+            const url = `${this.baseUrl}/${id}/password`;
             const rawResponse = await apiSalc.patch<SuccessResponse, ChangePasswordDto>(url, newPassword);
 
             return this.validationNullInformation(rawResponse);
@@ -63,7 +61,7 @@ export class UserRepository implements UserDataSource {
 
     public async changeStateActive(id: string): Promise<SuccessResponse> {
         try {
-            const url = `/user/${id}/state`;
+            const url = `${this.baseUrl}/${id}/state`;
             const rawResponse = await apiSalc.post<SuccessResponse, {}>(url, {});
 
             return this.validationNullInformation(rawResponse);
@@ -90,7 +88,7 @@ export class UserRepository implements UserDataSource {
 
     public async findAll(): Promise<SuccessResponse<UserEntity[]>> {
         try {
-            const url = '/user';
+            const url = `${this.baseUrl}`;
             const rawResponse = await apiSalc.get<SuccessResponse<UserEntity[]>>(url);
 
             if (!rawResponse.data) {
