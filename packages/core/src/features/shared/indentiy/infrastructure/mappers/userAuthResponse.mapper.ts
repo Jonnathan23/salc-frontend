@@ -31,7 +31,8 @@ export const UserAuthResponseMapper = {
             validationResponse.us_full_name,
             validationResponse.us_email,
             userRole,
-            userState
+            userState,
+            validationResponse.permissions
         );
     }    
 }

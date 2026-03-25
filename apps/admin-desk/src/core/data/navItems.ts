@@ -1,4 +1,5 @@
 import type { NavItem } from "@/core/interfaces/NavItem";
+import { systemPermissions } from "@salc/core/enums/Permissions";
 import { Database, Layers, LayoutDashboard, UserPlus, Users } from "lucide-react";
 
 
@@ -8,7 +9,7 @@ export const navItems: NavItem[] = [
         description: 'Panel de control',
         href: '/',
         icon: LayoutDashboard,
-        adminOnly: false,
+        permissions: [],
         color: 'bg-accent',
     },
     {
@@ -16,7 +17,7 @@ export const navItems: NavItem[] = [
         description: 'Importar datos de sistemas externos',
         href: '/data-migration',
         icon: Database,
-        adminOnly: true,
+        permissions: [systemPermissions.SHARED_IDENTITY_WRITE], // Solo Admin
         color: 'bg-accent',
     },
     {
@@ -24,7 +25,7 @@ export const navItems: NavItem[] = [
         description: 'Registrar nuevos estudiantes y asignar módulos',
         href: '/student-onboarding',
         icon: UserPlus,
-        adminOnly: false,
+        permissions: [systemPermissions.ADMINDESK_STUDENTS_WRITE], // Admin y Advisor
         color: 'bg-primary',
     },
     {
@@ -32,7 +33,7 @@ export const navItems: NavItem[] = [
         description: 'Ver progreso y gestionar niveles',
         href: '/student-levels',
         icon: Layers,
-        adminOnly: false,
+        permissions: [systemPermissions.ADMINDESK_CONTRACTS_READ], // Admin, Advisor, Academic Director
         color: 'bg-secondary',
     },
     {
@@ -40,7 +41,15 @@ export const navItems: NavItem[] = [
         description: 'Crear cuentas para administradores y profesores',
         href: '/new-user',
         icon: Users,
-        adminOnly: true,
+        permissions: [systemPermissions.SHARED_IDENTITY_WRITE], // Solo Admin
+        color: 'bg-muted',
+    },
+    {
+        title: 'Ver Usuarios',
+        description: 'Ver cuentas para administradores y profesores',
+        href: '/view-users',
+        icon: Users,
+        permissions: [],
         color: 'bg-muted',
     },
 ]

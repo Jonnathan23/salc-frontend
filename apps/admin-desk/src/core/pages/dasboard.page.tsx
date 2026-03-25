@@ -4,13 +4,19 @@ import { Link } from "react-router-dom";
 import { navItems } from "@/core/data";
 import { useAuthStore } from "@/features/indentity/application/store/auth.store";
 import { useMemo } from "react";
+import { usePermissions } from "@/features/indentity/application/hooks/usePermissions.use";
+import { userRoles } from "@salc/core/interfaces";
 
 export default function DashboardPage() {
     const { userResponse } = useAuthStore();
+    const { hasPermission } = usePermissions();
 
-    const isAdmin = useMemo(() => userResponse?.us_role === 'ADMIN', [userResponse])
-    const filteredActions = useMemo(() => navItems.filter(action => !action.adminOnly || userResponse?.us_role === 'ADMIN'), [userResponse])
+    const isAdmin = useMemo(() => userResponse?.us_role === userRoles.ADMIN, [userResponse]);
 
+    const filteredActions = useMemo(
+        () => navItems.filter((action) => hasPermission(action.permissions)),
+        [hasPermission]
+    );
     return (
         <div className="space-y-6">
             <div className="space-y-1">
@@ -19,40 +25,42 @@ export default function DashboardPage() {
                 </h2>
                 <p className="text-muted-foreground">
                     {isAdmin
-                        ? 'Tienes acceso completo al sistema de gestión de estudiantes.'
-                        : 'Gestiona estudiantes y sus niveles desde aquí.'}
+                        ? 'Tienes acceso completo al sistema de gestión.'
+                        : 'Gestiona estudiantes y módulos desde aquí.'}
                 </p>
             </div>
 
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {filteredActions.map((action) => {
-                    const Icon = action.icon
+                    const Icon = action.icon;
                     const iconColorClass = action.color === 'bg-accent'
                         ? 'text-accent-foreground'
                         : action.color === 'bg-primary'
                             ? 'text-primary-foreground'
                             : action.color === 'bg-secondary'
                                 ? 'text-secondary-foreground'
-                                : 'text-muted-foreground'
+                                : 'text-muted-foreground';
 
-                    return (
-                        <Link key={action.href} to={action.href}>
-                            <Card className="group h-full transition-all hover:border-primary hover:shadow-md">
-                                <CardHeader className="flex flex-row items-start gap-4 space-y-0">
-                                    <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-lg ${action.color}`}>
-                                        <Icon className={`h-6 w-6 ${iconColorClass}`} />
-                                    </div>
-                                    <div className="flex-1 space-y-1">
-                                        <CardTitle className="flex items-center justify-between text-lg">
-                                            {action.title}
-                                            <ArrowRight className="h-4 w-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
-                                        </CardTitle>
-                                        <CardDescription>{action.description}</CardDescription>
-                                    </div>
-                                </CardHeader>
-                            </Card>
-                        </Link>
-                    )
+                    {
+                        return action.title !== 'Dashboard' && (
+                            <Link key={action.href} to={action.href}>
+                                <Card className="group h-full transition-all hover:border-primary hover:shadow-md">
+                                    <CardHeader className="flex flex-row items-start gap-4 space-y-0">
+                                        <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-lg ${action.color}`}>
+                                            <Icon className={`h-6 w-6 ${iconColorClass}`} />
+                                        </div>
+                                        <div className="flex-1 space-y-1">
+                                            <CardTitle className="flex items-center justify-between text-lg">
+                                                {action.title}
+                                                <ArrowRight className="h-4 w-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
+                                            </CardTitle>
+                                            <CardDescription>{action.description}</CardDescription>
+                                        </div>
+                                    </CardHeader>
+                                </Card>
+                            </Link>
+                        );
+                    }
                 })}
             </div>
 
