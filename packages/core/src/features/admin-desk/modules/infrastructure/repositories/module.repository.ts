@@ -6,95 +6,63 @@ import { ModuleMapper } from "@salc/core/features/admin-desk/modules/infrastruct
 import { SuccessResponse } from "@salc/core/interfaces";
 import { apiSalc } from "@salc/core/lib";
 
-
 export class ModuleRepositoryImpl implements ModuleDataSource {
     private readonly baseUrl = '/modules';
 
     async getAllModules(): Promise<SuccessResponse<ModuleEntity[]>> {
         const url = `${this.baseUrl}`;
-        try {
-            const rawResponse = await apiSalc.get<SuccessResponse<ModuleEntity[]>>(url);
+        const rawResponse = await apiSalc.get<SuccessResponse<ModuleEntity[]>>(url);
 
-            if (!rawResponse.data) {
-                throw CustomError.notFound("No modules found");
-            }
-
-            const modules = ModuleMapper.toArrayEntities(rawResponse.data);
-
-            const response: SuccessResponse<ModuleEntity[]> = {
-                ...rawResponse,
-                data: modules
-            }
-
-            return response;
-        } catch (error) {
-            this.handleError(error, "Error fetching modules");
+        if (!rawResponse.data) {
+            throw CustomError.notFound("No modules found");
         }
+
+        const modules = ModuleMapper.toArrayEntities(rawResponse.data);
+
+        return {
+            ...rawResponse,
+            data: modules
+        };
     }
 
     async getModuleById(moduleId: string): Promise<SuccessResponse<ModuleEntity>> {
         const url = `${this.baseUrl}/${moduleId}`;
-        try {
-            const rawResponse = await apiSalc.get<SuccessResponse<ModuleEntity>>(url);
+        const rawResponse = await apiSalc.get<SuccessResponse<ModuleEntity>>(url);
 
-            if (!rawResponse.data) {
-                throw CustomError.notFound("No module found");
-            }
-
-            const module = ModuleMapper.toEntity(rawResponse.data);
-
-            const response: SuccessResponse<ModuleEntity> = {
-                ...rawResponse,
-                data: module
-            }
-
-            return response;
-        } catch (error) {
-            this.handleError(error, "Error fetching module");
+        if (!rawResponse.data) {
+            throw CustomError.notFound("No module found");
         }
+
+        const module = ModuleMapper.toEntity(rawResponse.data);
+
+        return {
+            ...rawResponse,
+            data: module
+        };
     }
 
     async createModule(module: CreateModuleDto): Promise<SuccessResponse> {
         const url = `${this.baseUrl}`;
-        try {
-            const rawResponse = await apiSalc.post<SuccessResponse, CreateModuleDto>(url, module);
+        const rawResponse = await apiSalc.post<SuccessResponse, CreateModuleDto>(url, module);
 
-            return this.validationNullInformation(rawResponse);
-        } catch (error) {
-            this.handleError(error, "Error creating module");
-        }
+        return this.validationNullInformation(rawResponse);
     }
 
     async updateModule(id: string, module: UpdateModuleDto): Promise<SuccessResponse> {
         const url = `${this.baseUrl}/${id}`;
-        try {
-            const rawResponse = await apiSalc.patch<SuccessResponse, UpdateModuleDto>(url, module);
+        const rawResponse = await apiSalc.patch<SuccessResponse, UpdateModuleDto>(url, module);
 
-            return this.validationNullInformation(rawResponse);
-        } catch (error) {
-            this.handleError(error, "Error updating module");
-        }
+        return this.validationNullInformation(rawResponse);
     }
-    
+
     async deleteModule(id: string): Promise<SuccessResponse> {
         const url = `${this.baseUrl}/${id}`;
-        try {
-            const rawResponse = await apiSalc.delete<SuccessResponse>(url);
+        const rawResponse = await apiSalc.delete<SuccessResponse>(url);
 
-            return this.validationNullInformation(rawResponse);
-        } catch (error) {
-            this.handleError(error, "Error deleting module");
-        }
+        return this.validationNullInformation(rawResponse);
     }
 
     private validationNullInformation(rawResponse: SuccessResponse): SuccessResponse {
         return ModuleMapper.validationNullInformation(rawResponse);
-    }
-
-    private handleError(error: unknown, fallbackMessage: string): never {
-        if (error instanceof CustomError) {
-            throw error;
-        }
-        throw CustomError.internalServer(fallbackMessage);
     }
 }
