@@ -15,6 +15,7 @@ export default function ModulePage() {
     const { userResponse } = useAuthStore();
 
     const [isEditing, setIsEditing] = useState<boolean>(false);
+    const [isPending, setIsPending] = useState<boolean>(false);
     const [moduleSelected, setModuleSelected] = useState<ModuleEntity | null>(null);
 
     const { data: response, isLoading, error } = useGetAllModules();
@@ -51,13 +52,13 @@ export default function ModulePage() {
                     hidden={!userResponse?.permissions.includes(systemPermissions.ADMINDESK_MODULES_WRITE)}
                 >
                     {isEditing && moduleSelected ? (
-                        <UpdateModuleForm module={moduleSelected} setModuleSelected={setModuleSelected} setIsEditing={setIsEditing} />
+                        <UpdateModuleForm module={moduleSelected} setModuleSelected={setModuleSelected} setIsEditing={setIsEditing} setIsPending={setIsPending} />
                     ) : (
                         <CreateModuleForm />
                     )}
 
                     {/* Botón rápido para cancelar edición y limpiar el panel */}
-                    {isEditing && (
+                    {isEditing && !isPending && (
                         <div className="mt-4 text-center">
                             <button
                                 className="text-sm text-muted-foreground underline hover:text-primary transition-colors"

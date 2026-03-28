@@ -11,9 +11,10 @@ interface UpdateModuleFormProps {
     module: ModuleEntity;
     setModuleSelected: Dispatch<SetStateAction<ModuleEntity | null>>
     setIsEditing: Dispatch<SetStateAction<boolean>>
+    setIsPending: Dispatch<SetStateAction<boolean>>
 }
 
-export default function UpdateModuleForm({ module, setModuleSelected, setIsEditing }: UpdateModuleFormProps) {
+export default function UpdateModuleForm({ module, setModuleSelected, setIsEditing, setIsPending }: UpdateModuleFormProps) {
 
     const { register, handleSubmit, errors, onSubmit, isPending, setValue } = useUpdateModuleForm({ module, setModuleSelected, setIsEditing });
 
@@ -21,6 +22,10 @@ export default function UpdateModuleForm({ module, setModuleSelected, setIsEditi
         setValue("mo_name", module.mo_name);
         setValue("mo_description", module.mo_description);
     }, [module, setValue]);
+
+    useEffect(() => {
+        setIsPending(isPending);
+    }, [isPending, setIsPending]);
 
     return (
         <Card className="border-primary">
