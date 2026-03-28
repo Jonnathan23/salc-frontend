@@ -1,6 +1,12 @@
 @import "tailwindcss";
 @source "../../../packages/ui";
 
+
+
+/* * ==========================================================================
+ * CLASS TRACK BRAND VARIABLES & SEMANTIC TOKENS
+ * ==========================================================================
+ */
 :root {
     /* Tus colores base (Paleta original) */
     --brand-orange: #f36e2b;
@@ -12,14 +18,10 @@
     --brand-burnt-orange: #c55a24;
     --brand-teal-medium: #73bbac;
 
-
-
-    /* * MAPEO SEMÁNTICO - LIGHT MODE 
-   * Conectamos los colores base a las variables que usa la UI
-   */
+    /* * MAPEO SEMÁNTICO - LIGHT MODE */
     --background: #ffffff;
-    --foreground: var(--brand-brown);
-    /* Texto principal */
+    --foreground: var(--brand-brown); /* TEXTO NORMAL: #685c46 */
+    --title: var(--brand-orange);     /* TÍTULOS: #f36e2b */
 
     --card: #ffffff;
     --card-foreground: var(--brand-brown);
@@ -27,34 +29,26 @@
     --popover: #ffffff;
     --popover-foreground: var(--brand-brown);
 
-    /* Primary: Tonos Mint / Teal */
     --primary: var(--brand-mint-light);
     --primary-foreground: var(--brand-teal-dark);
-    /* Texto oscuro para buen contraste sobre el mint */
 
-    /* Secondary: Tonos Tan / Brown */
     --secondary: var(--brand-tan);
     --secondary-foreground: var(--brand-brown);
 
-    /* Muted: Fondos suaves para cards secundarias o inputs */
     --muted: #f4f1e9;
-    /* Un tono super claro derivado del Tan para fondos sutiles */
     --muted-foreground: var(--brand-rust);
 
-    /* Accent: Naranja vibrante para destacar acciones o títulos */
     --accent: var(--brand-orange);
     --accent-foreground: #ffffff;
 
-    /* Destructive: Rojo/Naranja oscuro para errores o eliminar */
     --destructive: var(--brand-burnt-orange);
     --destructive-foreground: #ffffff;
 
-    /* Bordes e Inputs */
     --border: var(--brand-tan);
     --input: var(--brand-tan);
     --ring: var(--brand-teal-dark);
 
-    /* Sidebar (Diseño basado en Teal para que resalte del fondo blanco) */
+    /* Sidebar */
     --sidebar: var(--brand-teal-dark);
     --sidebar-foreground: #ffffff;
     --sidebar-primary: var(--brand-mint-light);
@@ -68,22 +62,17 @@
 }
 
 .dark {
-    /* * MAPEO SEMÁNTICO - DARK MODE 
-   * Adaptamos la paleta para que no lastime la vista, manteniendo la identidad
-   */
+    /* * MAPEO SEMÁNTICO - DARK MODE */
     --background: #2a251c;
-    /* Un café extremadamente oscuro, mejor que el negro puro */
-    --foreground: var(--brand-tan);
-    /* Texto claro */
+    --foreground: var(--brand-tan); /* Texto claro para lectura en oscuro */
+    --title: var(--brand-orange);   /* Títulos se mantienen naranja */
 
     --card: #363025;
-    /* Ligeramente más claro que el fondo para elevar las tarjetas */
     --card-foreground: var(--brand-tan);
 
     --popover: #363025;
     --popover-foreground: var(--brand-tan);
 
-    /* Primary se invierte para resaltar en fondo oscuro */
     --primary: var(--brand-teal-dark);
     --primary-foreground: var(--brand-mint-light);
 
@@ -103,7 +92,7 @@
     --input: var(--brand-brown);
     --ring: var(--brand-teal-medium);
 
-    /* Sidebar Dark Mode */
+    /* Sidebar */
     --sidebar: #2a251c;
     --sidebar-foreground: var(--brand-tan);
     --sidebar-primary: var(--brand-teal-dark);
@@ -124,6 +113,9 @@
 
     --color-background: var(--background);
     --color-foreground: var(--foreground);
+    
+    /* Agregamos el color del título para poder usar "text-title" en Tailwind */
+    --color-title: var(--title); 
 
     --color-card: var(--card);
     --color-card-foreground: var(--card-foreground);
@@ -172,5 +164,10 @@
 
     body {
         @apply bg-background text-foreground;
+    }
+
+    /* LA MAGIA: Forzamos a que todos los títulos sean Naranja por defecto */
+    h1, h2, h3, h4, h5, h6 {
+        color: var(--title);
     }
 }

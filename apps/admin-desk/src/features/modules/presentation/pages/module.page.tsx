@@ -51,7 +51,7 @@ export default function ModulePage() {
                     hidden={!userResponse?.permissions.includes(systemPermissions.ADMINDESK_MODULES_WRITE)}
                 >
                     {isEditing && moduleSelected ? (
-                        <UpdateModuleForm module={moduleSelected} />
+                        <UpdateModuleForm module={moduleSelected} setModuleSelected={setModuleSelected} setIsEditing={setIsEditing} />
                     ) : (
                         <CreateModuleForm />
                     )}
