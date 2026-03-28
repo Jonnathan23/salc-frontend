@@ -18,8 +18,8 @@ export const ModuleMapper = {
             validationResponse.mo_id,
             validationResponse.mo_name,
             validationResponse.mo_description,
-            validationResponse.mo_created_at.toISOString(),
-            validationResponse.mo_updated_at.toISOString()
+            validationResponse.mo_created_at,
+            validationResponse.mo_updated_at
         );
     },
 

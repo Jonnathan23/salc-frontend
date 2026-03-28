@@ -52,4 +52,12 @@ export const navItems: NavItem[] = [
         permissions: [],
         color: 'bg-muted',
     },
+    {
+        title: 'Ver Módulos',
+        description: 'Ver módulos',
+        href: '/modules',
+        icon: Users,
+        permissions: [],
+        color: 'bg-muted',
+    },
 ]

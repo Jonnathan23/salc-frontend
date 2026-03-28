@@ -16,7 +16,6 @@ export class DataAccessLayerAdapter {
                     path: issue.path.join('.')
                 };
             });
-
             throw CustomError.badRequest(formattedErrors);
         }
 

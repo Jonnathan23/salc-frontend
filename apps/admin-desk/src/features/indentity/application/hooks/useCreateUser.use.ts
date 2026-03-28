@@ -3,7 +3,7 @@ import type { UseFormReset } from 'react-hook-form';
 
 import { RegisterUserDtoImpl, type RegisterUserDto } from '@salc/core/features/shared/indentiy/domain/dtos';
 import { createUserUseCase } from '@salc/core/features/shared/indentiy/di/IdentityModule';
-import { ShowMessageAdapter } from '@/core/adapters/ShowMessageAdapter';
+import { ShowMessageAdapter } from '@/core/adapters/ShowMessage.adapter';
 
 interface UseCreateUserProps {
     reset: UseFormReset<RegisterUserDto>

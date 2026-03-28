@@ -1,6 +1,6 @@
 import { MutationCache, QueryCache, QueryClient } from '@tanstack/react-query';
 import { CustomError } from '@salc/core/enums';
-import { ShowMessageAdapter } from '../adapters/ShowMessageAdapter';
+import { ShowMessageAdapter } from '../adapters/ShowMessage.adapter';
 
 export const createQueryClient = () => {
     return new QueryClient({
