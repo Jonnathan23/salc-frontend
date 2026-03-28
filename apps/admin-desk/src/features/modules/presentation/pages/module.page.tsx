@@ -14,6 +14,7 @@ export default function ModulePage() {
 
     const { userResponse } = useAuthStore();
 
+    const canWrite = userResponse?.permissions.includes(systemPermissions.ADMINDESK_MODULES_WRITE) ?? false;
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [isPending, setIsPending] = useState<boolean>(false);
     const [moduleSelected, setModuleSelected] = useState<ModuleEntity | null>(null);
@@ -44,12 +45,10 @@ export default function ModulePage() {
                 </h2>
             </div>
 
-            {/* Layout de 2 columnas: Lista a la izquierda, Form a la derecha */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                {/* Zona del Formulario (Panel Lateral) */}
                 <article
                     className="lg:col-span-1"
-                    hidden={!userResponse?.permissions.includes(systemPermissions.ADMINDESK_MODULES_WRITE)}
+                    hidden={!canWrite}
                 >
                     {isEditing && moduleSelected ? (
                         <UpdateModuleForm module={moduleSelected} setModuleSelected={setModuleSelected} setIsEditing={setIsEditing} setIsPending={setIsPending} />
@@ -61,7 +60,7 @@ export default function ModulePage() {
                     {isEditing && !isPending && (
                         <div className="mt-4 text-center">
                             <button
-                                className="text-sm text-muted-foreground underline hover:text-primary transition-colors"
+                                className="text-sm text-muted-foreground underline hover:text-primary transition-colors cursor-pointer"
                                 onClick={() => {
                                     setIsEditing(false);
                                     setModuleSelected(null);
@@ -73,7 +72,6 @@ export default function ModulePage() {
                     )}
                 </article>
 
-                {/* Zona de Lista de Módulos */}
                 <article className="lg:col-span-2">
                     <div className="grid gap-6 sm:grid-cols-2">
                         {modules.map((module) => (
@@ -82,6 +80,7 @@ export default function ModulePage() {
                                 module={module}
                                 setModuleSelected={setModuleSelected}
                                 setIsEditing={setIsEditing}
+                                canWrite={canWrite}
                             />
                         ))}
                         {modules.length === 0 && (

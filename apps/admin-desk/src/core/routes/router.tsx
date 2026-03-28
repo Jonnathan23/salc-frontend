@@ -35,7 +35,7 @@ export default function Router() {
                             <Route path="/new-user" element={<RegisterPage />} />
                         </Route>
 
-                        <Route element={<ProtectedRoute requiredPermissions={[systemPermissions.ADMINDESK_MODULES_WRITE, systemPermissions.ADMINDESK_MODULES_READ]} />}>
+                        <Route element={<ProtectedRoute requiredPermissions={[systemPermissions.ADMINDESK_MODULES_READ]} />}>
                             <Route path="/modules" element={<ModulePage />} />
                         </Route>
 

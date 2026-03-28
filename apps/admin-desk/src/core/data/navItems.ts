@@ -57,7 +57,7 @@ export const navItems: NavItem[] = [
         description: 'Ver módulos',
         href: '/modules',
         icon: Users,
-        permissions: [],
+        permissions: [systemPermissions.ADMINDESK_MODULES_READ],
         color: 'bg-muted',
     },
 ]
