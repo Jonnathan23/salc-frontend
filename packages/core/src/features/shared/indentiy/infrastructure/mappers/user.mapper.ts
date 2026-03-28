@@ -2,7 +2,7 @@ import { CustomError } from "@salc/core/enums";
 import { UserEntity } from "@salc/core/features/shared/indentiy/domain/entities";
 import { userSchema } from "@salc/core/features/shared/indentiy/infrastructure/schemas";
 import { SuccessResponse } from "@salc/core/interfaces";
-import { DataAccessLayerAdapter } from "@salc/core/utils";
+import { DataAccessLayerAdapter } from "@salc/core/adapters";
 
 
 type UserMapperProps = Record<string, unknown> | unknown | null | undefined;

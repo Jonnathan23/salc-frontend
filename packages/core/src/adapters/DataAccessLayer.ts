@@ -1,6 +1,6 @@
 import z, { ZodSchema, ZodType, ZodTypeAny } from 'zod';
-import { CustomError } from '../../enums/errors/CustomError.error';
-import { FormattedErrorResponse } from '../../interfaces/Errors';
+import { CustomError } from '../enums/errors/CustomError.error';
+import { FormattedErrorResponse } from '../interfaces/Errors';
 import { SuccessResponse } from '@salc/core/interfaces';
 
 export type InferSchema<T extends ZodTypeAny> = z.infer<T>;

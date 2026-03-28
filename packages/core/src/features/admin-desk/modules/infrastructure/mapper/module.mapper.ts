@@ -2,7 +2,7 @@ import { CustomError } from "@salc/core/enums";
 import { ModuleEntity } from "@salc/core/features/admin-desk/modules/domain/entities/Module.entity";
 import { arrayModulesSchema, moduleSchema } from "@salc/core/features/admin-desk/modules/infrastructure/schemas/module.schema";
 import { SuccessResponse } from "@salc/core/interfaces";
-import { DataAccessLayerAdapter } from "@salc/core/utils";
+import { DataAccessLayerAdapter } from "@salc/core/adapters";
 
 type ModuleMapperProps = Record<string, unknown> | unknown | null | undefined;
 

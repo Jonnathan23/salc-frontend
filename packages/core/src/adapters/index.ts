@@ -1,0 +1,1 @@
+export * from '@salc/core/adapters/DataAccessLayer'
