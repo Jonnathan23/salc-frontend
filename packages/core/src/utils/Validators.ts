@@ -1,3 +1,4 @@
+import { studentContractStatus, StudentContractStatus } from "@salc/core/features/admin-desk/students/domain/interfaces/Student.interface";
 import { UseState, useState } from "@salc/core/features/shared/indentiy/domain/entities";
 import { UserRoles, userRoles } from "@salc/core/interfaces";
 
@@ -35,5 +36,18 @@ export const Validators = {
 
     isStateUser: (state: string): boolean => {
         return Object.values(useState).includes(state as UseState);
+    },
+
+    isStudentContractStatus: (contractStatus: string): boolean => {
+        return Object.values(studentContractStatus).includes(contractStatus as StudentContractStatus);
+    },
+
+    isBoolean: (value: any): boolean => {
+        return typeof value === 'boolean';
+    },
+
+    isDate: (date: string): boolean => {
+        const dateRegex: RegExp = /^\d{4}-\d{2}-\d{2}$/;
+        return dateRegex.test(date);
     }
 };
