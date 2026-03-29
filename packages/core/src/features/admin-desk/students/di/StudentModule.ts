@@ -1,10 +1,10 @@
 import { StudentRepositoryImpl } from "../infrastructure/repositories/Student.repository";
-import { RegisterStudentUseCase } from "../application/useCases/RegisterStudent.useCase";
-import { SearchStudentsUseCase } from "../application/useCases/SearchStudents.useCase";
-import { UpdateStudentUseCase } from "../application/useCases/UpdateStudent.useCase";
-import { ChangeContractStatusUseCase } from "../application/useCases/ChangeContractStatus.useCase";
-import { ToggleGraduatedUseCase } from "../application/useCases/ToggleGraduated.useCase";
-import { DeactivateStudentUseCase } from "../application/useCases/DeactivateStudent.useCase";
+import { RegisterStudentUseCase } from "../application/use-cases/RegisterStudent.use-case";
+import { SearchStudentsUseCase } from "../application/use-cases/SearchStudents.use-case";
+import { UpdateStudentUseCase } from "../application/use-cases/UpdateStudent.use-case";
+import { ChangeContractStatusUseCase } from "../application/use-cases/ChangeContractStatus.use-case";
+import { ToggleGraduatedUseCase } from "../application/use-cases/ToggleGraduated.use-case";
+import { DeactivateStudentUseCase } from "../application/use-cases/DeactivateStudent.use-case";
 
 //* Repositories
 const studentRepository = new StudentRepositoryImpl();
