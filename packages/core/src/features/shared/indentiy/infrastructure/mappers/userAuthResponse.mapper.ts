@@ -1,9 +1,10 @@
+import { DataAccessLayerAdapter } from "@salc/core/adapters";
 import { CustomError } from "@salc/core/enums";
 import { SystemPermission } from "@salc/core/enums/Permissions";
 import { UserAuthResponseEntity, UseState } from "@salc/core/features/shared/indentiy/domain/entities/UserAuthResponse";
 import { userAuthResponseSchema } from "@salc/core/features/shared/indentiy/infrastructure/schemas";
 import { UserRoles } from "@salc/core/interfaces";
-import { DataAccessLayerAdapter, Validators } from "@salc/core/utils";
+import { Validators } from "@salc/core/utils";
 
 type UserAuthResponseMapperProps = Record<string, unknown> | unknown | null | undefined;
 

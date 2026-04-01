@@ -23,7 +23,7 @@ export const navItems: NavItem[] = [
     {
         title: 'Matrícula de Estudiantes',
         description: 'Registrar nuevos estudiantes y asignar módulos',
-        href: '/student-onboarding',
+        href: '/tuition-student',
         icon: UserPlus,
         permissions: [systemPermissions.ADMINDESK_STUDENTS_WRITE], // Admin y Advisor
         color: 'bg-primary',
