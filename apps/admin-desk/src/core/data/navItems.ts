@@ -57,7 +57,7 @@ export const navItems: NavItem[] = [
         description: 'Ver cuentas para administradores y profesores',
         href: '/view-users',
         icon: UserRoundSearch,
-        permissions: [],
+        permissions: [systemPermissions.SHARED_IDENTITY_READ],
         color: 'bg-accent',
     },
     {

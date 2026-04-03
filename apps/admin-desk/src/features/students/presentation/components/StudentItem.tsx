@@ -1,6 +1,7 @@
 
 import type { StudentEntity } from "@salc/core/features/admin-desk/students/domain/entities/Student.entity";
 import { ContractStatusBadge, ProgressCategoryBadge } from "@/core/components/badges/Badges";
+import { useNavigate } from "react-router-dom";
 
 
 interface StudentItemProps {
@@ -8,33 +9,42 @@ interface StudentItemProps {
 }
 
 export default function StudentItem({ student }: StudentItemProps) {
+
+    const { fullName, identificationCard, certificateType, contractStatus, progressCategory, id } = student;
+
+    const navigation = useNavigate();
+
+    const handleViewStudent = (studentId: string) => {
+        navigation(`/view-students/${studentId}/profile`);
+    };
+
     return (
 
-        <tr key={student.id} className="hover:bg-primary/10 transition-colors">
+        <tr key={id} className="hover:bg-primary/10 transition-colors cursor-pointer" onClick={() => handleViewStudent(id)}>
             <td className="px-5 py-3">
                 <div className="flex items-center gap-3">
-                    <div className="w-7 h-7 rounded-full bg-primary-foreground flex items-center justify-center flex-shrink-0">
+                    <div className=" w-7 h-7 rounded-full bg-primary-foreground flex items-center justify-center flex-shrink-0" >
                         <span className="text-white text-xs font-bold">
-                            {student.fullName.charAt(0)}
+                            {fullName.charAt(0)}
                         </span>
                     </div>
 
                     <span className="font-medium text-foreground">
-                        {student.fullName}
+                        {fullName}
                     </span>
                 </div>
             </td>
             <td className="px-5 py-3 text-foreground/60 font-mono text-xs">
-                {student.identificationCard}
+                {identificationCard}
             </td>
             <td className="px-5 py-3 text-foreground/70">
-                {student.certificateType}
+                {certificateType}
             </td>
             <td className="px-5 py-3">
-                <ContractStatusBadge status={student.contractStatus} />
+                <ContractStatusBadge status={contractStatus} />
             </td>
             <td className="px-5 py-3">
-                <ProgressCategoryBadge category={student.progressCategory} />
+                <ProgressCategoryBadge category={progressCategory} />
             </td>
         </tr>
 

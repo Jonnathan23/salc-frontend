@@ -7,6 +7,7 @@ import LoginPage from "@/features/indentity/presentation/pages/login.page";
 import RegisterPage from "@/features/indentity/presentation/pages/register.page";
 import ModulePage from "@/features/modules/presentation/pages/module.page";
 import DirectoryStudents from "@/features/students/presentation/components/AllStudents";
+import StudentProfile from "@/features/students/presentation/components/StudentProfile";
 import TuitionStudentPage from "@/features/students/presentation/pages/TuitionStudent.page";
 import { systemPermissions } from "@salc/core/enums/Permissions";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -39,6 +40,10 @@ export default function Router() {
 
                         <Route element={<ProtectedRoute requiredPermissions={[systemPermissions.ADMINDESK_STUDENTS_READ]} />}>
                             <Route path="/view-students" element={<DirectoryStudents />} />
+                        </Route>
+
+                        <Route element={<ProtectedRoute requiredPermissions={[systemPermissions.ADMINDESK_STUDENTS_READ]} />}>
+                            <Route path="/view-students/:studentId/profile" element={<StudentProfile />} />
                         </Route>
 
                         <Route element={<ProtectedRoute requiredPermissions={[systemPermissions.ADMINDESK_MODULES_READ]} />}>

@@ -1,26 +1,36 @@
-import { Globe, CreditCard, Phone, Mail, ChevronDown, BookOpen, Clock, DollarSign } from 'lucide-react';
+import { Globe, CreditCard, Phone, Mail, BookOpen, Clock, DollarSign } from 'lucide-react';
 
-import { useGetAllStudents } from "@/features/students/application/hooks";
+
 import { useState } from 'react';
+import { ContractStatusBadge, ProgressCategoryBadge } from '@/core/components/badges/Badges';
+import { Button } from '@/core/components/buttons/button';
+import { useNavigate } from 'react-router-dom';
+import type { StudentEntity } from '@salc/core/features/admin-desk/students/domain/entities/Student.entity';
 
-export default function StudentProfileView() {
 
-    const [selectedStudentId, setSelectedStudentId] = useState<string>('');
+type ProfileTab = 'academic' | 'attendance' | 'financial';
+
+interface StudentProfileViewDataProps {
+    student: StudentEntity;
+}
+
+export default function StudentProfileViewData({ student }: StudentProfileViewDataProps) {
+
+
     const [activeTab, setActiveTab] = useState<string>('academic');
+    const navigation = useNavigate();
 
-    const { data: successResponse } = useGetAllStudents();
-    const students = successResponse?.data
-
-    const student = students?.find((student) => student.id === selectedStudentId);
-    
-    if (!students) {
-        return <div>Loading...</div>;
-    }
-
-    
+    const tabs: { key: ProfileTab; label: string; icon: React.ReactNode }[] = [
+        { key: 'academic', label: 'Academico', icon: <BookOpen className="w-4 h-4" /> },
+        { key: 'attendance', label: 'Asistencia', icon: <Clock className="w-4 h-4" /> },
+        { key: 'financial', label: 'Financiero', icon: <DollarSign className="w-4 h-4" /> }
+    ];
 
     if (!student) {
-        return <div>Student not found</div>;
+        <div className="flex h-64 items-center justify-center">
+            <p className="text-[var(--color-font)]/50 text-sm mt-0.5">Estudiante no encontrado</p>
+            <Button onClick={() => navigation('/students')}>Volver</Button>
+        </div>
     }
 
     return (
@@ -30,24 +40,9 @@ export default function StudentProfileView() {
                 <div>
                     <h1 className="text-2xl font-bold text-[var(--color-font)]">Perfil 360 del Estudiante</h1>
                     <p className="text-[var(--color-font)]/50 text-sm mt-0.5">Vista completa del expediente academico</p>
+                    <Button onClick={() => navigation('/students')}>Volver</Button>
                 </div>
-                <div className="relative">
-                    <select
-                        value={selectedStudentId}
-                        onChange={(e) => {
-                            setSelectedStudentId(e.target.value);
-                            setActiveTab('academic');
-                        }}
-                        className="appearance-none pl-4 pr-10 py-2.5 border border-[var(--color-tertiary)]/40 rounded-xl text-[var(--color-font)] text-sm font-medium focus:outline-none focus:border-[var(--color-quinary)] transition-colors bg-white cursor-pointer"
-                    >
-                        {students.map((student) => (
-                            <option key={student.id} value={student.id}>
-                                {student.fullName}
-                            </option>
-                        ))}
-                    </select>
-                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--color-font)]/40 pointer-events-none" />
-                </div>
+
             </div>
 
             {/* Profile Header Card */}
@@ -57,14 +52,14 @@ export default function StudentProfileView() {
                     <div className="flex items-end gap-4 -mt-8 mb-4">
                         <div className="w-16 h-16 rounded-2xl bg-[var(--color-font-title)] border-4 border-white flex items-center justify-center flex-shrink-0 shadow-md">
                             <span className="text-white text-2xl font-bold">
-                                {student.studentFullName.charAt(0)}
+                                {student.fullName.charAt(0)}
                             </span>
                         </div>
                         <div className="mb-1">
-                            <h2 className="text-xl font-bold text-[var(--color-font)] leading-tight">{student.studentFullName}</h2>
+                            <h2 className="text-xl font-bold text-[var(--color-font)] leading-tight">{student.fullName}</h2>
                             <div className="flex items-center gap-1.5 mt-1">
                                 <CreditCard className="w-3.5 h-3.5 text-[var(--color-font)]/40" />
-                                <span className="text-sm text-[var(--color-font)]/60 font-mono">{student.studentIdentificationCard}</span>
+                                <span className="text-sm text-[var(--color-font)]/60 font-mono">{student.identificationCard}</span>
                             </div>
                         </div>
                     </div>
@@ -75,37 +70,37 @@ export default function StudentProfileView() {
                             <Globe className="w-4 h-4 text-[var(--color-quinary)] mt-0.5 flex-shrink-0" />
                             <div>
                                 <p className="text-[10px] text-[var(--color-font)]/40 uppercase tracking-wide font-semibold">Nacionalidad</p>
-                                <p className="text-sm font-medium text-[var(--color-font)]">{student.studentNationality}</p>
+                                <p className="text-sm font-medium text-[var(--color-font)]">{student.nationality}</p>
                             </div>
                         </div>
                         <div className="flex items-start gap-2">
                             <BookOpen className="w-4 h-4 text-[var(--color-quinary)] mt-0.5 flex-shrink-0" />
                             <div>
                                 <p className="text-[10px] text-[var(--color-font)]/40 uppercase tracking-wide font-semibold">Certificado</p>
-                                <p className="text-sm font-medium text-[var(--color-font)]">{student.studentCertificateType}</p>
+                                <p className="text-sm font-medium text-[var(--color-font)]">{student.certificateType}</p>
                             </div>
                         </div>
                         <div className="flex items-start gap-2">
                             <Phone className="w-4 h-4 text-[var(--color-quinary)] mt-0.5 flex-shrink-0" />
                             <div>
                                 <p className="text-[10px] text-[var(--color-font)]/40 uppercase tracking-wide font-semibold">Telefono</p>
-                                <p className="text-sm font-medium text-[var(--color-font)]">{student.studentPhoneNumber}</p>
+                                <p className="text-sm font-medium text-[var(--color-font)]">{student.phoneNumber}</p>
                             </div>
                         </div>
                         <div className="flex items-start gap-2">
                             <Mail className="w-4 h-4 text-[var(--color-quinary)] mt-0.5 flex-shrink-0" />
                             <div>
                                 <p className="text-[10px] text-[var(--color-font)]/40 uppercase tracking-wide font-semibold">Correo</p>
-                                <p className="text-sm font-medium text-[var(--color-font)] truncate">{student.studentEmail}</p>
+                                <p className="text-sm font-medium text-[var(--color-font)] truncate">{student.email}</p>
                             </div>
                         </div>
                     </div>
 
                     {/* Badges */}
                     <div className="flex gap-2 flex-wrap">
-                        <ContractStatusBadge status={student.studentContractStatus} />
-                        <ProgressCategoryBadge category={student.studentProgressCategory} />
-                        {student.studentIsGraduated && (
+                        <ContractStatusBadge status={student.contractStatus} />
+                        <ProgressCategoryBadge category={student.progressCategory} />
+                        {student.isGraduated && (
                             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--color-tertiary)] text-[var(--color-font)]">
                                 Graduado
                             </span>
@@ -132,7 +127,8 @@ export default function StudentProfileView() {
                     ))}
                 </div>
 
-                {/* Academic Tab */}
+                {/* TODO:                
+                
                 {activeTab === 'academic' && (
                     <div className="p-6 space-y-6">
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -185,8 +181,10 @@ export default function StudentProfileView() {
                         </div>
                     </div>
                 )}
+                Academic Tab */}
 
-                {/* Attendance Tab */}
+                {/* TODO: 
+                
                 {activeTab === 'attendance' && (
                     <div className="p-6">
                         <div className="overflow-x-auto">
@@ -236,6 +234,7 @@ export default function StudentProfileView() {
                         )}
                     </div>
                 )}
+                Attendance Tab */}
 
                 {/* Financial Tab */}
                 {activeTab === 'financial' && (
@@ -244,7 +243,7 @@ export default function StudentProfileView() {
                             <div className="border border-[var(--color-tertiary)]/30 rounded-xl p-4">
                                 <p className="text-xs text-[var(--color-font)]/50 uppercase tracking-wide font-semibold mb-1">Plan de Pago</p>
                                 <p className="font-semibold text-[var(--color-font)]">Mensual</p>
-                                <p className="text-xs text-[var(--color-font)]/40 mt-1">Activo desde {student.studentStartDate.toLocaleDateString('es-VE')}</p>
+                                <p className="text-xs text-[var(--color-font)]/40 mt-1">Activo desde {student.startDate.toLocaleDateString('es-VE')}</p>
                             </div>
                             <div className="border border-[var(--color-tertiary)]/30 rounded-xl p-4">
                                 <p className="text-xs text-[var(--color-font)]/50 uppercase tracking-wide font-semibold mb-1">Proximo Pago</p>
