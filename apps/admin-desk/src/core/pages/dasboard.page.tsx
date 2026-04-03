@@ -1,22 +1,15 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/core/components/ui/card";
+import { useDashboard } from "@/core/hooks/useDashboard.use";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import { navItems } from "@/core/data";
-import { useAuthStore } from "@/features/indentity/application/store/auth.store";
-import { useMemo } from "react";
-import { usePermissions } from "@/features/indentity/application/hooks/usePermissions.use";
-import { userRoles } from "@salc/core/interfaces";
+
+
 
 export default function DashboardPage() {
-    const { userResponse } = useAuthStore();
-    const { hasPermission } = usePermissions();
 
-    const isAdmin = useMemo(() => userResponse?.us_role === userRoles.ADMIN, [userResponse]);
+    const { isAdmin, filteredActions } = useDashboard();
 
-    const filteredActions = useMemo(
-        () => navItems.filter((action) => hasPermission(action.permissions)),
-        [hasPermission]
-    );
+
     return (
         <div className="space-y-6">
             <div className="space-y-1">
