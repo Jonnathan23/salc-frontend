@@ -23,3 +23,19 @@ export const certificateType = {
 } as const;
 
 export type CertificateType = typeof certificateType[keyof typeof certificateType];
+
+export const sessionStatus = {
+    PENDING_APPROVAL: "PENDING_APPROVAL",
+    IN_PROGRESS: "IN_PROGRESS",
+    APPROVED: "APPROVED"
+} as const;
+
+export type SessionStatus = typeof sessionStatus[keyof typeof sessionStatus];
+
+export const alertStatus = {
+    PENDING: "PENDING",
+    RESOLVED: "RESOLVED",
+    CLOSED_FROZEN: "CLOSED_FROZEN"
+} as const;
+
+export type AlertStatus = typeof alertStatus[keyof typeof alertStatus];
