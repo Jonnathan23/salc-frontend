@@ -1,6 +1,6 @@
 import type { NavItem } from "@/core/interfaces/NavItem";
 import { systemPermissions } from "@salc/core/enums/Permissions";
-import { Database, Layers, LayoutDashboard, Package, UserPlus, UserRoundSearch  } from "lucide-react";
+import { BookPlus, Database, Layers, LayoutDashboard, Package, School, UserPlus, UserRoundSearch } from "lucide-react";
 
 
 export const navItems: NavItem[] = [
@@ -24,7 +24,7 @@ export const navItems: NavItem[] = [
         title: 'Matrícula de Estudiantes',
         description: 'Registrar nuevos estudiantes y asignar módulos',
         href: '/tuition-student',
-        icon: UserPlus,
+        icon: BookPlus,
         permissions: [systemPermissions.ADMINDESK_STUDENTS_WRITE], // Admin y Advisor
         color: 'bg-primary',
     },
@@ -35,6 +35,14 @@ export const navItems: NavItem[] = [
         icon: Layers,
         permissions: [systemPermissions.ADMINDESK_CONTRACTS_READ], // Admin, Advisor, Academic Director
         color: 'bg-secondary',
+    },
+    {
+        title: 'Ver Estudiantes',
+        description: 'Ver estudiantes',
+        href: '/view-students',
+        icon: School,
+        permissions: [systemPermissions.ADMINDESK_STUDENTS_READ], // Admin y Advisor
+        color: 'bg-primary',
     },
     {
         title: 'Registro de Usuarios',

@@ -45,6 +45,6 @@
     },
     "include": [
         "src",
-        "src/core/components/sidebar/sidebar.tsx"
+        "src/core/components/sidebar/all-components-sidebar.tsx"
     ]
 }
