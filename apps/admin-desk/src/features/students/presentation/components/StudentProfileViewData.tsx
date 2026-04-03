@@ -16,8 +16,7 @@ interface StudentProfileViewDataProps {
 
 export default function StudentProfileViewData({ student }: StudentProfileViewDataProps) {
 
-
-    const [activeTab, setActiveTab] = useState<string>('academic');
+    const [activeTab, setActiveTab] = useState<ProfileTab>('academic');
     const navigation = useNavigate();
 
     const tabs: { key: ProfileTab; label: string; icon: React.ReactNode }[] = [
@@ -26,40 +25,46 @@ export default function StudentProfileViewData({ student }: StudentProfileViewDa
         { key: 'financial', label: 'Financiero', icon: <DollarSign className="w-4 h-4" /> }
     ];
 
+    // FIX: Agregamos el return que faltaba para evitar renderizados en null
     if (!student) {
-        <div className="flex h-64 items-center justify-center">
-            <p className="text-[var(--color-font)]/50 text-sm mt-0.5">Estudiante no encontrado</p>
-            <Button onClick={() => navigation('/students')}>Volver</Button>
-        </div>
+        return (
+            <div className="flex h-64 flex-col items-center justify-center gap-4">
+                <p className="text-muted-foreground text-sm">Estudiante no encontrado</p>
+                <Button onClick={() => navigation('/students')}>Volver</Button>
+            </div>
+        );
     }
 
     return (
         <div className="p-6 space-y-6">
-            {/* Page Header with Student Selector */}
+            {/* --- Page Header --- */}
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold text-[var(--color-font)]">Perfil 360 del Estudiante</h1>
-                    <p className="text-[var(--color-font)]/50 text-sm mt-0.5">Vista completa del expediente academico</p>
-                    <Button onClick={() => navigation('/students')}>Volver</Button>
+                    {/* Usamos text-title para asegurar que el naranja se aplique si es título principal, o text-foreground */}
+                    <h1 className="text-2xl font-bold text-title">Perfil 360 del Estudiante</h1>
+                    <p className="text-muted-foreground text-sm mt-0.5">Vista completa del expediente academico</p>
                 </div>
-
+                <Button variant="outline" onClick={() => navigation('/view-students')}>Volver al Directorio</Button>
             </div>
 
-            {/* Profile Header Card */}
-            <div className="bg-white rounded-xl border border-[var(--color-tertiary)]/30 overflow-hidden">
-                <div className="h-20 bg-[var(--color-quinary)]" />
+            {/* --- Profile Header Card --- */}
+            <div className="bg-card rounded-xl border border-border/50 shadow-sm overflow-hidden">
+                {/* Cabecera superior con el color Teal Dark (primary-foreground) */}
+                <div className="h-20 bg-primary-foreground" />
+
                 <div className="px-6 pb-6">
                     <div className="flex items-end gap-4 -mt-8 mb-4">
-                        <div className="w-16 h-16 rounded-2xl bg-[var(--color-font-title)] border-4 border-white flex items-center justify-center flex-shrink-0 shadow-md">
-                            <span className="text-white text-2xl font-bold">
+                        {/* Avatar con fondo Naranja (accent) y borde del color de la tarjeta (card) para soportar Dark Mode */}
+                        <div className="w-16 h-16 rounded-2xl bg-accent border-4 border-card flex items-center justify-center flex-shrink-0 shadow-md">
+                            <span className="text-accent-foreground text-2xl font-bold">
                                 {student.fullName.charAt(0)}
                             </span>
                         </div>
                         <div className="mb-1">
-                            <h2 className="text-xl font-bold text-[var(--color-font)] leading-tight">{student.fullName}</h2>
+                            <h2 className="text-xl font-bold text-foreground leading-tight">{student.fullName}</h2>
                             <div className="flex items-center gap-1.5 mt-1">
-                                <CreditCard className="w-3.5 h-3.5 text-[var(--color-font)]/40" />
-                                <span className="text-sm text-[var(--color-font)]/60 font-mono">{student.identificationCard}</span>
+                                <CreditCard className="w-3.5 h-3.5 text-muted-foreground" />
+                                <span className="text-sm text-muted-foreground font-mono">{student.identificationCard}</span>
                             </div>
                         </div>
                     </div>
@@ -67,31 +72,32 @@ export default function StudentProfileViewData({ student }: StudentProfileViewDa
                     {/* Info Grid */}
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
                         <div className="flex items-start gap-2">
-                            <Globe className="w-4 h-4 text-[var(--color-quinary)] mt-0.5 flex-shrink-0" />
+                            <Globe className="w-4 h-4 text-primary-foreground mt-0.5 flex-shrink-0" />
                             <div>
-                                <p className="text-[10px] text-[var(--color-font)]/40 uppercase tracking-wide font-semibold">Nacionalidad</p>
-                                <p className="text-sm font-medium text-[var(--color-font)]">{student.nationality}</p>
+                                <p className="text-[10px] text-muted-foreground uppercase tracking-wide font-semibold">Nacionalidad</p>
+                                {/* Asumiendo que agregaste nationality a tu entity, si no, reemplázalo con otra prop */}
+                                <p className="text-sm font-medium text-foreground">{student.nationality || 'Ecuatoriana'}</p>
                             </div>
                         </div>
                         <div className="flex items-start gap-2">
-                            <BookOpen className="w-4 h-4 text-[var(--color-quinary)] mt-0.5 flex-shrink-0" />
+                            <BookOpen className="w-4 h-4 text-primary-foreground mt-0.5 flex-shrink-0" />
                             <div>
-                                <p className="text-[10px] text-[var(--color-font)]/40 uppercase tracking-wide font-semibold">Certificado</p>
-                                <p className="text-sm font-medium text-[var(--color-font)]">{student.certificateType}</p>
+                                <p className="text-[10px] text-muted-foreground uppercase tracking-wide font-semibold">Certificado</p>
+                                <p className="text-sm font-medium text-foreground">{student.certificateType}</p>
                             </div>
                         </div>
                         <div className="flex items-start gap-2">
-                            <Phone className="w-4 h-4 text-[var(--color-quinary)] mt-0.5 flex-shrink-0" />
+                            <Phone className="w-4 h-4 text-primary-foreground mt-0.5 flex-shrink-0" />
                             <div>
-                                <p className="text-[10px] text-[var(--color-font)]/40 uppercase tracking-wide font-semibold">Telefono</p>
-                                <p className="text-sm font-medium text-[var(--color-font)]">{student.phoneNumber}</p>
+                                <p className="text-[10px] text-muted-foreground uppercase tracking-wide font-semibold">Telefono</p>
+                                <p className="text-sm font-medium text-foreground">{student.phoneNumber}</p>
                             </div>
                         </div>
                         <div className="flex items-start gap-2">
-                            <Mail className="w-4 h-4 text-[var(--color-quinary)] mt-0.5 flex-shrink-0" />
+                            <Mail className="w-4 h-4 text-primary-foreground mt-0.5 flex-shrink-0" />
                             <div>
-                                <p className="text-[10px] text-[var(--color-font)]/40 uppercase tracking-wide font-semibold">Correo</p>
-                                <p className="text-sm font-medium text-[var(--color-font)] truncate">{student.email}</p>
+                                <p className="text-[10px] text-muted-foreground uppercase tracking-wide font-semibold">Correo</p>
+                                <p className="text-sm font-medium text-foreground truncate">{student.email}</p>
                             </div>
                         </div>
                     </div>
@@ -101,7 +107,8 @@ export default function StudentProfileViewData({ student }: StudentProfileViewDa
                         <ContractStatusBadge status={student.contractStatus} />
                         <ProgressCategoryBadge category={student.progressCategory} />
                         {student.isGraduated && (
-                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--color-tertiary)] text-[var(--color-font)]">
+                            // bg-secondary es el equivalente perfecto a tu color tertiary (Tan)
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-secondary text-secondary-foreground">
                                 Graduado
                             </span>
                         )}
@@ -109,16 +116,16 @@ export default function StudentProfileViewData({ student }: StudentProfileViewDa
                 </div>
             </div>
 
-            {/* Tabs */}
-            <div className="bg-white rounded-xl border border-[var(--color-tertiary)]/30 overflow-hidden">
-                <div className="flex border-b border-[var(--color-tertiary)]/20">
+            {/* --- Tabs Container --- */}
+            <div className="bg-card rounded-xl border border-border/50 shadow-sm overflow-hidden">
+                <div className="flex border-b border-border/50">
                     {tabs.map((tab) => (
                         <button
                             key={tab.key}
                             onClick={() => setActiveTab(tab.key)}
-                            className={`flex items-center gap-2 px-6 py-4 text-sm font-semibold transition-all border-b-2 ${activeTab === tab.key
-                                ? 'border-[var(--color-quinary)] text-[var(--color-quinary)] bg-[var(--color-primary)]/10'
-                                : 'border-transparent text-[var(--color-font)]/60 hover:text-[var(--color-font)] hover:bg-gray-50'
+                            className={`flex cursor-pointer items-center gap-2 px-6 py-4 text-sm font-semibold transition-all border-b-2 ${activeTab === tab.key
+                                    ? 'border-primary-foreground text-primary-foreground bg-primary/10'
+                                    : 'border-transparent text-muted-foreground hover:text-foreground hover:bg-muted/50'
                                 }`}
                         >
                             {tab.icon}
@@ -127,52 +134,54 @@ export default function StudentProfileViewData({ student }: StudentProfileViewDa
                     ))}
                 </div>
 
-                {/* TODO:                
-                
-                {activeTab === 'academic' && (
+                {/* =========================================
+                    TODO: ACADEMIC TAB (Ya migrado visualmente) 
+                    ========================================= */}
+                {/* {activeTab === 'academic' && (
                     <div className="p-6 space-y-6">
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div className="bg-[var(--color-primary)]/15 rounded-xl p-4 text-center">
-                                <p className="text-3xl font-bold text-[var(--color-quinary)]">{approvedSessions.length}</p>
-                                <p className="text-xs text-[var(--color-font)]/60 mt-1">Sesiones Completadas</p>
+                            <div className="bg-primary/15 rounded-xl p-4 text-center">
+                                <p className="text-3xl font-bold text-primary-foreground">{approvedSessions.length}</p>
+                                <p className="text-xs text-muted-foreground mt-1">Sesiones Completadas</p>
                             </div>
-                            <div className="bg-[var(--color-primary)]/15 rounded-xl p-4 text-center">
-                                <p className="text-3xl font-bold text-[var(--color-quinary)]">{Math.round(totalMinutes / 60)}</p>
-                                <p className="text-xs text-[var(--color-font)]/60 mt-1">Horas Totales</p>
+                            <div className="bg-primary/15 rounded-xl p-4 text-center">
+                                <p className="text-3xl font-bold text-primary-foreground">{Math.round(totalMinutes / 60)}</p>
+                                <p className="text-xs text-muted-foreground mt-1">Horas Totales</p>
                             </div>
-                            <div className="bg-[var(--color-primary)]/15 rounded-xl p-4 text-center">
-                                <p className="text-3xl font-bold text-[var(--color-font-title)]">
+                            <div className="bg-primary/15 rounded-xl p-4 text-center">
+                                <p className="text-3xl font-bold text-title">
                                     {approvedSessions.length > 0
                                         ? Math.round(totalMinutes / approvedSessions.length)
                                         : 0}
                                 </p>
-                                <p className="text-xs text-[var(--color-font)]/60 mt-1">Minutos Promedio/Sesion</p>
+                                <p className="text-xs text-muted-foreground mt-1">Minutos Promedio/Sesion</p>
                             </div>
                         </div>
 
                         <div>
-                            <h3 className="font-semibold text-[var(--color-font)] text-sm mb-3">Progreso Academico</h3>
-                            <div className="p-4 bg-[var(--color-primary)]/10 rounded-xl flex items-center justify-between">
+                            <h3 className="font-semibold text-foreground text-sm mb-3">Progreso Academico</h3>
+                            <div className="p-4 bg-primary/10 rounded-xl flex items-center justify-between">
                                 <div>
-                                    <p className="font-medium text-[var(--color-font)]">{student.studentCertificateType}</p>
-                                    <p className="text-xs text-[var(--color-font)]/50 mt-1">
-                                        Inicio: {student.studentStartDate.toLocaleDateString('es-VE')}
+                                    <p className="font-medium text-foreground">{student.certificateType}</p>
+                                    <p className="text-xs text-muted-foreground mt-1">
+                                        Inicio: {student.startDate?.toLocaleDateString('es-VE')}
                                     </p>
                                 </div>
-                                <ProgressCategoryBadge category={student.studentProgressCategory} />
+                                <ProgressCategoryBadge category={student.progressCategory} />
                             </div>
                         </div>
 
                         <div>
-                            <h3 className="font-semibold text-[var(--color-font)] text-sm mb-3">Modulos Asignados</h3>
+                            <h3 className="font-semibold text-foreground text-sm mb-3">Modulos Asignados</h3>
                             <div className="space-y-2">
                                 {['Modulo 1: Fundamentos', 'Modulo 2: Vocabulario', 'Modulo 3: Gramatica Avanzada'].map((module, i) => (
-                                    <div key={i} className="flex items-center justify-between p-3 border border-[var(--color-tertiary)]/30 rounded-lg">
-                                        <span className="text-sm text-[var(--color-font)]">{module}</span>
-                                        <span className={`text-xs font-semibold ${i === 0 ? 'text-[var(--color-quinary)]' :
-                                            i === 1 ? 'text-[var(--color-font-title)]' :
-                                                'text-[var(--color-font)]/40'
-                                            }`}>
+                                    <div key={i} className="flex items-center justify-between p-3 border border-border/50 rounded-lg">
+                                        <span className="text-sm text-foreground">{module}</span>
+                                        <span className={`text-xs font-semibold ${
+                                            i === 0 ? 'text-primary-foreground' :
+                                            i === 1 ? 'text-title' :
+                                            'text-muted-foreground'
+                                        }`}>
                                             {i === 0 ? 'Completado' : i === 1 ? 'En Progreso' : 'Pendiente'}
                                         </span>
                                     </div>
@@ -181,34 +190,35 @@ export default function StudentProfileViewData({ student }: StudentProfileViewDa
                         </div>
                     </div>
                 )}
-                Academic Tab */}
+                */}
 
-                {/* TODO: 
-                
-                {activeTab === 'attendance' && (
+                {/* =========================================
+                    TODO: ATTENDANCE TAB (Ya migrado visualmente) 
+                    ========================================= */}
+                {/* {activeTab === 'attendance' && (
                     <div className="p-6">
                         <div className="overflow-x-auto">
                             <table className="w-full text-sm">
                                 <thead>
-                                    <tr className="bg-[var(--color-primary)]/15">
-                                        <th className="px-5 py-3 text-left text-xs font-semibold text-[var(--color-quinary)] uppercase tracking-wide">Fecha</th>
-                                        <th className="px-5 py-3 text-left text-xs font-semibold text-[var(--color-quinary)] uppercase tracking-wide">Entrada</th>
-                                        <th className="px-5 py-3 text-left text-xs font-semibold text-[var(--color-quinary)] uppercase tracking-wide">Salida</th>
-                                        <th className="px-5 py-3 text-left text-xs font-semibold text-[var(--color-quinary)] uppercase tracking-wide">Duracion</th>
-                                        <th className="px-5 py-3 text-left text-xs font-semibold text-[var(--color-quinary)] uppercase tracking-wide">Estado</th>
+                                    <tr className="bg-primary/15">
+                                        <th className="px-5 py-3 text-left text-xs font-semibold text-primary-foreground uppercase tracking-wide">Fecha</th>
+                                        <th className="px-5 py-3 text-left text-xs font-semibold text-primary-foreground uppercase tracking-wide">Entrada</th>
+                                        <th className="px-5 py-3 text-left text-xs font-semibold text-primary-foreground uppercase tracking-wide">Salida</th>
+                                        <th className="px-5 py-3 text-left text-xs font-semibold text-primary-foreground uppercase tracking-wide">Duracion</th>
+                                        <th className="px-5 py-3 text-left text-xs font-semibold text-primary-foreground uppercase tracking-wide">Estado</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-[var(--color-tertiary)]/15">
+                                <tbody className="divide-y divide-border/50">
                                     {studentSessions.length > 0 ? studentSessions.map((session) => (
-                                        <tr key={session.attendanceSessionId} className="hover:bg-[var(--color-primary)]/10 transition-colors">
-                                            <td className="px-5 py-3 font-medium text-[var(--color-font)]">
+                                        <tr key={session.attendanceSessionId} className="hover:bg-primary/10 transition-colors">
+                                            <td className="px-5 py-3 font-medium text-foreground">
                                                 {session.attendanceSessionDate.toLocaleDateString('es-VE')}
                                             </td>
-                                            <td className="px-5 py-3 text-[var(--color-font)]/70 font-mono">{session.attendanceSessionEntryTime}</td>
-                                            <td className="px-5 py-3 text-[var(--color-font)]/70 font-mono">
+                                            <td className="px-5 py-3 text-foreground/70 font-mono">{session.attendanceSessionEntryTime}</td>
+                                            <td className="px-5 py-3 text-foreground/70 font-mono">
                                                 {session.attendanceSessionExitTime || '—'}
                                             </td>
-                                            <td className="px-5 py-3 text-[var(--color-font)]/70">
+                                            <td className="px-5 py-3 text-foreground/70">
                                                 {session.attendanceSessionTotalMinutes
                                                     ? `${session.attendanceSessionTotalMinutes} min`
                                                     : '—'}
@@ -219,7 +229,7 @@ export default function StudentProfileViewData({ student }: StudentProfileViewDa
                                         </tr>
                                     )) : (
                                         <tr>
-                                            <td colSpan={5} className="px-5 py-8 text-center text-[var(--color-font)]/40 text-sm">
+                                            <td colSpan={5} className="px-5 py-8 text-center text-muted-foreground text-sm">
                                                 No hay registros de asistencia disponibles
                                             </td>
                                         </tr>
@@ -228,60 +238,62 @@ export default function StudentProfileViewData({ student }: StudentProfileViewDa
                             </table>
                         </div>
                         {studentSessions.length === 0 && (
-                            <p className="text-center text-[var(--color-font)]/40 text-sm py-4">
+                            <p className="text-center text-muted-foreground text-sm py-4">
                                 Este estudiante no tiene sesiones de asistencia registradas aun
                             </p>
                         )}
                     </div>
                 )}
-                Attendance Tab */}
+                */}
 
-                {/* Financial Tab */}
-                {activeTab === 'financial' && (
+                {/* =========================================
+                    TODO: FINANCIAL TAB (Ya migrado visualmente) 
+                    ========================================= */}
+                {/* {activeTab === 'financial' && (
                     <div className="p-6 space-y-4">
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div className="border border-[var(--color-tertiary)]/30 rounded-xl p-4">
-                                <p className="text-xs text-[var(--color-font)]/50 uppercase tracking-wide font-semibold mb-1">Plan de Pago</p>
-                                <p className="font-semibold text-[var(--color-font)]">Mensual</p>
-                                <p className="text-xs text-[var(--color-font)]/40 mt-1">Activo desde {student.startDate.toLocaleDateString('es-VE')}</p>
+                            <div className="border border-border/50 rounded-xl p-4">
+                                <p className="text-xs text-muted-foreground uppercase tracking-wide font-semibold mb-1">Plan de Pago</p>
+                                <p className="font-semibold text-foreground">Mensual</p>
+                                <p className="text-xs text-muted-foreground mt-1">Activo desde {student.startDate?.toLocaleDateString('es-VE')}</p>
                             </div>
-                            <div className="border border-[var(--color-tertiary)]/30 rounded-xl p-4">
-                                <p className="text-xs text-[var(--color-font)]/50 uppercase tracking-wide font-semibold mb-1">Proximo Pago</p>
-                                <p className="font-semibold text-[var(--color-font)]">01/04/2025</p>
-                                <p className="text-xs text-[var(--color-font-title)] mt-1 font-medium">Bs. 2,500.00</p>
+                            <div className="border border-border/50 rounded-xl p-4">
+                                <p className="text-xs text-muted-foreground uppercase tracking-wide font-semibold mb-1">Proximo Pago</p>
+                                <p className="font-semibold text-foreground">01/04/2026</p>
+                                <p className="text-xs text-title mt-1 font-medium">Bs. 2,500.00</p>
                             </div>
-                            <div className="border border-[var(--color-tertiary)]/30 rounded-xl p-4">
-                                <p className="text-xs text-[var(--color-font)]/50 uppercase tracking-wide font-semibold mb-1">Estado</p>
-                                <p className="font-semibold text-[var(--color-quinary)]">Al Dia</p>
-                                <p className="text-xs text-[var(--color-font)]/40 mt-1">Sin pagos pendientes</p>
+                            <div className="border border-border/50 rounded-xl p-4">
+                                <p className="text-xs text-muted-foreground uppercase tracking-wide font-semibold mb-1">Estado</p>
+                                <p className="font-semibold text-primary-foreground">Al Dia</p>
+                                <p className="text-xs text-muted-foreground mt-1">Sin pagos pendientes</p>
                             </div>
                         </div>
 
-                        <div className="border border-[var(--color-tertiary)]/30 rounded-xl overflow-hidden">
-                            <div className="px-5 py-3 bg-[var(--color-primary)]/10 border-b border-[var(--color-tertiary)]/20">
-                                <h3 className="font-semibold text-[var(--color-font)] text-sm">Historial de Pagos</h3>
+                        <div className="border border-border/50 rounded-xl overflow-hidden">
+                            <div className="px-5 py-3 bg-primary/10 border-b border-border/50">
+                                <h3 className="font-semibold text-foreground text-sm">Historial de Pagos</h3>
                             </div>
                             <table className="w-full text-sm">
                                 <thead>
-                                    <tr className="bg-gray-50">
-                                        <th className="px-5 py-3 text-left text-xs font-semibold text-[var(--color-font)]/60 uppercase tracking-wide">Fecha</th>
-                                        <th className="px-5 py-3 text-left text-xs font-semibold text-[var(--color-font)]/60 uppercase tracking-wide">Concepto</th>
-                                        <th className="px-5 py-3 text-left text-xs font-semibold text-[var(--color-font)]/60 uppercase tracking-wide">Monto</th>
-                                        <th className="px-5 py-3 text-left text-xs font-semibold text-[var(--color-font)]/60 uppercase tracking-wide">Estado</th>
+                                    <tr className="bg-muted/30">
+                                        <th className="px-5 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide">Fecha</th>
+                                        <th className="px-5 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide">Concepto</th>
+                                        <th className="px-5 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide">Monto</th>
+                                        <th className="px-5 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide">Estado</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-[var(--color-tertiary)]/15">
+                                <tbody className="divide-y divide-border/50">
                                     {[
-                                        { date: '01/03/2025', concept: 'Mensualidad Marzo', amount: 'Bs. 2,500.00', paid: true },
-                                        { date: '01/02/2025', concept: 'Mensualidad Febrero', amount: 'Bs. 2,500.00', paid: true },
-                                        { date: '01/01/2025', concept: 'Inscripcion + Enero', amount: 'Bs. 4,500.00', paid: true }
+                                        { date: '01/03/2026', concept: 'Mensualidad Marzo', amount: 'Bs. 2,500.00', paid: true },
+                                        { date: '01/02/2026', concept: 'Mensualidad Febrero', amount: 'Bs. 2,500.00', paid: true },
+                                        { date: '01/01/2026', concept: 'Inscripcion + Enero', amount: 'Bs. 4,500.00', paid: true }
                                     ].map((payment, i) => (
-                                        <tr key={i} className="hover:bg-[var(--color-primary)]/10 transition-colors">
-                                            <td className="px-5 py-3 text-[var(--color-font)]/70">{payment.date}</td>
-                                            <td className="px-5 py-3 text-[var(--color-font)]">{payment.concept}</td>
-                                            <td className="px-5 py-3 font-semibold text-[var(--color-font)]">{payment.amount}</td>
+                                        <tr key={i} className="hover:bg-primary/10 transition-colors">
+                                            <td className="px-5 py-3 text-foreground/70">{payment.date}</td>
+                                            <td className="px-5 py-3 text-foreground">{payment.concept}</td>
+                                            <td className="px-5 py-3 font-semibold text-foreground">{payment.amount}</td>
                                             <td className="px-5 py-3">
-                                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--color-primary)] text-[var(--color-quinary)]">
+                                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-primary text-primary-foreground">
                                                     Pagado
                                                 </span>
                                             </td>
@@ -292,6 +304,7 @@ export default function StudentProfileViewData({ student }: StudentProfileViewDa
                         </div>
                     </div>
                 )}
+                */}
             </div>
         </div>
     );
