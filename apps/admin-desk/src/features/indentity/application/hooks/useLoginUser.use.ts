@@ -30,27 +30,19 @@ export const useLoginUser = ({ setLoginSession }: UseLoginUserProps) => {
     return useMutation<SuccessResponse<UserAuthResponseEntity>, CustomError, LoginUserDto>({
         mutationFn: async (rawData: LoginUserDto) => {
             const validDto = LoginUserDtoImpl.create(rawData);
-            console.log('\nvalidDto')
-            console.log(validDto)
 
             const response = await loginUserUseCase.execute(validDto);
 
             return response;
         },
         onSuccess: (response) => {
-            if (!response.data) {
-                throw CustomError.badRequest('No se pudo iniciar sesión');
-            }
+            if (!response.data) throw CustomError.badRequest('No se pudo iniciar sesión');
 
             const user = response.data;
             const role = user.us_role;
 
             setLoginSession(user);
             usersRedirectionMap[role](redirect);
-        },
-        onError(error) {
-            console.log('\nerror')
-            console.log(error)
         }
     });
 };

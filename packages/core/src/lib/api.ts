@@ -1,7 +1,7 @@
 import { CustomError } from "@salc/core/enums";
 import { FormattedErrorResponse } from "@salc/core/interfaces";
 import { ErrorResponseSchema } from "@salc/core/schemas";
-import { DataAccessLayerAdapter } from "@salc/core/utils";
+import { DataAccessLayerAdapter } from "@salc/core/adapters";
 import axios, { AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from "axios";
 
 
@@ -103,10 +103,7 @@ export class Api {
     }
 
     public async post<ResponseType, RequestDataType>(url: string, data: RequestDataType): Promise<ResponseType> {
-        console.log('\nurl')
-        console.log(url)
-        console.log('\ndata')
-        console.log(data)
+
         return this.apiInstance.post<ResponseType>(url, data).then((response) => response.data);
     }
 
