@@ -1,5 +1,6 @@
 import { useRegisterStudent } from "@/features/students/application/hooks";
 import type { RegisterStudentDto } from "@salc/core/features/admin-desk/students/domain/dtos";
+import { certificateType } from "@salc/core/features/admin-desk/students/domain/interfaces/Student.interface";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -7,6 +8,8 @@ import { useForm } from "react-hook-form";
 export const useRegisterStudentForm = () => {
 
     const [submitSuccess, setSubmitSuccess] = useState(false);
+
+    const certificates = [certificateType.ONE_TONNE, certificateType.TOEFL, certificateType.OTHER];
 
     const minStudentAge = 4;
     const minDate = new Date();
@@ -25,7 +28,7 @@ export const useRegisterStudentForm = () => {
         email: '', //✒️
         dateOfBirth: minDate, //✒️
         nationality: '', //✒️
-        certificateType: '',
+        certificateType: certificates[0],
         startDate: new Date() //✒️
     }
 
@@ -52,7 +55,8 @@ export const useRegisterStudentForm = () => {
         onSubmit,
         isSubmitting,
         maxAllowedDate,
-        minDate
+        minDate,
+        certificates
     }
 
 

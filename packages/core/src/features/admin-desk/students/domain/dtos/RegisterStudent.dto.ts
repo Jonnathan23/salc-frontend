@@ -1,4 +1,5 @@
 import { CustomError } from "@salc/core/enums";
+import { CertificateType } from "@salc/core/features/admin-desk/students/domain/interfaces/Student.interface";
 import { Validators } from "@salc/core/utils";
 
 export interface RegisterStudentDto {
@@ -8,7 +9,7 @@ export interface RegisterStudentDto {
     email: string;
     dateOfBirth: Date;
     nationality: string;
-    certificateType: string;
+    certificateType: CertificateType;
     startDate: Date;
 }
 
@@ -21,7 +22,7 @@ export class RegisterStudentDtoImpl implements RegisterStudentDto {
         public readonly email: string,
         public readonly dateOfBirth: Date,
         public readonly nationality: string,
-        public readonly certificateType: string,
+        public readonly certificateType: CertificateType,
         public readonly startDate: Date
     ) { }
 
@@ -49,6 +50,8 @@ export class RegisterStudentDtoImpl implements RegisterStudentDto {
 
         const parsedStartDate = new Date(startDate);
         if (isNaN(parsedStartDate.getTime())) throw CustomError.badRequest('Invalid startDate');
+
+        if (!Validators.isCertificateType(certificateType)) throw CustomError.badRequest('Invalid certificateType');
 
         return new RegisterStudentDtoImpl(
             identificationCard,

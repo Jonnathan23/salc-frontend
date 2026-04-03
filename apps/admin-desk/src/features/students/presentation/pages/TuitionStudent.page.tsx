@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/cor
 import { Popover, PopoverContent, PopoverTrigger } from "@/core/components/ui/popover";
 import { useAuthStore } from "@/features/indentity/application/store/auth.store";
 import { useRegisterStudentForm } from "@/features/students/application/hooks";
-import { CalendarIcon, CheckCircle, Loader2, UserPlus } from "lucide-react";
+import { BookPlus, CalendarIcon, CheckCircle, Loader2, UserPlus } from "lucide-react";
 import { Alert, AlertDescription } from "@/core/components/alerts/alert";
 import { Button } from "@/core/components/buttons/button";
 import { Calendar } from "@/core/components/ui/calendar";
@@ -24,7 +24,7 @@ export default function TuitionStundentPage() {
 
     const { userResponse } = useAuthStore();
 
-    const { submitSuccess, errors, control, handleSubmit, register, onSubmit, isSubmitting, maxAllowedDate, minDate } = useRegisterStudentForm();
+    const { submitSuccess, errors, control, handleSubmit, register, onSubmit, isSubmitting, maxAllowedDate, minDate, certificates } = useRegisterStudentForm();
 
 
     return (
@@ -50,7 +50,7 @@ export default function TuitionStundentPage() {
             <Card>
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2">
-                        <UserPlus className="h-5 w-5 text-primary" />
+                        <BookPlus className="h-5 w-5 text-primary" />
                         Nueva Matrícula
                     </CardTitle>
                     <CardDescription>
@@ -108,7 +108,7 @@ export default function TuitionStundentPage() {
                                 <Input
                                     id="phoneNumber"
                                     type="tel"
-                                    placeholder="Ej: +52 555 123 4567"
+                                    placeholder="Ej: 092 685 3500"
                                     {...register('phoneNumber', {
                                         required: 'El teléfono es obligatorio',
                                         pattern: {
@@ -233,21 +233,23 @@ export default function TuitionStundentPage() {
 
                             <div className="space-y-2">
                                 <Label htmlFor="certificateType">Tipo de Certificado</Label>
-                                <Input
-                                    id="certificateType"
-                                    placeholder="Ej: ONE TOONE"
-                                    {...register('certificateType', {
-                                        required: 'El tipo de certificado es obligatorio',
-                                        pattern: {
-                                            value: /^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$/,
-                                            message: 'El tipo de certificado debe contener solo letras'
-                                        },
-                                        minLength: {
-                                            value: 3,
-                                            message: 'El tipo de certificado debe tener al menos 3 caracteres'
-                                        }
-                                    })}
-                                    aria-invalid={!!errors.certificateType}
+                                <Controller
+                                    name="certificateType"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <Select onValueChange={field.onChange} value={field.value}>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Seleccionar tipo de certificado" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {certificates.map((certificate) => (
+                                                    <SelectItem key={certificate} value={certificate}>
+                                                        {certificate}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
+                                    )}
                                 />
                                 {errors.certificateType && (
                                     <p className="text-sm text-destructive">{errors.certificateType.message}</p>

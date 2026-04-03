@@ -1,4 +1,4 @@
-import { studentContractStatus, StudentContractStatus } from "@salc/core/features/admin-desk/students/domain/interfaces/Student.interface";
+import { CertificateType, studentContractStatus, StudentContractStatus } from "@salc/core/features/admin-desk/students/domain/interfaces/Student.interface";
 import { UseState, useState } from "@salc/core/features/shared/indentiy/domain/entities";
 import { UserRoles, userRoles } from "@salc/core/interfaces";
 
@@ -49,5 +49,10 @@ export const Validators = {
     isDate: (date: string): boolean => {
         const dateRegex: RegExp = /^\d{4}-\d{2}-\d{2}$/;
         return dateRegex.test(date);
+    },
+
+    isCertificateType: (certificateType: string): boolean => {
+        return Object.values(certificateType).includes(certificateType as CertificateType);
     }
+
 };
