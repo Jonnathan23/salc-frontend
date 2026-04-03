@@ -13,8 +13,6 @@ export class LoginUserUseCaseImpl implements LoginUserUseCase {
     ) { }
 
     execute(user: LoginUserDto): Promise<SuccessResponse<UserAuthResponseEntity>> {
-        console.log('\nuser')
-        console.log(user)
         return this.userDataSource.login(user);
     }
 }

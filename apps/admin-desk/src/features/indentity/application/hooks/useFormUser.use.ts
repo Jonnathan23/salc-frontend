@@ -50,8 +50,7 @@ export const useLoginForm = () => {
 
 
     const onSubmit = async (data: LoginUserDto) => {
-        console.log(data)
-         login(data); };
+        login(data); };
 
 
     return {

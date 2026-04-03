@@ -13,10 +13,7 @@ export default function StudentProfile() {
     const navigation = useNavigate();
 
     const { data: successResponse, isLoading, isError } = useSearchStudent(studentId);
-    console.log(successResponse)
     const student = successResponse?.data ? successResponse.data[0] : null;
-
-    console.log(student);
 
     if (isLoading) {
         return <Loader2 className="w-4 h-4 animate-spin" />;

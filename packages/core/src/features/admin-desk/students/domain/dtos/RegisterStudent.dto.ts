@@ -29,6 +29,7 @@ export class RegisterStudentDtoImpl implements RegisterStudentDto {
     static create(object: RegisterStudentDto): RegisterStudentDto {
         const { identificationCard, fullName, phoneNumber, email, dateOfBirth, nationality, certificateType, startDate } = object;
 
+
         if (!identificationCard) throw CustomError.badRequest('Missing identificationCard');
         if (!fullName) throw CustomError.badRequest('Missing fullName');
         if (!phoneNumber) throw CustomError.badRequest('Missing phoneNumber');

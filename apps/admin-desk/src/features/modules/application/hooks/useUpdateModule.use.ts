@@ -35,8 +35,6 @@ export const useUpdateModule = ({ reset, setModuleSelected, setIsEditing }: UseU
             queryClient.invalidateQueries({ queryKey: ["modules"] });
             ShowMessageAdapter.success(successResponse.message);
             reset();
-        }, onError: (error) => {
-            console.log(error);
         }
     })
 }
