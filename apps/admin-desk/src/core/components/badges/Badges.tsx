@@ -1,9 +1,25 @@
 'use client';
 
 import { alertStatus, sessionStatus, studentContractStatus, studentProgressCategory, type AlertStatus, type SessionStatus, type StudentContractStatus, type StudentProgressCategory } from "@salc/core/features/admin-desk/students/domain/interfaces/Student.interface";
+import { useState, type UseState } from "@salc/core/features/shared/indentiy/domain/entities";
 
 //import { ContractStatus, ProgressCategory, SessionStatus, AlertStatus } from '@/lib/classtrack-types';
 
+export function ProfileStatusBadge({ status }: { status: UseState }) {
+    if (status === useState.ACTIVE) {
+        return (
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--color-primary)] text-[var(--color-quinary)]">
+                Activo
+            </span>
+        );
+    } else {
+        return (
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--color-quaternary)] text-[var(--white)]">
+                Inactivo
+            </span>
+        );
+    }
+}
 export function ContractStatusBadge({ status }: { status: StudentContractStatus }) {
     if (status === studentContractStatus.ACTIVE) {
         return (

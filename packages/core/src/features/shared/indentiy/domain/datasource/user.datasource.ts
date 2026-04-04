@@ -9,6 +9,6 @@ export abstract class UserDataSource {
     //abstract update(id:string, user: UpdateUserDto): Promise<UserEntity>;
     abstract changePassword(id: string, newPassword: ChangePasswordDto): Promise<SuccessResponse>;
     abstract changeStateActive(id: string): Promise<SuccessResponse>;
-    abstract findById(id: string): Promise<SuccessResponse<UserEntity>>;
-    abstract findAll(): Promise<SuccessResponse<UserEntity[]>>;
+    abstract findById(id: string): Promise<SuccessResponse<UserAuthResponseEntity>>;
+    abstract findAll(): Promise<SuccessResponse<UserAuthResponseEntity[]>>;
 }

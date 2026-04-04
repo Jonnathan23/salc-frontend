@@ -1,12 +1,13 @@
 import { CustomError } from "@salc/core/enums";
 import { UserDataSource } from "@salc/core/features/shared/indentiy/domain/datasource";
 import { ChangePasswordDto, LoginUserDto, RegisterUserDto } from "@salc/core/features/shared/indentiy/domain/dtos";
-import { UserAuthResponseEntity, UserEntity, UserLoginEntity } from "@salc/core/features/shared/indentiy/domain/entities";
+import { UserAuthResponseEntity } from "@salc/core/features/shared/indentiy/domain/entities";
 import { UserMapper } from "@salc/core/features/shared/indentiy/infrastructure/mappers/user.mapper";
 import { UserAuthResponseMapper } from "@salc/core/features/shared/indentiy/infrastructure/mappers/userAuthResponse.mapper";
-import { UserLoginResponseMapper } from "@salc/core/features/shared/indentiy/infrastructure/mappers/userLoginResponse.mapper";
 import { SuccessResponse } from "@salc/core/interfaces";
 import { apiSalc } from "@salc/core/lib";
+
+
 export class UserRepository implements UserDataSource {
 
     private readonly baseUrl = '/user';
@@ -48,11 +49,11 @@ export class UserRepository implements UserDataSource {
         return this.validationNullInformation(rawResponse);
     }
 
-    public async findById(id: string): Promise<SuccessResponse<UserEntity>> {
+    public async findById(id: string): Promise<SuccessResponse<UserAuthResponseEntity>> {
         const url = `${this.baseUrl}/${id}`;
-        const rawResponse = await apiSalc.get<SuccessResponse<UserEntity>>(url);
+        const rawResponse = await apiSalc.get<SuccessResponse<UserAuthResponseEntity>>(url);
 
-        const entity = UserMapper.toEntity(rawResponse.data);
+        const entity = UserAuthResponseMapper.toEntity(rawResponse.data);
 
         return {
             ...rawResponse,
@@ -60,15 +61,15 @@ export class UserRepository implements UserDataSource {
         };
     }
 
-    public async findAll(): Promise<SuccessResponse<UserEntity[]>> {
+    public async findAll(): Promise<SuccessResponse<UserAuthResponseEntity[]>> {
         const url = `${this.baseUrl}`;
-        const rawResponse = await apiSalc.get<SuccessResponse<UserEntity[]>>(url);
+        const rawResponse = await apiSalc.get<SuccessResponse<UserAuthResponseEntity[]>>(url);
 
         if (!rawResponse.data) {
             throw CustomError.notFound("No users found");
         }
 
-        const entities = rawResponse.data.map((user) => UserMapper.toEntity(user));
+        const entities = rawResponse.data.map((user) => UserAuthResponseMapper.toEntity(user));
 
         return {
             ...rawResponse,
