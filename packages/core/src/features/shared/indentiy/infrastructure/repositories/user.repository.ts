@@ -1,6 +1,6 @@
 import { CustomError } from "@salc/core/enums";
 import { UserDataSource } from "@salc/core/features/shared/indentiy/domain/datasource";
-import { ChangePasswordDto, LoginUserDto, RegisterUserDto } from "@salc/core/features/shared/indentiy/domain/dtos";
+import { ChangePasswordDto, LoginUserDto, RegisterUserDto, UpdateUserDto } from "@salc/core/features/shared/indentiy/domain/dtos";
 import { UserAuthResponseEntity } from "@salc/core/features/shared/indentiy/domain/entities";
 import { UserMapper } from "@salc/core/features/shared/indentiy/infrastructure/mappers/user.mapper";
 import { UserAuthResponseMapper } from "@salc/core/features/shared/indentiy/infrastructure/mappers/userAuthResponse.mapper";
@@ -15,6 +15,13 @@ export class UserRepository implements UserDataSource {
     public async create(user: RegisterUserDto): Promise<SuccessResponse> {
         const url = `${this.baseUrl}`;
         const rawResponse = await apiSalc.post<SuccessResponse, RegisterUserDto>(url, user);
+
+        return this.validationNullInformation(rawResponse);
+    }
+
+    public async update(id: string, user: UpdateUserDto): Promise<SuccessResponse> {
+        const url = `${this.baseUrl}/${id}`;
+        const rawResponse = await apiSalc.patch<SuccessResponse, UpdateUserDto>(url, user);
 
         return this.validationNullInformation(rawResponse);
     }

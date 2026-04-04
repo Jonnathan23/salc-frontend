@@ -17,8 +17,8 @@ export default function ProfileItem({ user }: ProfileItemProps) {
 
     const navigation = useNavigate();
 
-    const handleViewStudent = (studentId: string) => {
-        navigation(`/view-students/${studentId}/profile`);
+    const handleViewStudent = (userId: string) => {
+        navigation(`/view-profiles/${userId}/profile`);
     };
 
     return (

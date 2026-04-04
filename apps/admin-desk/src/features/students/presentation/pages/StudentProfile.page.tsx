@@ -19,7 +19,7 @@ export default function StudentProfile() {
         return <Loader2 className="w-4 h-4 animate-spin" />;
     }
 
-    if (isError) {
+    if (isError || !student) {
         return (
             <div className="flex h-64 items-center justify-center">
                 <p className="text-[var(--color-font)]/50 text-sm mt-0.5">Estudiante no encontrado</p>
@@ -28,7 +28,6 @@ export default function StudentProfile() {
         )
     }
 
-    if (student) return (
-        <StudentProfileViewData student={student} />
-    );
+    return <StudentProfileViewData student={student} />
+
 }
