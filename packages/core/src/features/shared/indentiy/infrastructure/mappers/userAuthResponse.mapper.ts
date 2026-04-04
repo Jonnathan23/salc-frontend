@@ -1,7 +1,7 @@
 import { DataAccessLayerAdapter } from "@salc/core/adapters";
 import { CustomError } from "@salc/core/enums";
 import { SystemPermission } from "@salc/core/enums/Permissions";
-import { UserAuthResponseEntity, UseState } from "@salc/core/features/shared/indentiy/domain/entities/UserAuthResponse";
+import { UserAuthResponseEntity, UserState } from "@salc/core/features/shared/indentiy/domain/entities/UserAuthResponse.entity";
 import { userAuthResponseSchema } from "@salc/core/features/shared/indentiy/infrastructure/schemas";
 import { UserRoles } from "@salc/core/interfaces";
 import { Validators } from "@salc/core/utils";
@@ -26,7 +26,7 @@ export const UserAuthResponseMapper = {
         }
 
         const userRole = validationResponse.us_role as UserRoles;
-        const userState = validationResponse.us_is_active as UseState;
+        const userState = validationResponse.us_is_active as UserState;
 
         return new UserAuthResponseEntity(
             validationResponse.us_id,

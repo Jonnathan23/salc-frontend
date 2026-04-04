@@ -1,19 +1,27 @@
+import { ArrowLeft, BookOpen, CreditCard, Loader2, Mail, Pencil, ShieldAlert, UserCheck, UserX } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-import { useState, type UserAuthResponseEntity } from "@salc/core/features/shared/indentiy/domain/entities";
-import { Button } from "@/core/components/buttons/button";
-import { ArrowLeft, BookOpen, CreditCard, Mail, Pencil } from "lucide-react";
-import { ProfileStatusBadge } from "@/core/components/badges/Badges";
+import { userState, type UserState } from "@salc/core/features/shared/indentiy/domain/entities";
 import { useChangeUserState } from "@/features/indentity/application/hooks";
+import { ProfileStatusBadge } from "@/core/components/badges/Badges";
+import { Button } from "@/core/components/buttons/button";
 
+
+interface UserAuthResponseEntity {
+    us_id: string;
+    us_full_name: string;
+    us_email: string;
+    us_role: string;
+    us_is_active: UserState; // Tipado estricto con la nueva interfaz
+}
 
 interface ProfileDataProps {
     user: UserAuthResponseEntity;
     handleSetEdit: () => void;
+    canUserResponseEdit: boolean;
 }
 
-
-export default function ProfileData({ user, handleSetEdit }: ProfileDataProps) {
+export default function ProfileData({ user, handleSetEdit, canUserResponseEdit }: ProfileDataProps) {
 
     const navigation = useNavigate();
 
@@ -23,19 +31,22 @@ export default function ProfileData({ user, handleSetEdit }: ProfileDataProps) {
 
     const { mutate: changeStateUser, isPending } = useChangeUserState();
 
+    const handleToggleState = () => changeStateUser(us_id);
+
     return (
         <div className="p-6 space-y-6">
+            {/* --- CABECERA (Solo Navegación y Edición) --- */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
                     <h1 className="text-2xl font-bold text-title">Perfil del Usuario</h1>
                     <p className="text-muted-foreground text-sm mt-0.5">Información general del usuario</p>
                 </div>
+
                 <div className="flex items-center gap-3">
                     <Button variant="outline" onClick={handleBack}>
                         <ArrowLeft className="mr-2 h-4 w-4" />
-                        Volver al Directorio
+                        Volver
                     </Button>
-                    {/* Quitamos el variant="outline" para que sea el botón principal (Naranja/Menta) */}
                     <Button onClick={handleSetEdit}>
                         <Pencil className="mr-2 h-4 w-4" />
                         Editar
@@ -44,7 +55,7 @@ export default function ProfileData({ user, handleSetEdit }: ProfileDataProps) {
             </div>
 
             {/* --- TARJETA DE PERFIL --- */}
-            <div className="bg-card rounded-xl border border-border/50 shadow-sm overflow-hidden">
+            <div className="bg-card rounded-xl border border-border/50 shadow-sm overflow-hidden flex flex-col">
                 <div className="h-20 bg-primary-foreground" />
 
                 <div className="px-6 pb-6">
@@ -84,11 +95,45 @@ export default function ProfileData({ user, handleSetEdit }: ProfileDataProps) {
                     {/* Badges */}
                     <div className="flex gap-2 flex-wrap">
                         <ProfileStatusBadge status={us_is_active} />
-                        <Button onClick={() => changeStateUser(us_id)} disabled={isPending}>
-                            {isPending ? 'Desactivando...' : us_is_active === useState.ACTIVE ? 'Desactivar' : 'Activar'}
-                        </Button>
                     </div>
                 </div>
+
+                {/* --- ZONA DE ACCIONES DE CUENTA (Separada e Intuitiva) --- */}
+                {canUserResponseEdit && (
+                    <div className="mt-auto px-6 py-4 bg-muted/30 border-t border-border/50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div className="flex items-start gap-3">
+                            <ShieldAlert className="w-5 h-5 text-muted-foreground mt-0.5 flex-shrink-0" />
+                            <div>
+                                <h3 className="text-sm font-semibold text-foreground">Acceso al Sistema</h3>
+                                <p className="text-xs text-muted-foreground mt-0.5 max-w-md">
+                                    {us_is_active === userState.ACTIVE
+                                        ? 'Al desactivar la cuenta, este usuario perderá inmediatamente su acceso al sistema.'
+                                        : 'Al activar la cuenta, el usuario podrá volver a iniciar sesión con sus credenciales.'}
+                                </p>
+                            </div>
+                        </div>
+
+                        <Button
+                            variant={us_is_active === userState.ACTIVE ? "destructive" : "default"}
+                            onClick={handleToggleState}
+                            disabled={isPending}
+                            className="shrink-0"
+                        >
+                            {isPending ? (
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            ) : us_is_active === userState.ACTIVE ? (
+                                <UserX className="mr-2 h-4 w-4" />
+                            ) : (
+                                <UserCheck className="mr-2 h-4 w-4" />
+                            )}
+
+                            {isPending
+                                ? (us_is_active === userState.ACTIVE ? 'Desactivando...' : 'Activando...')
+                                : (us_is_active === userState.ACTIVE ? 'Desactivar Cuenta' : 'Activar Cuenta')
+                            }
+                        </Button>
+                    </div>
+                )}
             </div>
         </div>
     );

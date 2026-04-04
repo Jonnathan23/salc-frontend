@@ -45,5 +45,5 @@ export default function ViewProfilePage() {
 
     if (isEdit && canUserResponseEdit) return <UpdateUser userId={userId} user={user} handleSetEdit={handleSetEdit} />
 
-    return <ProfileData user={user} handleSetEdit={handleSetEdit} />
+    return <ProfileData user={user} handleSetEdit={handleSetEdit} canUserResponseEdit={canUserResponseEdit} />
 }
