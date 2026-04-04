@@ -61,6 +61,7 @@ export default function UpdateUser({ userId, user, handleSetEdit }: UpdateUserPr
                                 errors={errors}
                                 showPassword={showPassword}
                                 handleSetShowPassword={handleSetShowPassword}
+                                isEditing={true}
                             />
 
                             {/* Botón de Submit corregido con los textos de "Actualizar" */}
