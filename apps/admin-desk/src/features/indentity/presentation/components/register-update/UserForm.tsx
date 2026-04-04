@@ -34,7 +34,6 @@ export default function UserForm<TFieldValues extends FieldValues>(values: UserF
                 <Input
                     id="userFullName"
                     placeholder="Ej: María García López"
-                    // Usamos Path<TFieldValues> para decirle a TS que esta clave es válida
                     {...register('us_full_name' as Path<TFieldValues>)}
                     aria-invalid={!!safeErrors.us_full_name}
                 />

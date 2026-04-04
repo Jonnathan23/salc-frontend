@@ -34,7 +34,6 @@ export default function UpdateUser({ userId, user, handleSetEdit }: UpdateUserPr
 
             <div className="grid gap-6 lg:grid-cols-3">
                 <Card className="lg:col-span-2">
-                    {/* Convertimos el CardHeader en un contenedor Flex para separar el título del botón */}
                     <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between border-b border-border/50 pb-6 mb-6">
                         <div className="space-y-1.5">
                             <CardTitle className="flex items-center gap-2">
@@ -45,8 +44,6 @@ export default function UpdateUser({ userId, user, handleSetEdit }: UpdateUserPr
                                 Completa el formulario para actualizar el usuario del sistema.
                             </CardDescription>
                         </div>
-
-                        {/* El botón de volver queda seguro en la esquina superior derecha */}
                         <Button variant="outline" size="sm" onClick={handleSetEdit} className="shrink-0">
                             <ArrowLeft className="mr-2 h-4 w-4" />
                             Volver al perfil
@@ -63,8 +60,6 @@ export default function UpdateUser({ userId, user, handleSetEdit }: UpdateUserPr
                                 handleSetShowPassword={handleSetShowPassword}
                                 isEditing={true}
                             />
-
-                            {/* Botón de Submit corregido con los textos de "Actualizar" */}
                             <div className="flex justify-end pt-4 border-t border-border/50">
                                 <Button type="submit" className="w-full md:w-auto" disabled={isPending}>
                                     {isPending ? (
