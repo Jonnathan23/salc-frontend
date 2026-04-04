@@ -53,11 +53,11 @@ export const navItems: NavItem[] = [
         color: 'bg-muted',
     },
     {
-        title: 'Ver Usuarios',
+        title: 'Ver Perfiles',
         description: 'Ver cuentas para administradores y profesores',
-        href: '/view-users',
+        href: '/view-profiles',
         icon: UserRoundSearch,
-        permissions: [],
+        permissions: [systemPermissions.SHARED_IDENTITY_READ],
         color: 'bg-accent',
     },
     {

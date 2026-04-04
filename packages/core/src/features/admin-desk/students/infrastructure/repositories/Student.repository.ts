@@ -1,8 +1,8 @@
 import { CustomError } from "@salc/core/enums";
-import { StudentDataSource } from "../../domain/datasources/Student.datasource";
-import { RegisterStudentDto, UpdateStudentDto, ChangeContractStatusDto } from "../../domain/dtos";
-import { StudentEntity } from "../../domain/entities/Student.entity";
-import { StudentMapper } from "../mappers/Student.mapper";
+import { StudentDataSource } from "@salc/core/features/admin-desk/students/domain/datasources/Student.datasource";
+import { RegisterStudentDto, UpdateStudentDto, ChangeContractStatusDto } from "@salc/core/features/admin-desk/students/domain/dtos";
+import { StudentEntity } from "@salc/core/features/admin-desk/students/domain/entities/Student.entity";
+import { StudentMapper } from "@salc/core/features/admin-desk/students/infrastructure/mappers/Student.mapper";
 import { SuccessResponse } from "@salc/core/interfaces";
 import { apiSalc } from "@salc/core/lib";
 
@@ -27,6 +27,22 @@ export class StudentRepositoryImpl implements StudentDataSource {
 
     async search(query: string): Promise<SuccessResponse<StudentEntity[]>> {
         const url = `${this.baseUrl}/search?q=${query}`;
+        const rawResponse = await apiSalc.get<SuccessResponse<StudentEntity[]>>(url);
+
+        if (!rawResponse.data) {
+            throw CustomError.notFound("No students found");
+        }
+
+        const students = StudentMapper.toArrayEntities(rawResponse.data);
+
+        return {
+            ...rawResponse,
+            data: students
+        };
+    }
+
+    async getAllStudents(): Promise<SuccessResponse<StudentEntity[]>> {
+        const url = `${this.baseUrl}`;
         const rawResponse = await apiSalc.get<SuccessResponse<StudentEntity[]>>(url);
 
         if (!rawResponse.data) {

@@ -38,7 +38,6 @@ export const useRegisterStudentForm = () => {
     const { mutate: registerStudentMutation, isPending: isSubmitting } = useRegisterStudent({ setSubmitSuccess, reset });
 
     const onSubmit = (data: RegisterStudentDto) => {
-        console.log(data)
         registerStudentMutation(data);
     }
 

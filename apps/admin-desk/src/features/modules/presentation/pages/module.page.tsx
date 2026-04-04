@@ -22,7 +22,7 @@ export default function ModulePage() {
     const { data: response, isLoading, error } = useGetAllModules();
 
     const modules = response?.data ?? [];
-    console.log(error);
+
 
     if (isLoading) return (
         <div className="flex h-64 items-center justify-center">
