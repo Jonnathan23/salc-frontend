@@ -41,9 +41,6 @@ export const useRegisterStudentForm = () => {
         registerStudentMutation(data);
     }
 
-
-
-
     return {
         submitSuccess,
         errors,

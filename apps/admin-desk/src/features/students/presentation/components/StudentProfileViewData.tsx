@@ -25,36 +25,21 @@ export default function StudentProfileViewData({ student }: StudentProfileViewDa
         { key: 'financial', label: 'Financiero', icon: <DollarSign className="w-4 h-4" /> }
     ];
 
-    // FIX: Agregamos el return que faltaba para evitar renderizados en null
-    if (!student) {
-        return (
-            <div className="flex h-64 flex-col items-center justify-center gap-4">
-                <p className="text-muted-foreground text-sm">Estudiante no encontrado</p>
-                <Button onClick={() => navigation('/students')}>Volver</Button>
-            </div>
-        );
-    }
-
     return (
         <div className="p-6 space-y-6">
-            {/* --- Page Header --- */}
             <div className="flex items-center justify-between">
                 <div>
-                    {/* Usamos text-title para asegurar que el naranja se aplique si es título principal, o text-foreground */}
-                    <h1 className="text-2xl font-bold text-title">Perfil 360 del Estudiante</h1>
+                    <h1 className="text-2xl font-bold text-title">Perfil del Estudiante</h1>
                     <p className="text-muted-foreground text-sm mt-0.5">Vista completa del expediente academico</p>
                 </div>
                 <Button variant="outline" onClick={() => navigation('/view-students')}>Volver al Directorio</Button>
             </div>
 
-            {/* --- Profile Header Card --- */}
-            <div className="bg-card rounded-xl border border-border/50 shadow-sm overflow-hidden">
-                {/* Cabecera superior con el color Teal Dark (primary-foreground) */}
-                <div className="h-20 bg-primary-foreground" />
 
+            <div className="bg-card rounded-xl border border-border/50 shadow-sm overflow-hidden">
+                <div className="h-20 bg-primary-foreground" />
                 <div className="px-6 pb-6">
                     <div className="flex items-end gap-4 -mt-8 mb-4">
-                        {/* Avatar con fondo Naranja (accent) y borde del color de la tarjeta (card) para soportar Dark Mode */}
                         <div className="w-16 h-16 rounded-2xl bg-accent border-4 border-card flex items-center justify-center flex-shrink-0 shadow-md">
                             <span className="text-accent-foreground text-2xl font-bold">
                                 {student.fullName.charAt(0)}
@@ -124,8 +109,8 @@ export default function StudentProfileViewData({ student }: StudentProfileViewDa
                             key={tab.key}
                             onClick={() => setActiveTab(tab.key)}
                             className={`flex cursor-pointer items-center gap-2 px-6 py-4 text-sm font-semibold transition-all border-b-2 ${activeTab === tab.key
-                                    ? 'border-primary-foreground text-primary-foreground bg-primary/10'
-                                    : 'border-transparent text-muted-foreground hover:text-foreground hover:bg-muted/50'
+                                ? 'border-primary-foreground text-primary-foreground bg-primary/10'
+                                : 'border-transparent text-muted-foreground hover:text-foreground hover:bg-muted/50'
                                 }`}
                         >
                             {tab.icon}

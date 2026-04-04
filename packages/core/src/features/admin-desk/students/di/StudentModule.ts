@@ -12,10 +12,14 @@ const studentRepository = new StudentRepositoryImpl();
 
 //* Use Cases
 export const registerStudentUseCase = new RegisterStudentUseCase(studentRepository);
+export const updateStudentUseCase = new UpdateStudentUseCase(studentRepository);
+
 export const searchStudentsUseCase = new SearchStudentsUseCase(studentRepository);
 export const getAllStudentsUseCase = new GetAllStudentsUseCaseImpl(studentRepository);
-export const updateStudentUseCase = new UpdateStudentUseCase(studentRepository);
+
 export const changeContractStatusUseCase = new ChangeContractStatusUseCase(studentRepository);
+
 export const toggleGraduatedUseCase = new ToggleGraduatedUseCase(studentRepository);
+
 export const deactivateStudentUseCase = new DeactivateStudentUseCase(studentRepository);
 
