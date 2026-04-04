@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom";
 
-import type { UserAuthResponseEntity } from "@salc/core/features/shared/indentiy/domain/entities";
+import { useState, type UserAuthResponseEntity } from "@salc/core/features/shared/indentiy/domain/entities";
 import { Button } from "@/core/components/buttons/button";
 import { ArrowLeft, BookOpen, CreditCard, Mail, Pencil } from "lucide-react";
 import { ProfileStatusBadge } from "@/core/components/badges/Badges";
+import { useChangeUserState } from "@/features/indentity/application/hooks";
 
 
 interface ProfileDataProps {
@@ -19,6 +20,8 @@ export default function ProfileData({ user, handleSetEdit }: ProfileDataProps) {
     const { us_id, us_full_name, us_email, us_role, us_is_active } = user;
 
     const handleBack = () => navigation('/view-profiles');
+
+    const { mutate: changeStateUser, isPending } = useChangeUserState();
 
     return (
         <div className="p-6 space-y-6">
@@ -81,6 +84,9 @@ export default function ProfileData({ user, handleSetEdit }: ProfileDataProps) {
                     {/* Badges */}
                     <div className="flex gap-2 flex-wrap">
                         <ProfileStatusBadge status={us_is_active} />
+                        <Button onClick={() => changeStateUser(us_id)} disabled={isPending}>
+                            {isPending ? 'Desactivando...' : us_is_active === useState.ACTIVE ? 'Desactivar' : 'Activar'}
+                        </Button>
                     </div>
                 </div>
             </div>
