@@ -3,6 +3,7 @@ import AuthLayout from "@/core/layouts/AuthLayout";
 import DashboardPage from "@/core/pages/dasboard.page";
 import { ProtectedRoute } from "@/core/routes/ProtectedRoute";
 import { PublicRoute } from "@/core/routes/PublicRoute";
+import PlacementTestMockView from "@/features/contracts/prototype";
 import LoginPage from "@/features/indentity/presentation/pages/login.page";
 import RegisterPage from "@/features/indentity/presentation/pages/register.page";
 import ModulePage from "@/features/modules/presentation/pages/module.page";
@@ -27,6 +28,7 @@ export default function Router() {
                         <Route path="/auth/login" element={<LoginPage />} />
                     </Route>
                 </Route>
+                <Route path="/placement-test" element={<PlacementTestMockView />} />
 
                 {/* --- ZONA PRIVADA (Solo para usuarios autenticados) --- */}
                 <Route element={<ProtectedRoute />}>
