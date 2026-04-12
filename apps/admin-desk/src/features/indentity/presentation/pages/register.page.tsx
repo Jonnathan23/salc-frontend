@@ -1,6 +1,6 @@
 import { useState } from "react"
-import { PageHeader, RoleInfoCard, SuccessAlert } from "@/features/indentity/presentation/components/register/StateForm";
-import { RegisterUserForm } from "@/features/indentity/presentation/components/register/RegisterUserForm";
+import { PageHeader, RoleInfoCard, SuccessAlert } from "@/features/indentity/presentation/components/register-update/StateForm";
+import { RegisterUserForm } from "@/features/indentity/presentation/components/register-update/RegisterUserForm";
 
 export default function RegisterPage() {
     const [selectedRole, setSelectedRole] = useState<string>('TEACHER');

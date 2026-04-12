@@ -1,13 +1,16 @@
 import { CustomError } from "@salc/core/enums";
 import { UserDataSource } from "@salc/core/features/shared/indentiy/domain/datasource";
-import { ChangePasswordDto, LoginUserDto, RegisterUserDto } from "@salc/core/features/shared/indentiy/domain/dtos";
-import { UserAuthResponseEntity, UserEntity, UserLoginEntity } from "@salc/core/features/shared/indentiy/domain/entities";
+import { ChangePasswordDto, LoginUserDto, RegisterUserDto, UpdateUserDto } from "@salc/core/features/shared/indentiy/domain/dtos";
+import { UserAuthResponseEntity } from "@salc/core/features/shared/indentiy/domain/entities";
 import { UserMapper } from "@salc/core/features/shared/indentiy/infrastructure/mappers/user.mapper";
 import { UserAuthResponseMapper } from "@salc/core/features/shared/indentiy/infrastructure/mappers/userAuthResponse.mapper";
-import { UserLoginResponseMapper } from "@salc/core/features/shared/indentiy/infrastructure/mappers/userLoginResponse.mapper";
 import { SuccessResponse } from "@salc/core/interfaces";
+<<<<<<< HEAD
 import { Api } from "@salc/core/interfaces/Apit.interface";
 
+=======
+import { apiSalc } from "@salc/core/lib";
+>>>>>>> 79681374fcc3e0f277c1b034ac7e7cbf70159573
 
 
 export class UserRepository implements UserDataSource {
@@ -18,6 +21,13 @@ export class UserRepository implements UserDataSource {
     public async create(user: RegisterUserDto): Promise<SuccessResponse> {
         const url = `${this.baseUrl}`;
         const rawResponse = await this.api.post<SuccessResponse, RegisterUserDto>(url, user);
+
+        return this.validationNullInformation(rawResponse);
+    }
+
+    public async update(id: string, user: UpdateUserDto): Promise<SuccessResponse> {
+        const url = `${this.baseUrl}/${id}`;
+        const rawResponse = await apiSalc.patch<SuccessResponse, UpdateUserDto>(url, user);
 
         return this.validationNullInformation(rawResponse);
     }
@@ -52,11 +62,15 @@ export class UserRepository implements UserDataSource {
         return this.validationNullInformation(rawResponse);
     }
 
-    public async findById(id: string): Promise<SuccessResponse<UserEntity>> {
+    public async findById(id: string): Promise<SuccessResponse<UserAuthResponseEntity>> {
         const url = `${this.baseUrl}/${id}`;
+<<<<<<< HEAD
         const rawResponse = await this.api.get<SuccessResponse<UserEntity>>(url);
+=======
+        const rawResponse = await apiSalc.get<SuccessResponse<UserAuthResponseEntity>>(url);
+>>>>>>> 79681374fcc3e0f277c1b034ac7e7cbf70159573
 
-        const entity = UserMapper.toEntity(rawResponse.data);
+        const entity = UserAuthResponseMapper.toEntity(rawResponse.data);
 
         return {
             ...rawResponse,
@@ -64,15 +78,19 @@ export class UserRepository implements UserDataSource {
         };
     }
 
-    public async findAll(): Promise<SuccessResponse<UserEntity[]>> {
+    public async findAll(): Promise<SuccessResponse<UserAuthResponseEntity[]>> {
         const url = `${this.baseUrl}`;
+<<<<<<< HEAD
         const rawResponse = await this.api.get<SuccessResponse<UserEntity[]>>(url);
+=======
+        const rawResponse = await apiSalc.get<SuccessResponse<UserAuthResponseEntity[]>>(url);
+>>>>>>> 79681374fcc3e0f277c1b034ac7e7cbf70159573
 
         if (!rawResponse.data) {
             throw CustomError.notFound("No users found");
         }
 
-        const entities = rawResponse.data.map((user) => UserMapper.toEntity(user));
+        const entities = rawResponse.data.map((user) => UserAuthResponseMapper.toEntity(user));
 
         return {
             ...rawResponse,

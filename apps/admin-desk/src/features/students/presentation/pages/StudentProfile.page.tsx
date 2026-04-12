@@ -13,16 +13,13 @@ export default function StudentProfile() {
     const navigation = useNavigate();
 
     const { data: successResponse, isLoading, isError } = useSearchStudent(studentId);
-    console.log(successResponse)
     const student = successResponse?.data ? successResponse.data[0] : null;
-
-    console.log(student);
 
     if (isLoading) {
         return <Loader2 className="w-4 h-4 animate-spin" />;
     }
 
-    if (isError) {
+    if (isError || !student) {
         return (
             <div className="flex h-64 items-center justify-center">
                 <p className="text-[var(--color-font)]/50 text-sm mt-0.5">Estudiante no encontrado</p>
@@ -31,7 +28,6 @@ export default function StudentProfile() {
         )
     }
 
-    if (student) return (
-        <StudentProfileViewData student={student} />
-    );
+    return <StudentProfileViewData student={student} />
+
 }

@@ -4,10 +4,10 @@ import { BookOpen, Briefcase, CheckCircle, GraduationCap, ShieldCheck } from 'lu
 export const PageHeader = () => (
     <div className="space-y-1">
         <h2 className="text-2xl font-bold tracking-tight text-foreground">
-            Registro de Usuarios
+            Administracion de Usuarios
         </h2>
         <p className="text-muted-foreground">
-            Crea cuentas para el personal administrativo, asesores, directores y profesores.
+            Crea o edita cuentas para el personal administrativo, asesores, directores y profesores.
         </p>
     </div>
 );
