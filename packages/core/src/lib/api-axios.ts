@@ -3,6 +3,7 @@ import { FormattedErrorResponse } from "@salc/core/interfaces";
 import { ErrorResponseSchema } from "@salc/core/schemas";
 import { DataAccessLayerAdapter } from "@salc/core/adapters";
 import axios, { AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from "axios";
+import { Api } from "@salc/core/interfaces/Apit.interface";
 
 
 type ErrorFactory = (errors: Array<FormattedErrorResponse>) => CustomError;
@@ -17,7 +18,7 @@ const statusCodeToErrorMap: Record<number, ErrorFactory> = {
     503: (errors) => CustomError.serviceUnavailable(errors[0]?.message),
 };
 
-export class Api {
+export class ApiAxios implements Api {
     private readonly apiInstance: AxiosInstance;
     private readonly baseUrl: string;
     private onUnauthorizedCallback?: () => void;

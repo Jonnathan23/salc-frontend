@@ -6,9 +6,10 @@ import { ChangeContractStatusUseCase } from "@salc/core/features/admin-desk/stud
 import { ToggleGraduatedUseCase } from "@salc/core/features/admin-desk/students/application/use-cases/ToggleGraduated.use-case";
 import { DeactivateStudentUseCase } from "@salc/core/features/admin-desk/students/application/use-cases/DeactivateStudent.use-case";
 import { GetAllStudentsUseCaseImpl } from "@salc/core/features/admin-desk/students/application/use-cases/GetAllStudents.use-case";
+import { api } from "@salc/core/lib";
 
 //* Repositories
-const studentRepository = new StudentRepositoryImpl();
+const studentRepository = new StudentRepositoryImpl(api);
 
 //* Use Cases
 export const registerStudentUseCase = new RegisterStudentUseCase(studentRepository);

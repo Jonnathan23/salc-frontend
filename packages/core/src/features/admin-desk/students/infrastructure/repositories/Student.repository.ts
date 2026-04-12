@@ -4,14 +4,17 @@ import { RegisterStudentDto, UpdateStudentDto, ChangeContractStatusDto } from "@
 import { StudentEntity } from "@salc/core/features/admin-desk/students/domain/entities/Student.entity";
 import { StudentMapper } from "@salc/core/features/admin-desk/students/infrastructure/mappers/Student.mapper";
 import { SuccessResponse } from "@salc/core/interfaces";
-import { apiSalc } from "@salc/core/lib";
+import { Api } from "@salc/core/interfaces/Apit.interface";
+
 
 export class StudentRepositoryImpl implements StudentDataSource {
     private readonly baseUrl = '/students';
 
+    constructor(private readonly apiStudents: Api) { }
+
     async register(dto: RegisterStudentDto): Promise<SuccessResponse<StudentEntity>> {
         const url = `${this.baseUrl}/register`;
-        const rawResponse = await apiSalc.post<SuccessResponse<StudentEntity>, RegisterStudentDto>(url, dto);
+        const rawResponse = await this.apiStudents.post<SuccessResponse<StudentEntity>, RegisterStudentDto>(url, dto);
 
         if (!rawResponse.data) {
             throw CustomError.notFound("Could not register student");
@@ -27,7 +30,7 @@ export class StudentRepositoryImpl implements StudentDataSource {
 
     async search(query: string): Promise<SuccessResponse<StudentEntity[]>> {
         const url = `${this.baseUrl}/search?q=${query}`;
-        const rawResponse = await apiSalc.get<SuccessResponse<StudentEntity[]>>(url);
+        const rawResponse = await this.apiStudents.get<SuccessResponse<StudentEntity[]>>(url);
 
         if (!rawResponse.data) {
             throw CustomError.notFound("No students found");
@@ -43,7 +46,7 @@ export class StudentRepositoryImpl implements StudentDataSource {
 
     async getAllStudents(): Promise<SuccessResponse<StudentEntity[]>> {
         const url = `${this.baseUrl}`;
-        const rawResponse = await apiSalc.get<SuccessResponse<StudentEntity[]>>(url);
+        const rawResponse = await this.apiStudents.get<SuccessResponse<StudentEntity[]>>(url);
 
         if (!rawResponse.data) {
             throw CustomError.notFound("No students found");
@@ -59,7 +62,7 @@ export class StudentRepositoryImpl implements StudentDataSource {
 
     async update(id: string, dto: UpdateStudentDto): Promise<SuccessResponse<StudentEntity>> {
         const url = `${this.baseUrl}/${id}`;
-        const rawResponse = await apiSalc.patch<SuccessResponse<StudentEntity>, UpdateStudentDto>(url, dto);
+        const rawResponse = await this.apiStudents.patch<SuccessResponse<StudentEntity>, UpdateStudentDto>(url, dto);
 
         if (!rawResponse.data) {
             throw CustomError.notFound("Could not update student");
@@ -75,7 +78,7 @@ export class StudentRepositoryImpl implements StudentDataSource {
 
     async changeContractStatus(id: string, dto: ChangeContractStatusDto): Promise<SuccessResponse<StudentEntity>> {
         const url = `${this.baseUrl}/${id}/contract-status`;
-        const rawResponse = await apiSalc.patch<SuccessResponse<StudentEntity>, ChangeContractStatusDto>(url, dto);
+        const rawResponse = await this.apiStudents.patch<SuccessResponse<StudentEntity>, ChangeContractStatusDto>(url, dto);
 
         if (!rawResponse.data) {
             throw CustomError.notFound("Could not change contract status");
@@ -91,7 +94,7 @@ export class StudentRepositoryImpl implements StudentDataSource {
 
     async toggleGraduated(id: string): Promise<SuccessResponse<StudentEntity>> {
         const url = `${this.baseUrl}/${id}/graduated`;
-        const rawResponse = await apiSalc.patch<SuccessResponse<StudentEntity>, null>(url, null);
+        const rawResponse = await this.apiStudents.patch<SuccessResponse<StudentEntity>, null>(url, null);
 
         if (!rawResponse.data) {
             throw CustomError.notFound("Could not toggle graduated status");
@@ -107,7 +110,7 @@ export class StudentRepositoryImpl implements StudentDataSource {
 
     async deactivate(id: string): Promise<SuccessResponse<StudentEntity>> {
         const url = `${this.baseUrl}/${id}/deactivate`;
-        const rawResponse = await apiSalc.patch<SuccessResponse<StudentEntity>, null>(url, null);
+        const rawResponse = await this.apiStudents.patch<SuccessResponse<StudentEntity>, null>(url, null);
 
         if (!rawResponse.data) {
             throw CustomError.notFound("Could not deactivate student");

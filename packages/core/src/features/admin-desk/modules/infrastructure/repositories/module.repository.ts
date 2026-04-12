@@ -4,14 +4,17 @@ import { CreateModuleDto, UpdateModuleDto } from "@salc/core/features/admin-desk
 import { ModuleEntity } from "@salc/core/features/admin-desk/modules/domain/entities/Module.entity";
 import { ModuleMapper } from "@salc/core/features/admin-desk/modules/infrastructure/mapper/module.mapper";
 import { SuccessResponse } from "@salc/core/interfaces";
-import { apiSalc } from "@salc/core/lib";
+import { Api } from "@salc/core/interfaces/Apit.interface";
+
 
 export class ModuleRepositoryImpl implements ModuleDataSource {
     private readonly baseUrl = '/modules';
 
+    constructor(private readonly api: Api) { }
+
     async getAllModules(): Promise<SuccessResponse<ModuleEntity[]>> {
         const url = `${this.baseUrl}`;
-        const rawResponse = await apiSalc.get<SuccessResponse<ModuleEntity[]>>(url);
+        const rawResponse = await this.api.get<SuccessResponse<ModuleEntity[]>>(url);
 
         if (!rawResponse.data) {
             throw CustomError.notFound("No modules found");
@@ -27,7 +30,7 @@ export class ModuleRepositoryImpl implements ModuleDataSource {
 
     async getModuleById(moduleId: string): Promise<SuccessResponse<ModuleEntity>> {
         const url = `${this.baseUrl}/${moduleId}`;
-        const rawResponse = await apiSalc.get<SuccessResponse<ModuleEntity>>(url);
+        const rawResponse = await this.api.get<SuccessResponse<ModuleEntity>>(url);
 
         if (!rawResponse.data) {
             throw CustomError.notFound("No module found");
@@ -43,21 +46,21 @@ export class ModuleRepositoryImpl implements ModuleDataSource {
 
     async createModule(module: CreateModuleDto): Promise<SuccessResponse> {
         const url = `${this.baseUrl}`;
-        const rawResponse = await apiSalc.post<SuccessResponse, CreateModuleDto>(url, module);
+        const rawResponse = await this.api.post<SuccessResponse, CreateModuleDto>(url, module);
 
         return this.validationNullInformation(rawResponse);
     }
 
     async updateModule(id: string, module: UpdateModuleDto): Promise<SuccessResponse> {
         const url = `${this.baseUrl}/${id}`;
-        const rawResponse = await apiSalc.patch<SuccessResponse, UpdateModuleDto>(url, module);
+        const rawResponse = await this.api.patch<SuccessResponse, UpdateModuleDto>(url, module);
 
         return this.validationNullInformation(rawResponse);
     }
 
     async deleteModule(id: string): Promise<SuccessResponse> {
         const url = `${this.baseUrl}/${id}`;
-        const rawResponse = await apiSalc.delete<SuccessResponse>(url);
+        const rawResponse = await this.api.delete<SuccessResponse>(url);
 
         return this.validationNullInformation(rawResponse);
     }

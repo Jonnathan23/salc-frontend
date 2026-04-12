@@ -6,21 +6,25 @@ import { UserMapper } from "@salc/core/features/shared/indentiy/infrastructure/m
 import { UserAuthResponseMapper } from "@salc/core/features/shared/indentiy/infrastructure/mappers/userAuthResponse.mapper";
 import { UserLoginResponseMapper } from "@salc/core/features/shared/indentiy/infrastructure/mappers/userLoginResponse.mapper";
 import { SuccessResponse } from "@salc/core/interfaces";
-import { apiSalc } from "@salc/core/lib";
+import { Api } from "@salc/core/interfaces/Apit.interface";
+
+
+
 export class UserRepository implements UserDataSource {
 
     private readonly baseUrl = '/user';
+    constructor(private readonly api: Api) { }
 
     public async create(user: RegisterUserDto): Promise<SuccessResponse> {
         const url = `${this.baseUrl}`;
-        const rawResponse = await apiSalc.post<SuccessResponse, RegisterUserDto>(url, user);
+        const rawResponse = await this.api.post<SuccessResponse, RegisterUserDto>(url, user);
 
         return this.validationNullInformation(rawResponse);
     }
 
     public async login(user: LoginUserDto): Promise<SuccessResponse<UserAuthResponseEntity>> {
         const url = `${this.baseUrl}/login`;
-        const rawResponse = await apiSalc.post<SuccessResponse<UserAuthResponseEntity>, LoginUserDto>(url, user);
+        const rawResponse = await this.api.post<SuccessResponse<UserAuthResponseEntity>, LoginUserDto>(url, user);
 
         if (!rawResponse.data) {
             throw CustomError.notFound("User data is missing");
@@ -36,21 +40,21 @@ export class UserRepository implements UserDataSource {
 
     public async changePassword(id: string, newPassword: ChangePasswordDto): Promise<SuccessResponse> {
         const url = `${this.baseUrl}/${id}/password`;
-        const rawResponse = await apiSalc.patch<SuccessResponse, ChangePasswordDto>(url, newPassword);
+        const rawResponse = await this.api.patch<SuccessResponse, ChangePasswordDto>(url, newPassword);
 
         return this.validationNullInformation(rawResponse);
     }
 
     public async changeStateActive(id: string): Promise<SuccessResponse> {
         const url = `${this.baseUrl}/${id}/state`;
-        const rawResponse = await apiSalc.post<SuccessResponse, {}>(url, {});
+        const rawResponse = await this.api.post<SuccessResponse, {}>(url, {});
 
         return this.validationNullInformation(rawResponse);
     }
 
     public async findById(id: string): Promise<SuccessResponse<UserEntity>> {
         const url = `${this.baseUrl}/${id}`;
-        const rawResponse = await apiSalc.get<SuccessResponse<UserEntity>>(url);
+        const rawResponse = await this.api.get<SuccessResponse<UserEntity>>(url);
 
         const entity = UserMapper.toEntity(rawResponse.data);
 
@@ -62,7 +66,7 @@ export class UserRepository implements UserDataSource {
 
     public async findAll(): Promise<SuccessResponse<UserEntity[]>> {
         const url = `${this.baseUrl}`;
-        const rawResponse = await apiSalc.get<SuccessResponse<UserEntity[]>>(url);
+        const rawResponse = await this.api.get<SuccessResponse<UserEntity[]>>(url);
 
         if (!rawResponse.data) {
             throw CustomError.notFound("No users found");

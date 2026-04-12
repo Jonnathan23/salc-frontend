@@ -6,14 +6,19 @@ import { PaymentPlanEntity } from "@salc/core/features/admin-desk/payments/domai
 import { PaymentQuotaEntity } from "@salc/core/features/admin-desk/payments/domain/entities/PaymentQuota.entity";
 import { PaymentMapper } from "@salc/core/features/admin-desk/payments/infrastructure/mappers/Payment.mapper";
 import { SuccessResponse } from "@salc/core/interfaces";
-import { apiSalc } from "@salc/core/lib";
+import { Api } from "@salc/core/interfaces/Apit.interface";
+
 
 export class PaymentRepositoryImpl implements PaymentDataSource {
     private readonly baseUrl = "/payments";
 
+    constructor(
+        private readonly apiPayments: Api
+    ) {}
+
     async createPaymentPlan(studentId: string, dto: CreatePaymentPlanDto): Promise<SuccessResponse<PaymentPlanEntity>> {
         const url = `${this.baseUrl}/student/${studentId}/plan`;
-        const rawResponse = await apiSalc.post<SuccessResponse<PaymentPlanEntity>, CreatePaymentPlanDto>(url, dto);
+        const rawResponse = await this.apiPayments.post<SuccessResponse<PaymentPlanEntity>, CreatePaymentPlanDto>(url, dto);
 
         if (!rawResponse.data) {
             throw CustomError.notFound("Could not create payment plan");
@@ -27,7 +32,7 @@ export class PaymentRepositoryImpl implements PaymentDataSource {
 
     async getStudentPaymentPlans(studentId: string): Promise<SuccessResponse<PaymentPlanEntity[]>> {
         const url = `${this.baseUrl}/student/${studentId}`;
-        const rawResponse = await apiSalc.get<SuccessResponse<PaymentPlanEntity[]>>(url);
+        const rawResponse = await this.apiPayments.get<SuccessResponse<PaymentPlanEntity[]>>(url);
 
         if (!rawResponse.data) {
             throw CustomError.notFound("No payment plans found");
@@ -41,7 +46,7 @@ export class PaymentRepositoryImpl implements PaymentDataSource {
 
     async processQuotaPayment(quotaId: string, dto: PayQuotaDto): Promise<SuccessResponse<PaymentQuotaEntity>> {
         const url = `${this.baseUrl}/quota/${quotaId}/pay`;
-        const rawResponse = await apiSalc.patch<SuccessResponse<PaymentQuotaEntity>, PayQuotaDto>(url, dto);
+        const rawResponse = await this.apiPayments.patch<SuccessResponse<PaymentQuotaEntity>, PayQuotaDto>(url, dto);
 
         if (!rawResponse.data) {
             throw CustomError.notFound("Could not process quota payment");
@@ -55,7 +60,7 @@ export class PaymentRepositoryImpl implements PaymentDataSource {
 
     async revertQuotaPayment(quotaId: string): Promise<SuccessResponse<null>> {
         const url = `${this.baseUrl}/quota/${quotaId}/revert`;
-        const rawResponse = await apiSalc.post<SuccessResponse<null>, null>(url, null);
+        const rawResponse = await this.apiPayments.post<SuccessResponse<null>, null>(url, null);
 
         return rawResponse;
     }
