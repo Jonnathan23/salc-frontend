@@ -1,21 +1,27 @@
-import { DataAccessLayerAdapter } from "@salc/core/adapters";
+import { UserAuthResponseEntity, UserAuthResponseEntityImpl, UseState } from "@salc/core/features/shared/indentiy/domain/entities/UserAuthResponse.entity";
 import { CustomError } from "@salc/core/enums";
 import { SystemPermission } from "@salc/core/enums/Permissions";
-import { UserAuthResponseEntity, UseState } from "@salc/core/features/shared/indentiy/domain/entities/UserAuthResponse";
-import { userAuthResponseSchema } from "@salc/core/features/shared/indentiy/infrastructure/schemas";
 import { UserRoles } from "@salc/core/interfaces";
+import { EntityValidator } from "@salc/core/interfaces/EntityValidator";
 import { Validators } from "@salc/core/utils";
+
+
+export interface UserAuthResponseMapper {
+    toEntity(rawObject: UserAuthResponseMapperProps): UserAuthResponseEntity;
+}
 
 type UserAuthResponseMapperProps = Record<string, unknown> | unknown | null | undefined;
 
-export const UserAuthResponseMapper = {
+export class UserAuthResponseMapperImpl implements UserAuthResponseMapper {
 
-    toEntity(rawObject: UserAuthResponseMapperProps): UserAuthResponseEntity {
+    constructor(private readonly validator: EntityValidator<UserAuthResponseEntity>) { }
+
+    public toEntity(rawObject: UserAuthResponseMapperProps): UserAuthResponseEntity {
         if (!rawObject) {
             throw CustomError.notFound("User auth response data is missing");
         }
 
-        const validationResponse = DataAccessLayerAdapter.validateData(userAuthResponseSchema, rawObject);
+        const validationResponse = this.validator.validate(rawObject);
 
         if (!Validators.isRole(validationResponse.us_role)) {
             throw CustomError.badRequest("Invalid role");
@@ -28,7 +34,8 @@ export const UserAuthResponseMapper = {
         const userRole = validationResponse.us_role as UserRoles;
         const userState = validationResponse.us_is_active as UseState;
 
-        return new UserAuthResponseEntity(
+        // Retornamos tu implementación concreta
+        return new UserAuthResponseEntityImpl(
             validationResponse.us_id,
             validationResponse.us_full_name,
             validationResponse.us_email,

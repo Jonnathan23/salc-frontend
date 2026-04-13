@@ -5,12 +5,22 @@ import { ModuleEntity } from "@salc/core/features/admin-desk/modules/domain/enti
 import { ModuleMapper } from "@salc/core/features/admin-desk/modules/infrastructure/mapper/module.mapper";
 import { SuccessResponse } from "@salc/core/interfaces";
 import { Api } from "@salc/core/interfaces/Apit.interface";
+import { EntityValidator } from "@salc/core/interfaces/EntityValidator";
 
 
 export class ModuleRepositoryImpl implements ModuleDataSource {
     private readonly baseUrl = '/modules';
 
-    constructor(private readonly api: Api) { }
+    /**
+     * @param api - Api
+     * @param moduleMapper - ModuleMapper
+     * @param nullResponseValidator - EntityValidator<SuccessResponse>
+     */
+    constructor(
+        private readonly api: Api,
+        private readonly moduleMapper: ModuleMapper,
+        private readonly nullResponseValidator: EntityValidator<SuccessResponse>
+    ) { }
 
     async getAllModules(): Promise<SuccessResponse<ModuleEntity[]>> {
         const url = `${this.baseUrl}`;
@@ -20,7 +30,7 @@ export class ModuleRepositoryImpl implements ModuleDataSource {
             throw CustomError.notFound("No modules found");
         }
 
-        const modules = ModuleMapper.toArrayEntities(rawResponse.data);
+        const modules = this.moduleMapper.toArrayEntities(rawResponse.data);
 
         return {
             ...rawResponse,
@@ -36,7 +46,7 @@ export class ModuleRepositoryImpl implements ModuleDataSource {
             throw CustomError.notFound("No module found");
         }
 
-        const module = ModuleMapper.toEntity(rawResponse.data);
+        const module = this.moduleMapper.toEntity(rawResponse.data);
 
         return {
             ...rawResponse,
@@ -66,6 +76,6 @@ export class ModuleRepositoryImpl implements ModuleDataSource {
     }
 
     private validationNullInformation(rawResponse: SuccessResponse): SuccessResponse {
-        return ModuleMapper.validationNullInformation(rawResponse);
+        return this.nullResponseValidator.validate(rawResponse);
     }
 }

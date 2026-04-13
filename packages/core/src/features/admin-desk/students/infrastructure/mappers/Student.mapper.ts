@@ -1,18 +1,29 @@
 import { CustomError } from "@salc/core/enums";
 import { StudentEntity } from "../../domain/entities/Student.entity";
-import { studentSchema, arrayStudentsSchema } from "../schemas/Student.schema";
 import { SuccessResponse } from "@salc/core/interfaces";
-import { DataAccessLayerAdapter } from "@salc/core/adapters";
+import { EntityValidator } from "@salc/core/interfaces/EntityValidator";
+
 
 type StudentMapperProps = Record<string, unknown> | unknown | null | undefined;
 
-export const StudentMapper = {
+export interface StudentMapper {
+    toEntity(rawObject: StudentMapperProps): StudentEntity;
+    toArrayEntities(rawObjects: StudentMapperProps[]): StudentEntity[];
+}
+
+export class StudentMapperImpl implements StudentMapper {
+
+    constructor(
+        private readonly validator: EntityValidator<StudentEntity>,
+        private readonly arrayValidator: EntityValidator<StudentEntity[]>,        
+    ) { }
+
     toEntity(rawObject: StudentMapperProps): StudentEntity {
         if (!rawObject) {
             throw CustomError.notFound("Student data is missing");
         }
 
-        const validationResponse = DataAccessLayerAdapter.validateData(studentSchema, rawObject);
+        const validationResponse = this.validator.validate(rawObject);
 
         return new StudentEntity(
             validationResponse.id,
@@ -30,22 +41,15 @@ export const StudentMapper = {
             new Date(validationResponse.createdAt),
             new Date(validationResponse.updatedAt)
         );
-    },
+    }
 
     toArrayEntities(rawObjects: StudentMapperProps[]): StudentEntity[] {
         if (!rawObjects) {
             throw CustomError.notFound("Students data is missing");
         }
 
-        const validationResponse = DataAccessLayerAdapter.validateData(arrayStudentsSchema, rawObjects);
+        const validationResponse = this.arrayValidator.validate(rawObjects);
 
         return validationResponse.map((student: any) => this.toEntity(student));
-    },
-
-    validationNullInformation(rawResponse: SuccessResponse): SuccessResponse {
-        const responseSchema = DataAccessLayerAdapter.buildSuccessResponseSchema();
-        const validationResponse = DataAccessLayerAdapter.validateData(responseSchema, rawResponse);
-
-        return validationResponse;
     }
 }

@@ -5,12 +5,16 @@ import { StudentEntity } from "@salc/core/features/admin-desk/students/domain/en
 import { StudentMapper } from "@salc/core/features/admin-desk/students/infrastructure/mappers/Student.mapper";
 import { SuccessResponse } from "@salc/core/interfaces";
 import { Api } from "@salc/core/interfaces/Apit.interface";
+import { EntityValidator } from "@salc/core/interfaces/EntityValidator";
 
 
 export class StudentRepositoryImpl implements StudentDataSource {
     private readonly baseUrl = '/students';
 
-    constructor(private readonly apiStudents: Api) { }
+    constructor(
+        private readonly apiStudents: Api,
+        private readonly studentMapper: StudentMapper,
+    ) { }
 
     async register(dto: RegisterStudentDto): Promise<SuccessResponse<StudentEntity>> {
         const url = `${this.baseUrl}/register`;
@@ -20,7 +24,7 @@ export class StudentRepositoryImpl implements StudentDataSource {
             throw CustomError.notFound("Could not register student");
         }
 
-        const student = StudentMapper.toEntity(rawResponse.data);
+        const student = this.studentMapper.toEntity(rawResponse.data);
 
         return {
             ...rawResponse,
@@ -36,7 +40,7 @@ export class StudentRepositoryImpl implements StudentDataSource {
             throw CustomError.notFound("No students found");
         }
 
-        const students = StudentMapper.toArrayEntities(rawResponse.data);
+        const students = this.studentMapper.toArrayEntities(rawResponse.data);
 
         return {
             ...rawResponse,
@@ -52,7 +56,7 @@ export class StudentRepositoryImpl implements StudentDataSource {
             throw CustomError.notFound("No students found");
         }
 
-        const students = StudentMapper.toArrayEntities(rawResponse.data);
+        const students = this.studentMapper.toArrayEntities(rawResponse.data);
 
         return {
             ...rawResponse,
@@ -68,7 +72,7 @@ export class StudentRepositoryImpl implements StudentDataSource {
             throw CustomError.notFound("Could not update student");
         }
 
-        const student = StudentMapper.toEntity(rawResponse.data);
+        const student = this.studentMapper.toEntity(rawResponse.data);
 
         return {
             ...rawResponse,
@@ -84,7 +88,7 @@ export class StudentRepositoryImpl implements StudentDataSource {
             throw CustomError.notFound("Could not change contract status");
         }
 
-        const student = StudentMapper.toEntity(rawResponse.data);
+        const student = this.studentMapper.toEntity(rawResponse.data);
 
         return {
             ...rawResponse,
@@ -100,7 +104,7 @@ export class StudentRepositoryImpl implements StudentDataSource {
             throw CustomError.notFound("Could not toggle graduated status");
         }
 
-        const student = StudentMapper.toEntity(rawResponse.data);
+        const student = this.studentMapper.toEntity(rawResponse.data);
 
         return {
             ...rawResponse,
@@ -116,7 +120,7 @@ export class StudentRepositoryImpl implements StudentDataSource {
             throw CustomError.notFound("Could not deactivate student");
         }
 
-        const student = StudentMapper.toEntity(rawResponse.data);
+        const student = this.studentMapper.toEntity(rawResponse.data);
 
         return {
             ...rawResponse,

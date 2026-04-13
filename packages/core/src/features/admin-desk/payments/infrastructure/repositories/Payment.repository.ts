@@ -12,9 +12,14 @@ import { Api } from "@salc/core/interfaces/Apit.interface";
 export class PaymentRepositoryImpl implements PaymentDataSource {
     private readonly baseUrl = "/payments";
 
+    /**
+     * @param apiPayments 
+     * @param paymentMapper 
+     */
     constructor(
-        private readonly apiPayments: Api
-    ) {}
+        private readonly apiPayments: Api,
+        private readonly paymentMapper: PaymentMapper
+    ) { }
 
     async createPaymentPlan(studentId: string, dto: CreatePaymentPlanDto): Promise<SuccessResponse<PaymentPlanEntity>> {
         const url = `${this.baseUrl}/student/${studentId}/plan`;
@@ -26,7 +31,7 @@ export class PaymentRepositoryImpl implements PaymentDataSource {
 
         return {
             ...rawResponse,
-            data: PaymentMapper.toPlanEntity(rawResponse.data)
+            data: this.paymentMapper.toPlanEntity(rawResponse.data)
         };
     }
 
@@ -40,7 +45,7 @@ export class PaymentRepositoryImpl implements PaymentDataSource {
 
         return {
             ...rawResponse,
-            data: PaymentMapper.toArrayPlanEntities(rawResponse.data)
+            data: this.paymentMapper.toArrayPlanEntities(rawResponse.data)
         };
     }
 
@@ -54,7 +59,7 @@ export class PaymentRepositoryImpl implements PaymentDataSource {
 
         return {
             ...rawResponse,
-            data: PaymentMapper.toQuotaEntity(rawResponse.data)
+            data: this.paymentMapper.toQuotaEntity(rawResponse.data)
         };
     }
 

@@ -8,7 +8,16 @@ export const useState = {
 
 export type UseState = typeof useState[keyof typeof useState];
 
-export class UserAuthResponseEntity {
+export interface UserAuthResponseEntity {
+    us_id: string;
+    us_full_name: string;
+    us_email: string;
+    us_role: UserRoles;
+    us_is_active: UseState;
+    permissions: string[];
+}
+
+export class UserAuthResponseEntityImpl implements UserAuthResponseEntity {
     constructor(
         public us_id: string,
         public us_full_name: string,

@@ -1,9 +1,9 @@
 import { CustomError } from "@salc/core/enums";
-import { FormattedErrorResponse } from "@salc/core/interfaces";
+import { ErrorResponse, FormattedErrorResponse } from "@salc/core/interfaces";
 import { ErrorResponseSchema } from "@salc/core/schemas";
-import { DataAccessLayerAdapter } from "@salc/core/adapters";
 import axios, { AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from "axios";
 import { Api } from "@salc/core/interfaces/Apit.interface";
+import { EntityValidator } from "@salc/core/interfaces/EntityValidator";
 
 
 type ErrorFactory = (errors: Array<FormattedErrorResponse>) => CustomError;
@@ -21,10 +21,12 @@ const statusCodeToErrorMap: Record<number, ErrorFactory> = {
 export class ApiAxios implements Api {
     private readonly apiInstance: AxiosInstance;
     private readonly baseUrl: string;
+    private readonly validateErrorResponse: EntityValidator<ErrorResponse>;
     private onUnauthorizedCallback?: () => void;
 
-    constructor(baseUrl: string) {
+    constructor(baseUrl: string, validateErrorResponse: EntityValidator<ErrorResponse>) {
         this.baseUrl = baseUrl;
+        this.validateErrorResponse = validateErrorResponse;
         this.apiInstance = axios.create({
             baseURL: this.baseUrl,
             withCredentials: true,
@@ -71,7 +73,7 @@ export class ApiAxios implements Api {
                 let formattedErrors: Array<FormattedErrorResponse>;
 
                 try {
-                    const validatedData = DataAccessLayerAdapter.validateData(ErrorResponseSchema, rawData);
+                    const validatedData = this.validateErrorResponse.validate(rawData);
                     formattedErrors = validatedData.errors;
                 } catch (validationError) {
                     formattedErrors = [{ message: "An unexpected error format was received from the server." }];
