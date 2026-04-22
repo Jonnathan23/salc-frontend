@@ -7,7 +7,7 @@ import { StudentRepositoryImpl } from "@salc/core/features/admin-desk/students/i
 import { SearchStudentsUseCase } from "@salc/core/features/admin-desk/students/application/use-cases/SearchStudents.use-case";
 import { UpdateStudentUseCase } from "@salc/core/features/admin-desk/students/application/use-cases/UpdateStudent.use-case";
 import { StudentMapperImpl } from "@salc/core/features/admin-desk/students/infrastructure/mappers/Student.mapper";
-import { studentSchema } from "@salc/core/features/admin-desk/students/infrastructure/schemas/Student.schema";
+import { arrayStudentsSchema, studentSchema } from "@salc/core/features/admin-desk/students/infrastructure/schemas/Student.schema";
 import { StudentEntity } from "@salc/core/features/admin-desk/students/domain/entities/Student.entity";
 import { validatorFactory } from "@salc/core/adapters";
 import { api } from "@salc/core/lib";
@@ -16,7 +16,7 @@ import { api } from "@salc/core/lib";
 
 //* Validators
 const studentValidator = validatorFactory.createValidator<StudentEntity>(studentSchema);
-const arrayStudentValidator = validatorFactory.createValidator<StudentEntity[]>(studentSchema);
+const arrayStudentValidator = validatorFactory.createValidator<StudentEntity[]>(arrayStudentsSchema);
 
 //* Mapper
 const studentMapper = new StudentMapperImpl(studentValidator, arrayStudentValidator);

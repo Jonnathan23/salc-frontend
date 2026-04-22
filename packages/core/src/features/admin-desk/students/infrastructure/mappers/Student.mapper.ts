@@ -1,7 +1,6 @@
 import { CustomError } from "@salc/core/enums";
 import { StudentEntity } from "../../domain/entities/Student.entity";
-import { SuccessResponse } from "@salc/core/interfaces";
-import { EntityValidator } from "@salc/core/interfaces/EntityValidator";
+import { type EntityValidator } from "@salc/core/interfaces/EntityValidator";
 
 
 type StudentMapperProps = Record<string, unknown> | unknown | null | undefined;
@@ -15,7 +14,7 @@ export class StudentMapperImpl implements StudentMapper {
 
     constructor(
         private readonly validator: EntityValidator<StudentEntity>,
-        private readonly arrayValidator: EntityValidator<StudentEntity[]>,        
+        private readonly arrayValidator: EntityValidator<StudentEntity[]>,
     ) { }
 
     toEntity(rawObject: StudentMapperProps): StudentEntity {
@@ -48,6 +47,7 @@ export class StudentMapperImpl implements StudentMapper {
             throw CustomError.notFound("Students data is missing");
         }
 
+        console.log(rawObjects);
         const validationResponse = this.arrayValidator.validate(rawObjects);
 
         return validationResponse.map((student: any) => this.toEntity(student));

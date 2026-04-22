@@ -1,11 +1,11 @@
 import { CustomError } from "@salc/core/enums";
 import { StudentDataSource } from "@salc/core/features/admin-desk/students/domain/datasources/Student.datasource";
-import { RegisterStudentDto, UpdateStudentDto, ChangeContractStatusDto } from "@salc/core/features/admin-desk/students/domain/dtos";
-import { StudentEntity } from "@salc/core/features/admin-desk/students/domain/entities/Student.entity";
-import { StudentMapper } from "@salc/core/features/admin-desk/students/infrastructure/mappers/Student.mapper";
-import { SuccessResponse } from "@salc/core/interfaces";
-import { Api } from "@salc/core/interfaces/Apit.interface";
-import { EntityValidator } from "@salc/core/interfaces/EntityValidator";
+import type { RegisterStudentDto, UpdateStudentDto, ChangeContractStatusDto } from "@salc/core/features/admin-desk/students/domain/dtos";
+import { type StudentEntity } from "@salc/core/features/admin-desk/students/domain/entities/Student.entity";
+import { type StudentMapper } from "@salc/core/features/admin-desk/students/infrastructure/mappers/Student.mapper";
+import { type SuccessResponse } from "@salc/core/interfaces";
+import { type Api } from "@salc/core/interfaces/Apit.interface";
+import { type EntityValidator } from "@salc/core/interfaces/EntityValidator";
 
 
 export class StudentRepositoryImpl implements StudentDataSource {
@@ -56,6 +56,7 @@ export class StudentRepositoryImpl implements StudentDataSource {
             throw CustomError.notFound("No students found");
         }
 
+        console.log(rawResponse.data);
         const students = this.studentMapper.toArrayEntities(rawResponse.data);
 
         return {
