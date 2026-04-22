@@ -1,9 +1,8 @@
 import { CustomError } from "@salc/core/enums";
-import { ErrorResponse, FormattedErrorResponse } from "@salc/core/interfaces";
-import { ErrorResponseSchema } from "@salc/core/schemas";
-import axios, { AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from "axios";
-import { Api } from "@salc/core/interfaces/Apit.interface";
-import { EntityValidator } from "@salc/core/interfaces/EntityValidator";
+import type { ErrorResponse, FormattedErrorResponse } from "@salc/core/interfaces";
+import axios, { AxiosError, type AxiosInstance, type AxiosResponse, type InternalAxiosRequestConfig } from "axios";
+import type { Api } from "@salc/core/interfaces/Apit.interface";
+import type { EntityValidator } from "@salc/core/interfaces/EntityValidator";
 
 
 type ErrorFactory = (errors: Array<FormattedErrorResponse>) => CustomError;

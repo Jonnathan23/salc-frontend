@@ -1,6 +1,5 @@
-import z, { ZodSchema, ZodTypeAny  } from 'zod';
-
-import { EntityValidator, ValidatorFactory } from "@salc/core/interfaces/EntityValidator";
+import z, { type ZodSchema, type ZodTypeAny } from 'zod';
+import type { EntityValidator, ValidatorFactory } from "@salc/core/interfaces/EntityValidator";
 import { ZodValidatorAdapter } from '@salc/core/adapters/data-acces-layer/zod/ZodValidatorAdapter.adapter';
 
 

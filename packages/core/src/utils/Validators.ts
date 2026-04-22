@@ -1,6 +1,8 @@
-import { certificateType, CertificateType, studentContractStatus, StudentContractStatus } from "@salc/core/features/admin-desk/students/domain/interfaces/Student.interface";
-import { UseState, useState } from "@salc/core/features/shared/indentity/domain/entities";
-import { UserRoles, userRoles } from "@salc/core/interfaces";
+import { certificateType, type CertificateType, studentContractStatus, type StudentContractStatus } from "@salc/core/features/admin-desk/students/domain/interfaces/Student.interface";
+import type { UserState } from "@salc/core/features/shared/indentity/domain/entities";
+import { userState } from "@salc/core/features/shared/indentity/domain/entities/UserAuthResponse.entity";
+import type { UserRoles } from "@salc/core/interfaces";
+import { userRoles } from "@salc/core/interfaces";
 
 export const Validators = {
     isEmail: (email: string): boolean => {
@@ -35,7 +37,7 @@ export const Validators = {
     },
 
     isStateUser: (state: string): boolean => {
-        return Object.values(useState).includes(state as UseState);
+        return Object.values(userState).includes(state as UserState);
     },
 
     isStudentContractStatus: (contractStatus: string): boolean => {

@@ -1,11 +1,11 @@
 import { CustomError } from "@salc/core/enums";
 import { ModuleDataSource } from "@salc/core/features/admin-desk/modules/domain/datasource/module.datasource";
-import { CreateModuleDto, UpdateModuleDto } from "@salc/core/features/admin-desk/modules/domain/dtos";
-import { ModuleEntity } from "@salc/core/features/admin-desk/modules/domain/entities/Module.entity";
-import { ModuleMapper } from "@salc/core/features/admin-desk/modules/infrastructure/mapper/module.mapper";
-import { SuccessResponse } from "@salc/core/interfaces";
-import { Api } from "@salc/core/interfaces/Apit.interface";
-import { EntityValidator } from "@salc/core/interfaces/EntityValidator";
+import type { CreateModuleDto, UpdateModuleDto } from "@salc/core/features/admin-desk/modules/domain/dtos";
+import type { ModuleEntity } from "@salc/core/features/admin-desk/modules/domain/entities/Module.entity";
+import type { ModuleMapper } from "@salc/core/features/admin-desk/modules/infrastructure/mapper/module.mapper";
+import type { SuccessResponse } from "@salc/core/interfaces";
+import type { Api } from "@salc/core/interfaces/Apit.interface";
+import type { EntityValidator } from "@salc/core/interfaces/EntityValidator";
 
 
 export class ModuleRepositoryImpl implements ModuleDataSource {

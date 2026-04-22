@@ -1,6 +1,6 @@
-import z, { ZodSchema } from 'zod';
+import z, { type ZodSchema } from 'zod';
 import { CustomError } from '@salc/core/enums/errors/CustomError.error';
-import { EntityValidator } from '@salc/core/interfaces/EntityValidator';
+import type { EntityValidator } from '@salc/core/interfaces/EntityValidator';
 
 
 export class ZodValidatorAdapter<TExpectedEntity> implements EntityValidator<TExpectedEntity> {

@@ -2,7 +2,7 @@ import { GetAllModulesUseCaseImpl, GetModuleByIdUseCaseImpl, CreateModuleUseCase
 import { arrayModulesSchema, moduleSchema } from "@salc/core/features/admin-desk/modules/infrastructure/schemas/module.schema";
 import { ModuleRepositoryImpl } from "@salc/core/features/admin-desk/modules/infrastructure/repositories/module.repository";
 import { ModuleMapperImpl } from "@salc/core/features/admin-desk/modules/infrastructure/mapper/module.mapper";
-import { ModuleEntity } from "@salc/core/features/admin-desk/modules/domain/entities/Module.entity";
+import type { ModuleEntity } from "@salc/core/features/admin-desk/modules/domain/entities/Module.entity";
 import { nullResponseValidator, validatorFactory } from "@salc/core/adapters";
 import { api } from "@salc/core/lib";
 

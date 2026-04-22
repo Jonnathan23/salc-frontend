@@ -1,7 +1,8 @@
 import { CustomError } from "@salc/core/enums";
-import { PaymentPlanEntity } from "@salc/core/features/admin-desk/payments/domain/entities/PaymentPlan.entity";
-import { PaymentQuotaEntity, PaymentQuotaEntityImpl } from "@salc/core/features/admin-desk/payments/domain/entities/PaymentQuota.entity";
-import { EntityValidator } from "@salc/core/interfaces/EntityValidator";
+import { PaymentPlanEntityImpl, type PaymentPlanEntity } from "@salc/core/features/admin-desk/payments/domain/entities/PaymentPlan.entity";
+import type { PaymentQuotaEntity } from "@salc/core/features/admin-desk/payments/domain/entities/PaymentQuota.entity";
+import { PaymentQuotaEntityImpl } from "@salc/core/features/admin-desk/payments/domain/entities/PaymentQuota.entity";
+import type { EntityValidator } from "@salc/core/interfaces/EntityValidator";
 
 export interface PaymentMapper {
     toPlanEntity(rawObject: any): PaymentPlanEntity;
@@ -28,7 +29,7 @@ export class PaymentMapperImpl implements PaymentMapper {
 
         const value = this.validator.validate(rawObject);
 
-        return new PaymentPlanEntity(
+        return new PaymentPlanEntityImpl(
             value.id, value.studentId, value.sellerId, value.enrollmentFee, value.totalAmount, value.isSinglePayment, value.status,
             value.quotas ? value.quotas.map((q: any) => this.toQuotaEntity(q)) : undefined,
             value.createdAt ? new Date(value.createdAt) : undefined,

@@ -1,6 +1,6 @@
 import { CustomError } from "@salc/core/enums";
 import { type UserDataSource } from "@salc/core/features/shared/indentity/domain/datasource";
-import { type ChangePasswordDto, type LoginUserDto, type RegisterUserDto, type UpdateUserDto } from "@salc/core/features/shared/indentity/domain/dtos";
+import type { ChangePasswordDto, LoginUserDto, RegisterUserDto, UpdateUserDto } from "@salc/core/features/shared/indentity/domain/dtos";
 import { type UserAuthResponseEntity } from "@salc/core/features/shared/indentity/domain/entities";
 import { type UserAuthResponseMapper } from "@salc/core/features/shared/indentity/infrastructure/mappers/userAuthResponse.mapper";
 import { type SuccessResponse } from "@salc/core/interfaces";

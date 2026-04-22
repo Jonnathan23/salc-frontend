@@ -1,5 +1,5 @@
 import { CustomError } from "@salc/core/enums";
-import { UserRoles } from "@salc/core/interfaces";
+import type { UserRoles } from "@salc/core/interfaces";
 import { Validators } from "@salc/core/utils";
 
 export interface RegisterUserDto {

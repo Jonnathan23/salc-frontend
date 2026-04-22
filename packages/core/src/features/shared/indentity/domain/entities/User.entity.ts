@@ -1,4 +1,4 @@
-import { UserRoles } from "@salc/core/interfaces";
+import type { UserRoles } from "@salc/core/interfaces";
 
 
 export class UserEntity {

@@ -1,6 +1,6 @@
-import { SuccessResponse } from "@salc/core/interfaces";
-import { UserAuthResponseEntity } from "../../domain/entities";
-import { UserRepository } from "../../infrastructure/repositories/user.repository";
+import type { SuccessResponse } from "@salc/core/interfaces";
+import type { UserAuthResponseEntity } from "@salc/core/features/shared/indentity/domain/entities";
+import type { UserRepository } from "@salc/core/features/shared/indentity/infrastructure/repositories/user.repository";
 
 
 interface GetAllUsersUseCase {

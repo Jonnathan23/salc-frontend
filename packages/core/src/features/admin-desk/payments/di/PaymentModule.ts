@@ -5,8 +5,8 @@ import { paymentPlanSchema, paymentQuotaSchema } from "@salc/core/features/admin
 import { CreatePaymentPlanUseCase } from "@salc/core/features/admin-desk/payments/application/use-cases/CreatePaymentPlan.use-case";
 import { PaymentRepositoryImpl } from "@salc/core/features/admin-desk/payments/infrastructure/repositories/Payment.repository";
 import { PaymentMapperImpl } from "@salc/core/features/admin-desk/payments/infrastructure/mappers/Payment.mapper";
-import { PaymentQuotaEntity } from "@salc/core/features/admin-desk/payments/domain/entities/PaymentQuota.entity";
-import { PaymentPlanEntity } from "@salc/core/features/admin-desk/payments/domain/entities/PaymentPlan.entity";
+import type { PaymentQuotaEntity } from "@salc/core/features/admin-desk/payments/domain/entities/PaymentQuota.entity";
+import type { PaymentPlanEntity } from "@salc/core/features/admin-desk/payments/domain/entities/PaymentPlan.entity";
 import { validatorFactory } from "@salc/core/adapters";
 import { api } from "@salc/core/lib";
 

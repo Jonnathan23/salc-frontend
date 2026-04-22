@@ -1,8 +1,6 @@
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import { create } from "zustand";
-
-import { UserAuthResponseEntity } from "@salc/core/features/shared/indentity/domain/entities/UserAuthResponse";
-
+import type { UserAuthResponseEntity } from "@salc/core/features/shared/indentity/domain/entities";
 
 
 interface AuthState {

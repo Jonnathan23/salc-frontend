@@ -1,7 +1,7 @@
-import z, { ZodSchema } from 'zod';
+import z, { type ZodSchema } from 'zod';
 import { CustomError } from '@salc/core/enums/errors/CustomError.error';
-import { SuccessResponse } from '@salc/core/interfaces';
-import { EntityValidator } from '@salc/core/interfaces/EntityValidator';
+import type { SuccessResponse } from '@salc/core/interfaces';
+import type { EntityValidator } from '@salc/core/interfaces/EntityValidator';
 
 export class SuccessResponseZodValidator<TExpectedDataType = null> implements EntityValidator<SuccessResponse<TExpectedDataType>> {
     private readonly schema: ZodSchema<SuccessResponse<TExpectedDataType>>;

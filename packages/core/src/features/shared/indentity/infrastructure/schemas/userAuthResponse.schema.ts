@@ -1,9 +1,11 @@
-import { useState } from "@salc/core/features/shared/indentity/domain/entities";
-import { userRoles } from "@salc/core/interfaces";
+
 import { z } from "zod";
 
+import { userState } from "@salc/core/features/shared/indentity/domain/entities";
+import { userRoles } from "@salc/core/interfaces";
+
 const userRolesArray = Object.values(userRoles) as [string, ...string[]];
-const userStatesArray = Object.values(useState) as [string, ...string[]];
+const userStatesArray = Object.values(userState) as [string, ...string[]];
 
 export const userAuthResponseSchema = z.object({
     us_id: z.string(),

@@ -1,6 +1,7 @@
 import { CustomError } from "@salc/core/enums";
-import { ModuleEntity, ModuleEntityImpl } from "@salc/core/features/admin-desk/modules/domain/entities/Module.entity";
-import { EntityValidator } from "@salc/core/interfaces/EntityValidator";
+import type { ModuleEntity } from "@salc/core/features/admin-desk/modules/domain/entities/Module.entity";
+import { ModuleEntityImpl } from "@salc/core/features/admin-desk/modules/domain/entities/Module.entity";
+import type { EntityValidator } from "@salc/core/interfaces/EntityValidator";
 
 
 export interface ModuleMapper {

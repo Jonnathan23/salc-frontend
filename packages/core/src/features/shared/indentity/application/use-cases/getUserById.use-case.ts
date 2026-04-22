@@ -1,6 +1,6 @@
-import { SuccessResponse } from "@salc/core/interfaces";
-import { UserAuthResponseEntity } from "../../domain/entities";
-import { UserDataSource } from "../../domain/datasource";
+import type { SuccessResponse } from "@salc/core/interfaces";
+import type { UserAuthResponseEntity } from "../../domain/entities";
+import type { UserDataSource } from "../../domain/datasource";
 
 
 interface FindUserByIdUseCase {

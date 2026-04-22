@@ -1,9 +1,9 @@
-import type { UserAuthResponseEntity, UseState } from "@salc/core/features/shared/indentity/domain/entities/UserAuthResponse.entity";
+import type { UserAuthResponseEntity, UserState } from "@salc/core/features/shared/indentity/domain/entities/UserAuthResponse.entity";
 import { UserAuthResponseEntityImpl } from "@salc/core/features/shared/indentity/domain/entities/UserAuthResponse.entity";
-import { CustomError } from "@salc/core/enums";
+import type { EntityValidator } from "@salc/core/interfaces/EntityValidator";
 import type { SystemPermission } from "@salc/core/enums/Permissions";
 import type { UserRoles } from "@salc/core/interfaces";
-import type { EntityValidator } from "@salc/core/interfaces/EntityValidator";
+import { CustomError } from "@salc/core/enums";
 import { Validators } from "@salc/core/utils";
 
 
@@ -35,7 +35,7 @@ export class UserAuthResponseMapperImpl implements UserAuthResponseMapper {
         }
 
         const userRole = validationResponse.us_role as UserRoles;
-        const userState = validationResponse.us_is_active as UseState;
+        const userState = validationResponse.us_is_active as UserState;
 
         // Retornamos tu implementación concreta
         return new UserAuthResponseEntityImpl(
