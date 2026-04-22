@@ -46,8 +46,7 @@ export class StudentMapperImpl implements StudentMapper {
         if (!rawObjects) {
             throw CustomError.notFound("Students data is missing");
         }
-
-        console.log(rawObjects);
+        
         const validationResponse = this.arrayValidator.validate(rawObjects);
 
         return validationResponse.map((student: any) => this.toEntity(student));

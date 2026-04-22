@@ -55,8 +55,7 @@ export class StudentRepositoryImpl implements StudentDataSource {
         if (!rawResponse.data) {
             throw CustomError.notFound("No students found");
         }
-
-        console.log(rawResponse.data);
+        
         const students = this.studentMapper.toArrayEntities(rawResponse.data);
 
         return {

@@ -29,17 +29,11 @@ export const useLoginUser = ({ setLoginSession }: UseLoginUserProps) => {
 
     return useMutation<SuccessResponse<UserAuthResponseEntity>, CustomError, LoginUserDto>({
         mutationFn: async (rawData: LoginUserDto) => {
-            try {
-                const validDto = LoginUserDtoImpl.create(rawData);
+            const validDto = LoginUserDtoImpl.create(rawData);
 
-                const response = await loginUserUseCase.execute(validDto);
+            const response = await loginUserUseCase.execute(validDto);
 
-                return response;
-            } catch (error) {
-                console.log(error);
-                throw error;
-            }
-
+            return response;
         },
         onSuccess: (response) => {
             if (!response.data) throw CustomError.badRequest('No se pudo iniciar sesión');

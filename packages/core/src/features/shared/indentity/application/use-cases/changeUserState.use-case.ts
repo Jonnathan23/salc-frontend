@@ -3,11 +3,11 @@ import type { SuccessResponse } from "@salc/core/interfaces";
 
 
 
-interface ChangeStateUseCase {
+interface ChangeUserStateUseCase {
     execute(id: string): Promise<SuccessResponse>;
 }
 
-export class ChangeStateUseCaseImpl implements ChangeStateUseCase {
+export class ChangeUserStateUseCaseImpl implements ChangeUserStateUseCase {
     constructor(private readonly userRepository: UserRepository) { }
 
     execute(id: string): Promise<SuccessResponse> {

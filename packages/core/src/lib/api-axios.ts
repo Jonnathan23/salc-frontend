@@ -62,7 +62,7 @@ export class ApiAxios implements Api {
         this.apiInstance.interceptors.response.use(
             (response: AxiosResponse) => response,
             (error: AxiosError<unknown>) => {
-                console.log(error);
+                
                 if (!error.response) {
                     return Promise.reject(CustomError.internalServer("Network error or server is unreachable"));
                 }

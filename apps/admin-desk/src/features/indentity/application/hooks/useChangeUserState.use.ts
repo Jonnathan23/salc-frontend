@@ -1,6 +1,8 @@
-import { ShowMessageAdapter } from "@/core/adapters/ShowMessage.adapter";
-import { changeUserStateUseCase } from "@salc/core/features/shared/indentiy/di/IdentityModule";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+import { ShowMessageAdapter } from "@/core/adapters/ShowMessage.adapter";
+import { changeUserStateUseCase } from "@salc/core/features/shared/indentity/di/IdentityModule";
+
 
 
 export const useChangeUserState = () =>  {
