@@ -1,4 +1,13 @@
-export class ModuleEntity {
+
+export interface ModuleEntity {
+    mo_id: string;
+    mo_name: string;
+    mo_description: string;
+    mo_created_at: string;
+    mo_updated_at: string;
+}
+
+export class ModuleEntityImpl implements ModuleEntity {
 
     constructor(
         public mo_id: string,

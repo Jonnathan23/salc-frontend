@@ -1,6 +1,6 @@
 import { ShowMessageAdapter } from "@/core/adapters/ShowMessage.adapter";
-import { updateUserUseCase } from "@salc/core/features/shared/indentiy/di/IdentityModule";
-import { UpdateUserDtoImpl, type UpdateUserDto } from "@salc/core/features/shared/indentiy/domain/dtos";
+import { updateUserUseCase } from "@salc/core/features/shared/indentity/di/IdentityModule";
+import { UpdateUserDtoImpl, type UpdateUserDto } from "@salc/core/features/shared/indentity/domain/dtos";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 

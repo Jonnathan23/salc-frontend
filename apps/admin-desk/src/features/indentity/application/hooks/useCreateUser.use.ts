@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { UseFormReset } from 'react-hook-form';
 
-import { RegisterUserDtoImpl, type RegisterUserDto } from '@salc/core/features/shared/indentiy/domain/dtos';
-import { createUserUseCase } from '@salc/core/features/shared/indentiy/di/IdentityModule';
+import { RegisterUserDtoImpl, type RegisterUserDto } from '@salc/core/features/shared/indentity/domain/dtos';
+import { createUserUseCase } from '@salc/core/features/shared/indentity/di/IdentityModule';
 import { ShowMessageAdapter } from '@/core/adapters/ShowMessage.adapter';
 
 interface UseCreateUserProps {

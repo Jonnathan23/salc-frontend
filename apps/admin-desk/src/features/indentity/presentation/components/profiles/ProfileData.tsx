@@ -1,10 +1,13 @@
 import { ArrowLeft, BookOpen, CreditCard, Loader2, Mail, Pencil, ShieldAlert, UserCheck, UserX } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-import { userState, type UserState } from "@salc/core/features/shared/indentiy/domain/entities";
+
 import { useChangeUserState } from "@/features/indentity/application/hooks";
-import { ProfileStatusBadge } from "@/core/components/badges/Badges";
+
 import { Button } from "@/core/components/buttons/button";
+import { ProfileStatusBadge } from "@/core/components/badges/Badges";
+import { userState, type UserState } from "@salc/core/features/shared/indentity/domain/entities";
+
 
 
 interface UserAuthResponseEntity {

@@ -1,4 +1,21 @@
-export class PaymentQuotaEntity {
+
+
+export interface PaymentQuotaEntity {
+    id: string;
+    paymentPlanId: string;
+    quotaNumber: number;
+    paymentMethod: string | null;
+    baseAmount: number;
+    rolloverDebt: number;
+    totalExpected: number;
+    amountPaid: number;
+    dueDate: Date;
+    status: string;
+    createdAt?: Date;
+    updatedAt?: Date;
+}
+
+export class PaymentQuotaEntityImpl implements PaymentQuotaEntity {
     constructor(
         public readonly id: string,
         public readonly paymentPlanId: string,

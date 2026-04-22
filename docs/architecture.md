@@ -33,12 +33,12 @@ The absolute core of the system. It depends on NOTHING outside of the domain.
 * **DataSources:** Abstract classes defining the contract for the repositories.
 
 ### 2. Infrastructure Layer (`infrastructure/`)
-Responsible for external communications (HTTP via `apiSalc`) and data transformation.
+Responsible for external communications (HTTP via `api`) and data transformation.
 
 * **Repositories:**
     * Must implement the Domain `DataSource`.
-    * Must use `apiSalc` (our Axios wrapper) for HTTP requests.
-    * **CRITICAL:** Do NOT use `try/catch` blocks to handle network errors. `apiSalc` automatically intercepts HTTP errors and throws formatted `CustomError` instances. Let the error bubble up to the UI mutation cache.
+    * Must use `api` (our Axios wrapper) for HTTP requests.
+    * **CRITICAL:** Do NOT use `try/catch` blocks to handle network errors. `api` automatically intercepts HTTP errors and throws formatted `CustomError` instances. Let the error bubble up to the UI mutation cache.
 * **Mappers & Schemas:**
     * Always define a Zod schema (`schemas/`) corresponding to the expected backend JSON response.
     * Mappers must use `DataAccessLayerAdapter.validateData(schema, rawData)` to parse the response.
@@ -60,11 +60,11 @@ The orchestrator.
 1. **UI Level (Ignored by Core):** User submits a form.
 2. **DTO Validation:** `CreateModuleDtoImpl.create(rawData)` is called. Throws `CustomError` if invalid.
 3. **Use Case:** `createModuleUseCase.execute(validDto)` receives the payload.
-4. **Repository:** `moduleRepository.create(dto)` sends the HTTP request via `apiSalc.post()`.
+4. **Repository:** `moduleRepository.create(dto)` sends the HTTP request via `this.api.post()`.
 5. **Mapper:** The raw JSON response is parsed by `ModuleMapper` and converted into a `SuccessResponse<ModuleEntity>`.
 6. **Return:** The Use Case returns the formatted response back to the UI.
 
 ## Error Handling
 * Never throw generic `Error` objects.
 * Always throw `CustomError` (e.g., `CustomError.badRequest('message')`, `CustomError.notFound()`).
-* Network errors and 4xx/5xx responses are automatically intercepted by `apiSalc` and converted into `CustomError` arrays.
+* Network errors and 4xx/5xx responses are automatically intercepted by `api` and converted into `CustomError` arrays.
