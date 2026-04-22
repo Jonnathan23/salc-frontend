@@ -1,5 +1,5 @@
 import { certificateType, CertificateType, studentContractStatus, StudentContractStatus } from "@salc/core/features/admin-desk/students/domain/interfaces/Student.interface";
-import { UseState, useState } from "@salc/core/features/shared/indentiy/domain/entities";
+import { UseState, useState } from "@salc/core/features/shared/indentity/domain/entities";
 import { UserRoles, userRoles } from "@salc/core/interfaces";
 
 export const Validators = {
@@ -52,7 +52,7 @@ export const Validators = {
     },
 
     isCertificateType: (certificate: string): boolean => {
-        
+
         return Object.values(certificateType).includes(certificate as CertificateType);
     }
 

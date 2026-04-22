@@ -1,6 +1,6 @@
-import { UserDataSource } from "@salc/core/features/shared/indentiy/domain/datasource";
-import { UpdateUserDto } from "@salc/core/features/shared/indentiy/domain/dtos";
-import { SuccessResponse } from "@salc/core/interfaces";
+import { UserDataSource } from "@salc/core/features/shared/indentity/domain/datasource";
+import type { UpdateUserDto } from "@salc/core/features/shared/indentity/domain/dtos";
+import type { SuccessResponse } from "@salc/core/interfaces";
 
 
 interface UpdateUserUseCase {

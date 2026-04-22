@@ -1,1 +1,1 @@
-export * from '@salc/core/features/shared/indentiy/domain/datasource/user.datasource'
+export * from '@salc/core/features/shared/indentity/domain/datasource/user.datasource'

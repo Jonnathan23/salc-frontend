@@ -1,6 +1,6 @@
-import { UserDataSource } from "@salc/core/features/shared/indentiy/domain/datasource";
-import { RegisterUserDto } from "@salc/core/features/shared/indentiy/domain/dtos";
-import { SuccessResponse } from "@salc/core/interfaces";
+import { UserDataSource } from "@salc/core/features/shared/indentity/domain/datasource";
+import type { RegisterUserDto } from "@salc/core/features/shared/indentity/domain/dtos";
+import type { SuccessResponse } from "@salc/core/interfaces";
 
 
 
@@ -10,7 +10,7 @@ interface CreateUserUseCase {
 
 
 export class CreateUserUseCaseImpl implements CreateUserUseCase {
-    constructor(private readonly userRepository: UserDataSource) {}
+    constructor(private readonly userRepository: UserDataSource) { }
 
     async execute(userDto: RegisterUserDto): Promise<SuccessResponse> {
         return await this.userRepository.create(userDto);

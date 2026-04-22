@@ -1,6 +1,7 @@
+import type { InferSchema } from "@salc/core/adapters/data-acces-layer/zod/ZodValidatorFactory.adapter";
 import { CustomError } from "@salc/core/enums";
 import { enviromentSchema } from "@salc/core/schemas/envs.schema";
-import { InferSchema } from "@salc/core/utils";
+
 
 
 export type SystemConfiguration = InferSchema<typeof enviromentSchema>;

@@ -20,7 +20,7 @@ const statusCodeToErrorMap: Record<number, ErrorFactory> = {
 
 export class ApiAxios implements Api {
     private readonly apiInstance: AxiosInstance;
-    private readonly baseUrl: string;
+    private baseUrl: string;
     private readonly validateErrorResponse: EntityValidator<ErrorResponse>;
     private onUnauthorizedCallback?: () => void;
 
@@ -63,6 +63,7 @@ export class ApiAxios implements Api {
         this.apiInstance.interceptors.response.use(
             (response: AxiosResponse) => response,
             (error: AxiosError<unknown>) => {
+                console.log(error);
                 if (!error.response) {
                     return Promise.reject(CustomError.internalServer("Network error or server is unreachable"));
                 }
@@ -116,5 +117,10 @@ export class ApiAxios implements Api {
 
     public async delete<ResponseType>(url: string): Promise<ResponseType> {
         return this.apiInstance.delete<ResponseType>(url).then((response) => response.data);
+    }
+
+    public setBaseUrl(baseUrl: string): void {
+        this.baseUrl = baseUrl;
+        this.apiInstance.defaults.baseURL = this.baseUrl;
     }
 }

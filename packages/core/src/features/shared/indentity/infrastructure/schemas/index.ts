@@ -1,2 +1,2 @@
-export * from '@salc/core/features/shared/indentiy/infrastructure/schemas/user.schema'
-export * from '@salc/core/features/shared/indentiy/infrastructure/schemas/userAuthResponse.schema'
+export * from '@salc/core/features/shared/indentity/infrastructure/schemas/user.schema'
+export * from '@salc/core/features/shared/indentity/infrastructure/schemas/userAuthResponse.schema'

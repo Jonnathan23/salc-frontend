@@ -1,11 +1,11 @@
 import { CustomError } from "@salc/core/enums";
-import { UserDataSource } from "@salc/core/features/shared/indentiy/domain/datasource";
-import { ChangePasswordDto, LoginUserDto, RegisterUserDto, UpdateUserDto } from "@salc/core/features/shared/indentiy/domain/dtos";
-import { UserAuthResponseEntity } from "@salc/core/features/shared/indentiy/domain/entities";
-import { UserAuthResponseMapper } from "@salc/core/features/shared/indentiy/infrastructure/mappers/userAuthResponse.mapper";
-import { SuccessResponse } from "@salc/core/interfaces";
-import { Api } from "@salc/core/interfaces/Apit.interface";
-import { EntityValidator } from "@salc/core/interfaces/EntityValidator";
+import { type UserDataSource } from "@salc/core/features/shared/indentity/domain/datasource";
+import { type ChangePasswordDto, type LoginUserDto, type RegisterUserDto, type UpdateUserDto } from "@salc/core/features/shared/indentity/domain/dtos";
+import { type UserAuthResponseEntity } from "@salc/core/features/shared/indentity/domain/entities";
+import { type UserAuthResponseMapper } from "@salc/core/features/shared/indentity/infrastructure/mappers/userAuthResponse.mapper";
+import { type SuccessResponse } from "@salc/core/interfaces";
+import { type Api } from "@salc/core/interfaces/Apit.interface";
+import { type EntityValidator } from "@salc/core/interfaces/EntityValidator";
 
 
 export class UserRepository implements UserDataSource {

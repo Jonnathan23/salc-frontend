@@ -1,7 +1,7 @@
 'use client';
 
 import { alertStatus, sessionStatus, studentContractStatus, studentProgressCategory, type AlertStatus, type SessionStatus, type StudentContractStatus, type StudentProgressCategory } from "@salc/core/features/admin-desk/students/domain/interfaces/Student.interface";
-import { useState, type UseState } from "@salc/core/features/shared/indentiy/domain/entities";
+import { useState, type UseState } from "@salc/core/features/shared/indentity/domain/entities";
 
 //import { ContractStatus, ProgressCategory, SessionStatus, AlertStatus } from '@/lib/classtrack-types';
 

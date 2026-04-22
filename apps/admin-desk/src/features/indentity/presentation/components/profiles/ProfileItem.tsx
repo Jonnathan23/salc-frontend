@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-import type { UserAuthResponseEntity } from "@salc/core/features/shared/indentiy/domain/entities";
+import type { UserAuthResponseEntity } from "@salc/core/features/shared/indentity/domain/entities";
 import { ProfileStatusBadge } from "@/core/components/badges/Badges";
 
 

@@ -1,8 +1,9 @@
-import { UserAuthResponseEntity, UserAuthResponseEntityImpl, UseState } from "@salc/core/features/shared/indentiy/domain/entities/UserAuthResponse.entity";
+import type { UserAuthResponseEntity, UseState } from "@salc/core/features/shared/indentity/domain/entities/UserAuthResponse.entity";
+import { UserAuthResponseEntityImpl } from "@salc/core/features/shared/indentity/domain/entities/UserAuthResponse.entity";
 import { CustomError } from "@salc/core/enums";
-import { SystemPermission } from "@salc/core/enums/Permissions";
-import { UserRoles } from "@salc/core/interfaces";
-import { EntityValidator } from "@salc/core/interfaces/EntityValidator";
+import type { SystemPermission } from "@salc/core/enums/Permissions";
+import type { UserRoles } from "@salc/core/interfaces";
+import type { EntityValidator } from "@salc/core/interfaces/EntityValidator";
 import { Validators } from "@salc/core/utils";
 
 
@@ -14,7 +15,9 @@ type UserAuthResponseMapperProps = Record<string, unknown> | unknown | null | un
 
 export class UserAuthResponseMapperImpl implements UserAuthResponseMapper {
 
-    constructor(private readonly validator: EntityValidator<UserAuthResponseEntity>) { }
+    constructor(
+        private readonly validator: EntityValidator<UserAuthResponseEntity>
+    ) { }
 
     public toEntity(rawObject: UserAuthResponseMapperProps): UserAuthResponseEntity {
         if (!rawObject) {

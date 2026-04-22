@@ -1,10 +1,10 @@
 import { nullResponseValidator, validatorFactory } from "@salc/core/adapters";
 import { UpdateUserUseCaseImpl } from "@salc/core/features/admin-desk/modules/application";
-import { CreateUserUseCaseImpl, FindUserByIdUseCaseImpl, GetAllUsersUseCaseImpl, LoginUserUseCaseImpl } from "@salc/core/features/shared/indentiy/application";
-import { UserAuthResponseEntity } from "@salc/core/features/shared/indentiy/domain/entities";
-import { UserAuthResponseMapper, UserAuthResponseMapperImpl } from "@salc/core/features/shared/indentiy/infrastructure/mappers/userAuthResponse.mapper";
-import { UserRepository } from "@salc/core/features/shared/indentiy/infrastructure/repositories/user.repository";
-import { userAuthResponseSchema } from "@salc/core/features/shared/indentiy/infrastructure/schemas";
+import { CreateUserUseCaseImpl, FindUserByIdUseCaseImpl, GetAllUsersUseCaseImpl, LoginUserUseCaseImpl } from "@salc/core/features/shared/indentity/application";
+import type { UserAuthResponseEntity } from "@salc/core/features/shared/indentity/domain/entities";
+import { UserAuthResponseMapperImpl } from "@salc/core/features/shared/indentity/infrastructure/mappers/userAuthResponse.mapper";
+import { UserRepository } from "@salc/core/features/shared/indentity/infrastructure/repositories/user.repository";
+import { userAuthResponseSchema } from "@salc/core/features/shared/indentity/infrastructure/schemas";
 import { api } from "@salc/core/lib";
 
 //* Mappers

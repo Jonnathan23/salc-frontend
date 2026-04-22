@@ -1,25 +1,30 @@
 import { CustomError } from "@salc/core/enums";
-import { UserLoginEntity } from "@salc/core/features/shared/indentiy/domain/entities";
-import { UserAuthResponseMapper } from "@salc/core/features/shared/indentiy/infrastructure/mappers/userAuthResponse.mapper";
-import { loginResponseSchema } from "@salc/core/features/shared/indentiy/infrastructure/schemas";
-import { DataAccessLayerAdapter } from "@salc/core/adapters";
+import type { UserLoginEntity } from "@salc/core/features/shared/indentity/domain/entities";
+import type { EntityValidator } from "@salc/core/interfaces/EntityValidator";
+
 
 
 type UserLoginResponseMapperProps = Record<string, unknown> | unknown | null | undefined;
 
-export const UserLoginResponseMapper = {
+export interface UserLoginResponseMapper {
+    toEntity(rawObject: UserLoginResponseMapperProps): UserLoginEntity;
+}
 
-    toEntity(rawObject: UserLoginResponseMapperProps): UserLoginEntity {
+export class UserLoginResponseMapperImpl implements UserLoginResponseMapper {
+
+    constructor(
+        private readonly validator: EntityValidator<UserLoginEntity>
+    ) { }
+
+    public toEntity(rawObject: UserLoginResponseMapperProps): UserLoginEntity {
         if (!rawObject) {
             throw CustomError.notFound("User login response data is missing");
         }
 
-        const validationResponse = DataAccessLayerAdapter.validateData(loginResponseSchema, rawObject);
-
-        const userResponseEntity = UserAuthResponseMapper.toEntity(validationResponse.user);
+        const validationResponse = this.validator.validate(rawObject);
 
         const userLoginEntity: UserLoginEntity = {
-            user: userResponseEntity,
+            user: validationResponse.user,
             token: validationResponse.token
         };
 

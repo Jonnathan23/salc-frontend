@@ -6,7 +6,7 @@ import { Button } from '@/core/components/buttons/button';
 import { useUpdateFormUser } from '@/features/indentity/application/hooks';
 import UserForm from '@/features/indentity/presentation/components/register-update/UserForm';
 import type { UserRoles } from "@salc/core/interfaces";
-import type { UserAuthResponseEntity } from "@salc/core/features/shared/indentiy/domain/entities";
+import type { UserAuthResponseEntity } from "@salc/core/features/shared/indentity/domain/entities";
 import { ArrowLeft, Loader2, Users } from "lucide-react";
 
 interface UpdateUserProps {

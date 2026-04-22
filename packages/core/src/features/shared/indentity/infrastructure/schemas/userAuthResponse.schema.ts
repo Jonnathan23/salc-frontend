@@ -1,4 +1,4 @@
-import { useState } from "@salc/core/features/shared/indentiy/domain/entities";
+import { useState } from "@salc/core/features/shared/indentity/domain/entities";
 import { userRoles } from "@salc/core/interfaces";
 import { z } from "zod";
 

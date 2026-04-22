@@ -1,6 +1,6 @@
 import { useCreateUser, useLoginUser } from "@/features/indentity/application/hooks";
 import { useAuthStore } from "@/features/indentity/application/store/auth.store";
-import type { LoginUserDto, RegisterUserDto, UpdateUserDto } from "@salc/core/features/shared/indentiy/domain/dtos";
+import type { LoginUserDto, RegisterUserDto, UpdateUserDto } from "@salc/core/features/shared/indentity/domain/dtos";
 import type { UserRoles } from "@salc/core/interfaces";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -85,7 +85,8 @@ export const useLoginForm = () => {
 
 
     const onSubmit = async (data: LoginUserDto) => {
-        login(data); };
+        login(data);
+    };
 
 
     return {
