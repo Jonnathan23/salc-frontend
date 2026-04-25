@@ -22,27 +22,23 @@ Contiene los elementos transversales de la aplicación:
 - **`components/` & `layouts/`**: Componentes de interfaz estáticos o globales (ej. Sidebar, Navbar, Layouts).
 - **`hooks/`**: Custom hooks globales que no pertenecen a una funcionalidad específica del negocio.
 - **`routes/` & `pages/`**: Configuración de enrutamiento y páginas de acceso global.
-
 ### 2. Directorio de Funcionalidades (`src/features/[feature-name]/`)
+
 Cada funcionalidad de negocio (ej. `modules`, `students`) agrupa su propia presentación y estado local, conectándose con la capa de dominio.
 
 #### Capa de Aplicación UI (`application/`)
-Actúa como puente entre la vista (React) y la lógica de negocio (Core).
-- **`hooks/` (TanStack Query):** 
-  - **Humanos:** Aquí se maneja el estado asíncrono (carga, error, éxito) cuando pedimos o enviamos datos al servidor. Se usan hooks de React Query para no bloquear la UI y re-renderizar componentes automáticamente.
-  - **IA:** Contiene custom hooks que implementan `useQuery` y `useMutation` de TanStack Query. Estos hooks encapsulan las llamadas a los **Use Cases** inyectados desde el Core, manejando la caché de servidor, invalidación de queries y propagación de errores (`CustomError`) hacia la UI.
-  - **Regla:** Los componentes nunca llaman directamente a los Use Cases; siempre consumen estos hooks.
-- **`store/` (Zustand):**
-  - **Humanos:** Guarda datos que necesitan verse en muchas pantallas al mismo tiempo, como el usuario que ha iniciado sesión, para evitar pasar datos de componente en componente.
-  - **IA:** Implementación de estado global del lado del cliente usando **Zustand**. Utilizado para estado efímero o persistente que no depende de caché de servidor (ej. sesión de usuario en `auth.store.ts`).
+
+| Componente              | Descripción para Desarrolladores                                                                                                     | Descripción para IA                                                                                                                                                                     |
+|-------------------------|---------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **`hooks/` (TanStack Query)** | **Desarrolladores:** Maneja el estado asíncrono (carga, error, éxito) al solicitar o enviar datos al servidor. Utiliza hooks de React Query para optimizar el rendimiento de la UI y re-renderizar componentes automáticamente. | **IA:** Contiene hooks personalizados que implementan `useQuery` y `useMutation` de TanStack Query. Estos encapsulan las llamadas a los **Use Cases** inyectados desde el Core, gestionando la caché del servidor, invalidación de queries y propagación de errores (`CustomError`) hacia la UI. **Regla:** Los componentes nunca llaman directamente a los Use Cases; siempre consumen estos hooks. |
+| **`store/` (Zustand)** | **Desarrolladores:** Almacena datos que necesitan ser accesibles en múltiples pantallas, como la información del usuario autenticado, evitando el paso de datos entre componentes. | **IA:** Implementación de estado global del lado del cliente utilizando **Zustand**. Se utiliza para gestionar estado efímero o persistente que no depende de la caché del servidor (ej. sesión de usuario en `auth.store.ts`). |
 
 #### Capa de Presentación (`presentation/`)
-- **`components/`:** 
-  - **Humanos:** Los bloques visuales de la pantalla (formularios, tablas, tarjetas).
-  - **IA:** Componentes React aislados ("Dumb" o "Smart" components). Deben delegar la lógica de negocio compleja y llamadas HTTP a los hooks de `application/`.
-- **`pages/`:**
-  - **Humanos:** Las pantallas completas que el usuario visita.
-  - **IA:** Componentes contenedores que ensamblan la vista, manejan los parámetros de ruta y orquestan los componentes específicos de la funcionalidad.
+
+| Componente              | Descripción para Desarrolladores                                                                                                     | Descripción para IA                                                                                                                                                                     |
+|-------------------------|---------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **`components/`**      | **Desarrolladores:** Bloques visuales de la interfaz (formularios, tablas, tarjetas).                                                | **IA:** Componentes React aislados (también conocidos como "Dumb" o "Smart" components). Deben delegar la lógica de negocio compleja y las llamadas HTTP a los hooks de `application/`. |
+| **`pages/`**           | **Desarrolladores:** Pantallas completas que los usuarios visitan.                                                                    | **IA:** Componentes contenedores que ensamblan la vista, manejan los parámetros de ruta y orquestan los componentes específicos de la funcionalidad.                                    |
 
 ---
 
