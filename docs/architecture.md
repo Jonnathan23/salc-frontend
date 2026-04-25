@@ -1,70 +1,100 @@
-# Frontend Core Architecture & Workflow
+# Frontend Architecture & Workflow
 
-## Overview
-This document defines the architectural guidelines and workflow for the `@salc/core` package. This package is completely agnostic of any UI framework (React, Vue, etc.). It strictly implements Clean Architecture to manage business logic, data fetching, and state transformation.
+## Resumen
+Este documento define las directrices arquitectónicas, la separación de capas y el flujo de trabajo del monorepo del frontend. El proyecto sigue estrictamente la **Clean Architecture** para separar la capa de presentación (UI) de la lógica de negocio y la infraestructura, lo que garantiza la escalabilidad, la facilidad de prueba y la independencia del marco de trabajo para las reglas básicas.
 
-## Directory Structure
-Features are modularized inside `packages/core/src/features/[feature-name]/`.
-Each feature MUST adhere to the following layer segregation:
+## Diccionario de Responsabilidades
 
-    [feature-name]/
-    ├── application/
-    │   └── use-cases/       # Orchestrates domain and infrastructure
-    ├── domain/
-    │   ├── datasources/     # Abstract classes/Interfaces for repositories
-    │   ├── dtos/            # Data Transfer Objects (Input validation)
-    │   └── entities/        # Pure business objects
-    ├── infrastructure/
-    │   ├── mappers/         # Transforms raw data to Entities using Zod
-    │   ├── repositories/    # Implements datasources (HTTP calls)
-    │   └── schemas/         # Zod schemas for validation
-    └── di/                  # Dependency Injection setup
+| Capa / Módulo             | Descripción                                                                 |
+|---------------------------|--------------------------------------------------------------------------------------|
+| **Apps (Admin/Class)**    | Contienen la lógica de presentación específica. Son "consumidores" de la lógica de negocio centralizada. Proveen las interfaces de usuario construidas con React. |
+| **Business Logic / Domain**| Capa agnóstica al framework (`packages/core`). Contiene los casos de uso, entidades y validaciones que no dependen de React para asegurar portabilidad y limpieza. |
+| **Shared Services & UI**  | Implementaciones de comunicación HTTP (adapters), mappers compartidos y componentes UI reutilizables entre todas las aplicaciones del monorepo (`packages/ui` y `packages/core`). |
 
-## Layer Constraints & Patterns
+---
+
+## Capas del Cliente (Apps)
+
+Cada aplicación dentro de `apps/` (ej. `admin-desk`, `class-track`) es un consumidor de la lógica de negocio. La estructura interna separa las responsabilidades globales de las modulares (por funcionalidad).
+
+### 1. Directorio Global (`src/core/`)
+Contiene los elementos transversales de la aplicación:
+- **`components/` & `layouts/`**: Componentes de interfaz estáticos o globales (ej. Sidebar, Navbar, Layouts).
+- **`hooks/`**: Custom hooks globales que no pertenecen a una funcionalidad específica del negocio.
+- **`routes/` & `pages/`**: Configuración de enrutamiento y páginas de acceso global.
+
+### 2. Directorio de Funcionalidades (`src/features/[feature-name]/`)
+Cada funcionalidad de negocio (ej. `modules`, `students`) agrupa su propia presentación y estado local, conectándose con la capa de dominio.
+
+#### Capa de Aplicación UI (`application/`)
+Actúa como puente entre la vista (React) y la lógica de negocio (Core).
+- **`hooks/` (TanStack Query):** 
+  - **Humanos:** Aquí se maneja el estado asíncrono (carga, error, éxito) cuando pedimos o enviamos datos al servidor. Se usan hooks de React Query para no bloquear la UI y re-renderizar componentes automáticamente.
+  - **IA:** Contiene custom hooks que implementan `useQuery` y `useMutation` de TanStack Query. Estos hooks encapsulan las llamadas a los **Use Cases** inyectados desde el Core, manejando la caché de servidor, invalidación de queries y propagación de errores (`CustomError`) hacia la UI.
+  - **Regla:** Los componentes nunca llaman directamente a los Use Cases; siempre consumen estos hooks.
+- **`store/` (Zustand):**
+  - **Humanos:** Guarda datos que necesitan verse en muchas pantallas al mismo tiempo, como el usuario que ha iniciado sesión, para evitar pasar datos de componente en componente.
+  - **IA:** Implementación de estado global del lado del cliente usando **Zustand**. Utilizado para estado efímero o persistente que no depende de caché de servidor (ej. sesión de usuario en `auth.store.ts`).
+
+#### Capa de Presentación (`presentation/`)
+- **`components/`:** 
+  - **Humanos:** Los bloques visuales de la pantalla (formularios, tablas, tarjetas).
+  - **IA:** Componentes React aislados ("Dumb" o "Smart" components). Deben delegar la lógica de negocio compleja y llamadas HTTP a los hooks de `application/`.
+- **`pages/`:**
+  - **Humanos:** Las pantallas completas que el usuario visita.
+  - **IA:** Componentes contenedores que ensamblan la vista, manejan los parámetros de ruta y orquestan los componentes específicos de la funcionalidad.
+
+---
+
+## Lógica de Negocio Centralizada (`packages/core/src/`)
+
+La capa base (`@salc/core`) es completamente agnóstica de la interfaz gráfica. Su diseño permite que cualquier framework de UI pueda consumir la misma lógica.
 
 ### 1. Domain Layer (`domain/`)
-The absolute core of the system. It depends on NOTHING outside of the domain.
-
-* **Entities:** Must be pure TypeScript classes containing business data. No HTTP logic.
-* **DTOs (Data Transfer Objects):** * Must use the `Interface + Impl Class` pattern.
-    * Must include a `private constructor`.
-    * Must expose a `static create(data: Record<string, any>): DtoType` factory method.
-    * Must throw a `CustomError.badRequest()` if validation fails before hitting the API.
-* **DataSources:** Abstract classes defining the contract for the repositories.
+El corazón del sistema. No tiene dependencias externas.
+- **Entities:** Clases puras de TypeScript que modelan la información del negocio.
+- **DTOs (Data Transfer Objects):** 
+  - Validan los datos de entrada usando el patrón `Interface + Impl Class` con un factory method `create()`.
+  - Lanzan `CustomError.badRequest()` si falla la validación antes de contactar al backend.
+- **DataSources:** Contratos (clases abstractas o interfaces) que definen las operaciones requeridas.
 
 ### 2. Infrastructure Layer (`infrastructure/`)
-Responsible for external communications (HTTP via `api`) and data transformation.
+Responsable de la comunicación externa (HTTP) y transformación de datos.
+- **Repositories:** Implementan los `DataSources`. Utilizan el cliente HTTP configurado (`api`) para realizar peticiones.
+- **Mappers & Schemas:** 
+  - Los esquemas de **Zod** validan que la respuesta JSON del servidor sea la esperada.
+  - Los **Mappers** transforman esta respuesta cruda (Data Access Layer) hacia **Entities** puras del dominio.
 
-* **Repositories:**
-    * Must implement the Domain `DataSource`.
-    * Must use `api` (our Axios wrapper) for HTTP requests.
-    * **CRITICAL:** Do NOT use `try/catch` blocks to handle network errors. `api` automatically intercepts HTTP errors and throws formatted `CustomError` instances. Let the error bubble up to the UI mutation cache.
-* **Mappers & Schemas:**
-    * Always define a Zod schema (`schemas/`) corresponding to the expected backend JSON response.
-    * Mappers must use `DataAccessLayerAdapter.validateData(schema, rawData)` to parse the response.
-    * Mappers construct and return the pure Domain Entities.
-
-### 3. Application Layer (`application/`)
-The orchestrator.
-
-* **Use Cases:** * Must follow the Command pattern (a class with a single `execute` method).
-    * Takes DTOs as input, calls the Repository, and returns `Promise<SuccessResponse<Entity>>`.
+### 3. Application Layer (Core) (`application/use-cases/`)
+El orquestador de reglas de negocio.
+- **Use Cases:** Implementan el patrón **Command** (con un único método `execute`). Reciben DTOs, llaman a los Repositories y retornan objetos predecibles (`Promise<SuccessResponse<Entity>>`).
 
 ### 4. Dependency Injection (`di/`)
-* Every feature must have a `[FeatureName]Module.ts` file.
-* This file instantiates the Repositories and injects them into the Use Cases.
-* The UI layer (React/Zustand) MUST only import the pre-instantiated Use Cases from this `di/` folder, never the Repositories directly.
+- Cada funcionalidad en el Core posee un archivo `[FeatureName]Module.ts`.
+- Este archivo actúa como contenedor IoC (Inversion of Control), instanciando los Repositories (con la configuración HTTP) y pasándolos a los Use Cases.
+- **Restricción Crítica:** La capa de React (en `apps/`) **sólo** debe importar los Use Cases ya instanciados desde esta carpeta `di/`. Nunca instanciar clases del dominio o repositorios directamente en la UI.
 
-## Data Flow Example (Creation Process)
+---
 
-1. **UI Level (Ignored by Core):** User submits a form.
-2. **DTO Validation:** `CreateModuleDtoImpl.create(rawData)` is called. Throws `CustomError` if invalid.
-3. **Use Case:** `createModuleUseCase.execute(validDto)` receives the payload.
-4. **Repository:** `moduleRepository.create(dto)` sends the HTTP request via `this.api.post()`.
-5. **Mapper:** The raw JSON response is parsed by `ModuleMapper` and converted into a `SuccessResponse<ModuleEntity>`.
-6. **Return:** The Use Case returns the formatted response back to the UI.
+## Flujo de Datos Transversal (Ejemplo de Mutación)
 
-## Error Handling
-* Never throw generic `Error` objects.
-* Always throw `CustomError` (e.g., `CustomError.badRequest('message')`, `CustomError.notFound()`).
-* Network errors and 4xx/5xx responses are automatically intercepted by `api` and converted into `CustomError` arrays.
+```typescript
+// Ejemplo estructural usando el estilo Kernighan y Ritchie (K&R)
+```
+
+1. **UI Level (Presentación):** El usuario interactúa con un formulario en `apps/admin-desk/src/features/modules/presentation/components/ModuleForm.tsx`.
+2. **UI Hook (TanStack Query):** El componente llama a la función `mutate()` expuesta por el hook `useCreateModule.use.ts`.
+3. **DTO Validation:** El hook recibe la información cruda y llama a `CreateModuleDtoImpl.create(rawData)`. Si es inválida, se lanza un `CustomError` que es capturado por React Query.
+4. **Use Case (Core):** Si el DTO es válido, el hook invoca `createModuleUseCase.execute(validDto)`.
+5. **Repository (Infrastructure):** El Use Case delega la operación al Repository, el cual ejecuta la llamada HTTP.
+6. **Mapper:** La respuesta del servidor es validada por Zod y mapeada a una Entidad de Dominio.
+7. **Resolución:** El Use Case devuelve la Entidad envuelta en un SuccessResponse. React Query actualiza su estado interno, ejecuta invalidación de cachés vinculadas (ej. `queryClient.invalidateQueries({ queryKey: ["modules"] })`) y la UI refleja el nuevo estado.
+
+---
+
+## Manejo de Errores
+
+* **Nunca** lanzar objetos genéricos `Error`.
+* Utilizar siempre instancias de `CustomError` (ej. `CustomError.badRequest('Mensaje claro')`, `CustomError.notFound()`).
+* Las excepciones de red (4xx/5xx) son interceptadas automáticamente por la instancia centralizada `api` y convertidas en `CustomError`.
+* React Query captura estos errores arrojados desde el Core y los expone al componente de presentación para notificar al usuario (ej. a través de tostadas o alertas, como `ShowMessageAdapter.error()`).
