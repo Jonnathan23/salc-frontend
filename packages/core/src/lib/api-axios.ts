@@ -1,7 +1,7 @@
 import { CustomError } from "@salc/core/enums";
 import type { ErrorResponse, FormattedErrorResponse } from "@salc/core/interfaces";
 import axios, { AxiosError, type AxiosInstance, type AxiosResponse, type InternalAxiosRequestConfig } from "axios";
-import type { Api } from "@salc/core/interfaces/Apit.interface";
+import type { Api, ApiSettings } from "@salc/core/interfaces/Apit.interface";
 import type { EntityValidator } from "@salc/core/interfaces/EntityValidator";
 
 

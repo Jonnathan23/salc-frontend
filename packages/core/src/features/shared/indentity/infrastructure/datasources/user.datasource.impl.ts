@@ -8,7 +8,7 @@ import { type Api } from "@salc/core/interfaces/Apit.interface";
 import { type EntityValidator } from "@salc/core/interfaces/EntityValidator";
 
 
-export class UserRepository implements UserDataSource {
+export class UserDataSourceImpl implements UserDataSource {
 
     private readonly baseUrl = '/user';
 

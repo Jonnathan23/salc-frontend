@@ -8,7 +8,7 @@ import { type Api } from "@salc/core/interfaces/Apit.interface";
 import { type EntityValidator } from "@salc/core/interfaces/EntityValidator";
 
 
-export class StudentRepositoryImpl implements StudentDataSource {
+export class StudentDataSourceImpl implements StudentDataSource {
     private readonly baseUrl = '/students';
 
     constructor(

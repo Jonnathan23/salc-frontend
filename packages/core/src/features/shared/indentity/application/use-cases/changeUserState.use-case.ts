@@ -1,4 +1,4 @@
-import type { UserRepository } from "@salc/core/features/shared/indentity/infrastructure/repositories/user.repository";
+import type { UserRepository } from "@salc/core/features/shared/indentity/domain/repository/user.repository";
 import type { SuccessResponse } from "@salc/core/interfaces";
 
 

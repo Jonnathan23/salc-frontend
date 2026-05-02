@@ -1,5 +1,5 @@
-import { UserDataSource } from "@salc/core/features/shared/indentity/domain/datasource";
 import type { UpdateUserDto } from "@salc/core/features/shared/indentity/domain/dtos";
+import type { UserRepository } from "@salc/core/features/shared/indentity/domain/repository/user.repository";
 import type { SuccessResponse } from "@salc/core/interfaces";
 
 
@@ -9,7 +9,7 @@ interface UpdateUserUseCase {
 
 export class UpdateUserUseCaseImpl implements UpdateUserUseCase {
     constructor(
-        private readonly userDataSource: UserDataSource
+        private readonly userDataSource: UserRepository
     ) { }
 
     execute(id: string, user: UpdateUserDto): Promise<SuccessResponse> {

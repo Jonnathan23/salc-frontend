@@ -9,6 +9,7 @@ import { ErrorResponseSchema } from "@salc/core/schemas";
 
 const validateErrorResponse = new ZodValidatorFactory().createValidator(ErrorResponseSchema);
 export const api: Api = new ApiAxios("", validateErrorResponse);
+//export const api: Api = new ApiFetch("", validateErrorResponse);
 
 export const setupApiClient = (onUnauthorized: () => void): void => {
     if (!envs.API_URL) {

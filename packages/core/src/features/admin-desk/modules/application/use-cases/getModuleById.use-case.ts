@@ -1,6 +1,7 @@
-import { SuccessResponse } from "@salc/core/interfaces";
-import { ModuleEntity } from "@salc/core/features/admin-desk/modules/domain/entities/Module.entity";
-import { ModuleRepositoryImpl } from "@salc/core/features/admin-desk/modules/infrastructure/repositories/module.repository";
+import type { ModuleRepositoryImpl } from "@salc/core/features/admin-desk/modules/infrastructure/repositories/module.repository.impl";
+import type { ModuleEntity } from "@salc/core/features/admin-desk/modules/domain/entities/Module.entity";
+import type { SuccessResponse } from "@salc/core/interfaces";
+
 
 interface GetModuleByIdUseCase {
     execute(moduleId: string): Promise<SuccessResponse<ModuleEntity>>
