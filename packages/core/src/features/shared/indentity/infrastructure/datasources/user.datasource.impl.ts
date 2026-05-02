@@ -4,7 +4,7 @@ import type { ChangePasswordDto, LoginUserDto, RegisterUserDto, UpdateUserDto } 
 import { type UserAuthResponseEntity } from "@salc/core/features/shared/indentity/domain/entities";
 import { type UserAuthResponseMapper } from "@salc/core/features/shared/indentity/infrastructure/mappers/userAuthResponse.mapper";
 import { type SuccessResponse } from "@salc/core/interfaces";
-import { type Api } from "@salc/core/interfaces/Apit.interface";
+import { type MethodsHttp } from "@salc/core/interfaces/Apit.interface";
 import { type EntityValidator } from "@salc/core/interfaces/EntityValidator";
 
 
@@ -18,7 +18,7 @@ export class UserDataSourceImpl implements UserDataSource {
      * @param userAuthResponseMapper - UserAuthResponseMapper
      */
     constructor(
-        private readonly api: Api,
+        private readonly api: MethodsHttp,
         private readonly nullResponseValidator: EntityValidator<SuccessResponse>,
         private readonly userAuthResponseMapper: UserAuthResponseMapper
     ) { }

@@ -1,18 +1,16 @@
-import { CustomError } from "@salc/core/enums";
-import { StudentDataSource } from "@salc/core/features/admin-desk/students/domain/datasources/Student.datasource";
 import type { RegisterStudentDto, UpdateStudentDto, ChangeContractStatusDto } from "@salc/core/features/admin-desk/students/domain/dtos";
-import { type StudentEntity } from "@salc/core/features/admin-desk/students/domain/entities/Student.entity";
 import { type StudentMapper } from "@salc/core/features/admin-desk/students/infrastructure/mappers/Student.mapper";
-import { type SuccessResponse } from "@salc/core/interfaces";
-import { type Api } from "@salc/core/interfaces/Apit.interface";
-import { type EntityValidator } from "@salc/core/interfaces/EntityValidator";
+import { StudentDataSource } from "@salc/core/features/admin-desk/students/domain/datasources/Student.datasource";
+import { type StudentEntity } from "@salc/core/features/admin-desk/students/domain/entities/Student.entity";
+import { type SuccessResponse, type MethodsHttp } from "@salc/core/interfaces";
+import { CustomError } from "@salc/core/enums";
 
 
 export class StudentDataSourceImpl implements StudentDataSource {
     private readonly baseUrl = '/students';
 
     constructor(
-        private readonly apiStudents: Api,
+        private readonly apiStudents: MethodsHttp,
         private readonly studentMapper: StudentMapper,
     ) { }
 

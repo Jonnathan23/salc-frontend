@@ -5,8 +5,7 @@ import type { PayQuotaDto } from "@salc/core/features/admin-desk/payments/domain
 import type { PaymentPlanEntity } from "@salc/core/features/admin-desk/payments/domain/entities/PaymentPlan.entity";
 import type { PaymentQuotaEntity } from "@salc/core/features/admin-desk/payments/domain/entities/PaymentQuota.entity";
 import type { PaymentMapper } from "@salc/core/features/admin-desk/payments/infrastructure/mappers/Payment.mapper";
-import type { SuccessResponse } from "@salc/core/interfaces";
-import type { Api } from "@salc/core/interfaces/Apit.interface";
+import type { SuccessResponse, MethodsHttp } from "@salc/core/interfaces";
 
 
 export class PaymentRepositoryImpl implements PaymentDataSource {
@@ -17,7 +16,7 @@ export class PaymentRepositoryImpl implements PaymentDataSource {
      * @param paymentMapper 
      */
     constructor(
-        private readonly apiPayments: Api,
+        private readonly apiPayments: MethodsHttp,
         private readonly paymentMapper: PaymentMapper
     ) { }
 
