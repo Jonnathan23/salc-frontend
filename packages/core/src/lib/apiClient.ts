@@ -1,7 +1,7 @@
 import { ZodValidatorFactory } from "@salc/core/adapters/data-acces-layer/zod/ZodValidatorFactory.adapter";
 import { envs } from "@salc/core/config"
 import { CustomError } from "@salc/core/enums";
-import type { Api } from "@salc/core/interfaces/Apit.interface";
+import type { Api } from "@salc/core/interfaces";
 import { ApiAxios } from "@salc/core/lib/api-axios";
 import { ErrorResponseSchema } from "@salc/core/schemas";
 
@@ -9,7 +9,6 @@ import { ErrorResponseSchema } from "@salc/core/schemas";
 
 const validateErrorResponse = new ZodValidatorFactory().createValidator(ErrorResponseSchema);
 export const api: Api = new ApiAxios("", validateErrorResponse);
-//export const api: Api = new ApiFetch("", validateErrorResponse);
 
 export const setupApiClient = (onUnauthorized: () => void): void => {
     if (!envs.API_URL) {
