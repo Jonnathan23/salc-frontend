@@ -1,5 +1,5 @@
 import { nullResponseValidator, validatorFactory } from "@salc/core/adapters";
-import { UpdateUserUseCaseImpl } from "@salc/core/features/admin-desk/modules/application";
+import { UpdateUserUseCaseImpl } from "@salc/core/features/admin-desk/modules/application/use-cases";
 import { CreateUserUseCaseImpl, FindUserByIdUseCaseImpl, GetAllUsersUseCaseImpl, LoginUserUseCaseImpl } from "@salc/core/features/shared/indentity/application";
 import { ChangeUserStateUseCaseImpl } from "@salc/core/features/shared/indentity/application/use-cases/changeUserState.use-case";
 import type { UserAuthResponseEntity } from "@salc/core/features/shared/indentity/domain/entities";

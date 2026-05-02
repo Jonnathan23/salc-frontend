@@ -3,7 +3,7 @@ import type { PaymentQuotaEntity } from "@salc/core/features/admin-desk/payments
 import type { CreatePaymentPlanDto, PayQuotaDto } from "@salc/core/features/admin-desk/payments/domain/dtos";
 import type { SuccessResponse } from "@salc/core/interfaces";
 
-export abstract class PaymentDataSource {
+export abstract class PaymentRepository {
     abstract createPaymentPlan(studentId: string, dto: CreatePaymentPlanDto): Promise<SuccessResponse<PaymentPlanEntity>>;
     abstract getStudentPaymentPlans(studentId: string): Promise<SuccessResponse<PaymentPlanEntity[]>>;
     abstract processQuotaPayment(quotaId: string, dto: PayQuotaDto): Promise<SuccessResponse<PaymentQuotaEntity>>;
