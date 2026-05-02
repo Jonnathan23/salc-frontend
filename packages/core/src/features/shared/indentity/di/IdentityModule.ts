@@ -1,10 +1,11 @@
 import { nullResponseValidator, validatorFactory } from "@salc/core/adapters";
-import { UpdateUserUseCaseImpl } from "@salc/core/features/admin-desk/modules/application";
+import { UpdateUserUseCaseImpl } from "@salc/core/features/admin-desk/modules/application/use-cases";
 import { CreateUserUseCaseImpl, FindUserByIdUseCaseImpl, GetAllUsersUseCaseImpl, LoginUserUseCaseImpl } from "@salc/core/features/shared/indentity/application";
 import { ChangeUserStateUseCaseImpl } from "@salc/core/features/shared/indentity/application/use-cases/changeUserState.use-case";
 import type { UserAuthResponseEntity } from "@salc/core/features/shared/indentity/domain/entities";
+import { UserDataSourceImpl } from "@salc/core/features/shared/indentity/infrastructure/datasources/user.datasource.impl";
 import { UserAuthResponseMapperImpl } from "@salc/core/features/shared/indentity/infrastructure/mappers/userAuthResponse.mapper";
-import { UserRepository } from "@salc/core/features/shared/indentity/infrastructure/repositories/user.repository";
+import { UserRepositoryImpl } from "@salc/core/features/shared/indentity/infrastructure/repositories/user.repository.impl";
 import { userAuthResponseSchema } from "@salc/core/features/shared/indentity/infrastructure/schemas";
 import { api } from "@salc/core/lib";
 
@@ -14,8 +15,12 @@ const userAuthValidator = validatorFactory.createValidator<UserAuthResponseEntit
 // Inyectamos el validador al Mapper
 export const userAuthMapper = new UserAuthResponseMapperImpl(userAuthValidator);
 
+//* Datasources
+export const userDataSource = new UserDataSourceImpl(api, nullResponseValidator, userAuthMapper);
+
 //* Repositories
-export const userRepository = new UserRepository(api, nullResponseValidator, userAuthMapper);
+export const userRepository = new UserRepositoryImpl(userDataSource);
+
 
 //* Use Cases
 export const createUserUseCase = new CreateUserUseCaseImpl(userRepository);

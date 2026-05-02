@@ -1,7 +1,7 @@
 import { ZodValidatorFactory } from "@salc/core/adapters/data-acces-layer/zod/ZodValidatorFactory.adapter";
 import { envs } from "@salc/core/config"
 import { CustomError } from "@salc/core/enums";
-import type { Api } from "@salc/core/interfaces/Apit.interface";
+import type { Api } from "@salc/core/interfaces";
 import { ApiAxios } from "@salc/core/lib/api-axios";
 import { ErrorResponseSchema } from "@salc/core/schemas";
 

@@ -3,7 +3,8 @@ import { DeactivateStudentUseCase } from "@salc/core/features/admin-desk/student
 import { GetAllStudentsUseCaseImpl } from "@salc/core/features/admin-desk/students/application/use-cases/GetAllStudents.use-case";
 import { RegisterStudentUseCase } from "@salc/core/features/admin-desk/students/application/use-cases/RegisterStudent.use-case";
 import { ToggleGraduatedUseCase } from "@salc/core/features/admin-desk/students/application/use-cases/ToggleGraduated.use-case";
-import { StudentRepositoryImpl } from "@salc/core/features/admin-desk/students/infrastructure/repositories/Student.repository";
+import { StudentDataSourceImpl } from "@salc/core/features/admin-desk/students/infrastructure/datasources/Student.datasource.impl";
+import { StudentRepositoryImpl } from "@salc/core/features/admin-desk/students/infrastructure/repositories/Student.repository.impl";
 import { SearchStudentsUseCase } from "@salc/core/features/admin-desk/students/application/use-cases/SearchStudents.use-case";
 import { UpdateStudentUseCase } from "@salc/core/features/admin-desk/students/application/use-cases/UpdateStudent.use-case";
 import { StudentMapperImpl } from "@salc/core/features/admin-desk/students/infrastructure/mappers/Student.mapper";
@@ -21,8 +22,11 @@ const arrayStudentValidator = validatorFactory.createValidator<StudentEntity[]>(
 //* Mapper
 const studentMapper = new StudentMapperImpl(studentValidator, arrayStudentValidator);
 
+//* Datasource
+const studentDataSource = new StudentDataSourceImpl(api, studentMapper);
+
 //* Repositories
-const studentRepository = new StudentRepositoryImpl(api, studentMapper);
+const studentRepository = new StudentRepositoryImpl(studentDataSource);
 
 //* Use Cases
 export const registerStudentUseCase = new RegisterStudentUseCase(studentRepository);

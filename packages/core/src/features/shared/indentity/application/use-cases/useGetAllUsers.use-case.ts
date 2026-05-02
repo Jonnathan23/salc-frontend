@@ -1,6 +1,6 @@
 import type { SuccessResponse } from "@salc/core/interfaces";
 import type { UserAuthResponseEntity } from "@salc/core/features/shared/indentity/domain/entities";
-import type { UserRepository } from "@salc/core/features/shared/indentity/infrastructure/repositories/user.repository";
+import type { UserRepository } from "@salc/core/features/shared/indentity/infrastructure/repositories/user.repository.impl";
 
 
 interface GetAllUsersUseCase {
@@ -9,7 +9,7 @@ interface GetAllUsersUseCase {
 
 
 export class GetAllUsersUseCaseImpl implements GetAllUsersUseCase {
-    constructor(private readonly userRepository: UserRepository) {}
+    constructor(private readonly userRepository: UserRepository) { }
 
     async execute(): Promise<SuccessResponse<UserAuthResponseEntity[]>> {
         return await this.userRepository.findAll();

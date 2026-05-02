@@ -1,6 +1,7 @@
-import { CreateModuleDto } from "@salc/core/features/admin-desk/modules/domain/dtos";
-import { SuccessResponse } from "@salc/core/interfaces";
-import { ModuleRepositoryImpl } from "@salc/core/features/admin-desk/modules/infrastructure/repositories/module.repository";
+import type { ModuleRepositoryImpl } from "@salc/core/features/admin-desk/modules/infrastructure/repositories/module.repository.impl";
+import type { CreateModuleDto } from "@salc/core/features/admin-desk/modules/domain/dtos";
+import type { SuccessResponse } from "@salc/core/interfaces";
+
 
 
 interface CreateModuleUseCase {

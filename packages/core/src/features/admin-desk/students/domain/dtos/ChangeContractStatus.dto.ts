@@ -1,5 +1,6 @@
 import { CustomError } from "@salc/core/enums";
-import { StudentContractStatus } from "@salc/core/features/admin-desk/students/domain/interfaces/Student.interface";
+import type { StudentContractStatus } from "@salc/core/features/admin-desk/students/domain/interfaces/Student.interface";
+
 
 
 export interface ChangeContractStatusDto {
@@ -8,7 +9,7 @@ export interface ChangeContractStatusDto {
 
 export class ChangeContractStatusDtoImpl implements ChangeContractStatusDto {
     private constructor(
-        public readonly contractStatus: StudentContractStatus
+        public readonly contractStatus: StudentContractStatus   
     ) {}
 
     static create(data: Record<string, any>): ChangeContractStatusDto {

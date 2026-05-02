@@ -3,7 +3,7 @@ import type { StudentEntity } from "@salc/core/features/admin-desk/students/doma
 import type { SuccessResponse } from "@salc/core/interfaces";
 
 
-export abstract class StudentDataSource {
+export abstract class StudentRepository {
     abstract register(dto: RegisterStudentDto): Promise<SuccessResponse<StudentEntity>>;
     abstract search(query: string): Promise<SuccessResponse<StudentEntity[]>>;
     abstract getAllStudents(): Promise<SuccessResponse<StudentEntity[]>>;
@@ -11,4 +11,4 @@ export abstract class StudentDataSource {
     abstract changeContractStatus(id: string, dto: ChangeContractStatusDto): Promise<SuccessResponse<StudentEntity>>;
     abstract toggleGraduated(id: string): Promise<SuccessResponse<StudentEntity>>;
     abstract deactivate(id: string): Promise<SuccessResponse<StudentEntity>>;
-}
+}   

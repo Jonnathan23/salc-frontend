@@ -4,11 +4,11 @@ import type { CreateModuleDto, UpdateModuleDto } from "@salc/core/features/admin
 import type { ModuleEntity } from "@salc/core/features/admin-desk/modules/domain/entities/Module.entity";
 import type { ModuleMapper } from "@salc/core/features/admin-desk/modules/infrastructure/mapper/module.mapper";
 import type { SuccessResponse } from "@salc/core/interfaces";
-import type { Api } from "@salc/core/interfaces/Apit.interface";
+import type { Api, MethodsHttp } from "@salc/core/interfaces/Apit.interface";
 import type { EntityValidator } from "@salc/core/interfaces/EntityValidator";
 
 
-export class ModuleRepositoryImpl implements ModuleDataSource {
+export class ModuleDataSourceImpl implements ModuleDataSource {
     private readonly baseUrl = '/modules';
 
     /**
@@ -17,7 +17,7 @@ export class ModuleRepositoryImpl implements ModuleDataSource {
      * @param nullResponseValidator - EntityValidator<SuccessResponse>
      */
     constructor(
-        private readonly api: Api,
+        private readonly api: MethodsHttp,
         private readonly moduleMapper: ModuleMapper,
         private readonly nullResponseValidator: EntityValidator<SuccessResponse>
     ) { }

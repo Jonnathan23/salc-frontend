@@ -18,6 +18,7 @@
         }
     },
     "include": [
-        "src/**/*"
+        "src/**/*",
+        "src/features/admin-desk/students/domain/dtos/.index.ts"
     ]
 }

@@ -1,5 +1,5 @@
 import { CustomError } from "@salc/core/enums";
-import { CertificateType } from "@salc/core/features/admin-desk/students/domain/interfaces/Student.interface";
+import { type CertificateType } from "@salc/core/features/admin-desk/students/domain/interfaces/Student.interface";
 import { Validators } from "@salc/core/utils";
 
 export interface RegisterStudentDto {
