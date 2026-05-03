@@ -1,13 +1,14 @@
 import { ShowMessageAdapter } from "@/core/adapters/ShowMessage.adapter";
+import type { BaseUserFormValues } from "@/features/indentity/presentation/interfaces/BaseFormValues.interface";
+import { UserMapper } from "@/features/indentity/presentation/mappers/user.mapper";
 import { updateUserUseCase } from "@salc/core/features/shared/indentity/di/IdentityModule";
-import { UpdateUserDtoImpl, type UpdateUserDto } from "@salc/core/features/shared/indentity/domain/dtos";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 
 
 interface UseUpdateUserMutationProps {
     id: string;
-    data: UpdateUserDto;
+    data: BaseUserFormValues;
 }
 
 export const useUpdateUser = () => {
@@ -15,7 +16,7 @@ export const useUpdateUser = () => {
 
     return useMutation({
         mutationFn: async ({ id, data }: UseUpdateUserMutationProps) => {
-            const validDto = UpdateUserDtoImpl.create(data);
+            const validDto = UserMapper.toUpdateDto(data);
 
             return await updateUserUseCase.execute(id, validDto);
         },

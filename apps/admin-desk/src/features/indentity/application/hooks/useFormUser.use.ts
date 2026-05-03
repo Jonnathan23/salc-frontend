@@ -3,9 +3,8 @@ import { useForm } from "react-hook-form";
 
 import { useCreateUser, useLoginUser } from "@/features/indentity/application/hooks";
 import { useAuthStore } from "@/features/indentity/application/store/auth.store";
-import type { LoginUserDto } from "@salc/core/features/shared/indentity/domain/dtos";
 import type { UserRoles } from "@salc/core/interfaces";
-import type { BaseUserFormValues } from "@/features/indentity/presentation/interfaces";
+import type { BaseLoginFormValues, BaseUserFormValues } from "@/features/indentity/presentation/interfaces";
 import { useUpdateUser } from "@/features/indentity/application/hooks/useUpdateUser.use";
 
 interface UseFormUserProps {
@@ -78,15 +77,15 @@ export const useUpdateFormUser = ({ onRoleChange, defaultValues, id }: UseUpdate
 
 
 export const useLoginForm = () => {
-    const defaultValues: LoginUserDto = { us_email: '', us_password_hash: '', };
-    const { register, handleSubmit, formState: { errors } } = useForm<LoginUserDto>({ defaultValues });
+    const defaultValues: BaseLoginFormValues = { us_email: '', us_password_hash: '', };
+    const { register, handleSubmit, formState: { errors } } = useForm<BaseLoginFormValues>({ defaultValues });
 
     const { setLoginSession } = useAuthStore();
 
-    const { mutate: login, isPending: isPendingLogin } = useLoginUser({ setLoginSession });
+    const { mutate: login, isPending: isPendingLogin, isError, error: errorLogin } = useLoginUser({ setLoginSession });
 
 
-    const onSubmit = async (data: LoginUserDto) => {
+    const onSubmit = async (data: BaseLoginFormValues) => {
         login(data);
     };
 
@@ -94,8 +93,10 @@ export const useLoginForm = () => {
     return {
         register,
         handleSubmit,
-        errors,
         onSubmit,
+        errors,
+        isError,
+        errorLogin,
         isPendingLogin
     }
 }

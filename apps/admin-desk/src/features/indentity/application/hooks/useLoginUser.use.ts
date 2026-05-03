@@ -1,11 +1,12 @@
-import { useMutation } from "@tanstack/react-query"
 import { useNavigate, type NavigateFunction } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query"
 
-import { loginUserUseCase } from "@salc/core/features/shared/indentity/di/IdentityModule";
-import { LoginUserDtoImpl, type LoginUserDto } from "@salc/core/features/shared/indentity/domain/dtos";
-import { userRoles, type SuccessResponse, type UserRoles } from "@salc/core/interfaces";
-import { envsLocal } from "@/core/config/envs-local";
 import type { UserAuthResponseEntity } from "@salc/core/features/shared/indentity/domain/entities";
+import { loginUserUseCase } from "@salc/core/features/shared/indentity/di/IdentityModule";
+import type { BaseLoginFormValues } from "@/features/indentity/presentation/interfaces";
+import { userRoles, type SuccessResponse, type UserRoles } from "@salc/core/interfaces";
+import { LoginMapper } from "@/features/indentity/presentation/mappers/login.mapper";
+import { envsLocal } from "@/core/config/envs-local";
 import { CustomError } from "@salc/core/enums";
 
 const urlClassTrack = envsLocal.CLASS_TRACK_URL;
@@ -27,9 +28,9 @@ interface UseLoginUserProps {
 export const useLoginUser = ({ setLoginSession }: UseLoginUserProps) => {
     const redirect = useNavigate();
 
-    return useMutation<SuccessResponse<UserAuthResponseEntity>, CustomError, LoginUserDto>({
-        mutationFn: async (rawData: LoginUserDto) => {
-            const validDto = LoginUserDtoImpl.create(rawData);
+    return useMutation<SuccessResponse<UserAuthResponseEntity>, CustomError, BaseLoginFormValues>({
+        mutationFn: async (rawData: BaseLoginFormValues) => {
+            const validDto = LoginMapper.toLoginDto(rawData);
 
             const response = await loginUserUseCase.execute(validDto);
 
