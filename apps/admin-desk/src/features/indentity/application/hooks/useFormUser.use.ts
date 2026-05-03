@@ -1,10 +1,12 @@
-import { useCreateUser, useLoginUser } from "@/features/indentity/application/hooks";
-import { useAuthStore } from "@/features/indentity/application/store/auth.store";
-import type { LoginUserDto, RegisterUserDto, UpdateUserDto } from "@salc/core/features/shared/indentity/domain/dtos";
-import type { UserRoles } from "@salc/core/interfaces";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useUpdateUser } from "./useUpdateUser.use";
+
+import { useCreateUser, useLoginUser } from "@/features/indentity/application/hooks";
+import { useAuthStore } from "@/features/indentity/application/store/auth.store";
+import type { LoginUserDto } from "@salc/core/features/shared/indentity/domain/dtos";
+import type { UserRoles } from "@salc/core/interfaces";
+import type { BaseUserFormValues } from "@/features/indentity/presentation/interfaces";
+import { useUpdateUser } from "@/features/indentity/application/hooks/useUpdateUser.use";
 
 interface UseFormUserProps {
     onRoleChange: (role: string) => void;
@@ -14,10 +16,10 @@ interface UseFormUserProps {
 export const useFormUser = ({ onRoleChange, onSuccess }: UseFormUserProps) => {
     const [showPassword, setShowPassword] = useState(false);
 
-    const defaultValues: RegisterUserDto = { us_full_name: '', us_email: '', us_password_hash: '', us_role: 'TEACHER' as UserRoles };
+    const defaultValues: BaseUserFormValues = { us_full_name: '', us_email: '', us_password_hash: '', us_role: 'TEACHER' as UserRoles };
 
 
-    const { register, handleSubmit, control, watch, reset, formState: { errors } } = useForm<RegisterUserDto>({ defaultValues, });
+    const { register, handleSubmit, control, watch, reset, formState: { errors } } = useForm<BaseUserFormValues>({ defaultValues, });
 
     const { mutate, isPending } = useCreateUser({ reset, onSuccess });
 
@@ -25,7 +27,7 @@ export const useFormUser = ({ onRoleChange, onSuccess }: UseFormUserProps) => {
 
     useEffect(() => { if (selectedRole) { onRoleChange(selectedRole); } }, [selectedRole, onRoleChange]);
 
-    const onSubmit = (data: RegisterUserDto) => { mutate(data); };
+    const onSubmit = (data: BaseUserFormValues) => { mutate(data); };
     const handleSetShowPassword = () => { setShowPassword(!showPassword); };
 
     return {
@@ -43,22 +45,22 @@ export const useFormUser = ({ onRoleChange, onSuccess }: UseFormUserProps) => {
 
 interface UseUpdateFormUserProps {
     onRoleChange: (role: UserRoles) => void;
-    defaultValues: UpdateUserDto;
+    defaultValues: BaseUserFormValues;
     id: string;
 }
 
 export const useUpdateFormUser = ({ onRoleChange, defaultValues, id }: UseUpdateFormUserProps) => {
     const [showPassword, setShowPassword] = useState(false);
 
-    const { register, handleSubmit, control, watch, formState: { errors } } = useForm<UpdateUserDto>({ defaultValues, });
+    const { register, handleSubmit, control, watch, formState: { errors } } = useForm<BaseUserFormValues>({ defaultValues, });
 
     const { mutate, isPending } = useUpdateUser();
 
     const selectedRole = watch('us_role');
 
-    useEffect(() => { if (selectedRole) { onRoleChange(selectedRole); } }, [selectedRole, onRoleChange]);
+    useEffect(() => { if (selectedRole) { onRoleChange(selectedRole as UserRoles); } }, [selectedRole, onRoleChange]);
 
-    const onSubmit = (data: UpdateUserDto) => { mutate({ id, data }); };
+    const onSubmit = (data: BaseUserFormValues) => { mutate({ id, data }); };
     const handleSetShowPassword = () => { setShowPassword(!showPassword); };
 
     return {
