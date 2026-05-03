@@ -1,4 +1,4 @@
-import { Controller } from "react-hook-form";
+import { Controller, type Control, type FieldErrors, type UseFormRegister } from "react-hook-form";
 import { format } from 'date-fns'
 import { es } from 'date-fns/locale'
 
@@ -12,38 +12,24 @@ import { CalendarIcon } from "lucide-react";
 import { cn } from "@salc/ui/lib/utils";
 import { Button } from "@/core/components/buttons/button";
 import type { CertificateType } from "@salc/core/features/admin-desk/students/domain/interfaces/Student.interface";
+import type { BaseStudentFormValues } from "@/features/students/presentation/interfaces"; // Ajusta la ruta si es necesario
 
-export interface BaseStudentFormValues {
-    identificationCard: string;
-    fullName: string;
-    phoneNumber: string;
-    email: string;
-    dateOfBirth: Date;
-    nationality: string;
-    certificateType: CertificateType;
-    startDate: Date;
+// 1. Usamos estrictamente BaseStudentFormValues, adiós genéricos problemáticos
+interface StudentFormProps {
+    errors: FieldErrors<BaseStudentFormValues>;
+    control: Control<BaseStudentFormValues>;
+    register: UseFormRegister<BaseStudentFormValues>;
+    maxAllowedDate: Date;
+    minDate: Date;
+    certificates: CertificateType[];
+    assignedSellerName: string; // Pasamos el nombre desde el padre
 }
 
-
-interface StudentFormProps<TStudentFormValues extends BaseStudentFormValues > {
-    submitSuccess: boolean;
-    errors: ,
-    control: Control<RegisterStudentDto, any, RegisterStudentDto>,
-    handleSubmit,
-    register,
-    onSubmit,
-    isSubmitting,
-    maxAllowedDate,
-    minDate,
-    certificates
-
-}
-
-
-export default function StudentForm({ submitSuccess, errors, control, handleSubmit, register, onSubmit, isSubmitting, maxAllowedDate, minDate, certificates }: StudentFormProps) {
+export default function StudentForm(options: StudentFormProps) {
+    const { errors, control, register, maxAllowedDate, minDate, certificates, assignedSellerName } = options;
 
     return (
-        <>
+        <div className="space-y-6">
             <div className="grid gap-6 md:grid-cols-2">
                 <div className="space-y-2">
                     <Label htmlFor="identificationCard">Cédula de Identidad</Label>
@@ -60,6 +46,7 @@ export default function StudentForm({ submitSuccess, errors, control, handleSubm
                         })}
                         aria-invalid={!!errors.identificationCard}
                     />
+                    {/* Al quitar el genérico, TypeScript sabe exactamente que message es un string */}
                     {errors.identificationCard && (
                         <p className="text-sm text-destructive">{errors.identificationCard.message}</p>
                     )}
@@ -240,6 +227,7 @@ export default function StudentForm({ submitSuccess, errors, control, handleSubm
                         <p className="text-sm text-destructive">{errors.certificateType.message}</p>
                     )}
                 </div>
+
                 <div className="space-y-2">
                     <Label htmlFor="nationality">Nacionalidad</Label>
                     <Controller
@@ -269,11 +257,11 @@ export default function StudentForm({ submitSuccess, errors, control, handleSubm
             <div className="space-y-2">
                 <Label htmlFor="assignedSeller">Vendedor Asignado</Label>
                 <Input
-                    id="fullName"
+                    id="assignedSeller"
                     disabled
-                    value={userResponse ? (`${userResponse.us_full_name}`) : ('N/A')}
+                    value={assignedSellerName}
                 />
             </div>
-        </>
+        </div>
     );
 }

@@ -2,25 +2,25 @@ import { useMutation } from "@tanstack/react-query"
 import type { UseFormReset } from "react-hook-form"
 import type { Dispatch, SetStateAction } from "react"
 
-import { RegisterStudentDtoImpl, type RegisterStudentDto } from "@salc/core/features/admin-desk/students/domain/dtos"
 import { registerStudentUseCase } from "@salc/core/features/admin-desk/students/di/StudentModule"
 import { ShowMessageAdapter } from "@/core/adapters/ShowMessage.adapter"
+import type { BaseStudentFormValues } from "@/features/students/presentation/interfaces"
+import { StudentFormMapper } from "@/features/students/presentation/mappers/Student.mapper"
 
 
 interface UseRegisterStudentProps {
     setSubmitSuccess: Dispatch<SetStateAction<boolean>>
-    reset: UseFormReset<RegisterStudentDto>
+    reset: UseFormReset<BaseStudentFormValues>
 }
 
 export const useRegisterStudent = ({ setSubmitSuccess, reset }: UseRegisterStudentProps) => {
 
-    return useMutation({
-        mutationFn: async (data: RegisterStudentDto) => {
-           const validData = RegisterStudentDtoImpl.create(data);
+    return useMutation({        
+        mutationFn: async (data: BaseStudentFormValues) => {            
+            const validData = StudentFormMapper.toRegisterDto(data);        
+            const response = await registerStudentUseCase.execute(validData);
 
-           const response = await registerStudentUseCase.execute(validData);
-
-           return response;
+            return response;
         },
         onSuccess(data) {
             ShowMessageAdapter.success(data.message);
@@ -30,5 +30,6 @@ export const useRegisterStudent = ({ setSubmitSuccess, reset }: UseRegisterStude
                 setSubmitSuccess(false);
             }, 3000);
         }
+
     })
 }
