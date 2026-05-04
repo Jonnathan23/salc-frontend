@@ -42,7 +42,7 @@ export default function TuitionStundentPage() {
                         Completa el formulario para registrar un nuevo estudiante.
                     </CardDescription>
                 </CardHeader>
-                <CardContent>                    
+                <CardContent>
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                         <StudentForm
                             register={register}

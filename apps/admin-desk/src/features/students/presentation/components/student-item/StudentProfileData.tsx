@@ -1,4 +1,4 @@
-import { Globe, CreditCard, Phone, Mail, BookOpen, Clock, DollarSign } from 'lucide-react';
+import { Globe, CreditCard, Phone, Mail, BookOpen, Clock, DollarSign, ArrowLeft, Pencil } from 'lucide-react';
 
 
 import { useState } from 'react';
@@ -12,12 +12,15 @@ type ProfileTab = 'academic' | 'attendance' | 'financial';
 
 interface StudentProfileViewDataProps {
     student: StudentEntity;
+    handleSetEdit: () => void
 }
 
-export default function StudentProfileViewData({ student }: StudentProfileViewDataProps) {
+export default function StudentProfileData({ student, handleSetEdit }: StudentProfileViewDataProps) {
 
     const [activeTab, setActiveTab] = useState<ProfileTab>('academic');
     const navigation = useNavigate();
+
+    const handleBack = () => navigation('/view-students');
 
     const tabs: { key: ProfileTab; label: string; icon: React.ReactNode }[] = [
         { key: 'academic', label: 'Academico', icon: <BookOpen className="w-4 h-4" /> },
@@ -32,7 +35,16 @@ export default function StudentProfileViewData({ student }: StudentProfileViewDa
                     <h1 className="text-2xl font-bold text-title">Perfil del Estudiante</h1>
                     <p className="text-muted-foreground text-sm mt-0.5">Vista completa del expediente academico</p>
                 </div>
-                <Button variant="outline" onClick={() => navigation('/view-students')}>Volver al Directorio</Button>
+                <div className="flex items-center gap-3">
+                    <Button variant="outline" onClick={handleBack}>
+                        <ArrowLeft className="mr-2 h-4 w-4" />
+                        Volver
+                    </Button>
+                    <Button onClick={handleSetEdit}>
+                        <Pencil className="mr-2 h-4 w-4" />
+                        Editar
+                    </Button>
+                </div>
             </div>
 
 

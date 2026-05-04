@@ -6,9 +6,10 @@ import type { BaseStudentFormValues } from "@/features/students/presentation/int
 import { useRegisterStudent } from "@/features/students/application/hooks";
 
 
-export const useRegisterStudentForm = () => {
 
-    const [submitSuccess, setSubmitSuccess] = useState(false);
+
+
+export const useRegisterStudentForm = () => {
 
     const certificates: CertificateType[] = [certificateType.ONE_TONNE, certificateType.TOEFL, certificateType.OTHER];
 
@@ -21,6 +22,9 @@ export const useRegisterStudentForm = () => {
         today.getMonth(),
         today.getDate()
     );
+
+    const [submitSuccess, setSubmitSuccess] = useState(false);
+
 
     const defaultValues: BaseStudentFormValues = {
         identificationCard: '',
@@ -39,6 +43,7 @@ export const useRegisterStudentForm = () => {
     const { mutate: registerStudentMutation, isPending: isSubmitting } = useRegisterStudent({ setSubmitSuccess, reset });
 
     const onSubmit = (data: BaseStudentFormValues) => {
+
         registerStudentMutation(data);
     }
 

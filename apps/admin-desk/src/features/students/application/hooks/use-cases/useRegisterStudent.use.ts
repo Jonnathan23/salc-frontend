@@ -5,7 +5,7 @@ import type { Dispatch, SetStateAction } from "react"
 import { registerStudentUseCase } from "@salc/core/features/admin-desk/students/di/StudentModule"
 import { ShowMessageAdapter } from "@/core/adapters/ShowMessage.adapter"
 import type { BaseStudentFormValues } from "@/features/students/presentation/interfaces"
-import { StudentFormMapper } from "@/features/students/presentation/mappers/Student.mapper"
+import { StudentFormMapper } from "@/features/students/presentation/mappers/StudentForm.mapper"
 
 
 interface UseRegisterStudentProps {
@@ -15,9 +15,9 @@ interface UseRegisterStudentProps {
 
 export const useRegisterStudent = ({ setSubmitSuccess, reset }: UseRegisterStudentProps) => {
 
-    return useMutation({        
-        mutationFn: async (data: BaseStudentFormValues) => {            
-            const validData = StudentFormMapper.toRegisterDto(data);        
+    return useMutation({
+        mutationFn: async (data: BaseStudentFormValues) => {
+            const validData = StudentFormMapper.toRegisterDto(data);
             const response = await registerStudentUseCase.execute(validData);
 
             return response;

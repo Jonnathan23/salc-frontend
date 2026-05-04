@@ -1,14 +1,13 @@
 import { useNavigate, useParams } from "react-router-dom";
-
-import { useFindUserById } from "@/features/indentity/application/hooks";
-import { Loader2 } from "lucide-react";
-import { Button } from "@/core/components/buttons/button";
-
-import UpdateUser from "@/features/indentity/presentation/components/register-update/UpdateUser";
 import { useMemo, useState } from "react";
-import ProfileData from "@/features/indentity/presentation/components/profiles/ProfileData";
+
+import UserProfileData from "@/features/indentity/presentation/components/profiles/UserProfileData";
+import UpdateUser from "@/features/indentity/presentation/components/register-update/UpdateUser";
 import { useAuthStore } from "@/features/indentity/application/store/auth.store";
+import { useFindUserById } from "@/features/indentity/application/hooks";
 import { systemPermissions } from "@salc/core/enums/Permissions";
+import { Button } from "@/core/components/buttons/button";
+import { Loader2 } from "lucide-react";
 
 
 
@@ -45,5 +44,5 @@ export default function ViewProfilePage() {
 
     if (isEdit && canUserResponseEdit) return <UpdateUser userId={userId} user={user} handleSetEdit={handleSetEdit} />
 
-    return <ProfileData user={user} handleSetEdit={handleSetEdit} canUserResponseEdit={canUserResponseEdit} />
+    return <UserProfileData user={user} handleSetEdit={handleSetEdit} canUserResponseEdit={canUserResponseEdit} />
 }

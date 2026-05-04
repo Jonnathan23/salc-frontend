@@ -1,4 +1,4 @@
-import { usePermissions } from '@/features/indentity/application/hooks/usePermissions.use';
+import { usePermissions } from '@/features/indentity/application/hooks/forms/usePermissions.use';
 import { useAuthStore } from '@/features/indentity/application/store/auth.store';
 import type { SystemPermission } from '@salc/core/enums/Permissions';
 import { Navigate, Outlet } from 'react-router-dom';
@@ -21,6 +21,6 @@ export const ProtectedRoute = ({ requiredPermissions }: ProtectedRouteProps) => 
 
         return <Navigate to="/" replace />;
     }
-    
+
     return <Outlet />;
 };

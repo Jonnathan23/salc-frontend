@@ -1,6 +1,11 @@
-export * from '@/features/indentity/application/hooks/useFormUser.use';
-export * from '@/features/indentity/application/hooks/useCreateUser.use';
-export * from '@/features/indentity/application/hooks/useLoginUser.use';
-export * from '@/features/indentity/application/hooks/usePermissions.use';
-export * from '@/features/indentity/application/hooks/useFindUserById.use';
-export * from '@/features/indentity/application/hooks/useChangeUserState.use';
+//* use-cases
+export * from '@/features/indentity/application/hooks/use-cases/useChangeUserState.use';
+export * from '@/features/indentity/application/hooks/use-cases/useCreateUser.use';
+export * from '@/features/indentity/application/hooks/use-cases/useFindUserById.use';
+export * from '@/features/indentity/application/hooks/use-cases/useGetAllUsers.use';
+export * from '@/features/indentity/application/hooks/use-cases/useLoginUser.use';
+export * from '@/features/indentity/application/hooks/use-cases/useUpdateUser.use';
+
+//* forms
+export * from '@/features/indentity/application/hooks/forms/useFormUser.use';
+export * from '@/features/indentity/application/hooks/forms/usePermissions.use';

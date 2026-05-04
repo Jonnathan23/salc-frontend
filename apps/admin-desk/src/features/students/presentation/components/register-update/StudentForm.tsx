@@ -14,7 +14,7 @@ import { Button } from "@/core/components/buttons/button";
 import type { CertificateType } from "@salc/core/features/admin-desk/students/domain/interfaces/Student.interface";
 import type { BaseStudentFormValues } from "@/features/students/presentation/interfaces"; // Ajusta la ruta si es necesario
 
-// 1. Usamos estrictamente BaseStudentFormValues, adiós genéricos problemáticos
+
 interface StudentFormProps {
     errors: FieldErrors<BaseStudentFormValues>;
     control: Control<BaseStudentFormValues>;
@@ -22,7 +22,7 @@ interface StudentFormProps {
     maxAllowedDate: Date;
     minDate: Date;
     certificates: CertificateType[];
-    assignedSellerName: string; // Pasamos el nombre desde el padre
+    assignedSellerName: string;
 }
 
 export default function StudentForm(options: StudentFormProps) {
@@ -46,7 +46,7 @@ export default function StudentForm(options: StudentFormProps) {
                         })}
                         aria-invalid={!!errors.identificationCard}
                     />
-                    {/* Al quitar el genérico, TypeScript sabe exactamente que message es un string */}
+
                     {errors.identificationCard && (
                         <p className="text-sm text-destructive">{errors.identificationCard.message}</p>
                     )}

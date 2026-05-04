@@ -23,7 +23,7 @@ export const useCreateUser = ({ reset, onSuccess }: UseCreateUserProps) => {
         onSuccess: (successResponse) => {
             queryClient.invalidateQueries({ queryKey: ["users"] });
             onSuccess();
-            setTimeout(() => reset(), 3000);
+            reset();
             ShowMessageAdapter.success(successResponse.message);
         }
     });

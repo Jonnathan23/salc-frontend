@@ -1,5 +1,5 @@
 import { BookOpen, Loader2 } from "lucide-react";
-import { useGetAllUsers } from "@/features/indentity/application/hooks/useGetAllUsers.use";
+import { useGetAllUsers } from "@/features/indentity/application/hooks/use-cases/useGetAllUsers.use";
 import ProfileItem from "@/features/indentity/presentation/components/profiles/ProfileItem";
 
 export default function DirectoryProfilesPage() {

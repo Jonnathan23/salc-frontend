@@ -48,9 +48,12 @@ export const Validators = {
         return typeof value === 'boolean';
     },
 
-    isDate: (date: string): boolean => {
-        const dateRegex: RegExp = /^\d{4}-\d{2}-\d{2}$/;
-        return dateRegex.test(date);
+    isDate: (value: string | undefined | null): boolean => {
+        if (value === undefined || value === null) return false;
+
+        const parsedDate = new Date(value);
+
+        return !isNaN(parsedDate.getTime());
     },
 
     isCertificateType: (certificate: string): boolean => {

@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 
 import { useAuthStore } from "@/features/indentity/application/store/auth.store";
-import { usePermissions } from "@/features/indentity/application/hooks/usePermissions.use";
+import { usePermissions } from "@/features/indentity/application/hooks/forms/usePermissions.use";
 import { userRoles } from "@salc/core/interfaces";
 import { navItems } from "@/core/data/navItems";
 

@@ -24,7 +24,7 @@ interface ProfileDataProps {
     canUserResponseEdit: boolean;
 }
 
-export default function ProfileData({ user, handleSetEdit, canUserResponseEdit }: ProfileDataProps) {
+export default function UserProfileData({ user, handleSetEdit, canUserResponseEdit }: ProfileDataProps) {
 
     const navigation = useNavigate();
 

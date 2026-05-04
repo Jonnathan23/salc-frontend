@@ -5,7 +5,7 @@ import { useCreateUser, useLoginUser } from "@/features/indentity/application/ho
 import { useAuthStore } from "@/features/indentity/application/store/auth.store";
 import type { UserRoles } from "@salc/core/interfaces";
 import type { BaseLoginFormValues, BaseUserFormValues } from "@/features/indentity/presentation/interfaces";
-import { useUpdateUser } from "@/features/indentity/application/hooks/useUpdateUser.use";
+import { useUpdateUser } from "@/features/indentity/application/hooks/use-cases/useUpdateUser.use";
 
 interface UseFormUserProps {
     onRoleChange: (role: string) => void;

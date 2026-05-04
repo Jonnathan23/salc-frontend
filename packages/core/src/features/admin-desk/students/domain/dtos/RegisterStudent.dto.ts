@@ -7,12 +7,11 @@ export interface RegisterStudentDto {
     fullName: string;
     phoneNumber: string;
     email: string;
-    dateOfBirth: Date;
+    dateOfBirth: string; // Changed to string
     nationality: string;
     certificateType: CertificateType;
-    startDate: Date;
+    startDate: string; // Changed to string
 }
-
 
 export class RegisterStudentDtoImpl implements RegisterStudentDto {
     private constructor(
@@ -20,15 +19,14 @@ export class RegisterStudentDtoImpl implements RegisterStudentDto {
         public readonly fullName: string,
         public readonly phoneNumber: string,
         public readonly email: string,
-        public readonly dateOfBirth: Date,
+        public readonly dateOfBirth: string,
         public readonly nationality: string,
         public readonly certificateType: CertificateType,
-        public readonly startDate: Date
+        public readonly startDate: string
     ) { }
 
-    static create(object: RegisterStudentDto): RegisterStudentDto {
-        const { identificationCard, fullName, phoneNumber, email, dateOfBirth, nationality, certificateType, startDate } = object;
-
+    static create(data: RegisterStudentDto): RegisterStudentDto {
+        const { identificationCard, fullName, phoneNumber, email, dateOfBirth, nationality, certificateType, startDate } = data;
 
         if (!identificationCard) throw CustomError.badRequest('Missing identificationCard');
         if (!fullName) throw CustomError.badRequest('Missing fullName');
@@ -39,18 +37,14 @@ export class RegisterStudentDtoImpl implements RegisterStudentDto {
         if (!certificateType) throw CustomError.badRequest('Missing certificateType');
         if (!startDate) throw CustomError.badRequest('Missing startDate');
 
-
         if (!Validators.isIdentificationCard(identificationCard)) throw CustomError.badRequest('Invalid identificationCard');
         if (!Validators.isPhoneNumber(phoneNumber)) throw CustomError.badRequest('Invalid phoneNumber');
         if (fullName.length < 3) throw CustomError.badRequest('Invalid fullName');
-
         if (!Validators.isEmail(email)) throw CustomError.badRequest('Invalid email');
 
-        const parsedBirthDate = new Date(dateOfBirth);
-        if (isNaN(parsedBirthDate.getTime())) throw CustomError.badRequest('Invalid dateOfBirth');
-
-        const parsedStartDate = new Date(startDate);
-        if (isNaN(parsedStartDate.getTime())) throw CustomError.badRequest('Invalid startDate');
+        const dateRegularExpression = /^\d{4}-\d{2}-\d{2}$/;
+        if (!dateRegularExpression.test(dateOfBirth)) throw CustomError.badRequest('Invalid dateOfBirth format. Expected YYYY-MM-DD');
+        if (!dateRegularExpression.test(startDate)) throw CustomError.badRequest('Invalid startDate format. Expected YYYY-MM-DD');
 
         if (!Validators.isCertificateType(certificateType)) throw CustomError.badRequest('Invalid certificateType');
 
@@ -59,10 +53,10 @@ export class RegisterStudentDtoImpl implements RegisterStudentDto {
             fullName,
             phoneNumber,
             email,
-            parsedBirthDate,
+            dateOfBirth,
             nationality,
             certificateType,
-            parsedStartDate
+            startDate
         );
     }
 }

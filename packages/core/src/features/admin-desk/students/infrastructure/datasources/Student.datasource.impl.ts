@@ -39,6 +39,8 @@ export class StudentDataSourceImpl implements StudentDataSource {
         }
 
         const students = this.studentMapper.toArrayEntities(rawResponse.data);
+        console.log('students datasources');
+        console.log(students);
 
         return {
             ...rawResponse,
