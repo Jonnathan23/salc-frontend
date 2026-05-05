@@ -34,6 +34,7 @@ export class ModuleMapperImpl implements ModuleMapper {
             validationResponse.mo_id,
             validationResponse.mo_name,
             validationResponse.mo_description,
+            validationResponse.mo_level,
             validationResponse.mo_created_at,
             validationResponse.mo_updated_at
         );

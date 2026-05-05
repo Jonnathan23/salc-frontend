@@ -21,6 +21,7 @@ export default function UpdateModuleForm({ module, setModuleSelected, setIsEditi
     useEffect(() => {
         setValue("mo_name", module.mo_name);
         setValue("mo_description", module.mo_description);
+        setValue("mo_level", module.mo_level);
     }, [module, setValue]);
 
     useEffect(() => {

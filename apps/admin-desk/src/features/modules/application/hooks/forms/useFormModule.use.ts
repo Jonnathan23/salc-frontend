@@ -5,7 +5,7 @@ import type { ModuleEntity } from "@salc/core/features/admin-desk/modules/domain
 import type { Dispatch, SetStateAction } from "react";
 
 export const useCreateModuleForm = () => {
-    const defaultValues: CreateModuleDto = { mo_name: '', mo_description: '' };
+    const defaultValues: CreateModuleDto = { mo_name: '', mo_description: '', mo_level: 1 };
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm<CreateModuleDto>({ defaultValues });
 
@@ -33,8 +33,8 @@ interface useUpdateModuleProps {
 
 export const useUpdateModuleForm = ({ module, setModuleSelected, setIsEditing }: useUpdateModuleProps) => {
 
-    const { mo_id, mo_name, mo_description } = module;
-    const defaultValues: UpdateModuleDto = { mo_name, mo_description };
+    const { mo_id, mo_name, mo_description, mo_level } = module;
+    const defaultValues: UpdateModuleDto = { mo_name, mo_description, mo_level };
 
     const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm<UpdateModuleDto>({ defaultValues });
 

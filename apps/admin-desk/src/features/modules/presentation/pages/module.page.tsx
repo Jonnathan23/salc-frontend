@@ -23,6 +23,8 @@ export default function ModulePage() {
 
     const modules = response?.data ?? [];
 
+    console.log(modules);
+
 
     if (isLoading) return (
         <div className="flex h-64 items-center justify-center">
