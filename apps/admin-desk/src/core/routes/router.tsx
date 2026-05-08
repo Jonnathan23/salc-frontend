@@ -1,19 +1,18 @@
-import AppLayout from "@/core/layouts/AppLayout";
-import AuthLayout from "@/core/layouts/AuthLayout";
-import DashboardPage from "@/core/pages/dasboard.page";
-import { ProtectedRoute } from "@/core/routes/ProtectedRoute";
-import { PublicRoute } from "@/core/routes/PublicRoute";
-import PlacementTestMockView from "@/features/contracts/prototype";
-import LoginPage from "@/features/indentity/presentation/pages/login.page";
+import DirectoryStudents from "@/features/students/presentation/pages/students-items/DirectoryStudents.page";
+import DirectoryProfilesPage from "@/features/indentity/presentation/pages/DirectoryUsersProfiles.page";
+import ViewStudentProfile from "@/features/students/presentation/pages/ViewStudentProfile.page";
+import TuitionStudentPage from "@/features/students/presentation/pages/TuitionStudent.page";
+import ViewProfilePage from "@/features/indentity/presentation/pages/ViewUser.page";
 import RegisterPage from "@/features/indentity/presentation/pages/register.page";
 import ModulePage from "@/features/modules/presentation/pages/module.page";
-import TuitionStudentPage from "@/features/students/presentation/pages/TuitionStudent.page";
+import LoginPage from "@/features/indentity/presentation/pages/login.page";
 import { systemPermissions } from "@salc/core/enums/Permissions";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import DirectoryProfilesPage from "@/features/indentity/presentation/pages/DirectoryUsersProfiles.page";
-import ViewProfilePage from "@/features/indentity/presentation/pages/ViewUser.page";
-import ViewStudentProfile from "@/features/students/presentation/pages/ViewStudentProfile.page";
-import DirectoryStudents from "@/features/students/presentation/pages/students-items/DirectoryStudents.page";
+import { ProtectedRoute } from "@/core/routes/ProtectedRoute";
+import { PublicRoute } from "@/core/routes/PublicRoute";
+import DashboardPage from "@/core/pages/dasboard.page";
+import AuthLayout from "@/core/layouts/AuthLayout";
+import AppLayout from "@/core/layouts/AppLayout";
 
 
 export default function Router() {
@@ -29,8 +28,7 @@ export default function Router() {
                     <Route element={<AuthLayout />}>
                         <Route path="/auth/login" element={<LoginPage />} />
                     </Route>
-                </Route>
-                <Route path="/placement-test" element={<PlacementTestMockView />} />
+                </Route>                
 
                 {/* --- ZONA PRIVADA (Solo para usuarios autenticados) --- */}
                 <Route element={<ProtectedRoute />}>
