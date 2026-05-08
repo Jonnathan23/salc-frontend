@@ -243,41 +243,82 @@ export const createModuleUseCase = new CreateModuleUseCaseImpl(moduleRepository)
 // ... (Otros Use Cases exportados de la misma forma)
 ```
 
-## 5. Aplicación Frontend (Hooks y Vista)
+## 5. Capa Presentation (View Models y Mappers)
 
-En la aplicación React (ej. AdminDesk o ClassTrack), consumimos los Casos de Uso a través de Custom Hooks que integran herramientas como TanStack Query, manejando los estados de carga, error y éxito, y conectando los datos validados con la interfaz de usuario.
+En la arquitectura limpia, la capa de presentación no debe acoplarse directamente a las estructuras de datos del dominio o de la infraestructura. Aunque es común ver que las vistas de React interactúan directamente con los DTOs, este enfoque presenta serios inconvenientes en aplicaciones escalables:
 
-### Custom Hook con TanStack Query (`apps/admin-desk/src/features/modules/application/hooks/useCreateModule.use.ts`)
-Conecta el `UseCase` con el ecosistema de React usando `useMutation`. 
+1. **Desacoplamiento de la UI**: El estado de un formulario de React (manejado con herramientas como `react-hook-form`) suele ser transitorio y flexible (por ejemplo, strings vacíos para campos no llenos, banderas booleanas o formatos de fecha intermedios). Por otro lado, los DTOs del dominio imponen reglas estrictas y validaciones severas.
+2. **Separación de Responsabilidades**: Las interfaces de formulario (`BaseFormValues`) representan el "View Model" o estado de la vista, permitiendo definir tipos específicos para los inputs de la UI, mientras que los mappers de interfaz de usuario (`FormMapper`) actúan como traductores unidireccionales que transforman este estado transitorio en un DTO válido para el caso de uso.
+
+De esta forma, cualquier cambio en los nombres de los campos de la interfaz gráfica o en la librería de formularios no afectará a las reglas de negocio del dominio, y viceversa.
+
+### View Model / Form Values (`features/modules/presentation/interfaces/BaseModuleFormValues.interface.ts`)
+Define el estado transitorio e intermedio de la interfaz de usuario para el formulario.
 
 ```typescript
+// Define the transient state of the user interface form
+export interface BaseModuleFormValues {
+    moduleName: string;
+    moduleDescription: string;
+}
+```
+
+### Form Mapper (`features/modules/presentation/mappers/ModuleFormMapper.ts`)
+Clase utilitaria que traduce el formato flexible e informal de la UI (`BaseModuleFormValues`) al DTO formal y validado que espera la capa de dominio (`CreateModuleDto`).
+
+```typescript
+import { CreateModuleDtoImpl, type CreateModuleDto } from "@salc/core/features/admin-desk/modules/domain/dtos";
+import type { BaseModuleFormValues } from "../interfaces/BaseModuleFormValues.interface";
+
+export class ModuleFormMapper {
+    // Translates the flexible UI format into the strict Domain DTO
+    public static toCreateDto(formValues: BaseModuleFormValues): CreateModuleDto {
+        return CreateModuleDtoImpl.create({
+            mo_name: formValues.moduleName.trim(),
+            mo_description: formValues.moduleDescription.trim()
+        });
+    }
+}
+```
+
+## 6. Aplicación Frontend (Hooks y Vista)
+
+En la aplicación React (ej. AdminDesk o ClassTrack), consumimos los Casos de Uso a través de Custom Hooks que integran herramientas como TanStack Query. Estos hooks interceptan la interacción del usuario, empleando el `FormMapper` para convertir los valores del formulario (`BaseFormValues`) en el DTO correspondiente, antes de invocar la ejecución del `UseCase`.
+
+### Custom Hook con TanStack Query (`apps/admin-desk/src/features/modules/application/hooks/useCreateModule.use.ts`)
+Conecta el `UseCase` con el ecosistema de React usando `useMutation` e intercepta el envío de datos mediante el uso de `ModuleFormMapper`.
+
+```typescript
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import type { UseFormReset } from "react-hook-form";
 import { ShowMessageAdapter } from "@/core/adapters/ShowMessage.adapter";
 import { createModuleUseCase } from "@salc/core/features/admin-desk/modules/di/ModuleModule";
-import { CreateModuleDtoImpl, type CreateModuleDto } from "@salc/core/features/admin-desk/modules/domain/dtos";
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import type { UseFormReset } from "react-hook-form";
+import { ModuleFormMapper } from "@/features/modules/presentation/mappers/ModuleFormMapper";
+import type { BaseModuleFormValues } from "@/features/modules/presentation/interfaces/BaseModuleFormValues.interface";
 
 interface UseCreateModuleProps {
-    reset: UseFormReset<CreateModuleDto>;
+    reset: UseFormReset<BaseModuleFormValues>;
 }
 
 export const useCreateModule = ({ reset }: UseCreateModuleProps) => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        // La función de mutación que recibe el DTO bruto desde el formulario
-        mutationFn: async (data: CreateModuleDto) => {
-            // 1. Validamos y purificamos los datos usando el método estático del DTO
-            const validDto = CreateModuleDtoImpl.create(data);
+        // The mutation receives the raw data from the UI Form
+        mutationFn: async (formData: BaseModuleFormValues) => {
+            // 1. Map UI data to Domain DTO
+            const validDataTransferObject = ModuleFormMapper.toCreateDto(formData);
 
-            // 2. Ejecutamos el caso de uso importado directamente desde el DI Module
-            return await createModuleUseCase.execute(validDto);
+            // 2. Execute the use case with the validated DTO
+            return await createModuleUseCase.execute(validDataTransferObject);
         },
         onSuccess: (successResponse) => {
-            // Manejo del ciclo de vida post-mutación
             queryClient.invalidateQueries({ queryKey: ["modules"] });
-            reset(); // Limpia el formulario
-            ShowMessageAdapter.success(successResponse.message); // Notifica al usuario
+            reset();
+            ShowMessageAdapter.success(successResponse.message);
+        },
+        onError: (error: any) => {
+            ShowMessageAdapter.error(error.message || "An unexpected error occurred");
         }
     });
 }
@@ -315,3 +356,79 @@ export default function CreateModuleForm() {
     );
 }
 ```
+
+
+### 6.1 Actualización con Custom Hook (Mapeo Inverso)
+
+El flujo de actualización requiere un paso adicional y crucial: **el mapeo inverso**. Cuando deseamos editar un registro, primero obtenemos los datos del backend, los cuales llegan a la capa de presentación en forma de una `Entity` estricta del dominio.
+
+Dado que nuestro formulario (y su Custom Hook) están tipados estrictamente para recibir un `BaseFormValues` (el View Model temporal de la UI), **es un antipatrón inyectar la Entidad directamente en los `defaultValues` del formulario**. Si la Entidad cambia en el backend, el formulario se rompería.
+
+Para solucionar esto, utilizamos nuestro `FormMapper` para traducir la Entidad pura del dominio al formato flexible de la interfaz gráfica justo antes de renderizar el formulario.
+
+#### 1. Mapeo Inverso en el Form Mapper
+Agregamos un método a nuestro Mapper que tome la entidad y devuelva el View Model.
+
+```typescript
+// features/modules/presentation/mappers/ModuleFormMapper.ts
+import type { ModuleEntity } from "@salc/core/features/admin-desk/modules/domain/entities/Module.entity";
+import type { BaseModuleFormValues } from "../interfaces/BaseModuleFormValues.interface";
+
+export class ModuleFormMapper {
+    // ... (métodos toCreateDto o toUpdateDto)
+
+    // Mapeo Inverso: Traduce la Entidad (Domain) al formato flexible (UI)
+    public static toBaseFormValues(moduleEntity: ModuleEntity): BaseModuleFormValues {
+        return {
+            moduleName: moduleEntity.mo_name,
+            moduleDescription: moduleEntity.mo_description
+        };
+    }
+}
+
+```
+
+#### 2. Intercepción en el Componente de Actualización
+El componente padre que recibe la información del backend debe interceptar la entidad, mapearla e inyectarla limpia al Custom Hook del formulario.
+
+```typescript
+// features/modules/presentation/components/UpdateModule.tsx
+import { ModuleFormMapper } from "@/features/modules/presentation/mappers/ModuleFormMapper";
+import { useUpdateModuleForm } from "@/features/modules/application/hooks/useUpdateModuleForm.use";
+import type { ModuleEntity } from "@salc/core/features/admin-desk/modules/domain/entities/Module.entity";
+
+interface UpdateModuleProps {
+    moduleId: string;
+    moduleEntity: ModuleEntity; // Recibe la entidad desde el padre/backend
+}
+
+export default function UpdateModule({ moduleId, moduleEntity }: UpdateModuleProps) {
+    // 1. Intercepción y Mapeo: Transformamos la Entidad estricta al View Model de la UI
+    const initialFormValues = ModuleFormMapper.toBaseFormValues(moduleEntity);
+
+    // 2. Inyectamos los datos purificados y compatibles al hook del formulario
+    const { 
+        register, 
+        handleSubmit, 
+        errors, 
+        onSubmit, 
+        isSubmitting 
+    } = useUpdateModuleForm({
+        defaultValues: initialFormValues, // Ahora los tipos coinciden perfectamente
+        id: moduleId
+    });
+
+    return (
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <ModuleForm 
+                register={register} 
+                errors={errors} 
+                isEditing={true} 
+            />
+            {/* ... botones de actualización ... */}
+        </form>
+    );
+}
+```
+
+Al aplicar este patrón, garantizamos que el componente del formulario (ModuleForm) sea 100% reutilizable tanto para crear como para actualizar, ya que siempre recibe los datos en su "idioma nativo" (BaseModuleFormValues), sin enterarse jamás de la existencia de las entidades del dominio.

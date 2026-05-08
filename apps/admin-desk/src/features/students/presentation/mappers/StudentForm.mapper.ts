@@ -37,10 +37,8 @@ export class StudentFormMapper {
         });
     }
 
-    public static toBaseFormValues(studentEntity: StudentEntity): BaseStudentFormValues {        
+    public static toBaseFormValues(studentEntity: StudentEntity): BaseStudentFormValues {
 
-        console.log('studentEntity');
-        console.log(studentEntity);
         return {
             identificationCard: studentEntity.identificationCard,
             fullName: studentEntity.fullName,
