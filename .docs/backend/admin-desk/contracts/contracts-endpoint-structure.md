@@ -5,7 +5,7 @@
 * **Params**: 
     * `studentId` (string): UUID del estudiante.
 * **Body**: `PurchaseModulesDto`
-* **Response**: `SuccessResponse<StudentLevelEntity[]>`
+* **Response**: `SuccessResponse<StudentLevelEntity[] | null>`
 
 ## `GET /api/contracts/student/:studentId`
 * **Description**: Obtiene la lista de contratos o módulos adquiridos por un estudiante.
