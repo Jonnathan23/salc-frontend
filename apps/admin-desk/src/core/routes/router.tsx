@@ -13,6 +13,7 @@ import { PublicRoute } from "@/core/routes/PublicRoute";
 import DashboardPage from "@/core/pages/dasboard.page";
 import AuthLayout from "@/core/layouts/AuthLayout";
 import AppLayout from "@/core/layouts/AppLayout";
+import NotFoundView from "@/core/pages/NotFound.page";
 
 
 export default function Router() {
@@ -22,6 +23,9 @@ export default function Router() {
     return (
         <BrowserRouter>
             <Routes>
+
+                {/* --- Ruta para 404 (fuera de AppLayout) --- */}
+                <Route path="*" element={<NotFoundView />} />
 
                 {/* --- ZONA PÚBLICA (Solo para visitantes) --- */}
                 <Route element={<PublicRoute />}>
