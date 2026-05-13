@@ -1,30 +1,23 @@
 import { CustomError } from "@salc/core/enums";
-
-import { StudentLevelEntity } from "../../domain/entities/StudentLevel.entity";
+import { StudentLevelEntity } from "@salc/core/features/admin-desk/students-level/domain/entities/StudentLevel.entity";
 import type { StudentModuleStatus } from "@salc/core/features/admin-desk/students-level/domain/interfaces/StudentLevels.interface";
 import type { EntityValidator } from "@salc/core/interfaces/EntityValidator";
+import type { BackendResponseProps } from "@salc/core/types/BackendResponse.type";
 
-export interface StudentLevelMapperProps {
-    id: string;
-    studentId: string;
-    moduleId: string;
-    sellerId: string;
-    status: "ACTIVE" | "APPROVED" | "LOCKED";
-    purchaseDate: string;
-    createdAt: string;
-    updatedAt: string;
-}
+
 
 export interface StudentLevelMapper {
-    toEntity(rawObject: StudentLevelMapperProps): StudentLevelEntity;
+    toEntity(rawObject: BackendResponseProps): StudentLevelEntity;
+    toArrayEntities(rawObjects: BackendResponseProps): StudentLevelEntity[];
 }
 
 export class StudentLevelMapperImpl implements StudentLevelMapper {
     constructor(
-        private readonly validator: EntityValidator<StudentLevelMapperProps>
-    ) {}
+        private readonly validator: EntityValidator<StudentLevelEntity>,
+        private readonly arrayValidator: EntityValidator<StudentLevelEntity[]>,
+    ) { }
 
-    toEntity(rawObject: StudentLevelMapperProps): StudentLevelEntity {
+    toEntity(rawObject: BackendResponseProps): StudentLevelEntity {
         if (!rawObject) {
             throw CustomError.notFound("Student level data is missing");
         }
@@ -43,4 +36,15 @@ export class StudentLevelMapperImpl implements StudentLevelMapper {
             new Date(validationResponse.updatedAt)
         );
     }
+
+    toArrayEntities(rawObjects: BackendResponseProps[]): StudentLevelEntity[] {
+        if (!rawObjects) {
+            throw CustomError.notFound("Student level data is missing");
+        }
+
+        const validationResponse = this.arrayValidator.validate(rawObjects);
+
+        return validationResponse;
+    }
+
 }

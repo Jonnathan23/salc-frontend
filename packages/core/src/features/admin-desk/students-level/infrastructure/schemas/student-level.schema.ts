@@ -1,5 +1,7 @@
 import z from "zod";
 
+
+//* Student Level Schema
 export const studentLevelSchema = z.object({
     id: z.string(),
     studentId: z.string(),
@@ -10,3 +12,5 @@ export const studentLevelSchema = z.object({
     createdAt: z.string(),
     updatedAt: z.string(),
 });
+
+export const arrayStudentLevelSchema = z.array(studentLevelSchema);

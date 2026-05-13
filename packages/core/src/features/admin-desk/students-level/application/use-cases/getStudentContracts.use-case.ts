@@ -1,9 +1,10 @@
+import type { StudentLevelDetailsEntity } from "@salc/core/features/admin-desk/students-level/domain/entities";
 import type { StudentLevelRepository } from "@salc/core/features/admin-desk/students-level/domain/repositories/student-level.repository";
-import type { StudentLevelEntity } from "@salc/core/features/admin-desk/students-level/domain/entities/StudentLevel.entity";
+
 import type { SuccessResponse } from "@salc/core/interfaces";
 
 export interface GetStudentContractsUseCase {
-    execute(studentId: string): Promise<SuccessResponse<StudentLevelEntity[]>>;
+    execute(studentId: string): Promise<SuccessResponse<StudentLevelDetailsEntity[]>>;
 }
 
 export class GetStudentContractsUseCaseImpl implements GetStudentContractsUseCase {
@@ -11,7 +12,7 @@ export class GetStudentContractsUseCaseImpl implements GetStudentContractsUseCas
         private readonly studentLevelRepository: StudentLevelRepository
     ) {}
 
-    async execute(studentId: string): Promise<SuccessResponse<StudentLevelEntity[]>> {
+    async execute(studentId: string): Promise<SuccessResponse<StudentLevelDetailsEntity[]>> {
         return this.studentLevelRepository.getStudentContracts(studentId);
     }
 }
