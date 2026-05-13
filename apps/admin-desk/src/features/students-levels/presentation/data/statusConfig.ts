@@ -1,6 +1,6 @@
 import { Play, CheckCircle, Lock } from "lucide-react"
 
-import type { StudentModuleStatus } from "@salc/core/features/admin-desk/students-level/domain/interfaces/StudentLevels.interface"
+import { studentModuleStatus, type StudentModuleStatus } from "@salc/core/features/admin-desk/students-level/domain/interfaces/StudentLevels.interface"
 
 interface StudentLevelConfig {
     label: string
@@ -11,19 +11,19 @@ interface StudentLevelConfig {
 
 
 export const statusConfig: Record<StudentModuleStatus, StudentLevelConfig> = {
-    ACTIVE: {
+    [studentModuleStatus.ACTIVE]: {
         label: 'Activo',
         variant: 'default',
         icon: Play,
         className: 'bg-primary text-primary-foreground',
     },
-    APPROVED: {
+    [studentModuleStatus.APPROVED]: {
         label: 'Aprobado',
         variant: 'secondary',
         icon: CheckCircle,
         className: 'bg-success text-success-foreground',
     },
-    LOCKED: {
+    [studentModuleStatus.LOCKED]: {
         label: 'Bloqueado',
         variant: 'outline',
         icon: Lock,

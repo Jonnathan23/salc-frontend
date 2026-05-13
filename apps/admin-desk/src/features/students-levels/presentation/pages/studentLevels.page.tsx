@@ -7,7 +7,6 @@ import { Input } from "@/core/components/ui/input"
 import { useGetAllStudents } from "@/features/students/application/hooks"
 import { useGetAllModules } from "@/features/modules/application/hooks"
 import { useGetAllStudentLevels } from "@/features/students-levels/application/hooks/use-cases"
-import type { StudentLevelEntity } from "@salc/core/features/admin-desk/students-level/domain/entities/StudentLevel.entity"
 
 import { Badge } from "@/core/components/ui/badge"
 import { cn } from "@salc/ui/lib/utils"
@@ -50,7 +49,7 @@ export default function StudentLevelsPage() {
         if (isLoading || !allEnglishModules || !studentLevels) return [];
 
         return allEnglishModules.filter((module) => {
-            return !studentLevels.some((studentLevel) => studentLevel.moduleId === module.mo_id)
+            return !studentLevels.some((studentLevel) => studentLevel.module.mo_id === module.mo_id)
         })
 
     }, [isLoading, allEnglishModules, studentLevels])
@@ -201,7 +200,7 @@ export default function StudentLevelsPage() {
 
                                                     <div className="flex-1 rounded-lg border p-3">
                                                         <div className="flex items-center justify-between">
-                                                            <p className="font-medium text-foreground">{level.}</p>
+                                                            <p className="font-medium text-foreground">{level.module.mo_name}</p>
                                                             <Badge variant={config.variant} className={config.className}>
                                                                 <Icon className="mr-1 h-3 w-3" />
                                                                 {config.label}
