@@ -39,8 +39,6 @@ export class StudentLevelDetailsMapperImpl implements StudentLevelDetailsMapper 
             throw CustomError.notFound("Student level data is missing");
         }
 
-        console.log('rawObjects');
-        console.log(rawObjects);
         const validationResponse = this.arrayValidator.validate(rawObjects);       
 
 

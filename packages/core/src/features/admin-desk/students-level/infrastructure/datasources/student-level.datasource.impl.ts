@@ -38,12 +38,8 @@ export class StudentLevelDataSourceImpl implements StudentLevelDataSource {
 
     async getStudentContracts(studentId: string): Promise<SuccessResponse<StudentLevelDetailsEntity[]>> {
         const targetUrl = `${this.baseUrl}/student/${studentId}`;
+
         const rawResponse = await this.api.get<SuccessResponse<BackendResponseProps[]>>(targetUrl);
-
-        console.log('rawResponse')
-
-        console.log(rawResponse)
-
         if (!rawResponse.data) {
             throw CustomError.notFound("Student level data is missing");
         }

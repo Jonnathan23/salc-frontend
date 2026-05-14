@@ -10,15 +10,9 @@ export class ZodValidatorAdapter<TExpectedEntity> implements EntityValidator<TEx
         this.schema = schema;
     }
 
-    public validate(rawData: unknown, ): TExpectedEntity {
-        console.log('rawData')
-        console.log(rawData)
+    public validate(rawData: unknown,): TExpectedEntity {
         const validationResult = this.schema.safeParse(rawData);
-
         if (!validationResult.success) {
-            console.log('validationResult.error.issues')
-            console.log(validationResult.error.issues)
-            console.log('----------------------')
             const formattedErrors = validationResult.error.issues.map((issue) => {
                 return {
                     message: issue.message,
