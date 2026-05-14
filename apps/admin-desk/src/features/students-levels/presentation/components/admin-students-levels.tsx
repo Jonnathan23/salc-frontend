@@ -1,34 +1,41 @@
+import type { ClassValue } from "class-variance-authority/types";
 import { useMemo, useState } from "react";
 
 import type { StudentEntity } from "@salc/core/features/admin-desk/students/domain/entities/Student.entity";
-import { useGetAllStudents } from "@/features/students/application/hooks";
-import { useGetAllModules } from "@/features/modules/application/hooks";
-import { useGetAllStudentLevels } from "@/features/students-levels/application/hooks/use-cases";
 import type { ModuleEntity } from "@salc/core/features/admin-desk/modules/domain/entities/Module.entity";
 import { cn } from "@salc/ui/lib/utils";
-import type { ClassValue } from "class-variance-authority/types";
-import SearchStudent from "@/features/students-levels/presentation/components/students/search-student";
+
 import StudentProgressTimeline from "@/features/students-levels/presentation/components/students/student-progres-timeline";
+import SearchStudent from "@/features/students-levels/presentation/components/students/search-student";
+import { useGetAllStudentLevels, usePurchaseModules } from "@/features/students-levels/application/hooks/use-cases";
+import { useGetAllStudents } from "@/features/students/application/hooks";
+import { useGetAllModules } from "@/features/modules/application/hooks";
+import type { BaseStudentLevelFormValues } from "@/features/students-levels/presentation/interfaces/BaseStudentLevelFormValues.interface";
+import { useAuthStore } from "@/features/indentity/application/store/auth.store";
 
 
 
 export default function AdminStudentsLevels() {
 
+    //* Store
+    const { userResponse } = useAuthStore()
+
     //* States
     const [searchQuery, setSearchQuery] = useState('')
     const [selectedStudent, setSelectedStudent] = useState<StudentEntity | null>(null)
-    const [addedModule, setAddedModule] = useState<string | null>(null)
+    const [modulesSelectedForUpsell, setModulesSelectedForUpsell] = useState<ModuleEntity[]>([]);
 
     //* Querys
     const { data: responseStudents, isLoading: isLoadingStudents } = useGetAllStudents();
-    const allStudents = useMemo(() => responseStudents?.data || [], [responseStudents]);
     const { data: responseModules, isLoading: isLoadingModules } = useGetAllModules();
     const { data: responseStudentLevels, isLoading: isLoadingStudentLevels } = useGetAllStudentLevels(selectedStudent?.id || '');
 
     //* Memos
+    const allStudents = useMemo(() => responseStudents?.data || [], [responseStudents]);
+
     const filteredStudents = useMemo(() => {
 
-        if (isLoadingStudents || !allStudents || allStudents.length === 0) return [];
+        if (isLoadingStudents || !allStudents || !allStudents.length) return [];
         if (!searchQuery.trim()) return allStudents;
 
         const query = searchQuery.toLowerCase()
@@ -49,29 +56,68 @@ export default function AdminStudentsLevels() {
         if (isLoadingStudents || !allEnglishModules || !studentLevels) return [];
 
         return allEnglishModules.filter((module) => {
-            return !studentLevels.some((studentLevel) => studentLevel.module.mo_id === module.mo_id)
-        })
+
+            return !studentLevels.some((studentLevel) => studentLevel.module.mo_id === module.mo_id);
+        });
 
     }, [isLoadingStudents, allEnglishModules, studentLevels]);
 
-    const isLoading = isLoadingStudents || isLoadingModules || isLoadingStudentLevels;
+    const isLoadingProgressTimeline = useMemo(() => isLoadingModules || isLoadingStudentLevels, [isLoadingModules, isLoadingStudentLevels]);
 
     //* Adapters
-    const cnFunction = (...inputs: ClassValue[]) => cn(...inputs)
+    const cnFunction = (...inputs: ClassValue[]): string => cn(...inputs);
+
 
     //* Handlers
     const handleSelectStudent = (student: StudentEntity) => {
         setSelectedStudent(student)
-    }
+        setModulesSelectedForUpsell([]);
+    };
 
     const handleSearchStudent = (searchQuery: string) => {
         setSearchQuery(searchQuery)
+    };
+
+    const handleAddModulesForUpsell = (newModule: ModuleEntity) => {
+        setModulesSelectedForUpsell((previousModulesSelected) => {
+            if (previousModulesSelected.some((moduleSelected) => moduleSelected.mo_id === newModule.mo_id)) return previousModulesSelected;
+            return [...previousModulesSelected, newModule]
+        })
+    };
+
+    const handleRemoveModulesForUpsell = (removeModule: ModuleEntity) => {
+        setModulesSelectedForUpsell((previousModulesSelected) => previousModulesSelected.filter((moduleSelected) => moduleSelected.mo_id !== removeModule.mo_id))
+    };
+
+    const handleSuccess = () => {
+        setModulesSelectedForUpsell([]);
+    };
+
+    const handleValidation = (): boolean => {
+        if(!selectedStudent) return false;
+        if(!userResponse?.us_id) return false;
+        if(modulesSelectedForUpsell.length === 0) return false;
+
+        return true;
     }
 
-    const handleAddModule = (moduleId: string) => {
-        setAddedModule(moduleId)
-        setTimeout(() => setAddedModule(null), 2000)
+    //* useMutations
+    const { mutateAsync: purchaseModules, isPending: isLoadingPurchaseModules } = usePurchaseModules({ handleSuccess });
+
+    const handlePurchaseModules = () => {
+
+        if(!handleValidation()) return;
+
+        const momoduleIds = modulesSelectedForUpsell.map((module) => module.mo_id);
+        const formValues: BaseStudentLevelFormValues = {
+            studentId: selectedStudent!.id,
+            sellerId: userResponse!.us_id,
+            moduleIds: momoduleIds
+        };
+
+        purchaseModules(formValues);
     }
+
 
     return (
         <div className="grid gap-6 lg:grid-cols-3">
@@ -81,7 +127,7 @@ export default function AdminStudentsLevels() {
                 filteredStudents={filteredStudents}
                 selectedStudent={selectedStudent}
                 totalStudentLevels={studentLevels.length}
-                isLoading={isLoading}
+                isLoading={isLoadingStudents}
                 handleSearchStudent={handleSearchStudent}
                 handleSelectStudent={handleSelectStudent}
                 cnFunction={cnFunction}
@@ -91,11 +137,14 @@ export default function AdminStudentsLevels() {
             <StudentProgressTimeline
                 selectedStudent={selectedStudent}
                 studentLevels={studentLevels}
-                addedModule={addedModule}
+                modulesSelectedForUpsell={modulesSelectedForUpsell}
                 availableModulesForUpsell={availableModulesForUpsell}
-                isLoading={isLoading}
+                isLoading={isLoadingProgressTimeline}
                 cnFunction={cnFunction}
-                handleAddModule={handleAddModule}
+                handleAddModulesForUpsell={handleAddModulesForUpsell}
+                handleRemoveModulesForUpsell={handleRemoveModulesForUpsell}
+                handlePurchaseModules={handlePurchaseModules}
+                isLoadingPurchaseModules={isLoadingPurchaseModules}
             />
         </div>
     );

@@ -21,7 +21,6 @@ export class StudentLevelDetailsMapperImpl implements StudentLevelDetailsMapper 
         if (!rawObject) {
             throw CustomError.notFound("Student level data is missing");
         }
-
         const validationResponse = this.validatorDetails.validate(rawObject);
 
         // Transforma los datos crudos en una entidad pura de dominio
@@ -40,7 +39,10 @@ export class StudentLevelDetailsMapperImpl implements StudentLevelDetailsMapper 
             throw CustomError.notFound("Student level data is missing");
         }
 
-        const validationResponse = this.arrayValidator.validate(rawObjects);
+        console.log('rawObjects');
+        console.log(rawObjects);
+        const validationResponse = this.arrayValidator.validate(rawObjects);       
+
 
         return validationResponse;
     }

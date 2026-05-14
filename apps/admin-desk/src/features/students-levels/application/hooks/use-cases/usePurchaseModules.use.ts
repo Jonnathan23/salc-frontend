@@ -18,7 +18,7 @@ export const usePurchaseModules = ({ handleSuccess }: UsePurchaseModulesProps) =
             return await purchaseModulesUseCase.execute(validDataTransferObject);
         },
         onSuccess: (successResponse) => {
-            queryClient.invalidateQueries({ queryKey: ["student-contracts"] });
+            queryClient.invalidateQueries({ queryKey: ["get-all-student-levels"] });
             ShowMessageAdapter.success(successResponse.message || "Módulos comprados exitosamente");
             handleSuccess();
         }

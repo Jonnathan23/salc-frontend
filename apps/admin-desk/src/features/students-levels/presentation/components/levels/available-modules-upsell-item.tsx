@@ -5,24 +5,27 @@ import type { ModuleEntity } from "@salc/core/features/admin-desk/modules/domain
 
 interface AvailableModulesForUpsellProps {
     module: ModuleEntity;
-    handleAddModule: (moduleId: string) => void
-    isDisabled: boolean
+    modulesSelectedForUpsell: ModuleEntity[]
+    handleAddModulesForUpsell: (newModule: ModuleEntity) => void;
 }
 
-export default function AvailableModulesForUpsell({ module, handleAddModule, isDisabled }: AvailableModulesForUpsellProps) {
+export default function AvailableModulesForUpsell({ module, modulesSelectedForUpsell, handleAddModulesForUpsell }: AvailableModulesForUpsellProps) {
+
+    const isDisabled = modulesSelectedForUpsell.some((moduleSelected) => moduleSelected.mo_id === module.mo_id)
+
     return (
         <div className="flex items-center justify-between rounded-lg border p-3"        >
             <div>
-                <p className="text-sm font-medium text-foreground">{module.mo_name}</p>
+                <p className={`text-sm font-medium ${isDisabled ? 'text-primary' : 'text-foreground'}`}>{module.mo_name}</p>
             </div>
             <Button
                 size="sm"
                 variant="outline"
-                onClick={() => handleAddModule(module.mo_id)}
+                onClick={() => handleAddModulesForUpsell(module)}
                 disabled={isDisabled}
             >
-                <Plus className="mr-1 h-3 w-3" />
-                Agregar
+                <Plus className={`${isDisabled ? 'text-primary' : 'text-foreground'} mr-1 h-3 w-3`} />
+                {isDisabled ? 'Agregado' : 'Agregar'}
             </Button>
         </div>
     );
