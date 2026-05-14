@@ -13,7 +13,7 @@ export class UserDataSourceImpl implements UserDataSource {
     private readonly baseUrl = '/user';
 
     /**
-     * @param api - Api
+     * @param api - MethodsHttp
      * @param nullResponseValidator - EntityValidator<SuccessResponse>
      * @param userAuthResponseMapper - UserAuthResponseMapper
      */

@@ -4,6 +4,7 @@ import type { PurchaseModulesDto } from "@salc/core/features/admin-desk/students
 import type { StudentLevelEntity } from "@salc/core/features/admin-desk/students-level/domain/entities/StudentLevel.entity";
 import type { UpdateStudentModuleDto } from "@salc/core/features/admin-desk/students-level/domain/dtos/UpdateStuden.dto";
 import type { SuccessResponse } from "@salc/core/interfaces";
+import type { StudentLevelDetailsEntity } from "@salc/core/features/admin-desk/students-level/domain/entities/StudentLevelDetails.entity";
 
 export class StudentLevelRepositoryImpl implements StudentLevelRepository {
 
@@ -15,7 +16,7 @@ export class StudentLevelRepositoryImpl implements StudentLevelRepository {
         return this.studentLevelDataSource.purchaseModules(dto);
     }
 
-    getStudentContracts(studentId: string): Promise<SuccessResponse<StudentLevelEntity[]>> {
+    getStudentContracts(studentId: string): Promise<SuccessResponse<StudentLevelDetailsEntity[]>> {
         return this.studentLevelDataSource.getStudentContracts(studentId);
     }
 

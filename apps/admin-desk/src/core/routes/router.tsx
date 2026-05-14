@@ -13,6 +13,7 @@ import { PublicRoute } from "@/core/routes/PublicRoute";
 import DashboardPage from "@/core/pages/dasboard.page";
 import AuthLayout from "@/core/layouts/AuthLayout";
 import AppLayout from "@/core/layouts/AppLayout";
+import StudentLevelsPage from "@/features/students-levels/presentation/pages/studentLevels.page";
 import NotFoundView from "@/core/pages/NotFound.page";
 
 
@@ -64,6 +65,11 @@ export default function Router() {
 
                         <Route element={<ProtectedRoute requiredPermissions={[systemPermissions.ADMINDESK_STUDENTS_WRITE]} />}>
                             <Route path="/tuition-student" element={<TuitionStudentPage />} />
+                        </Route>
+
+                        {/* --- Rutas de Students-Levels --- */}
+                        <Route element={<ProtectedRoute requiredPermissions={[systemPermissions.ADMINDESK_CONTRACTS_READ]} />}>
+                            <Route path="/students-levels" element={<StudentLevelsPage />} />
                         </Route>
 
                         {/* --- Rutas de Modules --- */}
