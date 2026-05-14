@@ -1,6 +1,9 @@
-import { certificateType, CertificateType, studentContractStatus, StudentContractStatus } from "@salc/core/features/admin-desk/students/domain/interfaces/Student.interface";
-import { UseState, useState } from "@salc/core/features/shared/indentiy/domain/entities";
-import { UserRoles, userRoles } from "@salc/core/interfaces";
+import { studentModuleStatus, type StudentModuleStatus } from "@salc/core/features/admin-desk/students-level/domain/interfaces/StudentLevels.interface";
+import { certificateType, type CertificateType, studentContractStatus, type StudentContractStatus } from "@salc/core/features/admin-desk/students/domain/interfaces/Student.interface";
+import type { UserState } from "@salc/core/features/shared/indentity/domain/entities";
+import { userState } from "@salc/core/features/shared/indentity/domain/entities/UserAuthResponse.entity";
+import type { UserRoles } from "@salc/core/interfaces";
+import { userRoles } from "@salc/core/interfaces";
 
 export const Validators = {
     isEmail: (email: string): boolean => {
@@ -35,24 +38,31 @@ export const Validators = {
     },
 
     isStateUser: (state: string): boolean => {
-        return Object.values(useState).includes(state as UseState);
+        return Object.values(userState).includes(state as UserState);
     },
 
     isStudentContractStatus: (contractStatus: string): boolean => {
         return Object.values(studentContractStatus).includes(contractStatus as StudentContractStatus);
     },
 
+    isStudentModuleStatus: (status: string): boolean => {
+        return Object.values(studentModuleStatus).includes(status as StudentModuleStatus);
+    },
+
     isBoolean: (value: any): boolean => {
         return typeof value === 'boolean';
     },
 
-    isDate: (date: string): boolean => {
-        const dateRegex: RegExp = /^\d{4}-\d{2}-\d{2}$/;
-        return dateRegex.test(date);
+    isDate: (value: string | undefined | null): boolean => {
+        if (value === undefined || value === null) return false;
+
+        const parsedDate = new Date(value);
+
+        return !isNaN(parsedDate.getTime());
     },
 
     isCertificateType: (certificate: string): boolean => {
-        
+
         return Object.values(certificateType).includes(certificate as CertificateType);
     }
 

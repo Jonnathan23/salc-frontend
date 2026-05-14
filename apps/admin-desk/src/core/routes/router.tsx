@@ -1,18 +1,20 @@
-import AppLayout from "@/core/layouts/AppLayout";
-import AuthLayout from "@/core/layouts/AuthLayout";
-import DashboardPage from "@/core/pages/dasboard.page";
-import { ProtectedRoute } from "@/core/routes/ProtectedRoute";
-import { PublicRoute } from "@/core/routes/PublicRoute";
-import LoginPage from "@/features/indentity/presentation/pages/login.page";
+import DirectoryStudents from "@/features/students/presentation/pages/students-items/DirectoryStudents.page";
+import DirectoryProfilesPage from "@/features/indentity/presentation/pages/DirectoryUsersProfiles.page";
+import ViewStudentProfile from "@/features/students/presentation/pages/ViewStudentProfile.page";
+import TuitionStudentPage from "@/features/students/presentation/pages/TuitionStudent.page";
+import ViewProfilePage from "@/features/indentity/presentation/pages/ViewUser.page";
 import RegisterPage from "@/features/indentity/presentation/pages/register.page";
 import ModulePage from "@/features/modules/presentation/pages/module.page";
-import DirectoryStudents from "@/features/students/presentation/pages/DirectoryStudents.page";
-import StudentProfile from "@/features/students/presentation/pages/StudentProfile.page";
-import TuitionStudentPage from "@/features/students/presentation/pages/TuitionStudent.page";
+import LoginPage from "@/features/indentity/presentation/pages/login.page";
 import { systemPermissions } from "@salc/core/enums/Permissions";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import DirectoryProfilesPage from "@/features/indentity/presentation/pages/DirectoryProfiles.page";
-import ViewProfilePage from "@/features/indentity/presentation/pages/ViewProfile.page";
+import { ProtectedRoute } from "@/core/routes/ProtectedRoute";
+import { PublicRoute } from "@/core/routes/PublicRoute";
+import DashboardPage from "@/core/pages/dasboard.page";
+import AuthLayout from "@/core/layouts/AuthLayout";
+import AppLayout from "@/core/layouts/AppLayout";
+import StudentLevelsPage from "@/features/students-levels/presentation/pages/studentLevels.page";
+import NotFoundView from "@/core/pages/NotFound.page";
 
 
 export default function Router() {
@@ -23,12 +25,15 @@ export default function Router() {
         <BrowserRouter>
             <Routes>
 
+                {/* --- Ruta para 404 (fuera de AppLayout) --- */}
+                <Route path="*" element={<NotFoundView />} />
+
                 {/* --- ZONA PÚBLICA (Solo para visitantes) --- */}
                 <Route element={<PublicRoute />}>
                     <Route element={<AuthLayout />}>
                         <Route path="/auth/login" element={<LoginPage />} />
                     </Route>
-                </Route>
+                </Route>                
 
                 {/* --- ZONA PRIVADA (Solo para usuarios autenticados) --- */}
                 <Route element={<ProtectedRoute />}>
@@ -55,11 +60,16 @@ export default function Router() {
                         </Route>
 
                         <Route element={<ProtectedRoute requiredPermissions={[systemPermissions.ADMINDESK_STUDENTS_READ]} />}>
-                            <Route path="/view-students/:studentId/profile" element={<StudentProfile />} />
+                            <Route path="/view-students/:studentId/profile" element={<ViewStudentProfile />} />
                         </Route>
 
                         <Route element={<ProtectedRoute requiredPermissions={[systemPermissions.ADMINDESK_STUDENTS_WRITE]} />}>
                             <Route path="/tuition-student" element={<TuitionStudentPage />} />
+                        </Route>
+
+                        {/* --- Rutas de Students-Levels --- */}
+                        <Route element={<ProtectedRoute requiredPermissions={[systemPermissions.ADMINDESK_CONTRACTS_READ]} />}>
+                            <Route path="/students-levels" element={<StudentLevelsPage />} />
                         </Route>
 
                         {/* --- Rutas de Modules --- */}

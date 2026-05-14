@@ -1,6 +1,19 @@
-import { PaymentQuotaEntity } from "@salc/core/features/admin-desk/payments/domain/entities/PaymentQuota.entity";
+import type { PaymentQuotaEntity } from "@salc/core/features/admin-desk/payments/domain/entities/PaymentQuota.entity";
 
-export class PaymentPlanEntity {
+export interface PaymentPlanEntity {
+    readonly id: string;
+    readonly studentId: string;
+    readonly sellerId: string;
+    readonly enrollmentFee: number;
+    readonly totalAmount: number;
+    readonly isSinglePayment: boolean;
+    readonly status: string;
+    readonly quotas?: PaymentQuotaEntity[];
+    readonly createdAt?: Date;
+    readonly updatedAt?: Date;
+}
+
+export class PaymentPlanEntityImpl implements PaymentPlanEntity {
     constructor(
         public readonly id: string,
         public readonly studentId: string,

@@ -2,7 +2,7 @@ import { LogOut } from "lucide-react";
 
 import { SidebarFooter } from "./all-components-sidebar";
 import { Button } from "@/core/components/buttons/button";
-import type { UserAuthResponseEntity } from "@salc/core/features/shared/indentiy/domain/entities";
+import type { UserAuthResponseEntity } from "@salc/core/features/shared/indentity/domain/entities";
 
 
 interface FooterSidebarProps {

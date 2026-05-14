@@ -5,14 +5,9 @@ import { Controller } from 'react-hook-form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/core/components/ui/select";
 import { Input } from '@/core/components/ui/input';
 import { Label } from '@/core/components/ui/label';
+import type { BaseUserFormValues } from '@/features/indentity/presentation/interfaces/BaseFormValues.interface';
 
 
-export interface BaseUserFormValues {
-    us_full_name: string;
-    us_email: string;
-    us_role: string;
-    us_password_hash?: string;
-}
 interface UserFormProps<TFieldValues extends FieldValues> {
     register: UseFormRegister<TFieldValues>;
     control: Control<TFieldValues>;

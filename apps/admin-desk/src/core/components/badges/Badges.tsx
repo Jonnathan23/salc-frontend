@@ -1,12 +1,13 @@
 'use client';
 
 import { alertStatus, sessionStatus, studentContractStatus, studentProgressCategory, type AlertStatus, type SessionStatus, type StudentContractStatus, type StudentProgressCategory } from "@salc/core/features/admin-desk/students/domain/interfaces/Student.interface";
-import { useState, type UseState } from "@salc/core/features/shared/indentiy/domain/entities";
+import { userState, type UserState } from "@salc/core/features/shared/indentity/domain/entities";
+
 
 //import { ContractStatus, ProgressCategory, SessionStatus, AlertStatus } from '@/lib/classtrack-types';
 
-export function ProfileStatusBadge({ status }: { status: UseState }) {
-    if (status === useState.ACTIVE) {
+export function ProfileStatusBadge({ status }: { status: UserState }) {
+    if (status === userState.ACTIVE) {
         return (
             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--color-primary)] text-[var(--color-quinary)]">
                 Activo

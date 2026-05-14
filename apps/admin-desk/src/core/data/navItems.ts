@@ -31,7 +31,7 @@ export const navItems: NavItem[] = [
     {
         title: 'Niveles de Estudiantes',
         description: 'Ver progreso y gestionar niveles',
-        href: '/student-levels',
+        href: '/students-levels',
         icon: Layers,
         permissions: [systemPermissions.ADMINDESK_CONTRACTS_READ], // Admin, Advisor, Academic Director
         color: 'bg-secondary',

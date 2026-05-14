@@ -1,23 +1,21 @@
 import { GraduationCap, Loader2 } from 'lucide-react'
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/core/components/ui/card';
+import { Alert, AlertDescription } from '@/core/components/alerts/alert';
+import { useLoginForm } from '@/features/indentity/application/hooks';
 import { Button } from '@/core/components/buttons/button';
 import { Input } from '@/core/components/ui/input';
 import { Label } from '@/core/components/ui/label';
-import { Alert, AlertDescription } from '@/core/components/alerts/alert';
 
-import { useLoginForm } from '@/features/indentity/application/hooks';
 
 
 
 
 export default function LoginPage() {
 
-    
-    const error = true;
-    const isLoading = false;    
+    const isLoading = false;
 
-    const { register, handleSubmit, errors, isPendingLogin, onSubmit } = useLoginForm();
+    const { register, handleSubmit, errors, isPendingLogin, isError, errorLogin, onSubmit } = useLoginForm();
 
     // Show loading state while checking auth
     if (isLoading) {
@@ -36,7 +34,7 @@ export default function LoginPage() {
                         <GraduationCap className="h-8 w-8 text-primary-foreground" />
                     </div>
                     <div className="space-y-2">
-                        <CardTitle className="text-2xl font-bold text-foreground">SmartFlow</CardTitle>
+                        <CardTitle className="text-2xl font-bold text-foreground">SALC - Cuenca</CardTitle>
                         <CardDescription className="text-muted-foreground">
                             Sistema de Gestión de Estudiantes
                         </CardDescription>
@@ -44,9 +42,9 @@ export default function LoginPage() {
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                        {error && (
+                        {isError && (
                             <Alert variant="destructive">
-                                <AlertDescription>{error}</AlertDescription>
+                                <AlertDescription>{errors.root?.message || errorLogin?.message}</AlertDescription>
                             </Alert>
                         )}
 

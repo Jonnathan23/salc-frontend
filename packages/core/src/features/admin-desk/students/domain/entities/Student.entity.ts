@@ -1,4 +1,5 @@
-import { StudentContractStatus, StudentProgressCategory } from "@salc/core/features/admin-desk/students/domain/interfaces/Student.interface";
+import type { StudentContractStatus, StudentProgressCategory } from "@salc/core/features/admin-desk/students/domain/interfaces";
+
 
 export class StudentEntity {
     constructor(
