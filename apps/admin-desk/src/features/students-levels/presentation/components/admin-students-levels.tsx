@@ -17,6 +17,9 @@ import { useAuthStore } from "@/features/indentity/application/store/auth.store"
 
 export default function AdminStudentsLevels() {
 
+    //TODO: marcar como graduado a un estudiante
+    // TODO: marcar cuando finaliza un nivel
+
     //* Store
     const { userResponse } = useAuthStore()
 

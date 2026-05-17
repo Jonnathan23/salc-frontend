@@ -17,6 +17,9 @@ interface StudentProfileViewDataProps {
 
 export default function StudentProfileData({ student, handleSetEdit }: StudentProfileViewDataProps) {
 
+    //TODO: Implementar el cambio del estado del contrato
+    //TODO: Implementar marcar como graduado
+
     const [activeTab, setActiveTab] = useState<ProfileTab>('academic');
     const navigation = useNavigate();
 
