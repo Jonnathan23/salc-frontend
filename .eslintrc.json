@@ -29,7 +29,7 @@
                 "leadingUnderscore": "allow"
             },
             {
-                "selector": ["class", "interface", "typeAlias", "enum", "abstractClass"],
+                "selector": ["class", "interface", "typeAlias", "enum"],
                 "format": ["PascalCase"]
             },
             {
