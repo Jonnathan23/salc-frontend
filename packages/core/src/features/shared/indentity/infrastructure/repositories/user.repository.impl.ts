@@ -1,16 +1,17 @@
-import type { ChangePasswordDto, LoginUserDto, RegisterUserDto, UpdateUserDto } from "@salc/core/features/shared/indentity/domain/dtos";
-import type { UserRepository } from "@salc/core/features/shared/indentity/domain/repository/user.repository";
-import { type UserAuthResponseEntity } from "@salc/core/features/shared/indentity/domain/entities";
-import { type UserDataSource } from "@salc/core/features/shared/indentity/domain/datasource";
-import { type SuccessResponse } from "@salc/core/interfaces";
+import type {
+    ChangePasswordDto,
+    LoginUserDto,
+    RegisterUserDto,
+    UpdateUserDto
+} from '@salc/core/features/shared/indentity/domain/dtos';
 
-
+import { type UserAuthResponseEntity } from '@salc/core/features/shared/indentity/domain/entities';
+import { type UserDataSource } from '@salc/core/features/shared/indentity/domain/datasource';
+import { type SuccessResponse } from '@salc/core/interfaces';
+import { UserRepository } from '@salc/core/features/shared/indentity/domain/repository/user.repository';
 
 export class UserRepositoryImpl implements UserRepository {
-
-    constructor(
-        private readonly userDataSource: UserDataSource
-    ) { }
+    constructor(private readonly userDataSource: UserDataSource) {}
 
     public create(user: RegisterUserDto): Promise<SuccessResponse> {
         return this.userDataSource.create(user);
@@ -39,5 +40,4 @@ export class UserRepositoryImpl implements UserRepository {
     public findAll(): Promise<SuccessResponse<UserAuthResponseEntity[]>> {
         return this.userDataSource.findAll();
     }
-
 }

@@ -37,7 +37,7 @@ RUN pnpm --filter admin-desk build
 FROM nginx:alpine AS production
 
 # Copiar la configuración personalizada de Nginx para React Router
-COPY apps/admin-desk/nginx.conf /etc/nginx/conf.d/default.conf
+COPY apps/admin-desk/nginx.config /etc/nginx/conf.d/default.conf
 
 # Copiar únicamente los archivos estáticos compilados (dist) desde la Etapa 1
 COPY --from=builder /app/apps/admin-desk/dist /usr/share/nginx/html

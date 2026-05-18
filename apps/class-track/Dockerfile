@@ -33,7 +33,7 @@ RUN pnpm --filter class-track build
 FROM nginx:alpine AS production
 
 # Copiar la configuración personalizada de Nginx para React Router
-COPY apps/class-track/nginx.conf /etc/nginx/conf.d/default.conf
+COPY apps/class-track/nginx.config /etc/nginx/conf.d/default.conf
 
 # Copiar únicamente los archivos estáticos compilados (dist) desde la Etapa 1
 COPY --from=builder /app/apps/class-track/dist /usr/share/nginx/html

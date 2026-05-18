@@ -1,6 +1,5 @@
-import { ErrorResponseSchema, FormattedErrorResponseSchema } from "@salc/core/schemas";
-import { InferSchema } from "@salc/core/utils";
-
+import type { InferSchema } from '@salc/core/adapters/data-acces-layer/zod/ZodValidatorFactory.adapter';
+import { ErrorResponseSchema, FormattedErrorResponseSchema } from '@salc/core/schemas';
 
 export type FormattedErrorResponse = InferSchema<typeof FormattedErrorResponseSchema>;
 
