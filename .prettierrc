@@ -3,10 +3,10 @@
     "useTabs": false,
     "semi": true,
     "singleQuote": true,
-    "trailingComma": "none",
+    "trailingComma": "all",
     "bracketSpacing": true,
     "arrowParens": "avoid",
-    "quoteProps": "preserve",
+    "quoteProps": "as-needed",
     "printWidth": 120,
     "endOfLine": "auto"
 }

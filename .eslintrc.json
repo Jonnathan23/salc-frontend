@@ -20,6 +20,27 @@
             { "blankLine": "always", "prev": "*", "next": "return" },
             { "blankLine": "always", "prev": ["const", "let", "var"], "next": "*" },
             { "blankLine": "any", "prev": ["const", "let", "var"], "next": ["const", "let", "var"] }
+        ],
+        "@typescript-eslint/naming-convention": [
+            "error",
+            {
+                "selector": "default",
+                "format": ["camelCase"],
+                "leadingUnderscore": "allow"
+            },
+            {
+                "selector": ["class", "interface", "typeAlias", "enum", "abstractClass"],
+                "format": ["PascalCase"]
+            },
+            {
+                "selector": "property",
+                "format": ["camelCase", "PascalCase"]
+            },
+            {
+                "selector": "parameter",
+                "format": ["camelCase"],
+                "leadingUnderscore": "allow"
+            }
         ]
     },
     "ignorePatterns": ["node_modules", "dist", "build"]
