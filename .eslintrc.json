@@ -1,0 +1,113 @@
+{
+    "root": true,
+    "env": {
+        "es2022": true
+    },
+    "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "prettier"],
+    "parser": "@typescript-eslint/parser",
+    "plugins": ["@typescript-eslint", "prettier"],
+    "rules": {
+        "prettier/prettier": "error",
+        "no-console": ["error", { "allow": ["warn", "error"] }],
+        "no-underscore-dangle": "off",
+        "no-useless-catch": "off",
+        "@typescript-eslint/no-explicit-any": "warn",
+        "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+        "padding-line-between-statements": [
+            "error",
+            { "blankLine": "always", "prev": "import", "next": "*" },
+            { "blankLine": "any", "prev": "import", "next": "import" },
+            { "blankLine": "always", "prev": "*", "next": "return" },
+            { "blankLine": "always", "prev": ["const", "let", "var"], "next": "*" },
+            { "blankLine": "any", "prev": ["const", "let", "var"], "next": ["const", "let", "var"] }
+        ],
+        "@typescript-eslint/naming-convention": [
+            "error",
+            {
+                "selector": "default",
+                "format": ["camelCase", "PascalCase"],
+                "leadingUnderscore": "allow"
+            },
+            {
+                "selector": "variable",
+                "format": ["camelCase", "PascalCase", "UPPER_CASE"],
+                "leadingUnderscore": "allow"
+            },
+            {
+                "selector": ["class", "interface", "typeAlias", "enum"],
+                "format": ["PascalCase"]
+            },
+
+            // ✨ EL BYPASS: Ignora propiedades de objetos y tipos si tienen guiones, espacios o son __html
+            {
+                "selector": ["objectLiteralProperty", "typeProperty", "property"],
+                "filter": {
+                    "regex": "[- ]|^__html$",
+                    "match": true
+                },
+                "format": null
+            },
+
+            // 🛡️ Regla normal para el resto de propiedades que SÍ son de lógica de negocio
+            {
+                "selector": ["objectLiteralProperty", "typeProperty", "property"],
+                "format": ["camelCase", "PascalCase", "UPPER_CASE"],
+                "leadingUnderscore": "allow"
+            },
+
+            {
+                "selector": "parameter",
+                "format": ["camelCase", "PascalCase"],
+                "leadingUnderscore": "allow"
+            }
+        ]
+    },
+
+    "overrides": [
+        {
+            "files": [
+                "*.dto.ts",
+                "*.mapper.ts",
+                "*.mappers.ts",
+                "*.datasource.ts",
+                "*.datasources.ts",
+                "*.model.ts",
+                "*.models.ts",
+                "*.entity.ts",
+                "*.entities.ts",
+                "*.schema.ts",
+                "*.schemas.ts"
+            ],
+            "rules": {
+                "@typescript-eslint/naming-convention": [
+                    "error",
+                    {
+                        "selector": "default",
+                        "format": ["camelCase", "snake_case"],
+                        "leadingUnderscore": "allow"
+                    },
+                    {
+                        "selector": "variable",
+                        "format": ["camelCase", "UPPER_CASE", "snake_case"],
+                        "leadingUnderscore": "allow"
+                    },
+                    {
+                        "selector": ["class", "interface", "typeAlias", "enum", "typeParameter"],
+                        "format": ["PascalCase"]
+                    },
+                    {
+                        "selector": "property",
+                        "format": ["camelCase", "PascalCase", "snake_case"],
+                        "leadingUnderscore": "allow"
+                    },
+                    {
+                        "selector": "parameter",
+                        "format": ["camelCase", "snake_case"],
+                        "leadingUnderscore": "allow"
+                    }
+                ]
+            }
+        }
+    ],
+    "ignorePatterns": ["node_modules", "dist", "build"]
+}

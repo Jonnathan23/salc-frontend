@@ -24,6 +24,7 @@
 **/pnpm-debug.log*
 **/lerna-debug.log*
 **/bun.log
+tsc.logs
 
 # Editor directories and OS files
 **/.vscode/*

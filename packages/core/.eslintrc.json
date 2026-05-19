@@ -1,0 +1,20 @@
+{
+    "extends": ["../../.eslintrc.json"],
+    "env": {
+        "browser": false,
+        "node": true
+    },
+    "rules": {
+        "no-restricted-globals": [
+            "error",
+            {
+                "name": "window",
+                "message": "Domain layer cannot access the browser window object."
+            },
+            {
+                "name": "document",
+                "message": "Domain layer cannot access the DOM."
+            }
+        ]
+    }
+}

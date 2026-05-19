@@ -19,11 +19,11 @@ export const RegisterUserForm = ({ onRoleChange, onSuccess }: RegisterUserFormPr
     return (
         <Card className="lg:col-span-2">
             <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle className="flex items-center gap-2 ">
                     <Users className="h-5 w-5 text-primary" />
                     Nuevo Usuario
                 </CardTitle>
-                <CardDescription>
+                <CardDescription className='text-foreground'>
                     Completa el formulario para crear un nuevo usuario del sistema.
                 </CardDescription>
             </CardHeader>
