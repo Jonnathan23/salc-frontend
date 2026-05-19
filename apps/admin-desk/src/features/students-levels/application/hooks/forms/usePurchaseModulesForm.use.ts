@@ -4,19 +4,24 @@ import type { BaseStudentLevelFormValues } from "@/features/students-levels/pres
 import { usePurchaseModules } from "@/features/students-levels/application/hooks/use-cases/usePurchaseModules.use";
 
 export const usePurchaseModulesForm = () => {
-
     const [submitSuccess, setSubmitSuccess] = useState(false);
 
     const defaultValues: BaseStudentLevelFormValues = {
-        studentId: '',
-        sellerId: '',
+        studentId: "",
+        sellerId: "",
         moduleIds: [],
-        contractId: '',
-        status: ''
+        //contractId: '',
+        //status: ''
     };
 
-    const { register, handleSubmit, control, formState: { errors }, reset } = useForm<BaseStudentLevelFormValues>({
-        defaultValues
+    const {
+        register,
+        handleSubmit,
+        control,
+        formState: { errors },
+        reset,
+    } = useForm<BaseStudentLevelFormValues>({
+        defaultValues,
     });
 
     const handleSuccess = () => {
@@ -41,6 +46,6 @@ export const usePurchaseModulesForm = () => {
         handleSubmit,
         register,
         onSubmit,
-        isSubmitting
+        isSubmitting,
     };
 };

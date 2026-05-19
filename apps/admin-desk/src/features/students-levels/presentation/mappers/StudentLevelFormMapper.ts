@@ -1,4 +1,7 @@
-import type { BaseStudentLevelFormValues } from "@/features/students-levels/presentation/interfaces/BaseStudentLevelFormValues.interface";
+import type {
+    BaseStudentLevelFormValues,
+    BaseUpdateStudentLevelFormValues,
+} from "@/features/students-levels/presentation/interfaces/BaseStudentLevelFormValues.interface";
 import type { StudentModuleStatus } from "@salc/core/features/admin-desk/students-level/domain/interfaces/StudentLevels.interface";
 import type { PurchaseModulesDto } from "@salc/core/features/admin-desk/students-level/domain/dtos/PurchasesStudentLevel.dto";
 import { PurchaseModulesDtoImpl } from "@salc/core/features/admin-desk/students-level/domain/dtos/PurchasesStudentLevel.dto";
@@ -17,7 +20,7 @@ export class StudentLevelFormMapper {
     }
 
     // Transforma los datos crudos del formulario al DTO de actualización validado
-    public static toUpdateDto(formValues: BaseStudentLevelFormValues): UpdateStudentModuleDto {
+    public static toUpdateDto(formValues: BaseUpdateStudentLevelFormValues): UpdateStudentModuleDto {
         return UpdateStudentModuleDtoImpl.create({
             contractId: formValues.contractId.trim(),
             studentId: formValues.studentId.trim(),
@@ -26,12 +29,10 @@ export class StudentLevelFormMapper {
     }
 
     // Mapeo Inverso: Transforma la Entidad del dominio al estado de la vista para actualizar
-    public static toBaseFormValues(studentLevelEntity: StudentLevelEntity): BaseStudentLevelFormValues {
+    public static toBaseFormValues(studentLevelEntity: StudentLevelEntity): BaseUpdateStudentLevelFormValues {
         return {
-            studentId: studentLevelEntity.studentId,
-            sellerId: studentLevelEntity.sellerId,
-            moduleIds: [studentLevelEntity.moduleId], // La entidad maneja un solo módulo
             contractId: studentLevelEntity.id,
+            studentId: studentLevelEntity.studentId,
             status: studentLevelEntity.status,
         };
     }

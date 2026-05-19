@@ -2,10 +2,10 @@
     "tabWidth": 4,
     "useTabs": false,
     "semi": true,
-    "singleQuote": true,
+    "singleQuote": false,
     "trailingComma": "all",
     "bracketSpacing": true,
-    "arrowParens": "avoid",
+    "arrowParens": "always",
     "quoteProps": "as-needed",
     "printWidth": 120,
     "endOfLine": "auto"

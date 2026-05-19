@@ -25,20 +25,39 @@
             "error",
             {
                 "selector": "default",
-                "format": ["camelCase"],
+                "format": ["camelCase", "PascalCase"],
+                "leadingUnderscore": "allow"
+            },
+            {
+                "selector": "variable",
+                "format": ["camelCase", "PascalCase", "UPPER_CASE"],
                 "leadingUnderscore": "allow"
             },
             {
                 "selector": ["class", "interface", "typeAlias", "enum"],
                 "format": ["PascalCase"]
             },
+
+            // ✨ EL BYPASS: Ignora propiedades de objetos y tipos si tienen guiones, espacios o son __html
             {
-                "selector": "property",
-                "format": ["camelCase", "PascalCase"]
+                "selector": ["objectLiteralProperty", "typeProperty", "property"],
+                "filter": {
+                    "regex": "[- ]|^__html$",
+                    "match": true
+                },
+                "format": null
             },
+
+            // 🛡️ Regla normal para el resto de propiedades que SÍ son de lógica de negocio
+            {
+                "selector": ["objectLiteralProperty", "typeProperty", "property"],
+                "format": ["camelCase", "PascalCase", "UPPER_CASE"],
+                "leadingUnderscore": "allow"
+            },
+
             {
                 "selector": "parameter",
-                "format": ["camelCase"],
+                "format": ["camelCase", "PascalCase"],
                 "leadingUnderscore": "allow"
             }
         ]

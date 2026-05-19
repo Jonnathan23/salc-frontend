@@ -1,6 +1,6 @@
-import { StudentDataSource } from "../../domain/datasources/Student.datasource";
-import { StudentEntity } from "../../domain/entities/Student.entity";
-import { SuccessResponse } from "@salc/core/interfaces";
+import type { StudentDataSource } from "@salc/core/features/admin-desk/students/domain/datasources/Student.datasource";
+import type { StudentEntity } from "@salc/core/features/admin-desk/students/domain/entities/Student.entity";
+import type { SuccessResponse } from "@salc/core/interfaces";
 
 export class DeactivateStudentUseCase {
     constructor(private readonly studentRepository: StudentDataSource) {}
