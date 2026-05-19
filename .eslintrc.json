@@ -62,5 +62,52 @@
             }
         ]
     },
+
+    "overrides": [
+        {
+            "files": [
+                "*.dto.ts",
+                "*.mapper.ts",
+                "*.mappers.ts",
+                "*.datasource.ts",
+                "*.datasources.ts",
+                "*.model.ts",
+                "*.models.ts",
+                "*.entity.ts",
+                "*.entities.ts",
+                "*.schema.ts",
+                "*.schemas.ts"
+            ],
+            "rules": {
+                "@typescript-eslint/naming-convention": [
+                    "error",
+                    {
+                        "selector": "default",
+                        "format": ["camelCase", "snake_case"],
+                        "leadingUnderscore": "allow"
+                    },
+                    {
+                        "selector": "variable",
+                        "format": ["camelCase", "UPPER_CASE", "snake_case"],
+                        "leadingUnderscore": "allow"
+                    },
+                    {
+                        "selector": ["class", "interface", "typeAlias", "enum", "typeParameter"],
+                        "format": ["PascalCase"]
+                    },
+                    {
+                        "selector": "property",
+                        "format": ["camelCase", "PascalCase", "snake_case"],
+                        "leadingUnderscore": "allow"
+                    },
+                    {
+                        "selector": "parameter",
+                        "format": ["camelCase", "snake_case"],
+                        "leadingUnderscore": "allow"
+                    }
+                ]
+            }
+        }
+    ],
     "ignorePatterns": ["node_modules", "dist", "build"]
 }
