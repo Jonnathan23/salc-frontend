@@ -37,18 +37,14 @@
                 "selector": ["class", "interface", "typeAlias", "enum"],
                 "format": ["PascalCase"]
             },
-
-            // ✨ EL BYPASS: Ignora propiedades de objetos y tipos si tienen guiones, espacios o son __html
             {
                 "selector": ["objectLiteralProperty", "typeProperty", "property"],
                 "filter": {
-                    "regex": "[- ]|^__html$",
+                    "regex": "[- ]|^__html$|^[0-9]+$",
                     "match": true
                 },
                 "format": null
             },
-
-            // 🛡️ Regla normal para el resto de propiedades que SÍ son de lógica de negocio
             {
                 "selector": ["objectLiteralProperty", "typeProperty", "property"],
                 "format": ["camelCase", "PascalCase", "UPPER_CASE"],
