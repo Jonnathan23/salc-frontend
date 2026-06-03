@@ -30,7 +30,10 @@ A continuación se presenta la jerarquía de carpetas del monorepositorio, estru
 │   │           └── students/
 │   │               ├── application/
 │   │               └── presentation/
-│   └── class-track/                    <-- Aplicación para estudiantes/docentes
+│   ├── class-track-students/           <-- Aplicación para estudiantes
+│   │   ├── public/
+│   │   └── src/
+│   └── class-track-teacher/            <-- Aplicación para docentes
 │       ├── public/
 │       └── src/
 │
