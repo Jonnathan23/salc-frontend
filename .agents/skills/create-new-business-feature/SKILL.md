@@ -13,10 +13,11 @@ You must generate the files strictly following this directory tree for the reque
 │   └── use-cases/
 ├── di/
 ├── domain/
-│   ├── datasource/
+│   ├── datasources/
 │   ├── dtos/
 │   ├── entities/
-│   └── repository/
+│   ├── interfaces/
+│   └── repositories/
 └── infrastructure/
     ├── datasources/
     ├── mappers/
@@ -30,69 +31,94 @@ When the user asks to create a feature (e.g., "Category"), generate the files in
 
 #### Step 1: Domain Layer
 
-Generate the Entity, DTOs, and the DataSource interface.
+Generate the Entity, DTOs, DataSource, and Repository interfaces.
 
 ```typescript
 // domain/entities/Category.entity.ts
-export interface CategoryEntity {
-    categoryId: string;
-    categoryName: string;
-    createdAt: string;
-}
-
-export class CategoryEntityImpl implements CategoryEntity {
+export class CategoryEntity {
     constructor(
-        public categoryId: string,
-        public categoryName: string,
-        public createdAt: string,
+        public readonly id: string,
+        public readonly name: string,
+        public readonly createdAt: Date,
+        public readonly updatedAt: Date
     ) {}
 }
 
 // domain/dtos/CreateCategory.dto.ts
+import { CustomError } from "@salc/core/enums";
+
 export interface CreateCategoryDto {
-    categoryName: string;
+    name: string;
 }
 
 export class CreateCategoryDtoImpl implements CreateCategoryDto {
     private constructor(
-        public readonly categoryName: string
+        public readonly name: string
     ) {}
 
-    static create(category: CreateCategoryDto): CreateCategoryDto {
-        if (!category.categoryName) {
+    static create(data: CreateCategoryDto): CreateCategoryDto {
+        if (!data.name) {
             throw CustomError.badRequest('Missing category name');
         }
 
-        return new CreateCategoryDtoImpl(category.categoryName);
+        return new CreateCategoryDtoImpl(data.name);
     }
 }
 
-// domain/datasource/category.datasource.ts
+// domain/datasources/Category.datasource.ts
+import type { CreateCategoryDto } from "../dtos/CreateCategory.dto";
+import type { CategoryEntity } from "../entities/Category.entity";
+import type { SuccessResponse } from "@salc/core/interfaces";
+
 export abstract class CategoryDataSource {
-    abstract createCategory(category: CreateCategoryDto): Promise<SuccessResponse>;
+    abstract create(dto: CreateCategoryDto): Promise<SuccessResponse<CategoryEntity>>;
+}
+
+// domain/repositories/Category.repository.ts
+import type { CreateCategoryDto } from "../dtos/CreateCategory.dto";
+import type { CategoryEntity } from "../entities/Category.entity";
+import type { SuccessResponse } from "@salc/core/interfaces";
+
+export abstract class CategoryRepository {
+    abstract create(dto: CreateCategoryDto): Promise<SuccessResponse<CategoryEntity>>;
 }
 ```
 
 #### Step 2: Infrastructure Layer
 
-Generate the Zod schema, the Mapper, and the Repository implementation.
+Generate the Zod schema, the Mapper, the DataSource implementation, and the Repository implementation.
 
 ```typescript
-// infrastructure/schemas/category.schema.ts
-import z from "zod";
+// infrastructure/schemas/Category.schema.ts
+import { z } from "zod";
 
 export const categorySchema = z.object({
-    categoryId: z.string(),
-    categoryName: z.string(),
-    createdAt: z.string(),
+    id: z.string(),
+    name: z.string(),
+    createdAt: z.string().or(z.date()),
+    updatedAt: z.string().or(z.date()),
 });
+
+export const arrayCategoriesSchema = z.array(categorySchema);
 ```
 
 ```typescript
-// infrastructure/mappers/category.mapper.ts
+// infrastructure/mappers/Category.mapper.ts
+import { CustomError } from "@salc/core/enums";
+import { CategoryEntity } from "../../domain/entities/Category.entity";
+import { type EntityValidator } from "@salc/core/interfaces/EntityValidator";
+
+type CategoryMapperProps = Record<string, unknown> | unknown | null | undefined;
+
+export interface CategoryMapper {
+    toEntity(rawObject: CategoryMapperProps): CategoryEntity;
+    toArrayEntities(rawObjects: CategoryMapperProps[]): CategoryEntity[];
+}
+
 export class CategoryMapperImpl implements CategoryMapper {
     constructor(
-        private readonly validator: EntityValidator<CategoryEntity>
+        private readonly validator: EntityValidator<CategoryEntity>,
+        private readonly arrayValidator: EntityValidator<CategoryEntity[]>,
     ) {}
 
     toEntity(rawObject: CategoryMapperProps): CategoryEntity {
@@ -102,31 +128,75 @@ export class CategoryMapperImpl implements CategoryMapper {
 
         const validationResponse = this.validator.validate(rawObject);
 
-        // Transforma los datos crudos en una entidad pura de dominio
-        return new CategoryEntityImpl(
-            validationResponse.categoryId,
-            validationResponse.categoryName,
-            validationResponse.createdAt
+        return new CategoryEntity(
+            validationResponse.id,
+            validationResponse.name,
+            new Date(validationResponse.createdAt),
+            new Date(validationResponse.updatedAt)
         );
+    }
+    
+    toArrayEntities(rawObjects: CategoryMapperProps[]): CategoryEntity[] {
+        if (!rawObjects) {
+            throw CustomError.notFound("Categories data is missing");
+        }
+        const validationResponse = this.arrayValidator.validate(rawObjects);
+        return validationResponse.map((category) => this.toEntity(category));
     }
 }
 ```
 
 ```typescript
-// infrastructure/repositories/category.repository.ts
-export class CategoryRepositoryImpl implements CategoryDataSource {
-    private readonly baseUrl = '/categories';
+// infrastructure/datasources/Category.datasource.impl.ts
+import type { CreateCategoryDto } from "../../domain/dtos/CreateCategory.dto";
+import { type CategoryMapper } from "../mappers/Category.mapper";
+import { CategoryDataSource } from "../../domain/datasources/Category.datasource";
+import { type CategoryEntity } from "../../domain/entities/Category.entity";
+import { type MethodsHttp, type SuccessResponse } from "@salc/core/interfaces";
+import { CustomError } from "@salc/core/enums";
+
+export class CategoryDataSourceImpl implements CategoryDataSource {
+    private readonly baseUrl = "/categories";
 
     constructor(
-        private readonly api: Api,
-        private readonly categoryMapper: CategoryMapper
+        private readonly api: MethodsHttp,
+        private readonly categoryMapper: CategoryMapper,
     ) {}
 
-    async createCategory(category: CreateCategoryDto): Promise<SuccessResponse> {
-        const targetUrl = `${this.baseUrl}`;
-        const rawResponse = await this.api.post<SuccessResponse, CreateCategoryDto>(targetUrl, category);
+    async create(dto: CreateCategoryDto): Promise<SuccessResponse<CategoryEntity>> {
+        const url = `${this.baseUrl}`;
+        
+        const rawResponse = await this.api.post<SuccessResponse<CategoryEntity>, CreateCategoryDto>(url, dto);
 
-        return this.validationNullInformation(rawResponse);
+        if (!rawResponse.data) {
+            throw CustomError.notFound("Could not create category");
+        }
+
+        const category = this.categoryMapper.toEntity(rawResponse.data);
+
+        return {
+            ...rawResponse,
+            data: category,
+        };
+    }
+}
+```
+
+```typescript
+// infrastructure/repositories/Category.repository.impl.ts
+import { CategoryDataSource } from "../../domain/datasources/Category.datasource";
+import { CategoryRepository } from "../../domain/repositories/Category.repository";
+import type { CreateCategoryDto } from "../../domain/dtos/CreateCategory.dto";
+import type { CategoryEntity } from "../../domain/entities/Category.entity";
+import type { SuccessResponse } from "@salc/core/interfaces";
+
+export class CategoryRepositoryImpl implements CategoryRepository {
+    constructor(
+        private readonly dataSource: CategoryDataSource
+    ) {}
+
+    async create(dto: CreateCategoryDto): Promise<SuccessResponse<CategoryEntity>> {
+        return this.dataSource.create(dto);
     }
 }
 ```
@@ -136,18 +206,17 @@ export class CategoryRepositoryImpl implements CategoryDataSource {
 Generate the Use Cases.
 
 ```typescript
-// application/use-cases/createCategory.use-case.ts
-interface CreateCategoryUseCase {
-    execute(category: CreateCategoryDto): Promise<SuccessResponse>;
-}
+// application/use-cases/CreateCategory.use-case.ts
+import type { CategoryRepository } from "../../domain/repositories/Category.repository";
+import type { CategoryEntity } from "../../domain/entities/Category.entity";
+import type { CreateCategoryDto } from "../../domain/dtos/CreateCategory.dto";
+import type { SuccessResponse } from "@salc/core/interfaces";
 
-export class CreateCategoryUseCaseImpl implements CreateCategoryUseCase {
-    constructor(
-        private readonly categoryRepository: CategoryRepositoryImpl
-    ) {}
+export class CreateCategoryUseCase {
+    constructor(private readonly categoryRepository: CategoryRepository) {}
 
-    async execute(category: CreateCategoryDto): Promise<SuccessResponse> {
-        return this.categoryRepository.createCategory(category);
+    async execute(dto: CreateCategoryDto): Promise<SuccessResponse<CategoryEntity>> {
+        return await this.categoryRepository.create(dto);
     }
 }
 ```
@@ -158,11 +227,30 @@ Generate the module file to glue everything together.
 
 ```typescript
 // di/CategoryModule.ts
-const categoryValidator = validatorFactory.createValidator<CategoryEntity>(categorySchema);
+import { CreateCategoryUseCase } from "../application/use-cases/CreateCategory.use-case";
+import { CategoryDataSourceImpl } from "../infrastructure/datasources/Category.datasource.impl";
+import { CategoryRepositoryImpl } from "../infrastructure/repositories/Category.repository.impl";
+import { CategoryMapperImpl } from "../infrastructure/mappers/Category.mapper";
+import { arrayCategoriesSchema, categorySchema } from "../infrastructure/schemas/Category.schema";
+import { CategoryEntity } from "../domain/entities/Category.entity";
+import { validatorFactory } from "@salc/core/adapters";
+import { api } from "@salc/core/lib";
 
-export const categoryMapper = new CategoryMapperImpl(categoryValidator);
-export const categoryRepository = new CategoryRepositoryImpl(api, categoryMapper);
-export const createCategoryUseCase = new CreateCategoryUseCaseImpl(categoryRepository);
+//* Validators
+const categoryValidator = validatorFactory.createValidator<CategoryEntity>(categorySchema);
+const arrayCategoryValidator = validatorFactory.createValidator<CategoryEntity[]>(arrayCategoriesSchema);
+
+//* Mapper
+const categoryMapper = new CategoryMapperImpl(categoryValidator, arrayCategoryValidator);
+
+//* Datasource
+const categoryDataSource = new CategoryDataSourceImpl(api, categoryMapper);
+
+//* Repositories
+const categoryRepository = new CategoryRepositoryImpl(categoryDataSource);
+
+//* Use Cases
+export const createCategoryUseCase = new CreateCategoryUseCase(categoryRepository);
 ```
 
 ### Action Required
