@@ -2,7 +2,6 @@ import { CustomError } from "@salc/core/enums";
 import { StudentEntity } from "../../domain/entities/Student.entity";
 import { type EntityValidator } from "@salc/core/interfaces/EntityValidator";
 
-
 type StudentMapperProps = Record<string, unknown> | unknown | null | undefined;
 
 export interface StudentMapper {
@@ -11,11 +10,10 @@ export interface StudentMapper {
 }
 
 export class StudentMapperImpl implements StudentMapper {
-
     constructor(
         private readonly validator: EntityValidator<StudentEntity>,
         private readonly arrayValidator: EntityValidator<StudentEntity[]>,
-    ) { }
+    ) {}
 
     private parseLocalDate(dateValue: string | Date): Date {
         if (dateValue instanceof Date) {
@@ -25,7 +23,7 @@ export class StudentMapperImpl implements StudentMapper {
 
         const dateString = String(dateValue);
         const datePart = dateString.substring(0, 10);
-        
+
         if (!datePart.includes("-")) {
             return new Date(dateString);
         }
@@ -59,7 +57,7 @@ export class StudentMapperImpl implements StudentMapper {
             validationResponse.contractStatus as any,
             validationResponse.progressCategory as any,
             new Date(validationResponse.createdAt),
-            new Date(validationResponse.updatedAt)
+            new Date(validationResponse.updatedAt),
         );
     }
 
