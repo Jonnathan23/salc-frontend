@@ -1,23 +1,25 @@
-import DirectoryStudents from "@/features/admin-desk/students/presentation/pages/students-items/DirectoryStudents.page";
-import DirectoryProfilesPage from "@/features/shared/identity/presentation/pages/DirectoryUsersProfiles.page";
-import ViewStudentProfile from "@/features/admin-desk/students/presentation/pages/ViewStudentProfile.page";
-import TuitionStudentPage from "@/features/admin-desk/students/presentation/pages/TuitionStudent.page";
-import ViewProfilePage from "@/features/shared/identity/presentation/pages/ViewUser.page";
-import RegisterPage from "@/features/shared/identity/presentation/pages/register.page";
-import ModulePage from "@/features/admin-desk/modules/presentation/pages/module.page";
-import LoginPage from "@/features/shared/identity/presentation/pages/login.page";
+import { lazy } from "react";
 import { systemPermissions } from "@salc/core/enums/Permissions";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ProtectedRoute } from "@/features/shared/identity/presentation/routes/ProtectedRoute";
 import { PublicRoute } from "@/features/shared/identity/presentation/routes/PublicRoute";
-import DashboardPage from "@/core/pages/dasboard.page";
 import AuthLayout from "@/core/layouts/AuthLayout";
 
-import StudentLevelsPage from "@/features/admin-desk/students-levels/presentation/pages/studentLevels.page";
 import NotFoundView from "@/core/pages/NotFound.page";
 import AdminDeskLayout from "@/core/layouts/AdminDesk.layout";
 import IndexRedirect from "@/features/shared/identity/presentation/pages/IndexRedirect.page";
 import ClassTrackLayout from "@/core/layouts/ClassTrack.layout";
+
+const DirectoryStudents = lazy(() => import("@/features/admin-desk/students/presentation/pages/students-items/DirectoryStudents.page"));
+const DirectoryProfilesPage = lazy(() => import("@/features/shared/identity/presentation/pages/DirectoryUsersProfiles.page"));
+const ViewStudentProfile = lazy(() => import("@/features/admin-desk/students/presentation/pages/ViewStudentProfile.page"));
+const TuitionStudentPage = lazy(() => import("@/features/admin-desk/students/presentation/pages/TuitionStudent.page"));
+const ViewProfilePage = lazy(() => import("@/features/shared/identity/presentation/pages/ViewUser.page"));
+const RegisterPage = lazy(() => import("@/features/shared/identity/presentation/pages/register.page"));
+const ModulePage = lazy(() => import("@/features/admin-desk/modules/presentation/pages/module.page"));
+const LoginPage = lazy(() => import("@/features/shared/identity/presentation/pages/login.page"));
+const DashboardPage = lazy(() => import("@/core/pages/dasboard.page"));
+const StudentLevelsPage = lazy(() => import("@/features/admin-desk/students-levels/presentation/pages/studentLevels.page"));
 
 export default function Router() {
     //TODO: redireccionar al login apenas se detecte que el JWT expiró

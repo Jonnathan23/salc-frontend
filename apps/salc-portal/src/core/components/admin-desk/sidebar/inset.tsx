@@ -1,12 +1,14 @@
 import { Outlet } from "react-router-dom";
+import { Suspense } from "react";
 
 import { Separator } from "@/core/components/ui/separator";
 import { SidebarInset, SidebarTrigger } from "@/core/components/admin-desk/sidebar/all-components-sidebar";
 import type { NavItem } from "@/core/interfaces/NavItem";
+import AdminDeskSkeleton from "@/core/components/ui/skeletons/AdminDeskSkeleton";
 
 interface InsetProps {
-    filteredNavItems: NavItem[];
-    pathname: string;
+    readonly filteredNavItems: NavItem[];
+    readonly pathname: string;
 }
 
 export default function Inset({ filteredNavItems, pathname }: InsetProps) {
@@ -20,7 +22,9 @@ export default function Inset({ filteredNavItems, pathname }: InsetProps) {
                 </h1>
             </header>
             <main className="flex-1 p-6">
-                <Outlet />
+                <Suspense fallback={<AdminDeskSkeleton />}>
+                    <Outlet />
+                </Suspense>
             </main>
         </SidebarInset>
     );
