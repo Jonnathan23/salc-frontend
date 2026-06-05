@@ -18,7 +18,7 @@ const ViewProfilePage = lazy(() => import("@/features/shared/identity/presentati
 const RegisterPage = lazy(() => import("@/features/shared/identity/presentation/pages/register.page"));
 const ModulePage = lazy(() => import("@/features/admin-desk/modules/presentation/pages/module.page"));
 const LoginPage = lazy(() => import("@/features/shared/identity/presentation/pages/login.page"));
-const DashboardPage = lazy(() => import("@/core/pages/dasboard.page"));
+const DashboardPage = lazy(() => import("@/core/pages/dasboardAdminDesk.page"));
 const StudentLevelsPage = lazy(() => import("@/features/admin-desk/students-levels/presentation/pages/studentLevels.page"));
 
 export default function Router() {

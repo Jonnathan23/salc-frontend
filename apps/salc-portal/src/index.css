@@ -4,7 +4,7 @@
 
 
 /* * ==========================================================================
- * CLASS TRACK BRAND VARIABLES & SEMANTIC TOKENS
+ * SALC-PORTAL BRAND VARIABLES & SEMANTIC TOKENS
  * ==========================================================================
  */
 :root {
@@ -20,8 +20,8 @@
 
     /* * MAPEO SEMÁNTICO - LIGHT MODE */
     --background: #ffffff;
-    --foreground: var(--brand-brown); /* TEXTO NORMAL: #685c46 */
-    --title: var(--brand-orange);     /* TÍTULOS: #f36e2b */
+    --foreground: var(--brand-brown);
+    --title: var(--brand-orange);
 
     --card: #ffffff;
     --card-foreground: var(--brand-brown);
@@ -48,6 +48,13 @@
     --input: var(--brand-tan);
     --ring: var(--brand-teal-dark);
 
+    /* V0 ClassTrack Chart Variables (No modificar) */
+    --chart-1: oklch(0.646 0.222 41.116);
+    --chart-2: oklch(0.6 0.118 184.704);
+    --chart-3: oklch(0.398 0.07 227.392);
+    --chart-4: oklch(0.828 0.189 84.429);
+    --chart-5: oklch(0.769 0.188 70.08);
+
     /* Sidebar */
     --sidebar: var(--brand-teal-dark);
     --sidebar-foreground: #ffffff;
@@ -64,8 +71,8 @@
 .dark {
     /* * MAPEO SEMÁNTICO - DARK MODE */
     --background: #2a251c;
-    --foreground: var(--brand-tan); /* Texto claro para lectura en oscuro */
-    --title: var(--brand-orange);   /* Títulos se mantienen naranja */
+    --foreground: var(--brand-tan);
+    --title: var(--brand-orange);
 
     --card: #363025;
     --card-foreground: var(--brand-tan);
@@ -92,6 +99,13 @@
     --input: var(--brand-brown);
     --ring: var(--brand-teal-medium);
 
+    /* V0 ClassTrack Chart Variables (No modificar) */
+    --chart-1: oklch(0.488 0.243 264.376);
+    --chart-2: oklch(0.696 0.17 162.48);
+    --chart-3: oklch(0.769 0.188 70.08);
+    --chart-4: oklch(0.627 0.265 303.9);
+    --chart-5: oklch(0.645 0.246 16.439);
+
     /* Sidebar */
     --sidebar: #2a251c;
     --sidebar-foreground: var(--brand-tan);
@@ -114,7 +128,6 @@
     --color-background: var(--background);
     --color-foreground: var(--foreground);
     
-    /* Agregamos el color del título para poder usar "text-title" en Tailwind */
     --color-title: var(--title); 
 
     --color-card: var(--card);
@@ -142,6 +155,13 @@
     --color-input: var(--input);
     --color-ring: var(--ring);
 
+    /* Integración de variables Chart V0 */
+    --color-chart-1: var(--chart-1);
+    --color-chart-2: var(--chart-2);
+    --color-chart-3: var(--chart-3);
+    --color-chart-4: var(--chart-4);
+    --color-chart-5: var(--chart-5);
+
     --radius-sm: calc(var(--radius) - 4px);
     --radius-md: calc(var(--radius) - 2px);
     --radius-lg: var(--radius);
@@ -166,7 +186,6 @@
         @apply bg-background text-foreground;
     }
 
-    /* LA MAGIA: Forzamos a que todos los títulos sean Naranja por defecto */
     h1, h2, h3, h4, h5, h6 {
         color: var(--title);
     }

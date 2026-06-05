@@ -28,7 +28,7 @@ export default function NotFoundView() {
 
                 {/* Subtitle/Description */}
                 <p className="text-lg text-foreground mb-2 leading-relaxed">
-                    Parece que te has salido del plan de estudios. La página que buscas
+                    ¡Ups! Parece que te has salido de la página. La página que buscas
                     no existe o ha sido movida.
                 </p>
 

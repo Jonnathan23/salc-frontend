@@ -14,7 +14,7 @@ export default function AdminDeskLayout() {
         return (
             <SidebarProvider>
                 <Sidebar>
-                    <HeaderSidebar />
+                    <HeaderSidebar nameSystem={"ADMIN DESK"}/>
                     <MenuSidebar filteredNavItems={filteredNavItems} pathname={pathname} />
                     <FooterSidebar userResponse={userResponse} logout={logout} />
                 </Sidebar>

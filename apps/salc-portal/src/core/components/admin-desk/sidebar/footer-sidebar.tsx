@@ -5,8 +5,8 @@ import { Button } from "@/core/components/admin-desk/buttons/button";
 import type { UserAuthResponseEntity } from "@salc/core/features/shared/identity/domain/entities";
 
 interface FooterSidebarProps {
-    userResponse: UserAuthResponseEntity;
-    logout: () => void;
+    readonly userResponse: UserAuthResponseEntity;
+    readonly logout: () => void;
 }
 
 export default function FooterSidebar({ userResponse, logout }: FooterSidebarProps) {

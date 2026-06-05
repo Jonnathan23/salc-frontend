@@ -1,21 +1,23 @@
-import { SidebarClassTrack } from "@/core/components/class-track/SidebarClass";
-import { Outlet } from "react-router-dom";
-import { Suspense } from "react";
-import ClassTrackSkeleton from "@/core/components/ui/skeletons/ClassTrackSkeleton";
+import { Sidebar, SidebarProvider } from "@/core/components/admin-desk/sidebar/all-components-sidebar";
+import HeaderSidebar from "@/core/components/admin-desk/sidebar/header-sidebar";
+import MenuSidebar from "@/core/components/admin-desk/sidebar/menu-sidebar";
+import FooterSidebar from "@/core/components/admin-desk/sidebar/footer-sidebar";
+import Inset from "@/core/components/admin-desk/sidebar/inset";
+import { useClassTrackLayout } from "@/core/hooks/useClassTrackLayout.use";
 
 export default function ClassTrackLayout() {
-    const onSignOut = () => {
-        //TODO: CERRAR SESION
-    };
+    const { pathname, userResponse, filteredNavItems, logout } = useClassTrackLayout();
+
+    if (!userResponse) return null;
 
     return (
-        <div className="flex min-h-screen bg-[var(--color-primary)]/10">
-            <SidebarClassTrack onSignOut={onSignOut} />
-            <main className="flex-1 overflow-y-auto min-h-screen">
-                <Suspense fallback={<ClassTrackSkeleton />}>
-                    <Outlet />
-                </Suspense>
-            </main>
-        </div>
+        <SidebarProvider>
+            <Sidebar>
+                <HeaderSidebar nameSystem={"CLASS TRACK"} />
+                <MenuSidebar filteredNavItems={filteredNavItems} pathname={pathname} />
+                <FooterSidebar userResponse={userResponse} logout={logout} />
+            </Sidebar>
+            <Inset filteredNavItems={filteredNavItems} pathname={pathname} />
+        </SidebarProvider>
     );
 }

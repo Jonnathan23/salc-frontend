@@ -11,8 +11,8 @@ import { Link } from "react-router-dom";
 import type { NavItem } from "@/core/interfaces/NavItem";
 
 interface MenuSidebarProps {
-    filteredNavItems: NavItem[];
-    pathname: string;
+    readonly filteredNavItems: NavItem[];
+    readonly pathname: string;
 }
 
 export default function MenuSidebar({ filteredNavItems, pathname }: MenuSidebarProps) {

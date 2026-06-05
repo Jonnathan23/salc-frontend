@@ -1,35 +1,51 @@
-import type { ClassTrackNavItem } from "@/core/interfaces/NavItem";
-import { LayoutDashboard, ShieldCheck, AlertTriangle, BarChart2, Users } from "lucide-react";
+import type { NavItem } from "@/core/interfaces/NavItem";
+import { systemPermissions } from "@salc/core/enums/Permissions";
+import { LayoutDashboard, ShieldCheck, AlertTriangle, Users } from "lucide-react";
 
-export const classTrackNavItems: ClassTrackNavItem[] = [
+const baseUrl = "/class-track";
+
+export const classTrackNavItems: NavItem[] = [
     {
-        label: "Resumen General",
-        view: "dashboard",
+        title: "Resumen General",
+        description: "Resumen General",
         icon: LayoutDashboard,
-        href: "/",
+        href: baseUrl + "/",
+        permissions: [],
+        color: "bg-primary",
     },
     {
-        label: "Control de Acceso",
-        view: "access-control",
+        title: "Control de Acceso",
+        description: "Control de Acceso",
         icon: ShieldCheck,
-        href: "/",
+        href: baseUrl + "/acces-control",
+        permissions: [systemPermissions.CLASSTRACK_ATTENDANCE_READ],
+        color: "bg-secondary",
     },
     {
-        label: "Centro de Retención",
-        view: "retention",
+        title: "Centro de Retención",
+        description: "Centro de Retención",
         icon: AlertTriangle,
-        href: "/",
+        href: baseUrl + "/retention-center",
+        permissions: [systemPermissions.CLASSTRACK_ATTENDANCE_READ],
+        color: "bg-accent",
     },
+    /*
+    TODO:
     {
-        label: "Rendimiento",
-        view: "performance",
+        title: "Rendimiento",
+        description: "Rendimiento",
         icon: BarChart2,
-        href: "/",
+        href: baseUrl + "/performance",
+        permissions: [systemPermissions.CLASSTRACK_ATTENDANCE_READ],
+        color: "bg-primary",
     },
+    */
     {
-        label: "Perfiles",
-        view: "student-profile",
+        title: "Perfiles",
+        description: "Perfiles",
         icon: Users,
-        href: "/",
+        href: baseUrl + "/profiles",
+        permissions: [systemPermissions.CLASSTRACK_ATTENDANCE_READ],
+        color: "bg-secondary",
     },
 ];

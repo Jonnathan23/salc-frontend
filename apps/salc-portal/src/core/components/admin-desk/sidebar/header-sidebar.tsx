@@ -1,6 +1,10 @@
 import { SidebarHeader } from "@/core/components/admin-desk/sidebar/all-components-sidebar";
 
-export default function HeaderSidebar() {
+interface HeaderSidebarProps {
+    readonly nameSystem: string;
+}
+
+export default function HeaderSidebar({ nameSystem }: HeaderSidebarProps) {
     return (
         <SidebarHeader className="border-b border-sidebar-border">
             <div className="flex items-center gap-3 px-4 py-3">
@@ -9,7 +13,7 @@ export default function HeaderSidebar() {
                 </div>
                 <div className="flex flex-col">
                     <span className="font-semibold text-sidebar-foreground">SALC</span>
-                    <span className="text-xs text-sidebar-foreground/70">Admin Desk</span>
+                    <span className="text-xs text-sidebar-foreground/70">{nameSystem}</span>
                 </div>
             </div>
         </SidebarHeader>
