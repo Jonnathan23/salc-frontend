@@ -1,0 +1,1 @@
+export * from '@/features/admin-desk/students/presentation/interfaces/BaseFormValues.interface';

@@ -1,7 +1,7 @@
 import { studentModuleStatus, type StudentModuleStatus } from "@salc/core/features/admin-desk/students-level/domain/interfaces/StudentLevels.interface";
 import { certificateType, type CertificateType, studentContractStatus, type StudentContractStatus } from "@salc/core/features/admin-desk/students/domain/interfaces/Student.interface";
-import type { UserState } from "@salc/core/features/shared/indentity/domain/entities";
-import { userState } from "@salc/core/features/shared/indentity/domain/entities/UserAuthResponse.entity";
+import type { UserState } from "@salc/core/features/shared/identity/domain/entities";
+import { userState } from "@salc/core/features/shared/identity/domain/entities/UserAuthResponse.entity";
 import type { UserRoles } from "@salc/core/interfaces";
 import { userRoles } from "@salc/core/interfaces";
 

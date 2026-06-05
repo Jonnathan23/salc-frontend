@@ -1,7 +1,7 @@
 import type { ModuleEntity } from "@salc/core/features/admin-desk/modules/domain/entities/Module.entity";
 import type { StudentModuleStatus } from "@salc/core/features/admin-desk/students-level/domain/interfaces/StudentLevels.interface";
 import type { StudentEntity } from "@salc/core/features/admin-desk/students/domain/entities/Student.entity";
-import type { UserEntity } from "@salc/core/features/shared/indentity/domain/entities";
+import type { UserEntity } from "@salc/core/features/shared/identity/domain/entities";
 
 
 interface ModuleEntityRelation extends Pick<ModuleEntity, |

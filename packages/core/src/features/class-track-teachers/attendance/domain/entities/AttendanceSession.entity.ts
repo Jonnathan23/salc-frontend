@@ -1,4 +1,4 @@
-export type AttendanceSessionStatus = "Active" | "Closed" | "ClosedSystem";
+import type { AttendanceSessionStatus } from "@salc/core/features/class-track-teachers/attendance/domain/interfaces/AttendanceSessionStatus.interface";
 
 export class AttendanceSessionEntity {
     constructor(

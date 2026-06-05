@@ -226,7 +226,7 @@ importers:
         specifier: 7.3.1
         version: 7.3.1(@types/node@24.10.1)(jiti@2.7.0)(lightningcss@1.31.1)(yaml@2.9.0)
 
-  apps/class-track:
+  apps/class-track-students:
     dependencies:
       '@salc/core':
         specifier: workspace:*
@@ -287,7 +287,7 @@ importers:
         specifier: 7.3.1
         version: 7.3.1(@types/node@24.10.1)(jiti@2.7.0)(lightningcss@1.31.1)(yaml@2.9.0)
 
-  apps/class-track-students:
+  apps/class-track-teacher:
     dependencies:
       '@salc/core':
         specifier: workspace:*
@@ -295,12 +295,27 @@ importers:
       '@salc/ui':
         specifier: workspace:*
         version: link:../../packages/ui
+      '@tanstack/react-query':
+        specifier: 5.90.21
+        version: 5.90.21(react@19.2.0)
+      lucide-react:
+        specifier: 0.577.0
+        version: 0.577.0(react@19.2.0)
       react:
         specifier: 19.2.0
         version: 19.2.0
       react-dom:
         specifier: 19.2.0
         version: 19.2.0(react@19.2.0)
+      react-hook-form:
+        specifier: 7.71.2
+        version: 7.71.2(react@19.2.0)
+      react-router-dom:
+        specifier: 7.13.1
+        version: 7.13.1(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      react-toastify:
+        specifier: 11.0.5
+        version: 11.0.5(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       zustand:
         specifier: 5.0.12
         version: 5.0.12(@types/react@19.2.7)(immer@11.1.8)(react@19.2.0)(use-sync-external-store@1.6.0(react@19.2.0))

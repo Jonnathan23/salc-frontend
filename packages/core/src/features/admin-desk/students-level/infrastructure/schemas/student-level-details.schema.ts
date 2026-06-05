@@ -2,7 +2,7 @@ import { z } from "zod";
 
 import { moduleSchema } from "@salc/core/features/admin-desk/modules/infrastructure/schemas/module.schema";
 import { studentSchema } from "@salc/core/features/admin-desk/students/infrastructure/schemas/Student.schema";
-import { userSchema } from "@salc/core/features/shared/indentity/infrastructure/schemas";
+import { userSchema } from "@salc/core/features/shared/identity/infrastructure/schemas";
 
 
 //* Student Level Details Schema
