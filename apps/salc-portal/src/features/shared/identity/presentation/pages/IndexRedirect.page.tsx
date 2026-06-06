@@ -8,7 +8,7 @@ export default function IndexRedirect() {
     const { userResponse } = useAuthStore();
 
     if (!userResponse) {
-        return <Navigate to="/auth/login" replace />;
+        return <Navigate to="/auth/Login" replace />;
     }
 
     if (userResponse.permissions.includes(systemPermissions.ADMINDESK_MAIN_ACCESS)) {

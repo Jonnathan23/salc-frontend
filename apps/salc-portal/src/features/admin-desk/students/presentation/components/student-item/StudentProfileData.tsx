@@ -2,7 +2,7 @@ import { Globe, CreditCard, Phone, Mail, BookOpen, Clock, DollarSign, ArrowLeft,
 
 import { useState } from "react";
 import { ContractStatusBadge, ProgressCategoryBadge } from "@/core/components/admin-desk/badges/Badges";
-import { Button } from "@/core/components/admin-desk/buttons/button";
+import { Button } from "@/core/components/admin-desk/buttons/Button";
 import { useNavigate } from "react-router-dom";
 import type { StudentEntity } from "@salc/core/features/admin-desk/students/domain/entities/Student.entity";
 
@@ -52,17 +52,13 @@ export default function StudentProfileData({ student, handleSetEdit }: StudentPr
                 <div className="px-6 pb-6">
                     <div className="flex items-end gap-4 -mt-8 mb-4">
                         <div className="w-16 h-16 rounded-2xl bg-accent border-4 border-card flex items-center justify-center flex-shrink-0 shadow-md">
-                            <span className="text-accent-foreground text-2xl font-bold">
-                                {student.fullName.charAt(0)}
-                            </span>
+                            <span className="text-accent-foreground text-2xl font-bold">{student.fullName.charAt(0)}</span>
                         </div>
                         <div className="mb-1">
                             <h2 className="text-xl font-bold text-foreground leading-tight">{student.fullName}</h2>
                             <div className="flex items-center gap-1.5 mt-1">
                                 <CreditCard className="w-3.5 h-3.5 text-muted-foreground" />
-                                <span className="text-sm text-muted-foreground font-mono">
-                                    {student.identificationCard}
-                                </span>
+                                <span className="text-sm text-muted-foreground font-mono">{student.identificationCard}</span>
                             </div>
                         </div>
                     </div>
@@ -76,9 +72,7 @@ export default function StudentProfileData({ student, handleSetEdit }: StudentPr
                                     Nacionalidad
                                 </p>
                                 {/* Asumiendo que agregaste nationality a tu entity, si no, reemplázalo con otra prop */}
-                                <p className="text-sm font-medium text-foreground">
-                                    {student.nationality || "Ecuatoriana"}
-                                </p>
+                                <p className="text-sm font-medium text-foreground">{student.nationality || "Ecuatoriana"}</p>
                             </div>
                         </div>
                         <div className="flex items-start gap-2">
@@ -102,9 +96,7 @@ export default function StudentProfileData({ student, handleSetEdit }: StudentPr
                         <div className="flex items-start gap-2">
                             <Mail className="w-4 h-4 text-primary-foreground mt-0.5 flex-shrink-0" />
                             <div>
-                                <p className="text-[10px] text-muted-foreground uppercase tracking-wide font-semibold">
-                                    Correo
-                                </p>
+                                <p className="text-[10px] text-muted-foreground uppercase tracking-wide font-semibold">Correo</p>
                                 <p className="text-sm font-medium text-foreground truncate">{student.email}</p>
                             </div>
                         </div>

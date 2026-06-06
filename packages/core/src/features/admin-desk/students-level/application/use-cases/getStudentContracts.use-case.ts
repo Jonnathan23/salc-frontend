@@ -8,9 +8,7 @@ export interface GetStudentContractsUseCase {
 }
 
 export class GetStudentContractsUseCaseImpl implements GetStudentContractsUseCase {
-    constructor(
-        private readonly studentLevelRepository: StudentLevelRepository
-    ) {}
+    constructor(private readonly studentLevelRepository: StudentLevelRepository) {}
 
     async execute(studentId: string): Promise<SuccessResponse<StudentLevelDetailsEntity[]>> {
         return this.studentLevelRepository.getStudentContracts(studentId);

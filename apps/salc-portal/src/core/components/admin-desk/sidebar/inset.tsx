@@ -1,8 +1,8 @@
 import { Outlet } from "react-router-dom";
 import { Suspense } from "react";
 
-import { Separator } from "@/core/components/ui/separator";
-import { SidebarInset, SidebarTrigger } from "@/core/components/admin-desk/sidebar/all-components-sidebar";
+import { Separator } from "@/core/components/ui/Separator";
+import { SidebarInset, SidebarTrigger } from "@/core/components/admin-desk/sidebar/AllComponentsSidebar";
 import type { NavItem } from "@/core/interfaces/NavItem";
 import AdminDeskSkeleton from "@/core/components/ui/skeletons/AdminDeskSkeleton";
 
@@ -18,7 +18,7 @@ export default function Inset({ filteredNavItems, pathname }: InsetProps) {
                 <SidebarTrigger className="-ml-2" />
                 <Separator orientation="vertical" className="h-6" />
                 <h1 className="text-lg font-semibold text-foreground">
-                    {filteredNavItems.find((item) => item.href === pathname)?.title || "Dashboard"}
+                    {filteredNavItems.find((item) => item.href === pathname)?.title || "dashboard"}
                 </h1>
             </header>
             <main className="flex-1 p-6">

@@ -7,10 +7,7 @@ import type { SuccessResponse } from "@salc/core/interfaces";
 import type { StudentLevelDetailsEntity } from "@salc/core/features/admin-desk/students-level/domain/entities/StudentLevelDetails.entity";
 
 export class StudentLevelRepositoryImpl implements StudentLevelRepository {
-
-    constructor(
-        private readonly studentLevelDataSource: StudentLevelDataSource,
-    ) { }
+    constructor(private readonly studentLevelDataSource: StudentLevelDataSource) {}
 
     purchaseModules(dto: PurchaseModulesDto): Promise<SuccessResponse<StudentLevelEntity[]>> {
         return this.studentLevelDataSource.purchaseModules(dto);

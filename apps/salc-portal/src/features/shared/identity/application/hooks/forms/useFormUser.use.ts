@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm } from "react-hook-Form";
 
 import { useCreateUser, useLoginUser } from "@/features/shared/identity/application/hooks";
 import { useAuthStore } from "@/features/shared/identity/application/store/auth.store";
@@ -15,19 +15,38 @@ interface UseFormUserProps {
 export const useFormUser = ({ onRoleChange, onSuccess }: UseFormUserProps) => {
     const [showPassword, setShowPassword] = useState(false);
 
-    const defaultValues: BaseUserFormValues = { us_full_name: '', us_email: '', us_password_hash: '', us_role: 'TEACHER' as UserRoles };
+    const defaultValues: BaseUserFormValues = {
+        us_full_name: "",
+        us_email: "",
+        us_password_hash: "",
+        us_role: "TEACHER" as UserRoles,
+    };
 
-
-    const { register, handleSubmit, control, watch, reset, formState: { errors } } = useForm<BaseUserFormValues>({ defaultValues, });
+    const {
+        register,
+        handleSubmit,
+        control,
+        watch,
+        reset,
+        formState: { errors },
+    } = useForm<BaseUserFormValues>({ defaultValues });
 
     const { mutate, isPending } = useCreateUser({ reset, onSuccess });
 
-    const selectedRole = watch('us_role');
+    const selectedRole = watch("us_role");
 
-    useEffect(() => { if (selectedRole) { onRoleChange(selectedRole); } }, [selectedRole, onRoleChange]);
+    useEffect(() => {
+        if (selectedRole) {
+            onRoleChange(selectedRole);
+        }
+    }, [selectedRole, onRoleChange]);
 
-    const onSubmit = (data: BaseUserFormValues) => { mutate(data); };
-    const handleSetShowPassword = () => { setShowPassword(!showPassword); };
+    const onSubmit = (data: BaseUserFormValues) => {
+        mutate(data);
+    };
+    const handleSetShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
 
     return {
         register,
@@ -37,10 +56,9 @@ export const useFormUser = ({ onRoleChange, onSuccess }: UseFormUserProps) => {
         isPending,
         onSubmit,
         showPassword,
-        handleSetShowPassword
-    }
-}
-
+        handleSetShowPassword,
+    };
+};
 
 interface UseUpdateFormUserProps {
     onRoleChange: (role: UserRoles) => void;
@@ -51,16 +69,30 @@ interface UseUpdateFormUserProps {
 export const useUpdateFormUser = ({ onRoleChange, defaultValues, id }: UseUpdateFormUserProps) => {
     const [showPassword, setShowPassword] = useState(false);
 
-    const { register, handleSubmit, control, watch, formState: { errors } } = useForm<BaseUserFormValues>({ defaultValues, });
+    const {
+        register,
+        handleSubmit,
+        control,
+        watch,
+        formState: { errors },
+    } = useForm<BaseUserFormValues>({ defaultValues });
 
     const { mutate, isPending } = useUpdateUser();
 
-    const selectedRole = watch('us_role');
+    const selectedRole = watch("us_role");
 
-    useEffect(() => { if (selectedRole) { onRoleChange(selectedRole as UserRoles); } }, [selectedRole, onRoleChange]);
+    useEffect(() => {
+        if (selectedRole) {
+            onRoleChange(selectedRole as UserRoles);
+        }
+    }, [selectedRole, onRoleChange]);
 
-    const onSubmit = (data: BaseUserFormValues) => { mutate({ id, data }); };
-    const handleSetShowPassword = () => { setShowPassword(!showPassword); };
+    const onSubmit = (data: BaseUserFormValues) => {
+        mutate({ id, data });
+    };
+    const handleSetShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
 
     return {
         register,
@@ -70,25 +102,25 @@ export const useUpdateFormUser = ({ onRoleChange, defaultValues, id }: UseUpdate
         isPending,
         onSubmit,
         showPassword,
-        handleSetShowPassword
-    }
-}
-
-
+        handleSetShowPassword,
+    };
+};
 
 export const useLoginForm = () => {
-    const defaultValues: BaseLoginFormValues = { us_email: '', us_password_hash: '', };
-    const { register, handleSubmit, formState: { errors } } = useForm<BaseLoginFormValues>({ defaultValues });
+    const defaultValues: BaseLoginFormValues = { us_email: "", us_password_hash: "" };
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<BaseLoginFormValues>({ defaultValues });
 
     const { setLoginSession } = useAuthStore();
 
     const { mutate: login, isPending: isPendingLogin, isError, error: errorLogin } = useLoginUser({ setLoginSession });
 
-
     const onSubmit = async (data: BaseLoginFormValues) => {
         login(data);
     };
-
 
     return {
         register,
@@ -97,6 +129,6 @@ export const useLoginForm = () => {
         errors,
         isError,
         errorLogin,
-        isPendingLogin
-    }
-}
+        isPendingLogin,
+    };
+};

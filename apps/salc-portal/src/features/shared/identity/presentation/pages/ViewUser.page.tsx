@@ -6,12 +6,12 @@ import UpdateUser from "@/features/shared/identity/presentation/components/regis
 import { useAuthStore } from "@/features/shared/identity/application/store/auth.store";
 import { useFindUserById } from "@/features/shared/identity/application/hooks";
 import { systemPermissions } from "@salc/core/enums/Permissions";
-import { Button } from "@/core/components/admin-desk/buttons/button";
+import { Button } from "@/core/components/admin-desk/buttons/Button";
 import { Loader2 } from "lucide-react";
 
 export default function ViewProfilePage() {
-    const params = useParams();
-    const userId = params.userId!;
+    const parameters = useParams();
+    const userId = parameters.userId!;
     const navigation = useNavigate();
 
     const { userResponse } = useAuthStore();
@@ -24,6 +24,7 @@ export default function ViewProfilePage() {
 
     const canUserResponseEdit = useMemo(() => {
         if (!userResponse) return false;
+
         return userResponse.permissions.includes(systemPermissions.SHARED_IDENTITY_WRITE);
     }, [userResponse]);
 

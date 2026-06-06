@@ -1,4 +1,3 @@
-
 import { z } from "zod";
 
 import { userState } from "@salc/core/features/shared/identity/domain/entities";
@@ -16,8 +15,7 @@ export const userAuthResponseSchema = z.object({
     permissions: z.array(z.string()),
 });
 
-
 export const loginResponseSchema = z.object({
     user: userAuthResponseSchema,
-    token: z.string()
+    token: z.string(),
 });

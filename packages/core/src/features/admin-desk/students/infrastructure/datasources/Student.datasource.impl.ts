@@ -3,7 +3,7 @@ import type {
     UpdateStudentDto,
     ChangeContractStatusDto,
 } from "@salc/core/features/admin-desk/students/domain/dtos";
-import { type StudentMapper } from "@salc/core/features/admin-desk/students/infrastructure/mappers/Student.mapper";
+import { type StudentMapper } from "@salc/core/features/admin-desk/students/infrastructure/mappers/student.mapper";
 import { StudentDataSource } from "@salc/core/features/admin-desk/students/domain/datasources/Student.datasource";
 import { type StudentEntity } from "@salc/core/features/admin-desk/students/domain/entities/Student.entity";
 import { type SuccessResponse, type MethodsHttp } from "@salc/core/interfaces";
@@ -18,7 +18,7 @@ export class StudentDataSourceImpl implements StudentDataSource {
     ) {}
 
     async register(dto: RegisterStudentDto): Promise<SuccessResponse<StudentEntity>> {
-        const url = `${this.baseUrl}/register`;
+        const url = `${this.baseUrl}/Register`;
         const rawResponse = await this.apiStudents.post<SuccessResponse<StudentEntity>, RegisterStudentDto>(url, dto);
 
         if (!rawResponse.data) {
@@ -83,10 +83,7 @@ export class StudentDataSourceImpl implements StudentDataSource {
 
     async changeContractStatus(id: string, dto: ChangeContractStatusDto): Promise<SuccessResponse<StudentEntity>> {
         const url = `${this.baseUrl}/${id}/contract-status`;
-        const rawResponse = await this.apiStudents.patch<SuccessResponse<StudentEntity>, ChangeContractStatusDto>(
-            url,
-            dto,
-        );
+        const rawResponse = await this.apiStudents.patch<SuccessResponse<StudentEntity>, ChangeContractStatusDto>(url, dto);
 
         if (!rawResponse.data) {
             throw CustomError.notFound("Could not change contract status");

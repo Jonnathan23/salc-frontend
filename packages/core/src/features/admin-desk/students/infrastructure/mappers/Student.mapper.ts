@@ -23,7 +23,7 @@ export class StudentMapperImpl implements StudentMapper {
         }
 
         const dateString = String(dateValue);
-        const datePart = dateString.substring(0, 10);
+        const datePart = dateString.slice(0, 10);
 
         if (!datePart.includes("-")) {
             return new Date(dateString);
@@ -55,8 +55,8 @@ export class StudentMapperImpl implements StudentMapper {
             validationResponse.certificateType,
             parsedStartDate,
             validationResponse.isGraduated,
-            validationResponse.contractStatus as any,
-            validationResponse.progressCategory as any,
+            validationResponse.contractStatus,
+            validationResponse.progressCategory,
             new Date(validationResponse.createdAt),
             new Date(validationResponse.updatedAt),
         );
@@ -69,6 +69,6 @@ export class StudentMapperImpl implements StudentMapper {
 
         const validationResponse = this.arrayValidator.validate(rawObjects);
 
-        return validationResponse.map((student: any) => this.toEntity(student));
+        return validationResponse.map((student) => this.toEntity(student));
     }
 }

@@ -7,7 +7,7 @@ Este documento define las directrices arquitectónicas, la separación de capas 
 
 | Capa / Módulo             | Descripción                                                                 |
 |---------------------------|--------------------------------------------------------------------------------------|
-| **Apps (Admin/Class)**    | Contienen la lógica de presentación específica. Son "consumidores" de la lógica de negocio centralizada. Proveen las interfaces de usuario construidas con React. |
+| **Apps (Portal/Students)**    | Contienen la lógica de presentación específica. Son "consumidores" de la lógica de negocio centralizada. Proveen las interfaces de usuario construidas con React. |
 | **Business Logic / Domain**| Capa agnóstica al framework (`packages/core`). Contiene los casos de uso, entidades y validaciones que no dependen de React para asegurar portabilidad y limpieza. |
 | **Shared Services & UI**  | Implementaciones de comunicación HTTP (adapters), mappers compartidos y componentes UI reutilizables entre todas las aplicaciones del monorepo (`packages/ui` y `packages/core`). |
 
@@ -15,7 +15,7 @@ Este documento define las directrices arquitectónicas, la separación de capas 
 
 ## Capas del Cliente (Apps)
 
-Cada aplicación dentro de `apps/` (ej. `admin-desk`, `class-track`) es un consumidor de la lógica de negocio. La estructura interna separa las responsabilidades globales de las modulares (por funcionalidad).
+Cada aplicación dentro de `apps/` (ej. `salc-portal`, `class-track-students`) es un consumidor de la lógica de negocio. La estructura interna separa las responsabilidades globales de las modulares (por funcionalidad).
 
 ### 1. Directorio Global (`src/core/`)
 Contiene los elementos transversales de la aplicación:
@@ -78,7 +78,7 @@ El orquestador de reglas de negocio.
 // Ejemplo estructural usando el estilo Kernighan y Ritchie (K&R)
 ```
 
-1. **UI Level (Presentación):** El usuario interactúa con un formulario en `apps/admin-desk/src/features/modules/presentation/components/ModuleForm.tsx`.
+1. **UI Level (Presentación):** El usuario interactúa con un formulario en `apps/salc-portal/src/features/admin-desk/modules/presentation/components/ModuleForm.tsx`.
 2. **UI Hook (TanStack Query):** El componente llama a la función `mutate()` expuesta por el hook `useCreateModule.use.ts`.
 3. **DTO Validation:** El hook recibe la información cruda y llama a `CreateModuleDtoImpl.create(rawData)`. Si es inválida, se lanza un `CustomError` que es capturado por React Query.
 4. **Use Case (Core):** Si el DTO es válido, el hook invoca `createModuleUseCase.execute(validDto)`.

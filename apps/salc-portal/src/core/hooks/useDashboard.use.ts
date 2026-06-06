@@ -11,13 +11,10 @@ export const useDashboard = () => {
 
     const isAdmin = useMemo(() => userResponse?.us_role === userRoles.ADMIN, [userResponse]);
 
-    const filteredActions = useMemo(
-        () => navItems.filter((action) => hasPermission(action.permissions)),
-        [hasPermission]
-    );
+    const filteredActions = useMemo(() => navItems.filter((action) => hasPermission(action.permissions)), [hasPermission]);
 
     return {
         isAdmin,
-        filteredActions
-    }
-}
+        filteredActions,
+    };
+};

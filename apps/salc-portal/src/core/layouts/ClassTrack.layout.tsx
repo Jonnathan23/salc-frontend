@@ -1,8 +1,8 @@
-import { Sidebar, SidebarProvider } from "@/core/components/admin-desk/sidebar/all-components-sidebar";
-import HeaderSidebar from "@/core/components/admin-desk/sidebar/header-sidebar";
-import MenuSidebar from "@/core/components/admin-desk/sidebar/menu-sidebar";
-import FooterSidebar from "@/core/components/admin-desk/sidebar/footer-sidebar";
-import Inset from "@/core/components/admin-desk/sidebar/inset";
+import { Sidebar, SidebarProvider } from "@/core/components/admin-desk/sidebar/AllComponentsSidebar";
+import HeaderSidebar from "@/core/components/admin-desk/sidebar/HeaderSidebar";
+import MenuSidebar from "@/core/components/admin-desk/sidebar/MenuSidebar";
+import FooterSidebar from "@/core/components/admin-desk/sidebar/FooterSidebar";
+import Inset from "@/core/components/admin-desk/sidebar/Inset";
 import { useClassTrackLayout } from "@/core/hooks/useClassTrackLayout.use";
 
 export default function ClassTrackLayout() {

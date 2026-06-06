@@ -14,7 +14,7 @@ export const studentSchema = z.object({
     contractStatus: z.string(),
     progressCategory: z.string(),
     createdAt: z.string().or(z.date()),
-    updatedAt: z.string().or(z.date())
+    updatedAt: z.string().or(z.date()),
 });
 
 export const arrayStudentsSchema = z.array(studentSchema);

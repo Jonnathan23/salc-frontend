@@ -1,6 +1,5 @@
 import z from "zod";
 
-
 export const moduleSchema = z.object({
     mo_id: z.string(),
     mo_name: z.string(),
@@ -8,6 +7,6 @@ export const moduleSchema = z.object({
     mo_level: z.number().min(1).max(6),
     mo_created_at: z.string(),
     mo_updated_at: z.string(),
-})
+});
 
 export const arrayModulesSchema = z.array(moduleSchema);

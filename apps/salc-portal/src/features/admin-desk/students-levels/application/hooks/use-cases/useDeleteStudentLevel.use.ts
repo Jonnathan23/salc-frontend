@@ -14,12 +14,13 @@ export const useDeleteStudentLevel = ({ handleSuccess }: UseDeleteStudentLevelPr
         mutationFn: async (studentLevelId: string) => {
             // Utilizamos el DTO directamente ya que no viene de un formulario complejo
             const validDto = DeleteStudentLevelDtoImpl.create({ studentLevelId });
+
             return await deleteStudentLevelUseCase.execute(validDto.studentLevelId);
         },
         onSuccess: (successResponse) => {
             queryClient.invalidateQueries({ queryKey: ["student-contracts"] });
             ShowMessageAdapter.success(successResponse.message || "Nivel eliminado exitosamente");
             if (handleSuccess) handleSuccess();
-        }
+        },
     });
 };

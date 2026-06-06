@@ -1,7 +1,11 @@
-import type { ChangePasswordDto, LoginUserDto, RegisterUserDto, UpdateUserDto } from "@salc/core/features/shared/identity/domain/dtos";
+import type {
+    ChangePasswordDto,
+    LoginUserDto,
+    RegisterUserDto,
+    UpdateUserDto,
+} from "@salc/core/features/shared/identity/domain/dtos";
 import type { UserAuthResponseEntity } from "@salc/core/features/shared/identity/domain/entities";
 import type { SuccessResponse } from "@salc/core/interfaces";
-
 
 export abstract class UserDataSource {
     abstract create(user: RegisterUserDto): Promise<SuccessResponse>;

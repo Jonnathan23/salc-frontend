@@ -8,9 +8,7 @@ export interface UpdateStudentLevelUseCase {
 }
 
 export class UpdateStudentLevelUseCaseImpl implements UpdateStudentLevelUseCase {
-    constructor(
-        private readonly studentLevelRepository: StudentLevelRepository
-    ) {}
+    constructor(private readonly studentLevelRepository: StudentLevelRepository) {}
 
     async execute(dto: UpdateStudentModuleDto): Promise<SuccessResponse<StudentLevelEntity[]>> {
         return this.studentLevelRepository.updateStudentLevel(dto);

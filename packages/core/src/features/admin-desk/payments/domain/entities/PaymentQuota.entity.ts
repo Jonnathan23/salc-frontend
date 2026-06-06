@@ -1,5 +1,3 @@
-
-
 export interface PaymentQuotaEntity {
     id: string;
     paymentPlanId: string;
@@ -28,6 +26,6 @@ export class PaymentQuotaEntityImpl implements PaymentQuotaEntity {
         public readonly dueDate: Date,
         public readonly status: string,
         public readonly createdAt?: Date,
-        public readonly updatedAt?: Date
+        public readonly updatedAt?: Date,
     ) {}
 }

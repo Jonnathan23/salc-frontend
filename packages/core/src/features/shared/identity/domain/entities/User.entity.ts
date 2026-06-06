@@ -1,6 +1,5 @@
 import type { UserRoles } from "@salc/core/interfaces";
 
-
 export class UserEntity {
     constructor(
         public us_id: string,

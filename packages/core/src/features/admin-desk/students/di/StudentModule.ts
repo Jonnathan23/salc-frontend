@@ -1,19 +1,20 @@
-import { ChangeContractStatusUseCase } from "@salc/core/features/admin-desk/students/application/use-cases/ChangeContractStatus.use-case";
-import { DeactivateStudentUseCase } from "@salc/core/features/admin-desk/students/application/use-cases/DeactivateStudent.use-case";
-import { GetAllStudentsUseCaseImpl } from "@salc/core/features/admin-desk/students/application/use-cases/GetAllStudents.use-case";
-import { RegisterStudentUseCase } from "@salc/core/features/admin-desk/students/application/use-cases/RegisterStudent.use-case";
-import { ToggleGraduatedUseCase } from "@salc/core/features/admin-desk/students/application/use-cases/ToggleGraduated.use-case";
-import { StudentDataSourceImpl } from "@salc/core/features/admin-desk/students/infrastructure/datasources/Student.datasource.impl";
+import { ChangeContractStatusUseCase } from "@salc/core/features/admin-desk/students/application/use-cases/changeContractStatus.use-case";
+import { DeactivateStudentUseCase } from "@salc/core/features/admin-desk/students/application/use-cases/deactivateStudent.use-case";
+import { GetAllStudentsUseCaseImpl } from "@salc/core/features/admin-desk/students/application/use-cases/getAllStudents.use-case";
+import { RegisterStudentUseCase } from "@salc/core/features/admin-desk/students/application/use-cases/registerStudent.use-case";
+import { ToggleGraduatedUseCase } from "@salc/core/features/admin-desk/students/application/use-cases/toggleGraduated.use-case";
+import { StudentDataSourceImpl } from "@salc/core/features/admin-desk/students/infrastructure/datasources/student.datasource.impl";
 import { StudentRepositoryImpl } from "@salc/core/features/admin-desk/students/infrastructure/repositories/Student.repository.impl";
-import { SearchStudentsUseCase } from "@salc/core/features/admin-desk/students/application/use-cases/SearchStudents.use-case";
-import { UpdateStudentUseCase } from "@salc/core/features/admin-desk/students/application/use-cases/UpdateStudent.use-case";
-import { StudentMapperImpl } from "@salc/core/features/admin-desk/students/infrastructure/mappers/Student.mapper";
-import { arrayStudentsSchema, studentSchema } from "@salc/core/features/admin-desk/students/infrastructure/schemas/Student.schema";
+import { SearchStudentsUseCase } from "@salc/core/features/admin-desk/students/application/use-cases/searchStudents.use-case";
+import { UpdateStudentUseCase } from "@salc/core/features/admin-desk/students/application/use-cases/updateStudent.use-case";
+import { StudentMapperImpl } from "@salc/core/features/admin-desk/students/infrastructure/mappers/student.mapper";
+import {
+    arrayStudentsSchema,
+    studentSchema,
+} from "@salc/core/features/admin-desk/students/infrastructure/schemas/Student.schema";
 import { StudentEntity } from "@salc/core/features/admin-desk/students/domain/entities/Student.entity";
 import { validatorFactory } from "@salc/core/adapters";
 import { api } from "@salc/core/lib";
-
-
 
 //* Validators
 const studentValidator = validatorFactory.createValidator<StudentEntity>(studentSchema);
@@ -42,4 +43,3 @@ export const changeContractStatusUseCase = new ChangeContractStatusUseCase(stude
 export const toggleGraduatedUseCase = new ToggleGraduatedUseCase(studentRepository);
 
 export const deactivateStudentUseCase = new DeactivateStudentUseCase(studentRepository);
-

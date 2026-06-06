@@ -12,7 +12,7 @@ export const paymentQuotaSchema = z.object({
     dueDate: z.string().or(z.date()),
     status: z.string(),
     createdAt: z.string().or(z.date()).optional(),
-    updatedAt: z.string().or(z.date()).optional()
+    updatedAt: z.string().or(z.date()).optional(),
 });
 
 export const paymentPlanSchema = z.object({
@@ -25,7 +25,7 @@ export const paymentPlanSchema = z.object({
     status: z.string(),
     quotas: z.array(paymentQuotaSchema).optional(),
     createdAt: z.string().or(z.date()).optional(),
-    updatedAt: z.string().or(z.date()).optional()
+    updatedAt: z.string().or(z.date()).optional(),
 });
 
 export const arrayPaymentPlansSchema = z.array(paymentPlanSchema);

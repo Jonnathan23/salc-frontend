@@ -1,5 +1,5 @@
-import { Button } from "@/core/components/admin-desk/buttons/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/core/components/ui/card";
+import { Button } from "@/core/components/admin-desk/buttons/Button";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/core/components/ui/Card";
 import type { ModuleEntity } from "@salc/core/features/admin-desk/modules/domain/entities/Module.entity";
 import { Layers3, Pencil, Trash2 } from "lucide-react";
 import type { Dispatch, SetStateAction } from "react";

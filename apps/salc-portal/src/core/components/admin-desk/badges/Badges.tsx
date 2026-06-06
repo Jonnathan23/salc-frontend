@@ -1,25 +1,29 @@
-'use client';
+"use client";
 
-import { alertStatus, sessionStatus, studentContractStatus, studentProgressCategory, type AlertStatus, type SessionStatus, type StudentContractStatus, type StudentProgressCategory } from "@salc/core/features/admin-desk/students/domain/interfaces/Student.interface";
+import {
+    alertStatus,
+    sessionStatus,
+    studentContractStatus,
+    studentProgressCategory,
+    type AlertStatus,
+    type SessionStatus,
+    type StudentContractStatus,
+    type StudentProgressCategory,
+} from "@salc/core/features/admin-desk/students/domain/interfaces/Student.interface";
 import { userState, type UserState } from "@salc/core/features/shared/identity/domain/entities";
-
 
 //import { ContractStatus, ProgressCategory, SessionStatus, AlertStatus } from '@/lib/classtrack-types';
 
 export function ProfileStatusBadge({ status }: { status: UserState }) {
-    if (status === userState.ACTIVE) {
-        return (
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--color-primary)] text-[var(--color-quinary)]">
-                Activo
-            </span>
-        );
-    } else {
-        return (
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--color-quaternary)] text-[var(--white)]">
-                Inactivo
-            </span>
-        );
-    }
+    return status === userState.ACTIVE ? (
+        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--color-primary)] text-[var(--color-quinary)]">
+            Activo
+        </span>
+    ) : (
+        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--color-quaternary)] text-[var(--white)]">
+            Inactivo
+        </span>
+    );
 }
 export function ContractStatusBadge({ status }: { status: StudentContractStatus }) {
     if (status === studentContractStatus.ACTIVE) {
@@ -44,30 +48,35 @@ export function ContractStatusBadge({ status }: { status: StudentContractStatus 
 }
 
 export function ProgressCategoryBadge({ category }: { category: StudentProgressCategory }) {
-    if (category === studentProgressCategory.FAST) {
-        return (
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--color-quinary)] text-[var(--white)]">
-                Avance Rapido
-            </span>
-        );
-    } else if (category === studentProgressCategory.MODERATE) {
-        return (
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--color-septenary)] text-[var(--white)]">
-                Moderado
-            </span>
-        );
-    } else if (category === studentProgressCategory.SLOW) {
-        return (
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--color-sextary)] text-[var(--white)]">
-                Lento
-            </span>
-        );
-    } else {
-        return (
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--color-tertiary)] text-[var(--color-font)]">
-                Sin Datos
-            </span>
-        );
+    switch (category) {
+        case studentProgressCategory.FAST: {
+            return (
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--color-quinary)] text-[var(--white)]">
+                    Avance Rapido
+                </span>
+            );
+        }
+        case studentProgressCategory.MODERATE: {
+            return (
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--color-septenary)] text-[var(--white)]">
+                    Moderado
+                </span>
+            );
+        }
+        case studentProgressCategory.SLOW: {
+            return (
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--color-sextary)] text-[var(--white)]">
+                    Lento
+                </span>
+            );
+        }
+        default: {
+            return (
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--color-tertiary)] text-[var(--color-font)]">
+                    Sin Datos
+                </span>
+            );
+        }
     }
 }
 

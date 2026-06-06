@@ -4,8 +4,6 @@ import { UserMapper } from "@/features/shared/identity/presentation/mappers/user
 import { updateUserUseCase } from "@salc/core/features/shared/identity/di/IdentityModule";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-
-
 interface UseUpdateUserMutationProps {
     id: string;
     data: BaseUserFormValues;
@@ -21,8 +19,8 @@ export const useUpdateUser = () => {
             return await updateUserUseCase.execute(id, validDto);
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['users'] });
-            ShowMessageAdapter.success('Usuario actualizado correctamente');
+            queryClient.invalidateQueries({ queryKey: ["users"] });
+            ShowMessageAdapter.success("Usuario actualizado correctamente");
         },
-    })
-}
+    });
+};

@@ -1,2 +1,3 @@
-import './globals.css';
-export * from '@salc/ui/lib/utils';
+import "./globals.css";
+
+export * from "@salc/ui/lib/utils";

@@ -3,9 +3,10 @@ import { systemPermissions } from "@salc/core/enums/Permissions";
 import { BookPlus, Database, Layers, LayoutDashboard, Package, School, UserPlus, UserRoundSearch } from "lucide-react";
 
 const baseUrl = "/admin-desk";
+
 export const navItems: NavItem[] = [
     {
-        title: "Dashboard",
+        title: "dashboard",
         description: "Panel de control",
         href: baseUrl + "/dashboard",
         icon: LayoutDashboard,
@@ -47,7 +48,7 @@ export const navItems: NavItem[] = [
     {
         title: "Registro de Usuarios",
         description: "Crear cuentas para administradores y profesores",
-        href: baseUrl + "/new-user",
+        href: baseUrl + "/new-User",
         icon: UserPlus,
         permissions: [systemPermissions.SHARED_IDENTITY_WRITE], // Solo Admin
         color: "bg-muted",

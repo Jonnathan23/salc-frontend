@@ -2,13 +2,13 @@ import type {
     ChangePasswordDto,
     LoginUserDto,
     RegisterUserDto,
-    UpdateUserDto
-} from '@salc/core/features/shared/identity/domain/dtos';
+    UpdateUserDto,
+} from "@salc/core/features/shared/identity/domain/dtos";
 
-import { type UserAuthResponseEntity } from '@salc/core/features/shared/identity/domain/entities';
-import { type UserDataSource } from '@salc/core/features/shared/identity/domain/datasource';
-import { type SuccessResponse } from '@salc/core/interfaces';
-import { UserRepository } from '@salc/core/features/shared/identity/domain/repository/user.repository';
+import { type UserAuthResponseEntity } from "@salc/core/features/shared/identity/domain/entities";
+import { type UserDataSource } from "@salc/core/features/shared/identity/domain/datasource";
+import { type SuccessResponse } from "@salc/core/interfaces";
+import { UserRepository } from "@salc/core/features/shared/identity/domain/repository/user.repository";
 
 export class UserRepositoryImpl implements UserRepository {
     constructor(private readonly userDataSource: UserDataSource) {}

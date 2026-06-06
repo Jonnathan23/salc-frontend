@@ -12,14 +12,13 @@ export class UpdateUserDtoImpl implements UpdateUserDto {
         public us_full_name?: string,
         public us_email?: string,
         public us_role?: UserRoles,
-    ) { }
+    ) {}
 
     static create(user: UpdateUserDto): UpdateUserDto {
         const { us_full_name, us_email, us_role } = user;
 
-        if (!us_full_name && !us_email && !us_role) throw CustomError.badRequest('Missing name, email and role');
+        if (!us_full_name && !us_email && !us_role) throw CustomError.badRequest("Missing name, email and role");
 
         return new UpdateUserDtoImpl(us_full_name, us_email, us_role);
     }
-
 }

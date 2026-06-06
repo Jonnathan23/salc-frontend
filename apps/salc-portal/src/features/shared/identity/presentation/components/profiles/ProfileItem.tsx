@@ -17,11 +17,7 @@ export default function ProfileItem({ user }: ProfileItemProps) {
     };
 
     return (
-        <tr
-            key={us_id}
-            className="hover:bg-primary/10 transition-colors cursor-pointer"
-            onClick={() => handleViewStudent(us_id)}
-        >
+        <tr key={us_id} className="hover:bg-primary/10 transition-colors cursor-pointer" onClick={() => handleViewStudent(us_id)}>
             <td className="px-5 py-3">
                 <div className="flex items-center gap-3">
                     <div className=" w-7 h-7 rounded-full bg-primary-foreground flex items-center justify-center flex-shrink-0">

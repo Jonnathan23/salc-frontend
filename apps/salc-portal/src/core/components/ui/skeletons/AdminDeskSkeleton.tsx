@@ -4,7 +4,7 @@ export default function AdminDeskSkeleton() {
         <div className="w-full p-4 space-y-4 animate-pulse">
             {/* Header simulado */}
             <div className="h-8 bg-gray-200 rounded w-1/4"></div>
-            
+
             {/* Barra de herramientas simulada */}
             <div className="flex justify-between">
                 <div className="h-10 bg-gray-200 rounded w-1/3"></div>

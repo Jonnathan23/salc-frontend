@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { ContractStatus, ProgressCategory, SessionStatus, AlertStatus } from '@/lib/classtrack-types';
+import { ContractStatus, ProgressCategory, SessionStatus, AlertStatus } from "@/lib/classtrack-types";
 
 export function ContractStatusBadge({ status }: { status: ContractStatus }) {
     if (status === ContractStatus.ACTIVE) {
@@ -25,30 +25,35 @@ export function ContractStatusBadge({ status }: { status: ContractStatus }) {
 }
 
 export function ProgressCategoryBadge({ category }: { category: ProgressCategory }) {
-    if (category === ProgressCategory.FAST) {
-        return (
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--color-quinary)] text-[var(--white)]">
-                Avance Rapido
-            </span>
-        );
-    } else if (category === ProgressCategory.MODERATE) {
-        return (
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--color-septenary)] text-[var(--white)]">
-                Moderado
-            </span>
-        );
-    } else if (category === ProgressCategory.SLOW) {
-        return (
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--color-sextary)] text-[var(--white)]">
-                Lento
-            </span>
-        );
-    } else {
-        return (
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--color-tertiary)] text-[var(--color-font)]">
-                Sin Datos
-            </span>
-        );
+    switch (category) {
+        case ProgressCategory.FAST: {
+            return (
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--color-quinary)] text-[var(--white)]">
+                    Avance Rapido
+                </span>
+            );
+        }
+        case ProgressCategory.MODERATE: {
+            return (
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--color-septenary)] text-[var(--white)]">
+                    Moderado
+                </span>
+            );
+        }
+        case ProgressCategory.SLOW: {
+            return (
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--color-sextary)] text-[var(--white)]">
+                    Lento
+                </span>
+            );
+        }
+        default: {
+            return (
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--color-tertiary)] text-[var(--color-font)]">
+                    Sin Datos
+                </span>
+            );
+        }
     }
 }
 

@@ -1,1 +1,1 @@
-export * from '@salc/core/features/shared/identity/domain/datasource/user.datasource'
+export * from "@salc/core/features/shared/identity/domain/datasource/user.datasource";

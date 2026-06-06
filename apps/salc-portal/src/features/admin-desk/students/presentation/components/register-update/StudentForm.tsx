@@ -1,16 +1,16 @@
-import { Controller, type Control, type FieldErrors, type UseFormRegister } from "react-hook-form";
+import { Controller, type Control, type FieldErrors, type UseFormRegister } from "react-hook-Form";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/core/components/ui/select";
-import { Popover, PopoverContent, PopoverTrigger } from "@/core/components/ui/popover";
-import { Calendar } from "@/core/components/ui/calendar";
-import { Input } from "@/core/components/ui/input";
-import { Label } from "@/core/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/core/components/ui/Select";
+import { Popover, PopoverContent, PopoverTrigger } from "@/core/components/ui/Popover";
+import { Calendar } from "@/core/components/ui/Calendar";
+import { Input } from "@/core/components/ui/Input";
+import { Label } from "@/core/components/ui/Label";
 import { Nationalities } from "@salc/core/enums";
 import { CalendarIcon } from "lucide-react";
 import { cn } from "@salc/ui/lib/utils";
-import { Button } from "@/core/components/admin-desk/buttons/button";
+import { Button } from "@/core/components/admin-desk/buttons/Button";
 import type { CertificateType } from "@salc/core/features/admin-desk/students/domain/interfaces/Student.interface";
 import type { BaseStudentFormValues } from "@/features/admin-desk/students/presentation/interfaces"; // Ajusta la ruta si es necesario
 
@@ -46,9 +46,7 @@ export default function StudentForm(options: StudentFormProps) {
                         aria-invalid={!!errors.identificationCard}
                     />
 
-                    {errors.identificationCard && (
-                        <p className="text-sm text-destructive">{errors.identificationCard.message}</p>
-                    )}
+                    {errors.identificationCard && <p className="text-sm text-destructive">{errors.identificationCard.message}</p>}
                 </div>
 
                 <div className="space-y-2">
@@ -210,9 +208,7 @@ export default function StudentForm(options: StudentFormProps) {
                             </Select>
                         )}
                     />
-                    {errors.certificateType && (
-                        <p className="text-sm text-destructive">{errors.certificateType.message}</p>
-                    )}
+                    {errors.certificateType && <p className="text-sm text-destructive">{errors.certificateType.message}</p>}
                 </div>
 
                 <div className="space-y-2">

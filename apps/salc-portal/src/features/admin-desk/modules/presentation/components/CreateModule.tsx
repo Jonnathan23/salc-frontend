@@ -1,5 +1,5 @@
-import { Button } from "@/core/components/admin-desk/buttons/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/core/components/ui/card";
+import { Button } from "@/core/components/admin-desk/buttons/Button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/core/components/ui/Card";
 import { useCreateModuleForm } from "@/features/admin-desk/modules/application/hooks";
 import { ModuleForm } from "@/features/admin-desk/modules/presentation/components/ModuleForm";
 import { Loader2, PlusCircle } from "lucide-react";

@@ -21,6 +21,6 @@ export const usePurchaseModules = ({ handleSuccess }: UsePurchaseModulesProps) =
             queryClient.invalidateQueries({ queryKey: ["get-all-student-levels"] });
             ShowMessageAdapter.success(successResponse.message || "Módulos comprados exitosamente");
             handleSuccess();
-        }
+        },
     });
 };

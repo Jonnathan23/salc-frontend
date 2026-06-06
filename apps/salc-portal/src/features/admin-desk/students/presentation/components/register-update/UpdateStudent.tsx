@@ -1,7 +1,7 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/core/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/core/components/ui/Card";
 import { ArrowLeft, BookPlus, CheckCircle, Loader2, UserPlus } from "lucide-react";
-import { Alert, AlertDescription } from "@/core/components/admin-desk/alerts/alert";
-import { Button } from "@/core/components/admin-desk/buttons/button";
+import { Alert, AlertDescription } from "@/core/components/admin-desk/alerts/Alert";
+import { Button } from "@/core/components/admin-desk/buttons/Button";
 import type { StudentEntity } from "@salc/core/features/admin-desk/students/domain/entities/Student.entity";
 import { useUpdateStudentForm } from "@/features/admin-desk/students/application/hooks/forms/useUpdateFormStudent.use";
 import { StudentFormMapper } from "@/features/admin-desk/students/presentation/mappers/StudentForm.mapper";

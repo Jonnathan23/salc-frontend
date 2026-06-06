@@ -16,11 +16,7 @@ export default function StudentItem({ student }: StudentItemProps) {
     };
 
     return (
-        <tr
-            key={id}
-            className="hover:bg-primary/10 transition-colors cursor-pointer"
-            onClick={() => handleViewStudent(id)}
-        >
+        <tr key={id} className="hover:bg-primary/10 transition-colors cursor-pointer" onClick={() => handleViewStudent(id)}>
             <td className="px-5 py-3">
                 <div className="flex items-center gap-3">
                     <div className=" w-7 h-7 rounded-full bg-primary-foreground flex items-center justify-center flex-shrink-0">

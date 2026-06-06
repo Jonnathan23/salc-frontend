@@ -1,12 +1,11 @@
-import type { Control, FieldErrors, FieldValues, Path, UseFormRegister } from 'react-hook-form';
-import { Eye, EyeOff, ShieldCheck, GraduationCap, BookOpen, Briefcase } from 'lucide-react'
-import { Controller } from 'react-hook-form';
+import type { Control, FieldErrors, FieldValues, Path, UseFormRegister } from "react-hook-Form";
+import { Eye, EyeOff, ShieldCheck, GraduationCap, BookOpen, Briefcase } from "lucide-react";
+import { Controller } from "react-hook-Form";
 
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/core/components/ui/select";
-import { Input } from '@/core/components/ui/input';
-import { Label } from '@/core/components/ui/label';
-import type { BaseUserFormValues } from '@/features/shared/identity/presentation/interfaces/BaseFormValues.interface';
-
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/core/components/ui/Select";
+import { Input } from "@/core/components/ui/Input";
+import { Label } from "@/core/components/ui/Label";
+import type { BaseUserFormValues } from "@/features/shared/identity/presentation/interfaces/BaseFormValues.interface";
 
 interface UserFormProps<TFieldValues extends FieldValues> {
     register: UseFormRegister<TFieldValues>;
@@ -18,7 +17,7 @@ interface UserFormProps<TFieldValues extends FieldValues> {
 }
 
 export default function UserForm<TFieldValues extends FieldValues>(values: UserFormProps<TFieldValues>) {
-    const { register, control, errors, showPassword, handleSetShowPassword, isEditing = false } = values
+    const { register, control, errors, showPassword, handleSetShowPassword, isEditing = false } = values;
 
     const safeErrors = errors as FieldErrors<BaseUserFormValues>;
 
@@ -29,12 +28,10 @@ export default function UserForm<TFieldValues extends FieldValues>(values: UserF
                 <Input
                     id="userFullName"
                     placeholder="Ej: María García López"
-                    {...register('us_full_name' as Path<TFieldValues>)}
+                    {...register("us_full_name" as Path<TFieldValues>)}
                     aria-invalid={!!safeErrors.us_full_name}
                 />
-                {safeErrors.us_full_name && (
-                    <p className="text-sm text-destructive">{safeErrors.us_full_name.message}</p>
-                )}
+                {safeErrors.us_full_name && <p className="text-sm text-destructive">{safeErrors.us_full_name.message}</p>}
             </div>
 
             <div className="space-y-2">
@@ -43,12 +40,10 @@ export default function UserForm<TFieldValues extends FieldValues>(values: UserF
                     id="userEmail"
                     type="email"
                     placeholder="correo@ejemplo.com"
-                    {...register('us_email' as Path<TFieldValues>)}
+                    {...register("us_email" as Path<TFieldValues>)}
                     aria-invalid={!!safeErrors.us_email}
                 />
-                {safeErrors.us_email && (
-                    <p className="text-sm text-destructive">{safeErrors.us_email.message}</p>
-                )}
+                {safeErrors.us_email && <p className="text-sm text-destructive">{safeErrors.us_email.message}</p>}
             </div>
 
             {!isEditing && (
@@ -57,14 +52,14 @@ export default function UserForm<TFieldValues extends FieldValues>(values: UserF
                     <div className="relative">
                         <Input
                             id="userPassword"
-                            type={showPassword ? 'text' : 'password'}
+                            type={showPassword ? "text" : "password"}
                             placeholder="••••••••"
-                            {...register('us_password_hash' as Path<TFieldValues>)}
+                            {...register("us_password_hash" as Path<TFieldValues>)}
                             aria-invalid={!!safeErrors.us_password_hash}
                             className="pr-10"
                         />
                         <button
-                            type="button"
+                            type="Button"
                             onClick={() => handleSetShowPassword()}
                             className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                         >
@@ -80,7 +75,7 @@ export default function UserForm<TFieldValues extends FieldValues>(values: UserF
             <div className="space-y-2">
                 <Label htmlFor="userRole">Rol de Usuario</Label>
                 <Controller
-                    name={'us_role' as Path<TFieldValues>}
+                    name={"us_role" as Path<TFieldValues>}
                     control={control}
                     render={({ field }) => (
                         <Select onValueChange={field.onChange} value={field.value}>
@@ -116,9 +111,7 @@ export default function UserForm<TFieldValues extends FieldValues>(values: UserF
                         </Select>
                     )}
                 />
-                {safeErrors.us_role && (
-                    <p className="text-sm text-destructive">{safeErrors.us_role.message}</p>
-                )}
+                {safeErrors.us_role && <p className="text-sm text-destructive">{safeErrors.us_role.message}</p>}
             </div>
         </div>
     );

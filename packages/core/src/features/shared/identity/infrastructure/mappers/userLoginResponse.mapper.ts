@@ -2,8 +2,6 @@ import { CustomError } from "@salc/core/enums";
 import type { UserLoginEntity } from "@salc/core/features/shared/identity/domain/entities";
 import type { EntityValidator } from "@salc/core/interfaces/EntityValidator";
 
-
-
 type UserLoginResponseMapperProps = Record<string, unknown> | unknown | null | undefined;
 
 export interface UserLoginResponseMapper {
@@ -11,10 +9,7 @@ export interface UserLoginResponseMapper {
 }
 
 export class UserLoginResponseMapperImpl implements UserLoginResponseMapper {
-
-    constructor(
-        private readonly validator: EntityValidator<UserLoginEntity>
-    ) { }
+    constructor(private readonly validator: EntityValidator<UserLoginEntity>) {}
 
     public toEntity(rawObject: UserLoginResponseMapperProps): UserLoginEntity {
         if (!rawObject) {
@@ -25,10 +20,9 @@ export class UserLoginResponseMapperImpl implements UserLoginResponseMapper {
 
         const userLoginEntity: UserLoginEntity = {
             user: validationResponse.user,
-            token: validationResponse.token
+            token: validationResponse.token,
         };
 
         return userLoginEntity;
-
     }
 }

@@ -1,11 +1,11 @@
 import { GraduationCap, Loader2 } from "lucide-react";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/core/components/ui/card";
-import { Alert, AlertDescription } from "@/core/components/admin-desk/alerts/alert";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/core/components/ui/Card";
+import { Alert, AlertDescription } from "@/core/components/admin-desk/alerts/Alert";
 import { useLoginForm } from "@/features/shared/identity/application/hooks";
-import { Button } from "@/core/components/admin-desk/buttons/button";
-import { Input } from "@/core/components/ui/input";
-import { Label } from "@/core/components/ui/label";
+import { Button } from "@/core/components/admin-desk/buttons/Button";
+import { Input } from "@/core/components/ui/Input";
+import { Label } from "@/core/components/ui/Label";
 
 export default function LoginPage() {
     const isLoading = false;
@@ -30,9 +30,7 @@ export default function LoginPage() {
                     </div>
                     <div className="space-y-2">
                         <CardTitle className="text-2xl font-bold text-foreground">SALC - Cuenca</CardTitle>
-                        <CardDescription className="text-muted-foreground">
-                            Sistema de Gestión de Estudiantes
-                        </CardDescription>
+                        <CardDescription className="text-muted-foreground">Sistema de Gestión de Estudiantes</CardDescription>
                     </div>
                 </CardHeader>
                 <CardContent>

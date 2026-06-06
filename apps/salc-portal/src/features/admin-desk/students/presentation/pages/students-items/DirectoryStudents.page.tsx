@@ -1,25 +1,20 @@
 import { BookOpen, Loader2 } from "lucide-react";
 
-
 import { useGetAllStudents } from "@/features/admin-desk/students/application/hooks";
 import StudentItem from "@/features/admin-desk/students/presentation/components/student-item/StudentItem";
 
-
-
 export default function DirectoryStudents() {
-
     const { data: successResponse, isLoading } = useGetAllStudents();
     const students = successResponse?.data ?? [];
 
-
-    if (isLoading) return (
-        <div className="flex h-64 items-center justify-center">
-            <Loader2 className="h-10 w-10 animate-spin text-primary" />
-        </div>
-    );
+    if (isLoading)
+        return (
+            <div className="flex h-64 items-center justify-center">
+                <Loader2 className="h-10 w-10 animate-spin text-primary" />
+            </div>
+        );
 
     return (
-
         <div className="bg-card text-card-foreground rounded-xl border border-border/50 shadow-sm overflow-hidden">
             <div className="px-5 py-4 border-b border-border/50 flex items-center gap-2">
                 <BookOpen className="w-4 h-4 text-title" />
@@ -30,11 +25,21 @@ export default function DirectoryStudents() {
                 <table className="w-full text-sm">
                     <thead>
                         <tr className="bg-primary/20">
-                            <th className="px-5 py-3 text-left text-xs font-semibold text-primary-foreground uppercase tracking-wide">Estudiante</th>
-                            <th className="px-5 py-3 text-left text-xs font-semibold text-primary-foreground uppercase tracking-wide">Cedula</th>
-                            <th className="px-5 py-3 text-left text-xs font-semibold text-primary-foreground uppercase tracking-wide">Certificado</th>
-                            <th className="px-5 py-3 text-left text-xs font-semibold text-primary-foreground uppercase tracking-wide">Contrato</th>
-                            <th className="px-5 py-3 text-left text-xs font-semibold text-primary-foreground uppercase tracking-wide">Progreso</th>
+                            <th className="px-5 py-3 text-left text-xs font-semibold text-primary-foreground uppercase tracking-wide">
+                                Estudiante
+                            </th>
+                            <th className="px-5 py-3 text-left text-xs font-semibold text-primary-foreground uppercase tracking-wide">
+                                Cedula
+                            </th>
+                            <th className="px-5 py-3 text-left text-xs font-semibold text-primary-foreground uppercase tracking-wide">
+                                Certificado
+                            </th>
+                            <th className="px-5 py-3 text-left text-xs font-semibold text-primary-foreground uppercase tracking-wide">
+                                Contrato
+                            </th>
+                            <th className="px-5 py-3 text-left text-xs font-semibold text-primary-foreground uppercase tracking-wide">
+                                Progreso
+                            </th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-border/30">

@@ -14,7 +14,7 @@ export const useClassTrackLayout = () => {
 
     const logout = () => {
         setLogoutSession();
-        navigate("/auth/login", { replace: true });
+        navigate("/auth/Login", { replace: true });
     };
 
     return {

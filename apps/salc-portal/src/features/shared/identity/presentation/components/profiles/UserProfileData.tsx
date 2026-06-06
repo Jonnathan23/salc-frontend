@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { useChangeUserState } from "@/features/shared/identity/application/hooks";
 
-import { Button } from "@/core/components/admin-desk/buttons/button";
+import { Button } from "@/core/components/admin-desk/buttons/Button";
 import { ProfileStatusBadge } from "@/core/components/admin-desk/badges/Badges";
 import { userState, type UserState } from "@salc/core/features/shared/identity/domain/entities";
 
@@ -76,18 +76,14 @@ export default function UserProfileData({ user, handleSetEdit, canUserResponseEd
                         <div className="flex items-start gap-2">
                             <BookOpen className="w-4 h-4 text-primary-foreground mt-0.5 flex-shrink-0" />
                             <div>
-                                <p className="text-[10px] text-muted-foreground uppercase tracking-wide font-semibold">
-                                    Role
-                                </p>
+                                <p className="text-[10px] text-muted-foreground uppercase tracking-wide font-semibold">Role</p>
                                 <p className="text-sm font-medium text-foreground">{us_role}</p>
                             </div>
                         </div>
                         <div className="flex items-start gap-2">
                             <Mail className="w-4 h-4 text-primary-foreground mt-0.5 flex-shrink-0" />
                             <div>
-                                <p className="text-[10px] text-muted-foreground uppercase tracking-wide font-semibold">
-                                    Correo
-                                </p>
+                                <p className="text-[10px] text-muted-foreground uppercase tracking-wide font-semibold">Correo</p>
                                 <p className="text-sm font-medium text-foreground truncate">{us_email}</p>
                             </div>
                         </div>

@@ -23,10 +23,10 @@ export const useUpdateStudent = ({ handleSuccess }: UseUpdateStudentProps) => {
             return await updateStudentUseCase.execute(id, validDto);
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['students'] });
-            queryClient.invalidateQueries({ queryKey: ['search-student'] });
+            queryClient.invalidateQueries({ queryKey: ["students"] });
+            queryClient.invalidateQueries({ queryKey: ["Searchstudent"] });
             handleSuccess();
-            ShowMessageAdapter.success('Estudiante actualizado correctamente');
+            ShowMessageAdapter.success("Estudiante actualizado correctamente");
         },
-    })
-}
+    });
+};

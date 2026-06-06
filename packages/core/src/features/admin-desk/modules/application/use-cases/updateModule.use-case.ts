@@ -2,15 +2,12 @@ import type { ModuleRepositoryImpl } from "@salc/core/features/admin-desk/module
 import type { UpdateModuleDto } from "@salc/core/features/admin-desk/modules/domain/dtos";
 import type { SuccessResponse } from "@salc/core/interfaces";
 
-
 interface UpdateModuleUseCase {
-    execute(id: string, module: UpdateModuleDto): Promise<SuccessResponse>
+    execute(id: string, module: UpdateModuleDto): Promise<SuccessResponse>;
 }
 
 export class UpdateModuleUseCaseImpl implements UpdateModuleUseCase {
-    constructor(
-        private readonly moduleRepository: ModuleRepositoryImpl
-    ) { }
+    constructor(private readonly moduleRepository: ModuleRepositoryImpl) {}
 
     async execute(id: string, module: UpdateModuleDto): Promise<SuccessResponse> {
         return this.moduleRepository.updateModule(id, module);

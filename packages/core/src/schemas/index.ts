@@ -1,2 +1,2 @@
-export * from '@salc/core/schemas/envs.schema'
-export * from '@salc/core/schemas/ErrorResponse.schema'
+export * from "@salc/core/schemas/Envs.schema";
+export * from "@salc/core/schemas/ErrorResponse.schema";

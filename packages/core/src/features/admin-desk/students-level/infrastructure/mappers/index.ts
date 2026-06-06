@@ -1,2 +1,2 @@
-export * from "@salc/core/features/admin-desk/students-level/infrastructure/mappers/student-level.mapper";
-export * from "@salc/core/features/admin-desk/students-level/infrastructure/mappers/student-level-details.mapper";
+export * from "@salc/core/features/admin-desk/students-level/infrastructure/mappers/studentLevel.mapper";
+export * from "@salc/core/features/admin-desk/students-level/infrastructure/mappers/studentLevelDetails.mapper";

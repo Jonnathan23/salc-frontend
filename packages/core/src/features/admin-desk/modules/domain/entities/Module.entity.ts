@@ -1,4 +1,3 @@
-
 export interface ModuleEntity {
     mo_id: string;
     mo_name: string;
@@ -9,7 +8,6 @@ export interface ModuleEntity {
 }
 
 export class ModuleEntityImpl implements ModuleEntity {
-
     constructor(
         public mo_id: string,
         public mo_name: string,
@@ -17,6 +15,5 @@ export class ModuleEntityImpl implements ModuleEntity {
         public mo_level: number,
         public mo_created_at: string,
         public mo_updated_at: string,
-    ) { }
-
+    ) {}
 }

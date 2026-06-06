@@ -10,9 +10,7 @@ export class PaymentRepositoryImpl implements PaymentRepository {
     /**
      * @param paymentDatasource
      */
-    constructor(
-        private readonly paymentDatasource: PaymentDataSource
-    ) { }
+    constructor(private readonly paymentDatasource: PaymentDataSource) {}
 
     createPaymentPlan(studentId: string, dto: CreatePaymentPlanDto): Promise<SuccessResponse<PaymentPlanEntity>> {
         return this.paymentDatasource.createPaymentPlan(studentId, dto);

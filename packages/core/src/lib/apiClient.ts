@@ -3,7 +3,7 @@ import { envs } from "@salc/core/config";
 import { CustomError } from "@salc/core/enums";
 import type { Api, ErrorResponse } from "@salc/core/interfaces";
 import type { EntityValidator } from "@salc/core/interfaces/EntityValidator";
-import { ApiAxios } from "@salc/core/lib/api-axios";
+import { ApiAxios } from "@salc/core/lib/apiAxios";
 import { ErrorResponseSchema } from "@salc/core/schemas";
 
 const validateErrorResponse = new ZodValidatorFactory().createValidator(ErrorResponseSchema);

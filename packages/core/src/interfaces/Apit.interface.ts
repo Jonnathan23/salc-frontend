@@ -1,4 +1,3 @@
-
 export interface MethodsHttp {
     get<ResponseType>(url: string): Promise<ResponseType>;
     post<ResponseType, RequestDataType>(url: string, data: RequestDataType): Promise<ResponseType>;
@@ -11,4 +10,4 @@ export interface ApiSettings {
     setBaseUrl(baseUrl: string): void;
 }
 
-export interface Api extends MethodsHttp, ApiSettings { }
+export interface Api extends MethodsHttp, ApiSettings {}

@@ -1,6 +1,5 @@
 import type { StudentContractStatus, StudentProgressCategory } from "@salc/core/features/admin-desk/students/domain/interfaces";
 
-
 export class StudentEntity {
     constructor(
         public readonly id: string,
@@ -16,6 +15,6 @@ export class StudentEntity {
         public readonly contractStatus: StudentContractStatus,
         public readonly progressCategory: StudentProgressCategory,
         public readonly createdAt: Date,
-        public readonly updatedAt: Date
+        public readonly updatedAt: Date,
     ) {}
 }

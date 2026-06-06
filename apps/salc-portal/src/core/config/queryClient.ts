@@ -1,6 +1,6 @@
-import { MutationCache, QueryCache, QueryClient } from '@tanstack/react-query';
-import { CustomError } from '@salc/core/enums';
-import { ShowMessageAdapter } from '../adapters/ShowMessage.adapter';
+import { MutationCache, QueryCache, QueryClient } from "@tanstack/react-query";
+import { CustomError } from "@salc/core/enums";
+import { ShowMessageAdapter } from "../adapters/ShowMessage.adapter";
 
 export const createQueryClient = () => {
     return new QueryClient({
@@ -13,25 +13,28 @@ export const createQueryClient = () => {
         queryCache: new QueryCache({
             onError: (error) => {
                 if (error instanceof CustomError) {
-                    const errorMessage = error.errors[0]?.message || 'Error en la consulta';
+                    const errorMessage = error.errors[0]?.message || "Error en la consulta";
+
                     ShowMessageAdapter.error(errorMessage);
+
                     return;
                 }
 
-                ShowMessageAdapter.error('Ocurrió un error inesperado');
-
-            }
+                ShowMessageAdapter.error("Ocurrió un error inesperado");
+            },
         }),
         mutationCache: new MutationCache({
             onError: (error) => {
                 if (error instanceof CustomError) {
-                    const errorMessage = error.errors[0]?.message || 'Ocurrió un error inesperado';
+                    const errorMessage = error.errors[0]?.message || "Ocurrió un error inesperado";
+
                     ShowMessageAdapter.error(errorMessage);
+
                     return;
                 }
 
-                ShowMessageAdapter.error('Ocurrió un error inesperado');
-            }
-        })
+                ShowMessageAdapter.error("Ocurrió un error inesperado");
+            },
+        }),
     });
-}
+};

@@ -1,6 +1,11 @@
 import { nullResponseValidator, validatorFactory } from "@salc/core/adapters";
 import { UpdateUserUseCaseImpl } from "@salc/core/features/admin-desk/modules/application/use-cases";
-import { CreateUserUseCaseImpl, FindUserByIdUseCaseImpl, GetAllUsersUseCaseImpl, LoginUserUseCaseImpl } from "@salc/core/features/shared/identity/application";
+import {
+    CreateUserUseCaseImpl,
+    FindUserByIdUseCaseImpl,
+    GetAllUsersUseCaseImpl,
+    LoginUserUseCaseImpl,
+} from "@salc/core/features/shared/identity/application";
 import { ChangeUserStateUseCaseImpl } from "@salc/core/features/shared/identity/application/use-cases/changeUserState.use-case";
 import type { UserAuthResponseEntity } from "@salc/core/features/shared/identity/domain/entities";
 import { UserDataSourceImpl } from "@salc/core/features/shared/identity/infrastructure/datasources/user.datasource.impl";
@@ -20,7 +25,6 @@ export const userDataSource = new UserDataSourceImpl(api, nullResponseValidator,
 
 //* Repositories
 export const userRepository = new UserRepositoryImpl(userDataSource);
-
 
 //* Use Cases
 export const createUserUseCase = new CreateUserUseCaseImpl(userRepository);

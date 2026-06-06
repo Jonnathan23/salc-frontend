@@ -1,5 +1,5 @@
-import { AlertCircle } from 'lucide-react';
-import { Link } from 'react-router-dom'; // Asegúrate de importar el Link de tu librería de enrutamiento
+import { AlertCircle } from "lucide-react";
+import { Link } from "react-router-dom"; // Asegúrate de importar el Link de tu librería de enrutamiento
 
 export default function NotFoundView() {
     return (
@@ -8,28 +8,19 @@ export default function NotFoundView() {
                 {/* Icon */}
                 <div className="mb-8">
                     <div className="relative">
-                        <AlertCircle
-                            size={120}
-                            strokeWidth={1}
-                            className="text-title"
-                        />
+                        <AlertCircle size={120} strokeWidth={1} className="text-title" />
                     </div>
                 </div>
 
                 {/* 404 Text */}
-                <h1 className="text-9xl font-black mb-4 leading-tight">
-                    404
-                </h1>
+                <h1 className="text-9xl font-black mb-4 leading-tight">404</h1>
 
                 {/* Main Title */}
-                <h2 className="text-4xl font-bold mb-4">
-                    Página no encontrada
-                </h2>
+                <h2 className="text-4xl font-bold mb-4">Página no encontrada</h2>
 
                 {/* Subtitle/Description */}
                 <p className="text-lg text-foreground mb-2 leading-relaxed">
-                    ¡Ups! Parece que te has salido de la página. La página que buscas
-                    no existe o ha sido movida.
+                    ¡Ups! Parece que te has salido de la página. La página que buscas no existe o ha sido movida.
                 </p>
 
                 <p className="text-base text-muted-foreground mb-10">

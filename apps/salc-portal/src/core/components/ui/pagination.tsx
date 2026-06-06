@@ -2,15 +2,15 @@ import * as React from "react";
 import { ChevronLeftIcon, ChevronRightIcon, MoreHorizontalIcon } from "lucide-react";
 
 import { cn } from "@salc/ui/lib/utils";
-import type { Button } from "@/core/components/admin-desk/buttons/button";
+import type { Button } from "@/core/components/admin-desk/buttons/Button";
 import { buttonVariants } from "@/core/components/ui/buttonVariants";
 
 function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
     return (
         <nav
             role="navigation"
-            aria-label="pagination"
-            data-slot="pagination"
+            aria-label="Pagination"
+            data-slot="Pagination"
             className={cn("mx-auto flex w-full justify-center", className)}
             {...props}
         />
@@ -18,13 +18,11 @@ function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
 }
 
 function PaginationContent({ className, ...props }: React.ComponentProps<"ul">) {
-    return (
-        <ul data-slot="pagination-content" className={cn("flex flex-row items-center gap-1", className)} {...props} />
-    );
+    return <ul data-slot="pagination-content" className={cn("flex flex-row items-center gap-1", className)} {...props} />;
 }
 
 function PaginationItem({ ...props }: React.ComponentProps<"li">) {
-    return <li data-slot="pagination-item" {...props} />;
+    return <li data-slot="pagination-Item" {...props} />;
 }
 
 type PaginationLinkProps = {
@@ -92,12 +90,4 @@ function PaginationEllipsis({ className, ...props }: React.ComponentProps<"span"
     );
 }
 
-export {
-    Pagination,
-    PaginationContent,
-    PaginationLink,
-    PaginationItem,
-    PaginationPrevious,
-    PaginationNext,
-    PaginationEllipsis,
-};
+export { Pagination, PaginationContent, PaginationLink, PaginationItem, PaginationPrevious, PaginationNext, PaginationEllipsis };

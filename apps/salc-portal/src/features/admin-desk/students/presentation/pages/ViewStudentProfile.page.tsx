@@ -1,7 +1,7 @@
-import { Button } from "@/core/components/admin-desk/buttons/button";
+import { Button } from "@/core/components/admin-desk/buttons/Button";
 import { useAuthStore } from "@/features/shared/identity/application/store/auth.store";
 import { useSearchStudent } from "@/features/admin-desk/students/application/hooks";
-import UpdateStudent from "@/features/admin-desk/students/presentation/components/register-update/UpdateStudent";
+import UpdateStudent from "@/features/admin-desk/students/presentation/components/register-update/Updatestudent";
 import StudentProfileData from "@/features/admin-desk/students/presentation/components/student-item/StudentProfileData";
 import { systemPermissions } from "@salc/core/enums/Permissions";
 import { Loader2 } from "lucide-react";
@@ -9,8 +9,8 @@ import { useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 export default function ViewStudentProfile() {
-    const params = useParams();
-    const studentId = params.studentId!;
+    const parameters = useParams();
+    const studentId = parameters.studentId!;
     const navigation = useNavigate();
 
     const { userResponse } = useAuthStore();
@@ -22,6 +22,7 @@ export default function ViewStudentProfile() {
 
     const canUserResponseEdit = useMemo(() => {
         if (!userResponse) return false;
+
         return userResponse.permissions.includes(systemPermissions.ADMINDESK_STUDENTS_WRITE);
     }, [userResponse]);
 

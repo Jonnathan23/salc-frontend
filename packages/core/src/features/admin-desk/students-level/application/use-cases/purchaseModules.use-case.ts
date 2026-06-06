@@ -8,9 +8,7 @@ export interface PurchaseModulesUseCase {
 }
 
 export class PurchaseModulesUseCaseImpl implements PurchaseModulesUseCase {
-    constructor(
-        private readonly studentLevelRepository: StudentLevelRepository
-    ) {}
+    constructor(private readonly studentLevelRepository: StudentLevelRepository) {}
 
     async execute(dto: PurchaseModulesDto): Promise<SuccessResponse<StudentLevelEntity[]>> {
         return this.studentLevelRepository.purchaseModules(dto);

@@ -1,19 +1,19 @@
-'use client';
+"use client";
 
-import { useState, useRef, useEffect } from 'react';
-import { Search, LogIn, LogOut, Settings } from 'lucide-react';
-import { mockStudents } from '@/lib/classtrack-mock-data';
-import { Student } from '@/lib/classtrack-types';
+import { useState, useRef, useEffect } from "react";
+import { Search, LogIn, LogOut, Settings } from "lucide-react";
+import { mockStudents } from "@/lib/classtrack-mock-data";
+import { Student } from "@/lib/classtrack-types";
 
 interface KioskViewProps {
     onSwitchToAdmin: () => void;
 }
 
-type KioskState = 'check-in' | 'check-out';
+type KioskState = "check-in" | "check-out";
 
 export function KioskView({ onSwitchToAdmin }: KioskViewProps) {
-    const [kioskState, setKioskState] = useState<KioskState>('check-in');
-    const [searchQuery, setSearchQuery] = useState('');
+    const [kioskState, setKioskState] = useState<KioskState>("check-in");
+    const [searchQuery, setSearchQuery] = useState("");
     const [suggestions, setSuggestions] = useState<Student[]>([]);
     const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
     const [lessonsCount, setLessonsCount] = useState<number>(1);
@@ -36,8 +36,9 @@ export function KioskView({ onSwitchToAdmin }: KioskViewProps) {
             const filtered = mockStudents.filter(
                 (student) =>
                     student.studentFullName.toLowerCase().includes(value.toLowerCase()) ||
-                    student.studentIdentificationCard.toLowerCase().includes(value.toLowerCase())
+                    student.studentIdentificationCard.toLowerCase().includes(value.toLowerCase()),
             );
+
             setSuggestions(filtered.slice(0, 5));
         } else {
             setSuggestions([]);
@@ -55,7 +56,7 @@ export function KioskView({ onSwitchToAdmin }: KioskViewProps) {
         setShowSuccess(true);
         setTimeout(() => {
             setShowSuccess(false);
-            setSearchQuery('');
+            setSearchQuery("");
             setSelectedStudent(null);
         }, 2000);
     };
@@ -64,18 +65,18 @@ export function KioskView({ onSwitchToAdmin }: KioskViewProps) {
         setShowSuccess(true);
         setTimeout(() => {
             setShowSuccess(false);
-            setKioskState('check-in');
+            setKioskState("check-in");
         }, 2000);
     };
 
     const now = new Date();
-    const timeString = now.toLocaleTimeString('es-VE', { hour: '2-digit', minute: '2-digit' });
-    const dateString = now.toLocaleDateString('es-VE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    const timeString = now.toLocaleTimeString("es-VE", { hour: "2-digit", minute: "2-digit" });
+    const dateString = now.toLocaleDateString("es-VE", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
 
     return (
         <div
             className="min-h-screen flex flex-col relative"
-            style={{ background: 'linear-gradient(135deg, var(--color-quinary) 0%, #3a7068 50%, #2c5a54 100%)' }}
+            style={{ background: "linear-gradient(135deg, var(--color-quinary) 0%, #3a7068 50%, #2c5a54 100%)" }}
         >
             {/* Admin button */}
             <div className="absolute top-4 right-4">
@@ -105,21 +106,23 @@ export function KioskView({ onSwitchToAdmin }: KioskViewProps) {
             <div className="flex justify-center mb-8">
                 <div className="flex bg-white/10 p-1 rounded-xl gap-1">
                     <button
-                        onClick={() => setKioskState('check-in')}
-                        className={`flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold transition-all ${kioskState === 'check-in'
-                            ? 'bg-white text-[var(--color-quinary)] shadow-sm'
-                            : 'text-white/70 hover:text-white'
-                            }`}
+                        onClick={() => setKioskState("check-in")}
+                        className={`flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold transition-all ${
+                            kioskState === "check-in"
+                                ? "bg-white text-[var(--color-quinary)] shadow-sm"
+                                : "text-white/70 hover:text-white"
+                        }`}
                     >
                         <LogIn className="w-4 h-4" />
                         Entrada
                     </button>
                     <button
-                        onClick={() => setKioskState('check-out')}
-                        className={`flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold transition-all ${kioskState === 'check-out'
-                            ? 'bg-white text-[var(--color-quinary)] shadow-sm'
-                            : 'text-white/70 hover:text-white'
-                            }`}
+                        onClick={() => setKioskState("check-out")}
+                        className={`flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold transition-all ${
+                            kioskState === "check-out"
+                                ? "bg-white text-[var(--color-quinary)] shadow-sm"
+                                : "text-white/70 hover:text-white"
+                        }`}
                     >
                         <LogOut className="w-4 h-4" />
                         Salida
@@ -133,20 +136,25 @@ export function KioskView({ onSwitchToAdmin }: KioskViewProps) {
                     {showSuccess ? (
                         <div className="bg-white rounded-2xl p-10 text-center shadow-2xl">
                             <div className="w-16 h-16 bg-[var(--color-primary)] rounded-full flex items-center justify-center mx-auto mb-4">
-                                <svg className="w-8 h-8 text-[var(--color-quinary)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg
+                                    className="w-8 h-8 text-[var(--color-quinary)]"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                                 </svg>
                             </div>
                             <h2 className="text-2xl font-bold text-[var(--color-font)]">
-                                {kioskState === 'check-in' ? 'Entrada Registrada' : 'Salida Solicitada'}
+                                {kioskState === "check-in" ? "Entrada Registrada" : "Salida Solicitada"}
                             </h2>
                             <p className="text-[var(--color-font)]/60 mt-2">
-                                {kioskState === 'check-in'
-                                    ? `Bienvenido/a, ${selectedStudent?.studentFullName?.split(' ')[0]}`
-                                    : 'Tu salida ha sido enviada para aprobacion'}
+                                {kioskState === "check-in"
+                                    ? `Bienvenido/a, ${selectedStudent?.studentFullName?.split(" ")[0]}`
+                                    : "Tu salida ha sido enviada para aprobacion"}
                             </p>
                         </div>
-                    ) : kioskState === 'check-in' ? (
+                    ) : kioskState === "check-in" ? (
                         <div className="bg-white rounded-2xl p-8 shadow-2xl">
                             <h2 className="text-xl font-bold text-[var(--color-font)] mb-1">Registrar Entrada</h2>
                             <p className="text-[var(--color-font)]/50 text-sm mb-6">Busca tu nombre o cedula de identidad</p>
@@ -174,8 +182,12 @@ export function KioskView({ onSwitchToAdmin }: KioskViewProps) {
                                                 className="w-full px-4 py-3 text-left hover:bg-[var(--color-primary)]/20 transition-colors flex items-center justify-between group"
                                             >
                                                 <div>
-                                                    <p className="font-semibold text-[var(--color-font)] text-sm">{student.studentFullName}</p>
-                                                    <p className="text-[var(--color-font)]/50 text-xs">{student.studentIdentificationCard}</p>
+                                                    <p className="font-semibold text-[var(--color-font)] text-sm">
+                                                        {student.studentFullName}
+                                                    </p>
+                                                    <p className="text-[var(--color-font)]/50 text-xs">
+                                                        {student.studentIdentificationCard}
+                                                    </p>
                                                 </div>
                                                 <span className="text-xs text-[var(--color-quinary)] opacity-0 group-hover:opacity-100 transition-opacity">
                                                     Seleccionar
@@ -195,9 +207,12 @@ export function KioskView({ onSwitchToAdmin }: KioskViewProps) {
                                         </span>
                                     </div>
                                     <div>
-                                        <p className="font-semibold text-[var(--color-font)] text-sm">{selectedStudent.studentFullName}</p>
+                                        <p className="font-semibold text-[var(--color-font)] text-sm">
+                                            {selectedStudent.studentFullName}
+                                        </p>
                                         <p className="text-[var(--color-font)]/60 text-xs">
-                                            {selectedStudent.studentIdentificationCard} &middot; {selectedStudent.studentCertificateType}
+                                            {selectedStudent.studentIdentificationCard} &middot;{" "}
+                                            {selectedStudent.studentCertificateType}
                                         </p>
                                     </div>
                                 </div>
@@ -209,8 +224,8 @@ export function KioskView({ onSwitchToAdmin }: KioskViewProps) {
                                 disabled={!selectedStudent}
                                 className="w-full mt-6 py-4 rounded-xl font-bold text-base transition-all flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
                                 style={{
-                                    background: selectedStudent ? 'var(--color-font-title)' : 'var(--color-tertiary)',
-                                    color: 'var(--white)'
+                                    background: selectedStudent ? "var(--color-font-title)" : "var(--color-tertiary)",
+                                    color: "var(--white)",
                                 }}
                             >
                                 <LogIn className="w-5 h-5" />
@@ -229,7 +244,7 @@ export function KioskView({ onSwitchToAdmin }: KioskViewProps) {
                                 <div>
                                     <p className="text-[var(--color-font)]/50 text-sm">Bienvenido/a de nuevo</p>
                                     <h2 className="text-xl font-bold text-[var(--color-font)]">
-                                        Hola, {checkedInStudent.studentFullName.split(' ')[0]}
+                                        Hola, {checkedInStudent.studentFullName.split(" ")[0]}
                                     </h2>
                                     <p className="text-[var(--color-font)]/50 text-xs mt-0.5">
                                         Entrada registrada a las 08:15 AM
@@ -257,7 +272,7 @@ export function KioskView({ onSwitchToAdmin }: KioskViewProps) {
                             <button
                                 onClick={handleCheckOut}
                                 className="w-full py-4 rounded-xl font-bold text-base text-white transition-all flex items-center justify-center gap-2"
-                                style={{ background: 'var(--color-quinary)' }}
+                                style={{ background: "var(--color-quinary)" }}
                             >
                                 <LogOut className="w-5 h-5" />
                                 Solicitar Salida
@@ -272,7 +287,9 @@ export function KioskView({ onSwitchToAdmin }: KioskViewProps) {
 
             {/* Footer */}
             <div className="text-center pb-8 mt-8">
-                <p className="text-white/30 text-xs">ClassTrack &copy; {new Date().getFullYear()} &middot; Sistema de Gestion Academica</p>
+                <p className="text-white/30 text-xs">
+                    ClassTrack &copy; {new Date().getFullYear()} &middot; Sistema de Gestion Academica
+                </p>
             </div>
         </div>
     );

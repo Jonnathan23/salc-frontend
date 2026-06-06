@@ -1,5 +1,5 @@
-import { Button } from "@/core/components/admin-desk/buttons/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/core/components/ui/card";
+import { Button } from "@/core/components/admin-desk/buttons/Button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/core/components/ui/Card";
 import { useUpdateModuleForm } from "@/features/admin-desk/modules/application/hooks";
 import { ModuleForm } from "@/features/admin-desk/modules/presentation/components/ModuleForm";
 import type { ModuleEntity } from "@salc/core/features/admin-desk/modules/domain/entities/Module.entity";
@@ -13,12 +13,7 @@ interface UpdateModuleFormProps {
     setIsPending: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function UpdateModuleForm({
-    module,
-    setModuleSelected,
-    setIsEditing,
-    setIsPending,
-}: UpdateModuleFormProps) {
+export default function UpdateModuleForm({ module, setModuleSelected, setIsEditing, setIsPending }: UpdateModuleFormProps) {
     const { register, handleSubmit, errors, onSubmit, isPending, setValue } = useUpdateModuleForm({
         module,
         setModuleSelected,

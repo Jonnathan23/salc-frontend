@@ -1,8 +1,8 @@
 import { useState } from "react";
 
 import { PageHeader, RoleInfoCard } from "@/features/shared/identity/presentation/components/register-update/StateForm";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/core/components/ui/card";
-import { Button } from "@/core/components/admin-desk/buttons/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/core/components/ui/Card";
+import { Button } from "@/core/components/admin-desk/buttons/Button";
 import { useUpdateFormUser } from "@/features/shared/identity/application/hooks";
 import UserForm from "@/features/shared/identity/presentation/components/register-update/UserForm";
 import type { UserRoles } from "@salc/core/interfaces";
@@ -42,9 +42,7 @@ export default function UpdateUser({ userId, user, handleSetEdit }: UpdateUserPr
                                 <Users className="h-5 w-5 text-primary" />
                                 Actualizar Usuario
                             </CardTitle>
-                            <CardDescription>
-                                Completa el formulario para actualizar el usuario del sistema.
-                            </CardDescription>
+                            <CardDescription>Completa el formulario para actualizar el usuario del sistema.</CardDescription>
                         </div>
                         <Button variant="outline" size="sm" onClick={handleSetEdit} className="shrink-0">
                             <ArrowLeft className="mr-2 h-4 w-4" />

@@ -3,8 +3,6 @@ import { useAuthStore } from "@/features/shared/identity/application/store/auth.
 import { usePermissions } from "@/features/shared/identity/application/hooks/forms/usePermissions.use";
 import { navItems } from "@/core/data/navItems";
 
-
-
 export const useAppLayout = () => {
     const pathname = useLocation().pathname;
     const navigate = useNavigate();
@@ -16,9 +14,8 @@ export const useAppLayout = () => {
 
     const logout = () => {
         setLogoutSession();
-        navigate('/auth/login', { replace: true });
+        navigate("/auth/Login", { replace: true });
     };
-
 
     return {
         pathname,
@@ -27,6 +24,6 @@ export const useAppLayout = () => {
         setLogoutSession,
         hasPermission,
         filteredNavItems,
-        logout
-    }
-}
+        logout,
+    };
+};

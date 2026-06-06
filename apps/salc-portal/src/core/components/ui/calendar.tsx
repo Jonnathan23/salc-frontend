@@ -5,20 +5,21 @@ import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from "lucide-react
 import { DayButton, DayPicker, getDefaultClassNames } from "react-day-picker"; //TODO: Instalar la dependencia
 
 import { cn } from "@salc/ui/lib/utils";
-import { Button } from "@/core/components/admin-desk/buttons/button";
+import { Button } from "@/core/components/admin-desk/buttons/Button";
 import { buttonVariants } from "@/core/components/ui/buttonVariants";
 
 function Calendar({
     className,
     classNames,
     showOutsideDays = true,
-    captionLayout = "label",
+    captionLayout = "Label",
     buttonVariant = "ghost",
     formatters,
     components,
     ...props
 }: React.ComponentProps<typeof DayPicker> & { buttonVariant?: React.ComponentProps<typeof Button>["variant"] }) {
     const defaultClassNames = getDefaultClassNames();
+
     //TODO: Remplazar los any por tipos mas especificos
     return (
         <DayPicker
@@ -38,10 +39,7 @@ function Calendar({
                 root: cn("w-fit", defaultClassNames.root),
                 months: cn("flex gap-4 flex-col md:flex-row relative", defaultClassNames.months),
                 month: cn("flex flex-col w-full gap-4", defaultClassNames.month),
-                nav: cn(
-                    "flex items-center gap-1 w-full absolute top-0 inset-x-0 justify-between",
-                    defaultClassNames.nav,
-                ),
+                nav: cn("flex items-center gap-1 w-full absolute top-0 inset-x-0 justify-between", defaultClassNames.nav),
                 button_previous: cn(
                     buttonVariants({ variant: buttonVariant }),
                     "size-(--cell-size) aria-disabled:opacity-50 p-0 select-none",
@@ -67,7 +65,7 @@ function Calendar({
                 dropdown: cn("absolute bg-popover inset-0 opacity-0", defaultClassNames.dropdown),
                 caption_label: cn(
                     "select-none font-medium",
-                    captionLayout === "label"
+                    captionLayout === "Label"
                         ? "text-sm"
                         : "rounded-md pl-2 pr-1 flex items-center gap-1 text-sm h-8 [&>svg]:text-muted-foreground [&>svg]:size-3.5",
                     defaultClassNames.caption_label,
@@ -99,7 +97,7 @@ function Calendar({
             }}
             components={{
                 Root: ({ className, rootRef, ...props }) => {
-                    return <div data-slot="calendar" ref={rootRef} className={cn(className)} {...props} />;
+                    return <div data-slot="Calendar" ref={rootRef} className={cn(className)} {...props} />;
                 },
                 Chevron: ({ className, orientation, ...props }) => {
                     if (orientation === "left") {
@@ -116,9 +114,7 @@ function Calendar({
                 WeekNumber: ({ children, ...props }) => {
                     return (
                         <td {...props}>
-                            <div className="flex size-(--cell-size) items-center justify-center text-center">
-                                {children}
-                            </div>
+                            <div className="flex size-(--cell-size) items-center justify-center text-center">{children}</div>
                         </td>
                     );
                 },
@@ -133,6 +129,7 @@ function CalendarDayButton({ className, day, modifiers, ...props }: React.Compon
     const defaultClassNames = getDefaultClassNames();
 
     const ref = React.useRef<HTMLButtonElement>(null);
+
     React.useEffect(() => {
         if (modifiers.focused) ref.current?.focus();
     }, [modifiers.focused]);
@@ -143,9 +140,7 @@ function CalendarDayButton({ className, day, modifiers, ...props }: React.Compon
             variant="ghost"
             size="icon"
             data-day={day.date.toLocaleDateString()}
-            data-selected-single={
-                modifiers.selected && !modifiers.range_start && !modifiers.range_end && !modifiers.range_middle
-            }
+            data-selected-single={modifiers.selected && !modifiers.range_start && !modifiers.range_end && !modifiers.range_middle}
             data-range-start={modifiers.range_start}
             data-range-end={modifiers.range_end}
             data-range-middle={modifiers.range_middle}

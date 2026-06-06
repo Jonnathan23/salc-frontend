@@ -1,4 +1,9 @@
-import { GetAllModulesUseCaseImpl, GetModuleByIdUseCaseImpl, CreateModuleUseCaseImpl, UpdateModuleUseCaseImpl } from "@salc/core/features/admin-desk/modules/application/use-cases";
+import {
+    GetAllModulesUseCaseImpl,
+    GetModuleByIdUseCaseImpl,
+    CreateModuleUseCaseImpl,
+    UpdateModuleUseCaseImpl,
+} from "@salc/core/features/admin-desk/modules/application/use-cases";
 import { arrayModulesSchema, moduleSchema } from "@salc/core/features/admin-desk/modules/infrastructure/schemas/module.schema";
 import { ModuleDataSourceImpl } from "@salc/core/features/admin-desk/modules/infrastructure/datasources/module.datasource.impl";
 import { ModuleRepositoryImpl } from "@salc/core/features/admin-desk/modules/infrastructure/repositories/module.repository.impl";
@@ -13,17 +18,13 @@ const moduleValidator = validatorFactory.createValidator<ModuleEntity>(moduleSch
 const arrayModuleValidator = validatorFactory.createValidator<ModuleEntity[]>(arrayModulesSchema);
 
 //* Mappers
-export const moduleMapper = new ModuleMapperImpl(
-    moduleValidator,
-    arrayModuleValidator
-);
+export const moduleMapper = new ModuleMapperImpl(moduleValidator, arrayModuleValidator);
 
 //* Datasources
 export const moduleDataSource = new ModuleDataSourceImpl(api, moduleMapper, nullResponseValidator);
 
 //* Repositories
 export const moduleRepository = new ModuleRepositoryImpl(moduleDataSource);
-
 
 //* Use Cases
 export const getAllModulesUseCase = new GetAllModulesUseCaseImpl(moduleRepository);

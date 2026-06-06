@@ -1,7 +1,7 @@
 import { Users, Loader2 } from "lucide-react";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/core/components/ui/card";
-import { Button } from "@/core/components/admin-desk/buttons/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/core/components/ui/Card";
+import { Button } from "@/core/components/admin-desk/buttons/Button";
 import { useFormUser } from "@/features/shared/identity/application/hooks";
 import UserForm from "@/features/shared/identity/presentation/components/register-update/UserForm";
 
@@ -10,8 +10,10 @@ interface RegisterUserFormProps {
     onSuccess: () => void;
 }
 export const RegisterUserForm = ({ onRoleChange, onSuccess }: RegisterUserFormProps) => {
-    const { register, handleSubmit, control, errors, isPending, onSubmit, showPassword, handleSetShowPassword } =
-        useFormUser({ onRoleChange, onSuccess });
+    const { register, handleSubmit, control, errors, isPending, onSubmit, showPassword, handleSetShowPassword } = useFormUser({
+        onRoleChange,
+        onSuccess,
+    });
 
     return (
         <Card className="lg:col-span-2">

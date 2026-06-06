@@ -10,16 +10,18 @@ import AdminDeskLayout from "@/core/layouts/AdminDesk.layout";
 import IndexRedirect from "@/features/shared/identity/presentation/pages/IndexRedirect.page";
 import ClassTrackLayout from "@/core/layouts/ClassTrack.layout";
 
-const DirectoryStudents = lazy(() => import("@/features/admin-desk/students/presentation/pages/students-items/DirectoryStudents.page"));
+const DirectoryStudents = lazy(
+    () => import("@/features/admin-desk/students/presentation/pages/students-items/DirectoryStudents.page"),
+);
 const DirectoryProfilesPage = lazy(() => import("@/features/shared/identity/presentation/pages/DirectoryUsersProfiles.page"));
 const ViewStudentProfile = lazy(() => import("@/features/admin-desk/students/presentation/pages/ViewStudentProfile.page"));
 const TuitionStudentPage = lazy(() => import("@/features/admin-desk/students/presentation/pages/TuitionStudent.page"));
 const ViewProfilePage = lazy(() => import("@/features/shared/identity/presentation/pages/ViewUser.page"));
-const RegisterPage = lazy(() => import("@/features/shared/identity/presentation/pages/register.page"));
-const ModulePage = lazy(() => import("@/features/admin-desk/modules/presentation/pages/module.page"));
-const LoginPage = lazy(() => import("@/features/shared/identity/presentation/pages/login.page"));
-const DashboardPage = lazy(() => import("@/core/pages/dasboardAdminDesk.page"));
-const StudentLevelsPage = lazy(() => import("@/features/admin-desk/students-levels/presentation/pages/studentLevels.page"));
+const RegisterPage = lazy(() => import("@/features/shared/identity/presentation/pages/Register.page"));
+const ModulePage = lazy(() => import("@/features/admin-desk/modules/presentation/pages/Module.page"));
+const LoginPage = lazy(() => import("@/features/shared/identity/presentation/pages/Login.page"));
+const DashboardPage = lazy(() => import("@/core/pages/DashboardAdminDesk.page"));
+const StudentLevelsPage = lazy(() => import("@/features/admin-desk/students-levels/presentation/pages/StudentLevels.page"));
 
 export default function Router() {
     //TODO: redireccionar al login apenas se detecte que el JWT expiró
@@ -33,7 +35,7 @@ export default function Router() {
                 {/* --- ZONA PÚBLICA (Solo para visitantes) --- */}
                 <Route element={<PublicRoute />}>
                     <Route element={<AuthLayout />}>
-                        <Route path="/auth/login" element={<LoginPage />} />
+                        <Route path="/auth/Login" element={<LoginPage />} />
                     </Route>
                 </Route>
 
@@ -46,74 +48,42 @@ export default function Router() {
                             <Route path="dashboard" element={<DashboardPage />} />
 
                             {/* --- Rutas de Shared Identity --- */}
-                            <Route
-                                element={
-                                    <ProtectedRoute requiredPermissions={[systemPermissions.SHARED_IDENTITY_WRITE]} />
-                                }
-                            >
-                                <Route path="new-user" element={<RegisterPage />} />
+                            <Route element={<ProtectedRoute requiredPermissions={[systemPermissions.SHARED_IDENTITY_WRITE]} />}>
+                                <Route path="new-User" element={<RegisterPage />} />
                             </Route>
 
-                            <Route
-                                element={
-                                    <ProtectedRoute requiredPermissions={[systemPermissions.SHARED_IDENTITY_READ]} />
-                                }
-                            >
+                            <Route element={<ProtectedRoute requiredPermissions={[systemPermissions.SHARED_IDENTITY_READ]} />}>
                                 <Route path="view-profiles" element={<DirectoryProfilesPage />} />
                             </Route>
 
-                            <Route
-                                element={
-                                    <ProtectedRoute requiredPermissions={[systemPermissions.SHARED_IDENTITY_READ]} />
-                                }
-                            >
+                            <Route element={<ProtectedRoute requiredPermissions={[systemPermissions.SHARED_IDENTITY_READ]} />}>
                                 <Route path="view-profiles/:userId/profile" element={<ViewProfilePage />} />
                             </Route>
 
                             {/* --- Rutas de Students --- */}
-                            <Route
-                                element={
-                                    <ProtectedRoute requiredPermissions={[systemPermissions.ADMINDESK_STUDENTS_READ]} />
-                                }
-                            >
+                            <Route element={<ProtectedRoute requiredPermissions={[systemPermissions.ADMINDESK_STUDENTS_READ]} />}>
                                 <Route path="view-students" element={<DirectoryStudents />} />
                             </Route>
 
-                            <Route
-                                element={
-                                    <ProtectedRoute requiredPermissions={[systemPermissions.ADMINDESK_STUDENTS_READ]} />
-                                }
-                            >
+                            <Route element={<ProtectedRoute requiredPermissions={[systemPermissions.ADMINDESK_STUDENTS_READ]} />}>
                                 <Route path="view-students/:studentId/profile" element={<ViewStudentProfile />} />
                             </Route>
 
                             <Route
-                                element={
-                                    <ProtectedRoute
-                                        requiredPermissions={[systemPermissions.ADMINDESK_STUDENTS_WRITE]}
-                                    />
-                                }
+                                element={<ProtectedRoute requiredPermissions={[systemPermissions.ADMINDESK_STUDENTS_WRITE]} />}
                             >
                                 <Route path="tuition-student" element={<TuitionStudentPage />} />
                             </Route>
 
                             {/* --- Rutas de Students-Levels --- */}
                             <Route
-                                element={
-                                    <ProtectedRoute
-                                        requiredPermissions={[systemPermissions.ADMINDESK_CONTRACTS_READ]}
-                                    />
-                                }
+                                element={<ProtectedRoute requiredPermissions={[systemPermissions.ADMINDESK_CONTRACTS_READ]} />}
                             >
                                 <Route path="students-levels" element={<StudentLevelsPage />} />
                             </Route>
 
                             {/* --- Rutas de Modules --- */}
-                            <Route
-                                element={
-                                    <ProtectedRoute requiredPermissions={[systemPermissions.ADMINDESK_MODULES_READ]} />
-                                }
-                            >
+                            <Route element={<ProtectedRoute requiredPermissions={[systemPermissions.ADMINDESK_MODULES_READ]} />}>
                                 <Route path="modules" element={<ModulePage />} />
                             </Route>
                         </Route>

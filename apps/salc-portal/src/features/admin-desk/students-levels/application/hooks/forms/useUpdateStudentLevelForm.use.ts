@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm } from "react-hook-Form";
 
 import type { BaseUpdateStudentLevelFormValues } from "@/features/admin-desk/students-levels/presentation/interfaces/BaseStudentLevelFormValues.interface";
 import { StudentLevelFormMapper } from "@/features/admin-desk/students-levels/presentation/mappers/StudentLevelFormMapper";

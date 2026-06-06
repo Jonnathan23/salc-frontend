@@ -1,22 +1,21 @@
 import type { PaymentDataSource } from "@salc/core/features/admin-desk/payments/domain/datasources/Payment.datasource";
 import type { PaymentPlanEntity, PaymentQuotaEntity } from "@salc/core/features/admin-desk/payments/domain/entities";
-import type { PaymentMapper } from "@salc/core/features/admin-desk/payments/infrastructure/mappers/Payment.mapper";
+import type { PaymentMapper } from "@salc/core/features/admin-desk/payments/infrastructure/mappers/payment.mapper";
 import type { CreatePaymentPlanDto, PayQuotaDto } from "@salc/core/features/admin-desk/payments/domain/dtos";
 import type { SuccessResponse, MethodsHttp } from "@salc/core/interfaces";
 import { CustomError } from "@salc/core/enums";
-
 
 export class PaymentDataSourceImpl implements PaymentDataSource {
     private readonly baseUrl = "/payments";
 
     /**
-     * @param apiPayments 
-     * @param paymentMapper 
+     * @param apiPayments
+     * @param paymentMapper
      */
     constructor(
         private readonly apiPayments: MethodsHttp,
-        private readonly paymentMapper: PaymentMapper
-    ) { }
+        private readonly paymentMapper: PaymentMapper,
+    ) {}
 
     async createPaymentPlan(studentId: string, dto: CreatePaymentPlanDto): Promise<SuccessResponse<PaymentPlanEntity>> {
         const url = `${this.baseUrl}/student/${studentId}/plan`;
@@ -28,7 +27,7 @@ export class PaymentDataSourceImpl implements PaymentDataSource {
 
         return {
             ...rawResponse,
-            data: this.paymentMapper.toPlanEntity(rawResponse.data)
+            data: this.paymentMapper.toPlanEntity(rawResponse.data),
         };
     }
 
@@ -42,7 +41,7 @@ export class PaymentDataSourceImpl implements PaymentDataSource {
 
         return {
             ...rawResponse,
-            data: this.paymentMapper.toArrayPlanEntities(rawResponse.data)
+            data: this.paymentMapper.toArrayPlanEntities(rawResponse.data),
         };
     }
 
@@ -56,7 +55,7 @@ export class PaymentDataSourceImpl implements PaymentDataSource {
 
         return {
             ...rawResponse,
-            data: this.paymentMapper.toQuotaEntity(rawResponse.data)
+            data: this.paymentMapper.toQuotaEntity(rawResponse.data),
         };
     }
 

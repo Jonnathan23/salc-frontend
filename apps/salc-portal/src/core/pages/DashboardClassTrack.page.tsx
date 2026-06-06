@@ -1,4 +1,4 @@
-import { Users, Clock, AlertTriangle, TrendingUp, CheckCircle, BookOpen } from "lucide-react";
+import { Users, Clock, AlertTriangle, CheckCircle, BookOpen } from "lucide-react";
 
 import {
     retentionAlertStatus,
@@ -42,6 +42,7 @@ export default function ComponentName() {
         .filter((s) => s.attendanceSessionStatus === SessionStatus.IN_PROGRESS)
         .map((session) => {
             const student = mockStudents.find((st) => st.studentId === session.attendanceSessionStudentId);
+
             return { session, student };
         });
     /*

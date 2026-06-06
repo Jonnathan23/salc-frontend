@@ -24,6 +24,6 @@ export class PaymentPlanEntityImpl implements PaymentPlanEntity {
         public readonly status: string,
         public readonly quotas?: PaymentQuotaEntity[],
         public readonly createdAt?: Date,
-        public readonly updatedAt?: Date
+        public readonly updatedAt?: Date,
     ) {}
 }

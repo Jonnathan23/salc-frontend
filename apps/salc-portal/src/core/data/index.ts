@@ -1,1 +1,1 @@
-export * from '@/core/data/navItems'
+export * from "@/core/data/navItems";

@@ -1,7 +1,8 @@
-import { Alert, AlertDescription } from "@/core/components/admin-desk/alerts/alert";
-import { Card, CardContent, CardHeader, CardTitle } from "@/core/components/ui/card";
+import { Alert, AlertDescription } from "@/core/components/admin-desk/alerts/Alert";
+import { Card, CardContent, CardHeader, CardTitle } from "@/core/components/ui/Card";
 import { userRoles } from "@salc/core/interfaces";
 import { BookOpen, Briefcase, CheckCircle, GraduationCap, ShieldCheck } from "lucide-react";
+
 export const PageHeader = () => (
     <div className="space-y-1">
         <h2 className="text-2xl font-bold tracking-tight text-foreground">Administracion de Usuarios</h2>
@@ -48,8 +49,8 @@ export const RoleInfoCard = ({ selectedRole }: { selectedRole: string }) => (
                     <h4 className="font-medium text-amber-500">Asesor</h4>
                 </div>
                 <p className="mt-2 text-sm text-foreground">
-                    Acceso limitado a AdminDesk. Permisos exclusivos para registrar estudiantes, generar contratos y
-                    gestionar módulos adquiridos.
+                    Acceso limitado a AdminDesk. Permisos exclusivos para registrar estudiantes, generar contratos y gestionar
+                    módulos adquiridos.
                 </p>
             </div>
 
@@ -62,8 +63,8 @@ export const RoleInfoCard = ({ selectedRole }: { selectedRole: string }) => (
                     <h4 className="font-medium text-blue-500">Director Académico</h4>
                 </div>
                 <p className="mt-2 text-sm text-foreground">
-                    Acceso total a ClassTrack. En AdminDesk, posee permisos de solo lectura para auditar la información
-                    de estudiantes y niveles.
+                    Acceso total a ClassTrack. En AdminDesk, posee permisos de solo lectura para auditar la información de
+                    estudiantes y niveles.
                 </p>
             </div>
 
@@ -76,8 +77,8 @@ export const RoleInfoCard = ({ selectedRole }: { selectedRole: string }) => (
                     <h4 className="font-medium text-muted-foreground">Profesor</h4>
                 </div>
                 <p className="mt-2 text-sm text-foreground">
-                    Acceso estándar a ClassTrack para gestión de aulas y asistencia. Acceso de solo lectura al perfil de
-                    sus estudiantes.
+                    Acceso estándar a ClassTrack para gestión de aulas y asistencia. Acceso de solo lectura al perfil de sus
+                    estudiantes.
                 </p>
             </div>
         </CardContent>

@@ -13,7 +13,7 @@ import { type MethodsHttp } from "@salc/core/interfaces/Apit.interface";
 import { type EntityValidator } from "@salc/core/interfaces/EntityValidator";
 
 export class UserDataSourceImpl implements UserDataSource {
-    private readonly baseUrl = "/user";
+    private readonly baseUrl = "/User";
 
     /**
      * @param api - MethodsHttp
@@ -41,7 +41,7 @@ export class UserDataSourceImpl implements UserDataSource {
     }
 
     public async login(user: LoginUserDto): Promise<SuccessResponse<UserAuthResponseEntity>> {
-        const url = `${this.baseUrl}/login`;
+        const url = `${this.baseUrl}/Login`;
         const rawResponse = await this.api.post<SuccessResponse<UserAuthResponseEntity>, LoginUserDto>(url, user);
 
         if (!rawResponse.data) {
