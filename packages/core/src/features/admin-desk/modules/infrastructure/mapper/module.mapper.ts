@@ -3,25 +3,22 @@ import type { ModuleEntity } from "@salc/core/features/admin-desk/modules/domain
 import { ModuleEntityImpl } from "@salc/core/features/admin-desk/modules/domain/entities/Module.entity";
 import type { EntityValidator } from "@salc/core/interfaces/EntityValidator";
 
-
 export interface ModuleMapper {
     toEntity(rawObject: ModuleMapperProps): ModuleEntity;
     toArrayEntities(rawObjects: ModuleMapperProps[]): ModuleEntity[];
 }
 
-
 type ModuleMapperProps = Record<string, unknown> | unknown | null | undefined;
 
 export class ModuleMapperImpl implements ModuleMapper {
-
     /**
      * @param validator - EntityValidator<ModuleEntity>
      * @param arrayValidator - EntityValidator<ModuleEntity[]>
      */
     constructor(
         private readonly validator: EntityValidator<ModuleEntity>,
-        private readonly arrayValidator: EntityValidator<ModuleEntity[]>
-    ) { }
+        private readonly arrayValidator: EntityValidator<ModuleEntity[]>,
+    ) {}
 
     toEntity(rawObject: ModuleMapperProps): ModuleEntity {
         if (!rawObject) {
@@ -36,7 +33,7 @@ export class ModuleMapperImpl implements ModuleMapper {
             validationResponse.mo_description,
             validationResponse.mo_level,
             validationResponse.mo_created_at,
-            validationResponse.mo_updated_at
+            validationResponse.mo_updated_at,
         );
     }
 

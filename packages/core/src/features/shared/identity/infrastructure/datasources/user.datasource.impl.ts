@@ -1,16 +1,19 @@
 import { CustomError } from "@salc/core/enums";
 import { type UserDataSource } from "@salc/core/features/shared/identity/domain/datasource";
-import type { ChangePasswordDto, LoginUserDto, RegisterUserDto, UpdateUserDto } from "@salc/core/features/shared/identity/domain/dtos";
+import type {
+    ChangePasswordDto,
+    LoginUserDto,
+    RegisterUserDto,
+    UpdateUserDto,
+} from "@salc/core/features/shared/identity/domain/dtos";
 import { type UserAuthResponseEntity } from "@salc/core/features/shared/identity/domain/entities";
 import { type UserAuthResponseMapper } from "@salc/core/features/shared/identity/infrastructure/mappers/userAuthResponse.mapper";
 import { type SuccessResponse } from "@salc/core/interfaces";
 import { type MethodsHttp } from "@salc/core/interfaces/Apit.interface";
 import { type EntityValidator } from "@salc/core/interfaces/EntityValidator";
 
-
 export class UserDataSourceImpl implements UserDataSource {
-
-    private readonly baseUrl = '/user';
+    private readonly baseUrl = "/user";
 
     /**
      * @param api - MethodsHttp
@@ -20,8 +23,8 @@ export class UserDataSourceImpl implements UserDataSource {
     constructor(
         private readonly api: MethodsHttp,
         private readonly nullResponseValidator: EntityValidator<SuccessResponse>,
-        private readonly userAuthResponseMapper: UserAuthResponseMapper
-    ) { }
+        private readonly userAuthResponseMapper: UserAuthResponseMapper,
+    ) {}
 
     public async create(user: RegisterUserDto): Promise<SuccessResponse> {
         const url = `${this.baseUrl}`;
@@ -50,7 +53,7 @@ export class UserDataSourceImpl implements UserDataSource {
 
         return {
             ...rawResponse,
-            data: userLoginEntity
+            data: userLoginEntity,
         };
     }
 
@@ -77,7 +80,7 @@ export class UserDataSourceImpl implements UserDataSource {
 
         return {
             ...rawResponse,
-            data: entity
+            data: entity,
         };
     }
 
@@ -96,7 +99,7 @@ export class UserDataSourceImpl implements UserDataSource {
 
         return {
             ...rawResponse,
-            data: entities
+            data: entities,
         };
     }
 
