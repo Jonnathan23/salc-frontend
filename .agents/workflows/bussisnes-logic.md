@@ -1,6 +1,37 @@
-# Estructura del Frontend SALC
+---
+description: Flujo de datos Clean Architecture (Domain, Infra, Application y Presentation) detallando entidades, DTOs, Mappers, Repositorios, Casos de Uso y la UI.
+---
 
-A continuación se presenta la jerarquía de carpetas del monorepositorio, estructurada bajo los principios de **Clean Architecture**. Se ha omitido cualquier directorio de pruebas (`__test__`) para mantener la claridad.
+# Flujo de Datos - Clean Architecture (SALC)
+
+Este workflow resume el flujo de datos completo para una feature en el frontend, atravesando las distintas capas para asegurar el desacoplamiento.
+
+## 1. Capa Domain (Reglas de Negocio)
+- **Entity**: El modelo de negocio puro y estricto (ej. `StudentEntity`).
+- **DTO**: Data Transfer Object que encapsula y valida datos de entrada (ej. `RegisterStudentDto`).
+- **DataSource/Repository Interface**: Contratos abstractos para persistencia y obtención de datos (ej. `StudentDataSource`).
+
+## 2. Capa Infrastructure (Persistencia Técnica)
+- **Schema**: Esquemas Zod para garantizar la forma de los datos externos (ej. `studentSchema`).
+- **Mapper**: Transforma datos en bruto a instancias de `Entity` purificadas (ej. `StudentMapperImpl`).
+- **Repository Implementation**: Implementa el DataSource, llamando a la API y delegando la transformación al Mapper.
+
+## 3. Capa Application
+- **Use Case**: Representa las intenciones del usuario, consumiendo el repositorio para ejecutar operaciones (ej. `RegisterStudentUseCase`).
+
+## 4. DI Module (Inyección de Dependencias)
+- Instancia y une validadores, mappers, repositorios y casos de uso, exportándolos para la aplicación React (ej. `StudentModule`).
+
+## 5. Capa Presentation (UI)
+- **View Model (Form Values)**: Estado intermedio y flexible de la UI (ej. `BaseStudentFormValues`).
+- **Form Mapper**: Traduce el formato flexible de la UI al DTO estricto para casos de uso, y viceversa (ej. `StudentFormMapper`).
+
+## 6. Integración Frontend (Custom Hooks)
+- **Mutaciones/Queries**: Custom hooks (con TanStack Query) que interceptan la UI, usan `StudentFormMapper` para convertir a DTO y ejecutan el `UseCase`.
+- **Mapeo Inverso**: Para actualizar registros, se obtiene la Entidad, se mapea al View Model (`BaseStudentFormValues`) y se inyecta en el formulario, evitando acoplamiento directo entre UI y Dominio.
+
+## Árbol de Directorios
+
 
 ## Árbol de Directorios
 
@@ -95,18 +126,6 @@ A continuación se presenta la jerarquía de carpetas del monorepositorio, estru
 │   │                   ├── di/
 │   │                   ├── domain/
 │   │                   └── infrastructure/
-│   └── ui/                             <-- Sistema de Diseño SALC
-│       └── lib/                        <-- Componentes atómicos y hooks visuales
+│   └── ui/                             
+│       └── lib/                        
 ```
-
-## Descripción de Directorios y Capas
-
-| Carpeta / Capa | Propósito (Didáctica para Desarrolladores) | Responsabilidad Técnica (Semántica para IA) |
-|---------------|--------------------------------------------|---------------------------------------------|
-| **`apps/`** | Las aplicaciones que ven los usuarios (ej. `admin-desk`). Contiene enrutamiento, vistas y estado visual. Todo el código de UI vive aquí. | **Presentation Layer / Delivery Mechanism**: Consumidores finales del Core. Implementan la UI con frameworks (React) e interactúan con los casos de uso. |
-| **`packages/core/`** | El "cerebro" del sistema. Código TypeScript puro (sin React) que sabe cómo conectarse al backend y tiene las reglas del negocio. | **Domain & Application Layers**: Módulos agnósticos. Expone las reglas empresariales (Entidades) y la orquestación (Use Cases). |
-| **`packages/ui/`** | Componentes visuales genéricos como Botones, Inputs o Tablas. Es la librería de diseño interno. | **Shared UI Library**: Abstracción de UI base para unificar el Design System a lo largo del monorepositorio. |
-| **`Domain`** | El núcleo del negocio. Estructuras de datos puras (Entidades) que no saben nada de bases de datos o APIs externas. | **Enterprise Business Rules**: Define contratos (Interfaces) e implementa Entidades/DTOs estables. Sin dependencias de terceros. |
-| **`Application`** | El coordinador. Define *qué* hace el sistema agrupando la lógica de negocio y usándola paso a paso (Casos de uso). | **Application Business Rules (Use Cases)**: Orquesta las interacciones del Dominio con la Infraestructura para lograr un objetivo de negocio. |
-| **`Infrastructure`** | El traductor con el mundo exterior. Aquí adaptamos las APIs, manejamos fetch/axios y mapeamos los datos para que el dominio los entienda. | **Frameworks & Drivers**: Implementa los contratos del Dominio usando tecnologías específicas. Contiene Repositorios concretos, Mappers y llamadas HTTP. |
-| **`Presentation`** | (En apps) Componentes específicos de un módulo (ej. formulario de login). Muestran datos y detectan los clics del usuario. | **Feature-Specific UI**: Componentes React que conectan el estado de la aplicación (Hooks/Stores) y delegan las acciones a la capa Application. |

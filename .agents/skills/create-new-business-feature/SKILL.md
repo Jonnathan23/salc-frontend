@@ -75,8 +75,8 @@ export abstract class CategoryDataSource {
 }
 
 // domain/repositories/Category.repository.ts
-import type { CreateCategoryDto } from "../dtos/CreateCategory.dto";
-import type { CategoryEntity } from "../entities/Category.entity";
+import type { CreateCategoryDto } from "@salc/core/features/admin-desk/categories/domain/dtos/CreateCategory.dto";
+import type { CategoryEntity } from "@salc/core/features/admin-desk/categories/domain/entities/Category.entity";
 import type { SuccessResponse } from "@salc/core/interfaces";
 
 export abstract class CategoryRepository {
@@ -105,7 +105,7 @@ export const arrayCategoriesSchema = z.array(categorySchema);
 ```typescript
 // infrastructure/mappers/Category.mapper.ts
 import { CustomError } from "@salc/core/enums";
-import { CategoryEntity } from "../../domain/entities/Category.entity";
+import { CategoryEntity } from "@salc/core/features/admin-desk/categories/domain/entities/Category.entity";
 import { type EntityValidator } from "@salc/core/interfaces/EntityValidator";
 
 type CategoryMapperProps = Record<string, unknown> | unknown | null | undefined;
@@ -148,10 +148,10 @@ export class CategoryMapperImpl implements CategoryMapper {
 
 ```typescript
 // infrastructure/datasources/Category.datasource.impl.ts
-import type { CreateCategoryDto } from "../../domain/dtos/CreateCategory.dto";
-import { type CategoryMapper } from "../mappers/Category.mapper";
-import { CategoryDataSource } from "../../domain/datasources/Category.datasource";
-import { type CategoryEntity } from "../../domain/entities/Category.entity";
+import type { CreateCategoryDto } from "@salc/core/features/admin-desk/categories/domain/dtos/CreateCategory.dto";
+import { type CategoryMapper } from "@salc/core/features/admin-desk/categories/infrastructure/mappers/Category.mapper";
+import { CategoryDataSource } from "@salc/core/features/admin-desk/categories/domain/datasources/Category.datasource";
+import { type CategoryEntity } from "@salc/core/features/admin-desk/categories/domain/entities/Category.entity";
 import { type MethodsHttp, type SuccessResponse } from "@salc/core/interfaces";
 import { CustomError } from "@salc/core/enums";
 
@@ -184,10 +184,10 @@ export class CategoryDataSourceImpl implements CategoryDataSource {
 
 ```typescript
 // infrastructure/repositories/Category.repository.impl.ts
-import { CategoryDataSource } from "../../domain/datasources/Category.datasource";
-import { CategoryRepository } from "../../domain/repositories/Category.repository";
-import type { CreateCategoryDto } from "../../domain/dtos/CreateCategory.dto";
-import type { CategoryEntity } from "../../domain/entities/Category.entity";
+import { CategoryDataSource } from "@salc/core/features/admin-desk/categories/domain/datasources/Category.datasource";
+import { CategoryRepository } from "@salc/core/features/admin-desk/categories/domain/repositories/Category.repository";
+import type { CreateCategoryDto } from "@salc/core/features/admin-desk/categories/domain/dtos/CreateCategory.dto";
+import type { CategoryEntity } from "@salc/core/features/admin-desk/categories/domain/entities/Category.entity";
 import type { SuccessResponse } from "@salc/core/interfaces";
 
 export class CategoryRepositoryImpl implements CategoryRepository {
@@ -207,10 +207,10 @@ Generate the Use Cases.
 
 ```typescript
 // application/use-cases/CreateCategory.use-case.ts
-import type { CategoryRepository } from "../../domain/repositories/Category.repository";
-import type { CategoryEntity } from "../../domain/entities/Category.entity";
-import type { CreateCategoryDto } from "../../domain/dtos/CreateCategory.dto";
-import type { SuccessResponse } from "@salc/core/interfaces";
+import type { CategoryRepository } from "@salc/core/features/admin-desk/categories/domain/repositories/Category.repository";
+import type { CategoryEntity } from "absolute_roture;
+import type { CreateCategoryDto } from "absolute_roture";
+import type { SuccessResponse } from "absolute_roture";
 
 export class CreateCategoryUseCase {
     constructor(private readonly categoryRepository: CategoryRepository) {}
