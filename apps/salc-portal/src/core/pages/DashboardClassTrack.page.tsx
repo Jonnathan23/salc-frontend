@@ -32,9 +32,7 @@ function StatCard({ label, value, icon, color, lightColor }: StatCardProps) {
 export default function ComponentName() {
     const studentsInside = mockSessions.filter((s) => s.attendanceSessionStatus === SessionStatus.InProgress).length;
 
-    const pendingCheckouts = mockSessions.filter(
-        (s) => s.attendanceSessionStatus === SessionStatus.PendingApproval,
-    ).length;
+    const pendingCheckouts = mockSessions.filter((s) => s.attendanceSessionStatus === SessionStatus.PendingApproval).length;
 
     const activeAlerts = mockAlerts.filter((a) => a.retentionAlertStatus === retentionAlertStatus.Pending).length;
 
@@ -47,7 +45,7 @@ export default function ComponentName() {
             return { session, student };
         });
     /*
-TODO:
+TODO: Construir en la version 2.0 del MVP, no es prioridad
     const atRiskStudents = mockStudents.filter(
         (s) =>
             s.studentProgressCategory === ProgressCategory.SLOW ||
@@ -117,23 +115,14 @@ TODO:
                     </div>
                     <div className="divide-y divide-[var(--color-tertiary)]/15">
                         {recentSessions.map(({ session, student }) => (
-                            <div
-                                key={session.attendanceSessionId}
-                                className="px-5 py-3 flex items-center justify-between"
-                            >
+                            <div key={session.attendanceSessionId} className="px-5 py-3 flex items-center justify-between">
                                 <div className="flex items-center gap-3">
                                     <div className="w-8 h-8 rounded-full bg-[var(--color-quinary)] flex items-center justify-center flex-shrink-0">
-                                        <span className="text-white text-xs font-bold">
-                                            {student?.studentFullName.charAt(0)}
-                                        </span>
+                                        <span className="text-white text-xs font-bold">{student?.studentFullName.charAt(0)}</span>
                                     </div>
                                     <div>
-                                        <p className="text-sm font-medium text-[var(--color-font)]">
-                                            {student?.studentFullName}
-                                        </p>
-                                        <p className="text-xs text-[var(--color-font)]/50">
-                                            {student?.studentCertificateType}
-                                        </p>
+                                        <p className="text-sm font-medium text-[var(--color-font)]">{student?.studentFullName}</p>
+                                        <p className="text-xs text-[var(--color-font)]/50">{student?.studentCertificateType}</p>
                                     </div>
                                 </div>
                                 <div className="text-right">
@@ -152,7 +141,8 @@ TODO:
                     </div>
                 </div>
 
-                {/* At Risk Students  * TODO: implementar progreso
+                {/* At Risk Students  * TODO: Construir en la version 2.0 del MVP, no es prioridad*/}
+                {/*
                 <div className="bg-white rounded-xl border border-[var(--color-tertiary)]/30 overflow-hidden">
                 <div className="px-5 py-4 border-b border-[var(--color-tertiary)]/20 flex items-center justify-between">
                         <div className="flex items-center gap-2">
@@ -248,10 +238,7 @@ TODO:
                         </thead>
                         <tbody className="divide-y divide-[var(--color-tertiary)]/15">
                             {mockStudents.map((student) => (
-                                <tr
-                                    key={student.studentId}
-                                    className="hover:bg-[var(--color-primary)]/10 transition-colors"
-                                >
+                                <tr key={student.studentId} className="hover:bg-[var(--color-primary)]/10 transition-colors">
                                     <td className="px-5 py-3">
                                         <div className="flex items-center gap-3">
                                             <div className="w-7 h-7 rounded-full bg-[var(--color-quinary)] flex items-center justify-center flex-shrink-0">
@@ -267,9 +254,7 @@ TODO:
                                     <td className="px-5 py-3 text-[var(--color-font)]/60 font-mono text-xs">
                                         {student.studentIdentificationCard}
                                     </td>
-                                    <td className="px-5 py-3 text-[var(--color-font)]/70">
-                                        {student.studentCertificateType}
-                                    </td>
+                                    <td className="px-5 py-3 text-[var(--color-font)]/70">{student.studentCertificateType}</td>
                                     <td className="px-5 py-3">
                                         <ContractStatusBadge status={student.studentContractStatus} />
                                     </td>

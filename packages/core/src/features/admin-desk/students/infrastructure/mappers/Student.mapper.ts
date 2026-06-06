@@ -18,6 +18,7 @@ export class StudentMapperImpl implements StudentMapper {
     private parseLocalDate(dateValue: string | Date): Date {
         if (dateValue instanceof Date) {
             if (isNaN(dateValue.getTime())) return new Date();
+
             return new Date(dateValue.getFullYear(), dateValue.getMonth(), dateValue.getDate());
         }
 
