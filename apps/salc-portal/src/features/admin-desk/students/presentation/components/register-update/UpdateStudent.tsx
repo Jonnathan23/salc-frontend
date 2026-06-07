@@ -4,15 +4,15 @@ import { Alert, AlertDescription } from "@/core/components/ui/admin-desk/alerts/
 import { Button } from "@/core/components/ui/admin-desk/buttons/Button";
 import type { StudentEntity } from "@salc/core/features/admin-desk/students/domain/entities/Student.entity";
 import { useUpdateStudentForm } from "@/features/admin-desk/students/application/hooks/forms/useUpdateFormStudent.use";
-import { StudentFormMapper } from "@/features/admin-desk/students/presentation/mappers/StudentForm.mapper";
+import { StudentFormMapper } from "@/features/admin-desk/students/presentation/mappers/studentForm.mapper";
 import StudentForm from "@/features/admin-desk/students/presentation/components/register-update/StudentForm";
 import type { UserEntity } from "@salc/core/features/shared/identity/domain/entities";
 
 interface UpdateStudentProps {
-    studentId: string;
-    student: StudentEntity;
-    assignedSeller: UserEntity["fullName"];
-    handleSetEdit: () => void;
+    readonly studentId: string;
+    readonly student: StudentEntity;
+    readonly assignedSeller: UserEntity["fullName"];
+    readonly handleSetEdit: () => void;
 }
 
 export default function UpdateStudent({ studentId, student, assignedSeller, handleSetEdit }: UpdateStudentProps) {

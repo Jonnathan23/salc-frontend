@@ -9,7 +9,7 @@ export const classTrackNavItems: NavItem[] = [
         title: "Resumen General",
         description: "Resumen General",
         icon: LayoutDashboard,
-        href: baseUrl + "/",
+        href: baseUrl + "/dashboard",
         permissions: [],
         color: "bg-primary",
     },

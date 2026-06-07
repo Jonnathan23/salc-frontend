@@ -6,7 +6,7 @@ import {
     paymentQuotaSchema,
 } from "@salc/core/features/admin-desk/payments/infrastructure/schemas/Payment.schema";
 import { CreatePaymentPlanUseCase } from "@salc/core/features/admin-desk/payments/application/use-cases/createPaymentPlan.use-case";
-import { PaymentRepositoryImpl } from "@salc/core/features/admin-desk/payments/infrastructure/repositories/Payment.repository";
+import { PaymentRepositoryImpl } from "@salc/core/features/admin-desk/payments/infrastructure/repositories/payment.repository";
 import { PaymentMapperImpl } from "@salc/core/features/admin-desk/payments/infrastructure/mappers/payment.mapper";
 import type { PaymentQuotaEntity } from "@salc/core/features/admin-desk/payments/domain/entities/PaymentQuota.entity";
 import type { PaymentPlanEntity } from "@salc/core/features/admin-desk/payments/domain/entities/PaymentPlan.entity";

@@ -20,7 +20,10 @@ const ViewProfilePage = lazy(() => import("@/features/shared/identity/presentati
 const RegisterPage = lazy(() => import("@/features/shared/identity/presentation/pages/Register.page"));
 const ModulePage = lazy(() => import("@/features/admin-desk/modules/presentation/pages/Module.page"));
 const LoginPage = lazy(() => import("@/features/shared/identity/presentation/pages/Login.page"));
-const DashboardPage = lazy(() => import("@/core/pages/DashboardAdminDesk.page"));
+const DashboardAdminDeskPage = lazy(() => import("@/core/pages/DashboardAdminDesk.page"));
+const DashboardClassTrackPage = lazy(
+    () => import("@/features/class-track/dashboard/presentation/pages/DashboardClassTrack.page"),
+);
 const StudentLevelsPage = lazy(() => import("@/features/admin-desk/students-levels/presentation/pages/StudentLevels.page"));
 
 export default function Router() {
@@ -45,7 +48,7 @@ export default function Router() {
                 <Route element={<ProtectedRoute />}>
                     <Route element={<ProtectedRoute requiredPermissions={[systemPermissions.ADMINDESK_MAIN_ACCESS]} />}>
                         <Route path="/admin-desk/" element={<AdminDeskLayout />}>
-                            <Route path="dashboard" element={<DashboardPage />} />
+                            <Route path="dashboard" element={<DashboardAdminDeskPage />} />
 
                             {/* --- Rutas de Shared Identity --- */}
                             <Route element={<ProtectedRoute requiredPermissions={[systemPermissions.SHARED_IDENTITY_WRITE]} />}>
@@ -91,7 +94,7 @@ export default function Router() {
 
                     <Route element={<ProtectedRoute requiredPermissions={[systemPermissions.CLASSTRACK_MAIN_ACCESS]} />}>
                         <Route path="/class-track/" element={<ClassTrackLayout />}>
-                            <Route path="dashboard" element={<h1>Hola</h1>} />
+                            <Route path="dashboard" element={<DashboardClassTrackPage />} />
                         </Route>
                     </Route>
                 </Route>
