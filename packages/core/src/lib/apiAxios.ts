@@ -21,11 +21,7 @@ export class ApiAxios implements Api {
     private readonly validateErrorResponse: EntityValidator<ErrorResponse>;
     private onUnauthorizedCallback?: () => void;
 
-    constructor(
-        baseUrl: string,
-        validateErrorResponse: //probando
-        EntityValidator<ErrorResponse>,
-    ) {
+    constructor(baseUrl: string, validateErrorResponse: EntityValidator<ErrorResponse>) {
         this.baseUrl = baseUrl;
         this.validateErrorResponse = validateErrorResponse;
         this.apiInstance = axios.create({
