@@ -3,7 +3,7 @@ import { ContractStatusBadge, ProgressCategoryBadge } from "@/core/components/ui
 import { useNavigate } from "react-router-dom";
 
 interface StudentItemProps {
-    student: StudentEntity;
+    readonly student: StudentEntity;
 }
 
 export default function StudentItem({ student }: StudentItemProps) {
@@ -11,12 +11,12 @@ export default function StudentItem({ student }: StudentItemProps) {
 
     const navigation = useNavigate();
 
-    const handleViewStudent = (studentId: string) => {
-        navigation(`/view-students/${studentId}/profile`);
+    const onhandleViewStudent = (studentId: string) => {
+        navigation(`${studentId}/profile`);
     };
 
     return (
-        <tr key={id} className="hover:bg-primary/10 transition-colors cursor-pointer" onClick={() => handleViewStudent(id)}>
+        <tr key={id} className="hover:bg-primary/10 transition-colors cursor-pointer" onClick={() => onhandleViewStudent(id)}>
             <td className="px-5 py-3">
                 <div className="flex items-center gap-3">
                     <div className=" w-7 h-7 rounded-full bg-primary-foreground flex items-center justify-center flex-shrink-0">

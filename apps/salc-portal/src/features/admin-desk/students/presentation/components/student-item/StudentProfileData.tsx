@@ -20,7 +20,7 @@ export default function StudentProfileData({ student, handleSetEdit }: StudentPr
     const [activeTab, setActiveTab] = useState<ProfileTab>("academic");
     const navigation = useNavigate();
 
-    const handleBack = () => navigation("/view-students");
+    const onBack = () => navigation("/admin-desk/view-students");
 
     const tabs: { key: ProfileTab; label: string; icon: React.ReactNode }[] = [
         { key: "academic", label: "Academico", icon: <BookOpen className="w-4 h-4" /> },
@@ -36,7 +36,7 @@ export default function StudentProfileData({ student, handleSetEdit }: StudentPr
                     <p className="text-muted-foreground text-sm mt-0.5">Vista completa del expediente academico</p>
                 </div>
                 <div className="flex items-center gap-3">
-                    <Button variant="outline" onClick={handleBack}>
+                    <Button variant="outline" onClick={onBack}>
                         <ArrowLeft className="mr-2 h-4 w-4" />
                         Volver
                     </Button>

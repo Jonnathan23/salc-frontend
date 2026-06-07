@@ -30,13 +30,17 @@ export default function ViewStudentProfile() {
         setIsEdit(!isEdit);
     };
 
+    const onViewProfile = () => {
+        navigation("/view-profiles");
+    };
+
     if (isLoading) return <Loader2 className="w-4 h-4 animate-spin" />;
 
     if (isError || !student || !userResponse) {
         return (
             <div className="flex h-64 items-center justify-center">
                 <p className="text-[var(--color-font)]/50 text-sm mt-0.5">Usuario no encontrado</p>
-                <Button onClick={() => navigation("/view-profiles")}>Volver</Button>
+                <Button onClick={onViewProfile}>Volver</Button>
             </div>
         );
     }
