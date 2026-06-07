@@ -37,7 +37,7 @@ export default function DirectoryProfilesPage() {
                     </thead>
                     <tbody className="divide-y divide-border/30">
                         {users.map((user) => (
-                            <ProfileItem key={user.us_id} user={user} />
+                            <ProfileItem key={user.userId} user={user} />
                         ))}
                     </tbody>
                 </table>

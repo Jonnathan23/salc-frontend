@@ -9,12 +9,16 @@ export const useDashboard = () => {
     const { userResponse } = useAuthStore();
     const { hasPermission } = usePermissions();
 
-    const isAdmin = useMemo(() => userResponse?.us_role === userRoles.ADMIN, [userResponse]);
+    const canWrite = useMemo(() => {
+        if (!userResponse) return false;
+
+        return userResponse.role === userRoles.ADMIN;
+    }, [userResponse]);
 
     const filteredActions = useMemo(() => navItems.filter((action) => hasPermission(action.permissions)), [hasPermission]);
 
     return {
-        isAdmin,
+        canWrite,
         filteredActions,
     };
 };

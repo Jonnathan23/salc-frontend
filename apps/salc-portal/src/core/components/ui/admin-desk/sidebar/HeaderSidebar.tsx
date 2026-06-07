@@ -1,4 +1,4 @@
-import { SidebarHeader } from "@/core/components/admin-desk/sidebar/AllComponentsSidebar";
+import { SidebarHeader } from "@/core/components/ui/admin-desk/sidebar/AllComponentsSidebar";
 
 interface HeaderSidebarProps {
     readonly nameSystem: string;

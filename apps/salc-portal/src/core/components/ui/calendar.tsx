@@ -5,14 +5,14 @@ import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from "lucide-react
 import { DayButton, DayPicker, getDefaultClassNames } from "react-day-picker"; //TODO: Instalar la dependencia
 
 import { cn } from "@salc/ui/lib/utils";
-import { Button } from "@/core/components/admin-desk/buttons/Button";
+import { Button } from "@/core/components/ui/admin-desk/buttons/Button";
 import { buttonVariants } from "@/core/components/ui/buttonVariants";
 
 function Calendar({
     className,
     classNames,
     showOutsideDays = true,
-    captionLayout = "Label",
+    captionLayout = "label",
     buttonVariant = "ghost",
     formatters,
     components,
@@ -65,7 +65,7 @@ function Calendar({
                 dropdown: cn("absolute bg-popover inset-0 opacity-0", defaultClassNames.dropdown),
                 caption_label: cn(
                     "select-none font-medium",
-                    captionLayout === "Label"
+                    captionLayout === "label"
                         ? "text-sm"
                         : "rounded-md pl-2 pr-1 flex items-center gap-1 text-sm h-8 [&>svg]:text-muted-foreground [&>svg]:size-3.5",
                     defaultClassNames.caption_label,

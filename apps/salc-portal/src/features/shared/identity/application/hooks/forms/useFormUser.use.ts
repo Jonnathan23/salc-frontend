@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-Form";
+import { useForm } from "react-hook-form";
 
 import { useCreateUser, useLoginUser } from "@/features/shared/identity/application/hooks";
 import { useAuthStore } from "@/features/shared/identity/application/store/auth.store";
@@ -16,10 +16,10 @@ export const useFormUser = ({ onRoleChange, onSuccess }: UseFormUserProps) => {
     const [showPassword, setShowPassword] = useState(false);
 
     const defaultValues: BaseUserFormValues = {
-        us_full_name: "",
-        us_email: "",
-        us_password_hash: "",
-        us_role: "TEACHER" as UserRoles,
+        fullName: "",
+        email: "",
+        passwordHash: "",
+        role: "TEACHER" as UserRoles,
     };
 
     const {
@@ -32,8 +32,7 @@ export const useFormUser = ({ onRoleChange, onSuccess }: UseFormUserProps) => {
     } = useForm<BaseUserFormValues>({ defaultValues });
 
     const { mutate, isPending } = useCreateUser({ reset, onSuccess });
-
-    const selectedRole = watch("us_role");
+    const selectedRole = watch("role");
 
     useEffect(() => {
         if (selectedRole) {
@@ -79,7 +78,7 @@ export const useUpdateFormUser = ({ onRoleChange, defaultValues, id }: UseUpdate
 
     const { mutate, isPending } = useUpdateUser();
 
-    const selectedRole = watch("us_role");
+    const selectedRole = watch("role");
 
     useEffect(() => {
         if (selectedRole) {
@@ -107,7 +106,7 @@ export const useUpdateFormUser = ({ onRoleChange, defaultValues, id }: UseUpdate
 };
 
 export const useLoginForm = () => {
-    const defaultValues: BaseLoginFormValues = { us_email: "", us_password_hash: "" };
+    const defaultValues: BaseLoginFormValues = { email: "", passwordHash: "" };
     const {
         register,
         handleSubmit,

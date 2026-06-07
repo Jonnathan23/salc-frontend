@@ -16,7 +16,7 @@ import { PanelLeftIcon } from "lucide-react";
 
 import { useIsMobile } from "@/core/components/ui/UseMobile";
 import { cn } from "@salc/ui/lib/utils";
-import { Button } from "@/core/components/admin-desk/buttons/Button";
+import { Button } from "@/core/components/ui/admin-desk/buttons/Button";
 import { Input } from "@/core/components/ui/Input";
 import { Separator } from "@/core/components/ui/Separator";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/core/components/ui/Sheet";
@@ -257,7 +257,7 @@ function SidebarTrigger({ className, onClick, ...props }: SidebarTriggerProps) {
     );
 }
 
-type SidebarRailProps = ComponentProps<"Button">;
+type SidebarRailProps = ComponentProps<"button">;
 
 function SidebarRail({ className, ...props }: SidebarRailProps) {
     const { toggleSidebar } = useSidebar();
@@ -284,7 +284,7 @@ function SidebarRail({ className, ...props }: SidebarRailProps) {
     );
 }
 
-type SidebarInsetProps = ComponentProps<"Main">;
+type SidebarInsetProps = ComponentProps<"main">;
 
 function SidebarInset({ className, ...props }: SidebarInsetProps) {
     return (
@@ -390,10 +390,10 @@ function SidebarGroupLabel({ className, asChild = false, ...props }: SidebarGrou
     );
 }
 
-type SidebarGroupActionProps = ComponentProps<"Button"> & { asChild?: boolean };
+type SidebarGroupActionProps = ComponentProps<"button"> & { asChild?: boolean };
 
 function SidebarGroupAction({ className, asChild = false, ...props }: SidebarGroupActionProps) {
-    const Comp = asChild ? Slot : "Button";
+    const Comp = asChild ? Slot : "button";
 
     return (
         <Comp
@@ -471,7 +471,7 @@ const sidebarMenuButtonVariants = cva(
     },
 );
 
-type SidebarMenuButtonProps = ComponentProps<"Button"> & {
+type SidebarMenuButtonProps = ComponentProps<"button"> & {
     asChild?: boolean;
     isActive?: boolean;
     tooltip?: string | ComponentProps<typeof TooltipContent>;
@@ -486,7 +486,7 @@ function SidebarMenuButton({
     className,
     ...props
 }: SidebarMenuButtonProps) {
-    const Comp = asChild ? Slot : "Button";
+    const Comp = asChild ? Slot : "button";
     const { isMobile, state } = useSidebar();
 
     const button = (
@@ -518,13 +518,13 @@ function SidebarMenuButton({
     );
 }
 
-type SidebarMenuActionProps = ComponentProps<"Button"> & {
+type SidebarMenuActionProps = ComponentProps<"button"> & {
     asChild?: boolean;
     showOnHover?: boolean;
 };
 
 function SidebarMenuAction({ className, asChild = false, showOnHover = false, ...props }: SidebarMenuActionProps) {
-    const Comp = asChild ? Slot : "Button";
+    const Comp = asChild ? Slot : "button";
 
     return (
         <Comp

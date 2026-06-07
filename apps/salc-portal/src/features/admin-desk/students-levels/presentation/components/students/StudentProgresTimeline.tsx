@@ -1,14 +1,14 @@
 import { BookPlus, Calendar, Layers, Loader2, Phone, ShoppingCart, User } from "lucide-react";
 
-import AvailableModulesForUpsell from "@/features/admin-desk/students-levels/presentation/components/levels/available-modules-upsell-Item";
+import AvailableModulesForUpsell from "@/features/admin-desk/students-levels/presentation/components/levels/AvailableModulesUpsellItem";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/core/components/ui/Card";
-import StudentLevelItem from "@/features/admin-desk/students-levels/presentation/components/levels/student-level-Item";
+import StudentLevelItem from "@/features/admin-desk/students-levels/presentation/components/levels/StudentLevelItem";
 import type { ModuleEntity } from "@salc/core/features/admin-desk/modules/domain/entities/Module.entity";
 import type { StudentLevelDetailsEntity } from "@salc/core/features/admin-desk/students-level/domain/entities";
 import type { StudentEntity } from "@salc/core/features/admin-desk/students/domain/entities/Student.entity";
 import type { ClassValue } from "class-variance-authority/types";
-import ModulesSelectedForUpsellItem from "@/features/admin-desk/students-levels/presentation/components/levels/modules-selected-upsell-Item";
-import { Button } from "@/core/components/admin-desk/buttons/Button";
+import ModulesSelectedForUpsellItem from "@/features/admin-desk/students-levels/presentation/components/levels/ModulesSelectedUpsellItem";
+import { Button } from "@/core/components/ui/admin-desk/buttons/Button";
 
 interface StudentProgressTimelineProps {
     selectedStudent: StudentEntity | null;
@@ -81,7 +81,7 @@ export default function StudentProgressTimeline(props: StudentProgressTimelinePr
                                 <div className="grid gap-2 sm:grid-cols-2">
                                     {availableModulesForUpsell.map((module) => (
                                         <AvailableModulesForUpsell
-                                            key={module.mo_id}
+                                            key={module.moduleId}
                                             module={module}
                                             modulesSelectedForUpsell={modulesSelectedForUpsell}
                                             handleAddModulesForUpsell={handleAddModulesForUpsell}
@@ -103,7 +103,7 @@ export default function StudentProgressTimeline(props: StudentProgressTimelinePr
                                 <div className="grid gap-2 sm:grid-cols-2">
                                     {modulesSelectedForUpsell.map((module) => (
                                         <ModulesSelectedForUpsellItem
-                                            key={module.mo_id}
+                                            key={module.moduleId}
                                             module={module}
                                             handleRemoveModulesForUpsell={handleRemoveModulesForUpsell}
                                         />

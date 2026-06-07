@@ -10,11 +10,11 @@ export const usePermissions = () => {
 
         if (!userResponse) return false;
 
-        if (userResponse.us_role === userRoles.ADMIN) return true;
+        if (userResponse.role === userRoles.ADMIN) return true;
 
         if (!userResponse.permissions || userResponse.permissions.length === 0) return false;
 
-        return requiredPermissions.some((permission) => userResponse.permissions.includes(permission));
+        return requiredPermissions.some((permission) => userResponse.permissions?.includes(permission));
     };
 
     return { hasPermission };

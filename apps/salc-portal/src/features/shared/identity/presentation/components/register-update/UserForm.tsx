@@ -1,6 +1,6 @@
-import type { Control, FieldErrors, FieldValues, Path, UseFormRegister } from "react-hook-Form";
+import type { Control, FieldErrors, FieldValues, Path, UseFormRegister } from "react-hook-form";
 import { Eye, EyeOff, ShieldCheck, GraduationCap, BookOpen, Briefcase } from "lucide-react";
-import { Controller } from "react-hook-Form";
+import { Controller } from "react-hook-form";
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/core/components/ui/Select";
 import { Input } from "@/core/components/ui/Input";
@@ -28,10 +28,10 @@ export default function UserForm<TFieldValues extends FieldValues>(values: UserF
                 <Input
                     id="userFullName"
                     placeholder="Ej: María García López"
-                    {...register("us_full_name" as Path<TFieldValues>)}
-                    aria-invalid={!!safeErrors.us_full_name}
+                    {...register("fullName" as Path<TFieldValues>)}
+                    aria-invalid={!!safeErrors.fullName}
                 />
-                {safeErrors.us_full_name && <p className="text-sm text-destructive">{safeErrors.us_full_name.message}</p>}
+                {safeErrors.fullName && <p className="text-sm text-destructive">{safeErrors.fullName.message}</p>}
             </div>
 
             <div className="space-y-2">
@@ -40,10 +40,10 @@ export default function UserForm<TFieldValues extends FieldValues>(values: UserF
                     id="userEmail"
                     type="email"
                     placeholder="correo@ejemplo.com"
-                    {...register("us_email" as Path<TFieldValues>)}
-                    aria-invalid={!!safeErrors.us_email}
+                    {...register("email" as Path<TFieldValues>)}
+                    aria-invalid={!!safeErrors.email}
                 />
-                {safeErrors.us_email && <p className="text-sm text-destructive">{safeErrors.us_email.message}</p>}
+                {safeErrors.email && <p className="text-sm text-destructive">{safeErrors.email.message}</p>}
             </div>
 
             {!isEditing && (
@@ -54,28 +54,26 @@ export default function UserForm<TFieldValues extends FieldValues>(values: UserF
                             id="userPassword"
                             type={showPassword ? "text" : "password"}
                             placeholder="••••••••"
-                            {...register("us_password_hash" as Path<TFieldValues>)}
-                            aria-invalid={!!safeErrors.us_password_hash}
+                            {...register("passwordHash" as Path<TFieldValues>)}
+                            aria-invalid={!!safeErrors.passwordHash}
                             className="pr-10"
                         />
                         <button
-                            type="Button"
+                            type="button"
                             onClick={() => handleSetShowPassword()}
                             className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                         >
                             {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                         </button>
                     </div>
-                    {safeErrors.us_password_hash && (
-                        <p className="text-sm text-destructive">{safeErrors.us_password_hash.message}</p>
-                    )}
+                    {safeErrors.passwordHash && <p className="text-sm text-destructive">{safeErrors.passwordHash.message}</p>}
                 </div>
             )}
 
             <div className="space-y-2">
                 <Label htmlFor="userRole">Rol de Usuario</Label>
                 <Controller
-                    name={"us_role" as Path<TFieldValues>}
+                    name={"role" as Path<TFieldValues>}
                     control={control}
                     render={({ field }) => (
                         <Select onValueChange={field.onChange} value={field.value}>
@@ -111,7 +109,7 @@ export default function UserForm<TFieldValues extends FieldValues>(values: UserF
                         </Select>
                     )}
                 />
-                {safeErrors.us_role && <p className="text-sm text-destructive">{safeErrors.us_role.message}</p>}
+                {safeErrors.role && <p className="text-sm text-destructive">{safeErrors.role.message}</p>}
             </div>
         </div>
     );

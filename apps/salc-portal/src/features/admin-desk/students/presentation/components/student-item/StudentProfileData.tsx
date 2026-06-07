@@ -1,8 +1,8 @@
 import { Globe, CreditCard, Phone, Mail, BookOpen, Clock, DollarSign, ArrowLeft, Pencil } from "lucide-react";
 
 import { useState } from "react";
-import { ContractStatusBadge, ProgressCategoryBadge } from "@/core/components/admin-desk/badges/Badges";
-import { Button } from "@/core/components/admin-desk/buttons/Button";
+import { ContractStatusBadge, ProgressCategoryBadge } from "@/core/components/ui/admin-desk/badges/Badges";
+import { Button } from "@/core/components/ui/admin-desk/buttons/Button";
 import { useNavigate } from "react-router-dom";
 import type { StudentEntity } from "@salc/core/features/admin-desk/students/domain/entities/Student.entity";
 

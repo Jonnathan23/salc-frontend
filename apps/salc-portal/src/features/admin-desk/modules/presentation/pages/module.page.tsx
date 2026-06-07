@@ -75,7 +75,7 @@ export default function ModulePage() {
                     <div className="grid gap-6 sm:grid-cols-2">
                         {modules.map((module) => (
                             <ModuleItem
-                                key={module.mo_id}
+                                key={module.moduleId}
                                 module={module}
                                 setModuleSelected={setModuleSelected}
                                 setIsEditing={setIsEditing}

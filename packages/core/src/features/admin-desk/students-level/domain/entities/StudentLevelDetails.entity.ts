@@ -3,9 +3,9 @@ import type { StudentModuleStatus } from "@salc/core/features/admin-desk/student
 import type { StudentEntity } from "@salc/core/features/admin-desk/students/domain/entities/Student.entity";
 import type { UserEntity } from "@salc/core/features/shared/identity/domain/entities";
 
-interface ModuleEntityRelation extends Pick<ModuleEntity, "mo_id" | "mo_name" | "mo_level"> {}
+interface ModuleEntityRelation extends Pick<ModuleEntity, "moduleId" | "name" | "level"> {}
 
-interface SellerEntityRelation extends Pick<UserEntity, "us_id" | "us_full_name" | "us_email"> {}
+interface SellerEntityRelation extends Pick<UserEntity, "userId" | "fullName" | "email"> {}
 
 interface StudentEntityRelation extends Pick<
     StudentEntity,

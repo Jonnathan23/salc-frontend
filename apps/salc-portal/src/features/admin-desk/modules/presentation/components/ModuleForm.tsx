@@ -1,78 +1,78 @@
 import { Input } from "@/core/components/ui/Input";
 import { Label } from "@/core/components/ui/Label";
 import { Textarea } from "@/core/components/ui/Textarea";
-import type { CreateModuleDto, UpdateModuleDto } from "@salc/core/features/admin-desk/modules/domain/dtos";
-import type { FieldErrors, UseFormRegister } from "react-hook-Form";
+
+import { BookOpen, Hash, AlignLeft } from "lucide-react";
+import type { FieldErrors, UseFormRegister } from "react-hook-form";
+import type { BaseModuleFormValues } from "@/features/admin-desk/modules/presentation/interfaces/BaseFormValues.interface";
+import { cn } from "@salc/ui/lib/utils";
 
 interface ModuleFormProps {
-    register: UseFormRegister<CreateModuleDto> | UseFormRegister<UpdateModuleDto>;
-    errors: FieldErrors<CreateModuleDto> | FieldErrors<UpdateModuleDto>;
+    register: UseFormRegister<BaseModuleFormValues>;
+    errors: FieldErrors<BaseModuleFormValues>;
 }
 
 export const ModuleForm = ({ register, errors }: ModuleFormProps) => {
     return (
         <div className="space-y-4">
             <div className="space-y-2">
-                <Label htmlFor="mo_name">Nombre del módulo</Label>
-                <Input
-                    id="mo_name"
-                    placeholder="Ej: A1 - Principiante"
-                    type="text"
-                    {...register("mo_name", {
-                        required: "El nombre es requerido",
-                        minLength: {
-                            value: 2,
-                            message: "El nombre debe tener al menos 2 caracteres",
-                        },
-                        maxLength: {
-                            value: 50,
-                            message: "El nombre debe tener menos de 50 caracteres",
-                        },
-                    })}
-                    aria-invalid={!!errors.mo_name}
-                />
-                {errors.mo_name && <span className="text-sm text-destructive">{errors.mo_name.message}</span>}
+                <Label htmlFor="name">Nombre del módulo</Label>
+                <div className="relative">
+                    <Input
+                        id="name"
+                        placeholder="Ej: Módulo 1 - Iniciación"
+                        {...register("name", {
+                            required: "Este campo es requerido",
+                        })}
+                        className={cn("pl-10", errors.name && "border-destructive focus-visible:ring-destructive")}
+                        aria-invalid={!!errors.name}
+                    />
+                    <BookOpen className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
+                </div>
+                {errors.name && <span className="text-sm text-destructive">{errors.name.message}</span>}
             </div>
             <div className="space-y-2">
-                <Label htmlFor="mo_level">Número del módulo</Label>
-                <Input
-                    id="mo_level"
-                    placeholder="Ej: 1"
-                    type="number"
-                    {...register("mo_level", {
-                        required: "El nivel es requerido",
-                        min: {
-                            value: 1,
-                            message: "El nivel debe ser mayor a 0",
-                        },
-                        max: {
-                            value: 6,
-                            message: "El nivel debe ser menor a 6",
-                        },
-                    })}
-                    aria-invalid={!!errors.mo_level}
-                />
-                {errors.mo_level && <span className="text-sm text-destructive">{errors.mo_level.message}</span>}
+                <Label htmlFor="level">Número del módulo</Label>
+                <div className="relative">
+                    <Input
+                        id="level"
+                        type="number"
+                        placeholder="Ej: 1"
+                        {...register("level", {
+                            required: "Este campo es requerido",
+                            valueAsNumber: true,
+                            min: { value: 1, message: "El nivel mínimo es 1" },
+                            max: { value: 6, message: "El nivel máximo es 6" },
+                        })}
+                        className={cn("pl-10", errors.level && "border-destructive focus-visible:ring-destructive")}
+                        aria-invalid={!!errors.level}
+                    />
+                    <Hash className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
+                </div>
+                {errors.level && <span className="text-sm text-destructive">{errors.level.message}</span>}
             </div>
             <div className="space-y-2">
-                <Label htmlFor="mo_description">Descripción del módulo</Label>
-                <Textarea
-                    id="mo_description"
-                    placeholder="Describe los objetivos del módulo..."
-                    {...register("mo_description", {
-                        required: "La descripción es requerida",
-                        minLength: {
-                            value: 3,
-                            message: "La descripción debe tener al menos 3 caracteres",
-                        },
-                        maxLength: {
-                            value: 255,
-                            message: "La descripción debe tener menos de 255 caracteres",
-                        },
-                    })}
-                    aria-invalid={!!errors.mo_description}
-                />
-                {errors.mo_description && <span className="text-sm text-destructive">{errors.mo_description.message}</span>}
+                <Label htmlFor="description">Descripción del módulo</Label>
+                <div className="relative">
+                    <Textarea
+                        id="description"
+                        placeholder="Describe los objetivos y contenido principal del módulo..."
+                        {...register("description", {
+                            required: "Este campo es requerido",
+                            minLength: {
+                                value: 10,
+                                message: "La descripción debe tener al menos 10 caracteres",
+                            },
+                        })}
+                        className={cn(
+                            "min-h-[120px] resize-none pl-10 pt-3",
+                            errors.description && "border-destructive focus-visible:ring-destructive",
+                        )}
+                        aria-invalid={!!errors.description}
+                    />
+                    <AlignLeft className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
+                </div>
+                {errors.description && <span className="text-sm text-destructive">{errors.description.message}</span>}
             </div>
         </div>
     );

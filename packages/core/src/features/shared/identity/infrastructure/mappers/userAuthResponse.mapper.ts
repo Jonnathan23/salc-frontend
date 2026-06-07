@@ -1,11 +1,7 @@
-import type {
-    UserAuthResponseEntity,
-    UserState,
-} from "@salc/core/features/shared/identity/domain/entities/UserAuthResponse.entity";
+import type { UserAuthResponseEntity } from "@salc/core/features/shared/identity/domain/entities/UserAuthResponse.entity";
 import { UserAuthResponseEntityImpl } from "@salc/core/features/shared/identity/domain/entities/UserAuthResponse.entity";
 import type { EntityValidator } from "@salc/core/interfaces/EntityValidator";
-import type { SystemPermission } from "@salc/core/enums/Permissions";
-import type { UserRoles } from "@salc/core/interfaces";
+
 import { CustomError } from "@salc/core/enums";
 import { Validators } from "@salc/core/utils";
 
@@ -23,7 +19,7 @@ export class UserAuthResponseMapperImpl implements UserAuthResponseMapper {
             throw CustomError.notFound("User auth response data is missing");
         }
 
-        const validationResponse = this.validator.validate(rawObject);
+        const validationResponse = this.validator.validate(rawObject) as any;
 
         if (!Validators.isRole(validationResponse.us_role)) {
             throw CustomError.badRequest("Invalid role");
@@ -33,8 +29,8 @@ export class UserAuthResponseMapperImpl implements UserAuthResponseMapper {
             throw CustomError.badRequest("Invalid state");
         }
 
-        const userRole = validationResponse.us_role as UserRoles;
-        const userState = validationResponse.us_is_active as UserState;
+        const userRole = validationResponse.us_role;
+        const userState = validationResponse.us_is_active;
 
         // Retornamos tu implementación concreta
         return new UserAuthResponseEntityImpl(
@@ -43,7 +39,7 @@ export class UserAuthResponseMapperImpl implements UserAuthResponseMapper {
             validationResponse.us_email,
             userRole,
             userState,
-            validationResponse.permissions as SystemPermission[],
+            validationResponse.permissions,
         );
     }
 }

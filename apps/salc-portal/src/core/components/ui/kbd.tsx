@@ -1,6 +1,6 @@
 import { cn } from "@salc/ui/lib/utils";
 
-function Kbd({ className, ...props }: React.ComponentProps<"Kbd">) {
+function Kbd({ className, ...props }: React.ComponentProps<"kbd">) {
     return (
         <kbd
             data-slot="Kbd"

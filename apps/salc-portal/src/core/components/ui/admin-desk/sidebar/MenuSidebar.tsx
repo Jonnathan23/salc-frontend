@@ -6,7 +6,7 @@ import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
-} from "@/core/components/admin-desk/sidebar/AllComponentsSidebar";
+} from "@/core/components/ui/admin-desk/sidebar/AllComponentsSidebar";
 import { Link } from "react-router-dom";
 import type { NavItem } from "@/core/interfaces/NavItem";
 

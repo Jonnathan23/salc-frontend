@@ -1,14 +1,14 @@
 import type { UserRoles } from "@salc/core/interfaces";
 
 export class UserEntity {
-    constructor(
-        public us_id: string,
-        public us_full_name: string,
-        public us_email: string,
-        public us_password_hash: string,
-        public us_role: UserRoles,
-        public us_is_active: string,
-        public us_created_at: string,
-        public us_updated_at: string,
+    private constructor(
+        public userId: string,
+        public fullName: string,
+        public email: string,
+        public passwordHash: string,
+        public role: UserRoles,
+        public isActive: boolean,
+        public createdAt?: Date,
+        public updatedAt?: Date,
     ) {}
 }

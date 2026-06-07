@@ -1,7 +1,7 @@
-import { Button } from "@/core/components/admin-desk/buttons/Button";
+import { Button } from "@/core/components/ui/admin-desk/buttons/Button";
 import { useAuthStore } from "@/features/shared/identity/application/store/auth.store";
 import { useSearchStudent } from "@/features/admin-desk/students/application/hooks";
-import UpdateStudent from "@/features/admin-desk/students/presentation/components/register-update/Updatestudent";
+import UpdateStudent from "@/features/admin-desk/students/presentation/components/register-update/UpdateStudent";
 import StudentProfileData from "@/features/admin-desk/students/presentation/components/student-item/StudentProfileData";
 import { systemPermissions } from "@salc/core/enums/Permissions";
 import { Loader2 } from "lucide-react";
@@ -46,7 +46,7 @@ export default function ViewStudentProfile() {
             <UpdateStudent
                 studentId={studentId}
                 student={student}
-                assignedSeller={userResponse.us_full_name}
+                assignedSeller={userResponse.fullName || "No asignado"}
                 handleSetEdit={handleSetEdit}
             />
         );

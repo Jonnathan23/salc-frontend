@@ -1,23 +1,28 @@
-import { useForm } from "react-hook-Form";
-import type { CreateModuleDto, UpdateModuleDto } from "@salc/core/features/admin-desk/modules/domain/dtos";
+import { useForm } from "react-hook-form";
+import type { BaseModuleFormValues } from "@/features/admin-desk/modules/presentation/interfaces/BaseFormValues.interface";
+import { ModulePresentationMapper } from "@/features/admin-desk/modules/presentation/mappers/module.mapper";
 import { useCreateModule, useUpdateModule } from "@/features/admin-desk/modules/application/hooks";
 import type { ModuleEntity } from "@salc/core/features/admin-desk/modules/domain/entities/Module.entity";
 import type { Dispatch, SetStateAction } from "react";
 
 export const useCreateModuleForm = () => {
-    const defaultValues: CreateModuleDto = { mo_name: "", mo_description: "", mo_level: 1 };
+    const defaultValues: BaseModuleFormValues = { name: "", description: "", level: 1 };
 
     const {
         register,
         handleSubmit,
         formState: { errors },
         reset,
-    } = useForm<CreateModuleDto>({ defaultValues });
+    } = useForm<BaseModuleFormValues>({ defaultValues });
 
     const { mutate: createModule, isPending } = useCreateModule({ reset });
 
-    const onSubmit = (data: CreateModuleDto) => {
-        createModule(data);
+    const onSubmit = (data: BaseModuleFormValues) => {
+        const dto = ModulePresentationMapper.toCreateDto(data);
+
+        if (dto) {
+            createModule(dto);
+        }
     };
 
     return {
@@ -36,8 +41,8 @@ interface UpdateModuleProps {
 }
 
 export const useUpdateModuleForm = ({ module, setModuleSelected, setIsEditing }: UpdateModuleProps) => {
-    const { mo_id, mo_name, mo_description, mo_level } = module;
-    const defaultValues: UpdateModuleDto = { mo_name, mo_description, mo_level };
+    const { moduleId, name, description, level } = module;
+    const defaultValues: BaseModuleFormValues = { name, description, level };
 
     const {
         register,
@@ -45,12 +50,16 @@ export const useUpdateModuleForm = ({ module, setModuleSelected, setIsEditing }:
         formState: { errors },
         reset,
         setValue,
-    } = useForm<UpdateModuleDto>({ defaultValues });
+    } = useForm<BaseModuleFormValues>({ defaultValues });
 
     const { mutate: updateModule, isPending } = useUpdateModule({ reset, setModuleSelected, setIsEditing });
 
-    const onSubmit = (data: UpdateModuleDto) => {
-        updateModule({ id: mo_id, data });
+    const onSubmit = (data: BaseModuleFormValues) => {
+        const dto = ModulePresentationMapper.toUpdateDto(data);
+
+        if (dto) {
+            updateModule({ id: moduleId, data: dto });
+        }
     };
 
     return {

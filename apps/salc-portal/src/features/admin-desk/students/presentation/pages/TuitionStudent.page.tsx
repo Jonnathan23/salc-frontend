@@ -2,13 +2,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/cor
 import { useAuthStore } from "@/features/shared/identity/application/store/auth.store";
 import { useRegisterStudentForm } from "@/features/admin-desk/students/application/hooks";
 import { BookPlus, CheckCircle, Loader2, UserPlus } from "lucide-react";
-import { Alert, AlertDescription } from "@/core/components/admin-desk/alerts/Alert";
-import { Button } from "@/core/components/admin-desk/buttons/Button";
+import { Alert, AlertDescription } from "@/core/components/ui/admin-desk/alerts/Alert";
+import { Button } from "@/core/components/ui/admin-desk/buttons/Button";
 import StudentForm from "@/features/admin-desk/students/presentation/components/register-update/StudentForm";
 
 export default function TuitionStundentPage() {
     const { userResponse } = useAuthStore();
-    const assignedSeller = userResponse ? userResponse.us_full_name : "N/A";
+    const assignedSeller = userResponse ? userResponse.fullName : "N/A";
 
     const {
         submitSuccess,

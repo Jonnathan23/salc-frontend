@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import type { UseFormReset } from "react-hook-Form";
+import type { UseFormReset } from "react-hook-form";
 import type { Dispatch, SetStateAction } from "react";
 
 import { registerStudentUseCase } from "@salc/core/features/admin-desk/students/di/StudentModule";

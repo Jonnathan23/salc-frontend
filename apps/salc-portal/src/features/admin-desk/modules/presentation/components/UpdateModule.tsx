@@ -1,4 +1,4 @@
-import { Button } from "@/core/components/admin-desk/buttons/Button";
+import { Button } from "@/core/components/ui/admin-desk/buttons/Button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/core/components/ui/Card";
 import { useUpdateModuleForm } from "@/features/admin-desk/modules/application/hooks";
 import { ModuleForm } from "@/features/admin-desk/modules/presentation/components/ModuleForm";
@@ -21,9 +21,11 @@ export default function UpdateModuleForm({ module, setModuleSelected, setIsEditi
     });
 
     useEffect(() => {
-        setValue("mo_name", module.mo_name);
-        setValue("mo_description", module.mo_description);
-        setValue("mo_level", module.mo_level);
+        if (module) {
+            setValue("name", module.name);
+            setValue("description", module.description);
+            setValue("level", module.level);
+        }
     }, [module, setValue]);
 
     useEffect(() => {

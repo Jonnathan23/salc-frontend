@@ -1,11 +1,12 @@
 import { ShowMessageAdapter } from "@/core/adapters/ShowMessage.adapter";
+import type { BaseModuleFormValues } from "@/features/admin-desk/modules/presentation/interfaces/BaseFormValues.interface";
 import { createModuleUseCase } from "@salc/core/features/admin-desk/modules/di/ModuleModule";
 import { CreateModuleDtoImpl, type CreateModuleDto } from "@salc/core/features/admin-desk/modules/domain/dtos";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { UseFormReset } from "react-hook-Form";
+import type { UseFormReset } from "react-hook-form";
 
 interface UseCreateModuleProps {
-    reset: UseFormReset<CreateModuleDto>;
+    reset: UseFormReset<BaseModuleFormValues>;
 }
 
 export const useCreateModule = ({ reset }: UseCreateModuleProps) => {

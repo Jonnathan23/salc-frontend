@@ -1,5 +1,6 @@
-import { Button } from "@/core/components/admin-desk/buttons/Button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/core/components/ui/Card";
+import { Button } from "@/core/components/ui/admin-desk/buttons/Button";
+import { Card, CardContent, CardFooter, CardHeader } from "@/core/components/ui/Card";
+import { Badge } from "@/core/components/ui/class-track/Badge";
 import type { ModuleEntity } from "@salc/core/features/admin-desk/modules/domain/entities/Module.entity";
 import { Layers3, Pencil, Trash2 } from "lucide-react";
 import type { Dispatch, SetStateAction } from "react";
@@ -12,6 +13,13 @@ interface ModuleItemProps {
 }
 
 export default function ModuleItem({ module, setModuleSelected, setIsEditing, canWrite = false }: ModuleItemProps) {
+    const { name, description, level, createdAt } = module;
+    const formattedDate = new Intl.DateTimeFormat("es-ES", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+    }).format(new Date(createdAt || ""));
+
     const handleSelectedModule = () => {
         setModuleSelected(module);
         setIsEditing(true);
@@ -27,13 +35,19 @@ export default function ModuleItem({ module, setModuleSelected, setIsEditing, ca
                     className="flex-1 space-y-1 cursor-pointer hover:text-primary transition-colors"
                     onClick={handleSelectedModule}
                 >
-                    <CardTitle className="text-xl font-bold text-foreground hover:text-primary transition-colors">
-                        {module.mo_name}
-                    </CardTitle>
+                    <div className="flex items-center gap-2">
+                        <h3 className="text-lg font-semibold text-foreground/90">{name}</h3>
+                        <Badge variant="outline" className="text-xs bg-primary/5 text-primary border-primary/20">
+                            Nivel {level}
+                        </Badge>
+                    </div>
+                    <span className="text-[10px] text-muted-foreground uppercase tracking-wider mt-0.5">
+                        Creado el {formattedDate}
+                    </span>
                 </div>
             </CardHeader>
             <CardContent className="flex-1 pt-4">
-                <p className="text-sm text-muted-foreground line-clamp-3">{module.mo_description}</p>
+                <p className="text-sm text-foreground/70 line-clamp-2 mt-1">{description}</p>
             </CardContent>
             {canWrite && (
                 <CardFooter className="flex justify-end gap-2 pt-2 border-t mt-auto">

@@ -3,7 +3,7 @@
 import * as React from "react";
 import * as TabsPrimitive from "@radix-ui/react-Tabs";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@salc/ui/lib/utils";
 
 function Tabs({ className, ...props }: React.ComponentProps<typeof TabsPrimitive.Root>) {
     return <TabsPrimitive.Root data-slot="Tabs" className={cn("flex flex-col gap-2", className)} {...props} />;

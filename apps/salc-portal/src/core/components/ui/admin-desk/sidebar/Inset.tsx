@@ -2,11 +2,12 @@ import { Outlet } from "react-router-dom";
 import { Suspense } from "react";
 
 import { Separator } from "@/core/components/ui/Separator";
-import { SidebarInset, SidebarTrigger } from "@/core/components/admin-desk/sidebar/AllComponentsSidebar";
+import { SidebarInset, SidebarTrigger } from "@/core/components/ui/admin-desk/sidebar/AllComponentsSidebar";
 import type { NavItem } from "@/core/interfaces/NavItem";
 import AdminDeskSkeleton from "@/core/components/ui/skeletons/AdminDeskSkeleton";
+import type { PropsWithChildren } from "react";
 
-interface InsetProps {
+interface InsetProps extends PropsWithChildren {
     readonly filteredNavItems: NavItem[];
     readonly pathname: string;
 }

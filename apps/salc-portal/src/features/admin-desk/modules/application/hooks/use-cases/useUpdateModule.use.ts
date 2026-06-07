@@ -1,14 +1,15 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { Dispatch, SetStateAction } from "react";
-import type { UseFormReset } from "react-hook-Form";
+import type { UseFormReset } from "react-hook-form";
 
 import { ShowMessageAdapter } from "@/core/adapters/ShowMessage.adapter";
 import { updateModuleUseCase } from "@salc/core/features/admin-desk/modules/di/ModuleModule";
 import { UpdateModuleDtoImpl, type UpdateModuleDto } from "@salc/core/features/admin-desk/modules/domain/dtos";
 import type { ModuleEntity } from "@salc/core/features/admin-desk/modules/domain/entities/Module.entity";
+import type { BaseModuleFormValues } from "@/features/admin-desk/modules/presentation/interfaces/BaseFormValues.interface";
 
 interface UseUpdateModuleProps {
-    reset: UseFormReset<UpdateModuleDto>;
+    reset: UseFormReset<BaseModuleFormValues>;
     setModuleSelected: Dispatch<SetStateAction<ModuleEntity | null>>;
     setIsEditing: Dispatch<SetStateAction<boolean>>;
 }

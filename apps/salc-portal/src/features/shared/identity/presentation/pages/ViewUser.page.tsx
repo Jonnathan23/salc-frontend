@@ -1,12 +1,12 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useMemo, useState } from "react";
 
-import UserProfileData from "@/features/shared/identity/presentation/components/profiles/UserProfileData";
+import { UserProfileData } from "@/features/shared/identity/presentation/components/profiles/UserProfileData";
 import UpdateUser from "@/features/shared/identity/presentation/components/register-update/UpdateUser";
 import { useAuthStore } from "@/features/shared/identity/application/store/auth.store";
 import { useFindUserById } from "@/features/shared/identity/application/hooks";
 import { systemPermissions } from "@salc/core/enums/Permissions";
-import { Button } from "@/core/components/admin-desk/buttons/Button";
+import { Button } from "@/core/components/ui/admin-desk/buttons/Button";
 import { Loader2 } from "lucide-react";
 
 export default function ViewProfilePage() {

@@ -1,4 +1,4 @@
-import { Alert, AlertDescription } from "@/core/components/admin-desk/alerts/Alert";
+import { Alert, AlertDescription } from "@/core/components/ui/admin-desk/alerts/Alert";
 import { Card, CardContent, CardHeader, CardTitle } from "@/core/components/ui/Card";
 import { userRoles } from "@salc/core/interfaces";
 import { BookOpen, Briefcase, CheckCircle, GraduationCap, ShieldCheck } from "lucide-react";

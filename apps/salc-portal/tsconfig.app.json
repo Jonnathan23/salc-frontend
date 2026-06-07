@@ -28,5 +28,5 @@
             "@salc/ui/*": ["../../packages/ui/*"]
         }
     },
-    "include": ["src", "src/core/components/admin-desk/sidebar/all-components-sidebar.tsx"]
+    "include": ["src", "src/core/components/ui/admin-desk/sidebar/all-components-sidebar.tsx"]
 }

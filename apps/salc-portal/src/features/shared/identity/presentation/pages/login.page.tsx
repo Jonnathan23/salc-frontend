@@ -1,14 +1,16 @@
-import { GraduationCap, Loader2 } from "lucide-react";
+import { useState } from "react";
+import { GraduationCap, Loader2, Eye, EyeOff } from "lucide-react";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/core/components/ui/Card";
-import { Alert, AlertDescription } from "@/core/components/admin-desk/alerts/Alert";
+import { Alert, AlertDescription } from "@/core/components/ui/admin-desk/alerts/Alert";
 import { useLoginForm } from "@/features/shared/identity/application/hooks";
-import { Button } from "@/core/components/admin-desk/buttons/Button";
+import { Button } from "@/core/components/ui/admin-desk/buttons/Button";
 import { Input } from "@/core/components/ui/Input";
 import { Label } from "@/core/components/ui/Label";
 
 export default function LoginPage() {
     const isLoading = false;
+    const [showPassword, setShowPassword] = useState(false);
 
     const { register, handleSubmit, errors, isPendingLogin, isError, errorLogin, onSubmit } = useLoginForm();
 
@@ -41,30 +43,38 @@ export default function LoginPage() {
                             </Alert>
                         )}
 
-                        <div className="space-y-2">
-                            <Label htmlFor="userEmail">Correo Electrónico</Label>
+                        <div className="flex flex-col gap-2">
+                            <Label htmlFor="email">Correo electrónico</Label>
                             <Input
-                                id="userEmail"
+                                id="email"
                                 type="email"
                                 placeholder="correo@ejemplo.com"
-                                {...register("us_email")}
-                                aria-invalid={!!errors.us_email}
+                                {...register("email")}
+                                aria-invalid={!!errors.email}
                             />
-                            {errors.us_email && <p className="text-sm text-destructive">{errors.us_email.message}</p>}
+                            {errors.email && <p className="text-sm text-destructive">{errors.email.message}</p>}
                         </div>
 
-                        <div className="space-y-2">
-                            <Label htmlFor="userPassword">Contraseña</Label>
-                            <Input
-                                id="userPassword"
-                                type="password"
-                                placeholder="••••••••"
-                                {...register("us_password_hash")}
-                                aria-invalid={!!errors.us_password_hash}
-                            />
-                            {errors.us_password_hash && (
-                                <p className="text-sm text-destructive">{errors.us_password_hash.message}</p>
-                            )}
+                        <div className="flex flex-col gap-2">
+                            <Label htmlFor="passwordHash">Contraseña</Label>
+                            <div className="relative">
+                                <Input
+                                    id="passwordHash"
+                                    type={showPassword ? "text" : "password"}
+                                    placeholder="••••••••"
+                                    {...register("passwordHash")}
+                                    aria-invalid={!!errors.passwordHash}
+                                    className="pr-10"
+                                />
+                                <button
+                                    type="button"
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                >
+                                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                                </button>
+                            </div>
+                            {errors.passwordHash && <p className="text-sm text-destructive">{errors.passwordHash.message}</p>}
                         </div>
 
                         <Button type="submit" className="w-full" disabled={isPendingLogin}>

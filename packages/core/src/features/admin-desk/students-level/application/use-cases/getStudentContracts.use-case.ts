@@ -1,5 +1,5 @@
 import type { StudentLevelDetailsEntity } from "@salc/core/features/admin-desk/students-level/domain/entities";
-import type { StudentLevelRepository } from "@salc/core/features/admin-desk/students-level/domain/repositories/student-level.repository";
+import type { StudentLevelRepository } from "@salc/core/features/admin-desk/students-level/domain/repositories/studentLevel.repository";
 
 import type { SuccessResponse } from "@salc/core/interfaces";
 

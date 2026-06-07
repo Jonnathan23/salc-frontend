@@ -1,7 +1,7 @@
 import { LogOut } from "lucide-react";
 
 import { SidebarFooter } from "./AllComponentsSidebar";
-import { Button } from "@/core/components/admin-desk/buttons/Button";
+import { Button } from "@/core/components/ui/admin-desk/buttons/Button";
 import type { UserAuthResponseEntity } from "@salc/core/features/shared/identity/domain/entities";
 
 interface FooterSidebarProps {
@@ -14,8 +14,8 @@ export default function FooterSidebar({ userResponse, logout }: FooterSidebarPro
         <SidebarFooter className="border-t border-sidebar-border">
             <div className="p-4">
                 <div className="mb-3 flex flex-col">
-                    <span className="text-sm font-medium text-sidebar-foreground">{userResponse.us_full_name}</span>
-                    <span className="text-xs text-sidebar-foreground/70">{userResponse.us_role}</span>
+                    <span className="text-sm font-medium text-sidebar-foreground">{userResponse.fullName}</span>
+                    <span className="text-xs text-sidebar-foreground/70">{userResponse.role}</span>
                 </div>
                 <Button
                     variant="outline"

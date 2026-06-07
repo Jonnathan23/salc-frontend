@@ -1,4 +1,4 @@
-import { Controller, type Control, type FieldErrors, type UseFormRegister } from "react-hook-Form";
+import { Controller, type Control, type FieldErrors, type UseFormRegister } from "react-hook-form";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 
@@ -10,7 +10,7 @@ import { Label } from "@/core/components/ui/Label";
 import { Nationalities } from "@salc/core/enums";
 import { CalendarIcon } from "lucide-react";
 import { cn } from "@salc/ui/lib/utils";
-import { Button } from "@/core/components/admin-desk/buttons/Button";
+import { Button } from "@/core/components/ui/admin-desk/buttons/Button";
 import type { CertificateType } from "@salc/core/features/admin-desk/students/domain/interfaces/Student.interface";
 import type { BaseStudentFormValues } from "@/features/admin-desk/students/presentation/interfaces"; // Ajusta la ruta si es necesario
 

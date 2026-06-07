@@ -1,7 +1,7 @@
 import { Users, Loader2 } from "lucide-react";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/core/components/ui/Card";
-import { Button } from "@/core/components/admin-desk/buttons/Button";
+import { Button } from "@/core/components/ui/admin-desk/buttons/Button";
 import { useFormUser } from "@/features/shared/identity/application/hooks";
 import UserForm from "@/features/shared/identity/presentation/components/register-update/UserForm";
 

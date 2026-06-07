@@ -1,5 +1,5 @@
 import { CustomError } from "@salc/core/enums";
-import type { StudentLevelDataSource } from "@salc/core/features/admin-desk/students-level/domain/datasource/student-level.datasource";
+import type { StudentLevelDataSource } from "@salc/core/features/admin-desk/students-level/domain/datasource/studentLevel.datasource";
 import type { PurchaseModulesDto, UpdateStudentModuleDto } from "@salc/core/features/admin-desk/students-level/domain/dtos";
 import type { StudentLevelEntity } from "@salc/core/features/admin-desk/students-level/domain/entities/StudentLevel.entity";
 import type { StudentLevelDetailsEntity } from "@salc/core/features/admin-desk/students-level/domain/entities/StudentLevelDetails.entity";

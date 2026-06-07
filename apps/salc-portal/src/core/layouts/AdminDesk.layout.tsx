@@ -1,9 +1,9 @@
-import { Sidebar, SidebarProvider } from "@/core/components/admin-desk/sidebar/AllComponentsSidebar";
+import { Sidebar, SidebarProvider } from "@/core/components/ui/admin-desk/sidebar/AllComponentsSidebar";
 import { useAppLayout } from "@/core/hooks/useAppLayout.use";
-import HeaderSidebar from "@/core/components/admin-desk/sidebar/HeaderSidebar";
-import MenuSidebar from "@/core/components/admin-desk/sidebar/MenuSidebar";
-import FooterSidebar from "@/core/components/admin-desk/sidebar/FooterSidebar";
-import Inset from "@/core/components/admin-desk/sidebar/Inset";
+import HeaderSidebar from "@/core/components/ui/admin-desk/sidebar/HeaderSidebar";
+import MenuSidebar from "@/core/components/ui/admin-desk/sidebar/MenuSidebar";
+import FooterSidebar from "@/core/components/ui/admin-desk/sidebar/FooterSidebar";
+import Inset from "@/core/components/ui/admin-desk/sidebar/Inset";
 
 export default function AdminDeskLayout() {
     const { userResponse, logout, filteredNavItems, pathname } = useAppLayout();

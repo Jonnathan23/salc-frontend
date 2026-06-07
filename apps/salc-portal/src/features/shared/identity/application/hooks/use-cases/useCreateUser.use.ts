@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { UseFormReset } from "react-hook-Form";
+import type { UseFormReset } from "react-hook-form";
 
 import { createUserUseCase } from "@salc/core/features/shared/identity/di/IdentityModule";
 import { ShowMessageAdapter } from "@/core/adapters/ShowMessage.adapter";

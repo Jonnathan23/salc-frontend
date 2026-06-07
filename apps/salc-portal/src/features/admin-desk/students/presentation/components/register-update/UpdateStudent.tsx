@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/core/components/ui/Card";
 import { ArrowLeft, BookPlus, CheckCircle, Loader2, UserPlus } from "lucide-react";
-import { Alert, AlertDescription } from "@/core/components/admin-desk/alerts/Alert";
-import { Button } from "@/core/components/admin-desk/buttons/Button";
+import { Alert, AlertDescription } from "@/core/components/ui/admin-desk/alerts/Alert";
+import { Button } from "@/core/components/ui/admin-desk/buttons/Button";
 import type { StudentEntity } from "@salc/core/features/admin-desk/students/domain/entities/Student.entity";
 import { useUpdateStudentForm } from "@/features/admin-desk/students/application/hooks/forms/useUpdateFormStudent.use";
 import { StudentFormMapper } from "@/features/admin-desk/students/presentation/mappers/StudentForm.mapper";
@@ -11,7 +11,7 @@ import type { UserEntity } from "@salc/core/features/shared/identity/domain/enti
 interface UpdateStudentProps {
     studentId: string;
     student: StudentEntity;
-    assignedSeller: UserEntity["us_full_name"];
+    assignedSeller: UserEntity["fullName"];
     handleSetEdit: () => void;
 }
 

@@ -39,7 +39,7 @@ export default function StudentLevelItem({ level, cnFunction }: StudentLevelItem
 
             <div className="flex-1 rounded-lg border p-3">
                 <div className="flex items-center justify-between">
-                    <p className="font-medium text-foreground">{level.module.mo_name}</p>
+                    <p className="font-medium text-foreground">{level.module.name}</p>
                     <Badge variant={config.variant} className={config.className}>
                         <Icon className="mr-1 h-3 w-3" />
                         {config.label}

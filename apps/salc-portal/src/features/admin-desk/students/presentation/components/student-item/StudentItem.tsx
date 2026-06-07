@@ -1,5 +1,5 @@
 import type { StudentEntity } from "@salc/core/features/admin-desk/students/domain/entities/Student.entity";
-import { ContractStatusBadge, ProgressCategoryBadge } from "@/core/components/admin-desk/badges/Badges";
+import { ContractStatusBadge, ProgressCategoryBadge } from "@/core/components/ui/admin-desk/badges/Badges";
 import { useNavigate } from "react-router-dom";
 
 interface StudentItemProps {

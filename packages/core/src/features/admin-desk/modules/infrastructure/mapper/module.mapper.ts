@@ -25,7 +25,7 @@ export class ModuleMapperImpl implements ModuleMapper {
             throw CustomError.notFound("Module data is missing");
         }
 
-        const validationResponse = this.validator.validate(rawObject);
+        const validationResponse = this.validator.validate(rawObject) as any;
 
         return new ModuleEntityImpl(
             validationResponse.mo_id,

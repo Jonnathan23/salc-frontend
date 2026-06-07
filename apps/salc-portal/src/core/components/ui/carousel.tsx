@@ -5,7 +5,7 @@ import useEmblaCarousel, { type UseEmblaCarouselType } from "embla-carousel-reac
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
 import { cn } from "@salc/ui/lib/utils";
-import { Button } from "@/core/components/admin-desk/buttons/Button";
+import { Button } from "@/core/components/ui/admin-desk/buttons/Button";
 
 type CarouselApi = UseEmblaCarouselType[1];
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
@@ -89,10 +89,10 @@ function Carousel({ orientation = "horizontal", opts, setApi, plugins, className
         if (!api) return;
         onSelect(api);
         api.on("reInit", onSelect);
-        api.on("Select", onSelect);
+        api.on("select", onSelect);
 
         return () => {
-            api?.off("Select", onSelect);
+            api?.off("select", onSelect);
         };
     }, [api, onSelect]);
 

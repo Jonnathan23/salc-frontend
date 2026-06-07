@@ -6,7 +6,7 @@ import type { ModuleEntity } from "@salc/core/features/admin-desk/modules/domain
 import { cn } from "@salc/ui/lib/utils";
 
 import StudentProgressTimeline from "@/features/admin-desk/students-levels/presentation/components/students/StudentProgresTimeline";
-import SearchStudent from "@/features/admin-desk/students-levels/presentation/components/students/Searchstudent";
+import SearchStudent from "@/features/admin-desk/students-levels/presentation/components/students/SearchStudent";
 import { useGetAllStudentLevels, usePurchaseModules } from "@/features/admin-desk/students-levels/application/hooks/use-cases";
 import { useGetAllStudents } from "@/features/admin-desk/students/application/hooks";
 import { useGetAllModules } from "@/features/admin-desk/modules/application/hooks";
@@ -62,7 +62,7 @@ export default function AdminStudentsLevels() {
         if (isLoadingStudents || !allEnglishModules || !studentLevels) return [];
 
         return allEnglishModules.filter((module) => {
-            return !studentLevels.some((studentLevel) => studentLevel.module.mo_id === module.mo_id);
+            return !studentLevels.some((studentLevel) => studentLevel.module.moduleId === module.moduleId);
         });
     }, [isLoadingStudents, allEnglishModules, studentLevels]);
 
@@ -86,7 +86,7 @@ export default function AdminStudentsLevels() {
 
     const handleAddModulesForUpsell = (newModule: ModuleEntity) => {
         setModulesSelectedForUpsell((previousModulesSelected) => {
-            if (previousModulesSelected.some((moduleSelected) => moduleSelected.mo_id === newModule.mo_id))
+            if (previousModulesSelected.some((moduleSelected) => moduleSelected.moduleId === newModule.moduleId))
                 return previousModulesSelected;
 
             return [...previousModulesSelected, newModule];
@@ -95,7 +95,7 @@ export default function AdminStudentsLevels() {
 
     const handleRemoveModulesForUpsell = (removeModule: ModuleEntity) => {
         setModulesSelectedForUpsell((previousModulesSelected) =>
-            previousModulesSelected.filter((moduleSelected) => moduleSelected.mo_id !== removeModule.mo_id),
+            previousModulesSelected.filter((moduleSelected) => moduleSelected.moduleId !== removeModule.moduleId),
         );
     };
 
@@ -105,7 +105,7 @@ export default function AdminStudentsLevels() {
 
     const handleValidation = (): boolean => {
         if (!selectedStudent) return false;
-        if (!userResponse?.us_id) return false;
+        if (!userResponse?.userId) return false;
         if (modulesSelectedForUpsell.length === 0) return false;
 
         return true;
@@ -117,11 +117,11 @@ export default function AdminStudentsLevels() {
     const handlePurchaseModules = () => {
         if (!handleValidation()) return;
 
-        const momoduleIds = modulesSelectedForUpsell.map((module) => module.mo_id);
+        const moduleIds = modulesSelectedForUpsell.map((module) => module.moduleId);
         const formValues: BaseStudentLevelFormValues = {
             studentId: selectedStudent!.id,
-            sellerId: userResponse!.us_id,
-            moduleIds: momoduleIds,
+            sellerId: userResponse!.userId,
+            moduleIds: moduleIds,
         };
 
         purchaseModules(formValues);

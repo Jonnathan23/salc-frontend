@@ -4,14 +4,14 @@ import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function DashboardPage() {
-    const { isAdmin, filteredActions } = useDashboard();
+    const { canWrite, filteredActions } = useDashboard();
 
     return (
         <div className="space-y-6">
             <div className="space-y-1">
                 <h2 className="text-2xl font-bold tracking-tight text-foreground">Bienvenido</h2>
                 <p className="text-muted-foreground">
-                    {isAdmin ? "Tienes acceso completo al sistema de gestión." : "Gestiona estudiantes y módulos desde aquí."}
+                    {canWrite ? "Tienes acceso completo al sistema de gestión." : "Gestiona estudiantes y módulos desde aquí."}
                 </p>
             </div>
 

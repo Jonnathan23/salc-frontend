@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useForm } from "react-hook-Form";
+import { useForm } from "react-hook-form";
 import { useUpdateStudent } from "@/features/admin-desk/students/application/hooks/use-cases/useUpdateStudent.use";
 import type { BaseStudentFormValues } from "@/features/admin-desk/students/presentation/interfaces";
 import {

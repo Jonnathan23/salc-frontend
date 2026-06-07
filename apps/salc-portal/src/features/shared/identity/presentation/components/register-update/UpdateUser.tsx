@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { PageHeader, RoleInfoCard } from "@/features/shared/identity/presentation/components/register-update/StateForm";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/core/components/ui/Card";
-import { Button } from "@/core/components/admin-desk/buttons/Button";
+import { Button } from "@/core/components/ui/admin-desk/buttons/Button";
 import { useUpdateFormUser } from "@/features/shared/identity/application/hooks";
 import UserForm from "@/features/shared/identity/presentation/components/register-update/UserForm";
 import type { UserRoles } from "@salc/core/interfaces";
@@ -19,7 +19,14 @@ interface UpdateUserProps {
 export default function UpdateUser({ userId, user, handleSetEdit }: UpdateUserProps) {
     const initialFormValues = UserMapper.toBaseUserFormValues(user);
 
-    const [selectedRole, setSelectedRole] = useState<UserRoles>(user?.us_role as UserRoles);
+    const [selectedRole, setSelectedRole] = useState<UserRoles>(user?.role as UserRoles);
+
+    useEffect(() => {
+        if (user?.role) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            setSelectedRole(user.role as UserRoles);
+        }
+    }, [user]);
 
     const handleRoleChange = (role: UserRoles) => setSelectedRole(role);
 

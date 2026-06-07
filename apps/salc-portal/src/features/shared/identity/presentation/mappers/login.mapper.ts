@@ -3,11 +3,11 @@ import { LoginUserDtoImpl, type LoginUserDto } from "@salc/core/features/shared/
 
 export const LoginMapper = {
     toLoginDto(formValues: BaseLoginFormValues): LoginUserDto {
-        const { us_email, us_password_hash } = formValues;
+        const { email, passwordHash } = formValues;
 
         return LoginUserDtoImpl.create({
-            us_email,
-            us_password_hash,
+            us_email: email,
+            us_password_hash: passwordHash,
         });
     },
 };
