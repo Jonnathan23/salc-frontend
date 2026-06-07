@@ -1,30 +1,16 @@
 import type { ModuleEntity } from "@salc/core/features/admin-desk/modules/domain/entities/Module.entity";
 import type { StudentModuleStatus } from "@salc/core/features/admin-desk/students-level/domain/interfaces/StudentLevels.interface";
 import type { StudentEntity } from "@salc/core/features/admin-desk/students/domain/entities/Student.entity";
-import type { UserEntity } from "@salc/core/features/shared/indentity/domain/entities";
+import type { UserEntity } from "@salc/core/features/shared/identity/domain/entities";
 
+interface ModuleEntityRelation extends Pick<ModuleEntity, "moduleId" | "name" | "level"> {}
 
-interface ModuleEntityRelation extends Pick<ModuleEntity, |
-    "mo_id" |
-    "mo_name" |
-    "mo_level"    
-> { }
+interface SellerEntityRelation extends Pick<UserEntity, "userId" | "fullName" | "email"> {}
 
-interface SellerEntityRelation extends Pick<UserEntity, |
-    "us_id" |
-    "us_full_name"|
-    "us_email"
-> { }
-
-interface StudentEntityRelation extends Pick<StudentEntity, |
-    "id" |
-    "identificationCard" |
-    "fullName" |
-    "email" |
-    "isGraduated" |
-    "contractStatus"
-> { }
-
+interface StudentEntityRelation extends Pick<
+    StudentEntity,
+    "id" | "identificationCard" | "fullName" | "email" | "isGraduated" | "contractStatus"
+> {}
 
 export class StudentLevelDetailsEntity {
     constructor(
@@ -34,5 +20,5 @@ export class StudentLevelDetailsEntity {
         public readonly module: ModuleEntityRelation,
         public readonly seller: SellerEntityRelation,
         public readonly student: StudentEntityRelation,
-    ) { }
+    ) {}
 }

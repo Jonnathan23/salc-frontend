@@ -1,21 +1,24 @@
-import type { RegisterStudentDto, UpdateStudentDto, ChangeContractStatusDto } from "@salc/core/features/admin-desk/students/domain/dtos";
-import { type StudentMapper } from "@salc/core/features/admin-desk/students/infrastructure/mappers/Student.mapper";
+import type {
+    RegisterStudentDto,
+    UpdateStudentDto,
+    ChangeContractStatusDto,
+} from "@salc/core/features/admin-desk/students/domain/dtos";
+import { type StudentMapper } from "@salc/core/features/admin-desk/students/infrastructure/mappers/student.mapper";
 import { StudentDataSource } from "@salc/core/features/admin-desk/students/domain/datasources/Student.datasource";
 import { type StudentEntity } from "@salc/core/features/admin-desk/students/domain/entities/Student.entity";
 import { type SuccessResponse, type MethodsHttp } from "@salc/core/interfaces";
 import { CustomError } from "@salc/core/enums";
 
-
 export class StudentDataSourceImpl implements StudentDataSource {
-    private readonly baseUrl = '/students';
+    private readonly baseUrl = "/students";
 
     constructor(
         private readonly apiStudents: MethodsHttp,
         private readonly studentMapper: StudentMapper,
-    ) { }
+    ) {}
 
     async register(dto: RegisterStudentDto): Promise<SuccessResponse<StudentEntity>> {
-        const url = `${this.baseUrl}/register`;
+        const url = `${this.baseUrl}/Register`;
         const rawResponse = await this.apiStudents.post<SuccessResponse<StudentEntity>, RegisterStudentDto>(url, dto);
 
         if (!rawResponse.data) {
@@ -26,7 +29,7 @@ export class StudentDataSourceImpl implements StudentDataSource {
 
         return {
             ...rawResponse,
-            data: student
+            data: student,
         };
     }
 
@@ -39,9 +42,10 @@ export class StudentDataSourceImpl implements StudentDataSource {
         }
 
         const students = this.studentMapper.toArrayEntities(rawResponse.data);
+
         return {
             ...rawResponse,
-            data: students
+            data: students,
         };
     }
 
@@ -52,12 +56,12 @@ export class StudentDataSourceImpl implements StudentDataSource {
         if (!rawResponse.data) {
             throw CustomError.notFound("No students found");
         }
-        
+
         const students = this.studentMapper.toArrayEntities(rawResponse.data);
 
         return {
             ...rawResponse,
-            data: students
+            data: students,
         };
     }
 
@@ -73,7 +77,7 @@ export class StudentDataSourceImpl implements StudentDataSource {
 
         return {
             ...rawResponse,
-            data: student
+            data: student,
         };
     }
 
@@ -89,7 +93,7 @@ export class StudentDataSourceImpl implements StudentDataSource {
 
         return {
             ...rawResponse,
-            data: student
+            data: student,
         };
     }
 
@@ -105,7 +109,7 @@ export class StudentDataSourceImpl implements StudentDataSource {
 
         return {
             ...rawResponse,
-            data: student
+            data: student,
         };
     }
 
@@ -121,7 +125,7 @@ export class StudentDataSourceImpl implements StudentDataSource {
 
         return {
             ...rawResponse,
-            data: student
+            data: student,
         };
     }
 }

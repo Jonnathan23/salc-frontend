@@ -1,2 +1,2 @@
-export * from "@salc/core/lib/api-axios"
-export * from "@salc/core/lib/apiClient"
+export * from "@salc/core/lib/apiAxios";
+export * from "@salc/core/lib/apiClient";

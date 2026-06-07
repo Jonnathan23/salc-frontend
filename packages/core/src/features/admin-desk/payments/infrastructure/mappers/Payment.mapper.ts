@@ -1,5 +1,8 @@
 import { CustomError } from "@salc/core/enums";
-import { PaymentPlanEntityImpl, type PaymentPlanEntity } from "@salc/core/features/admin-desk/payments/domain/entities/PaymentPlan.entity";
+import {
+    PaymentPlanEntityImpl,
+    type PaymentPlanEntity,
+} from "@salc/core/features/admin-desk/payments/domain/entities/PaymentPlan.entity";
 import type { PaymentQuotaEntity } from "@salc/core/features/admin-desk/payments/domain/entities/PaymentQuota.entity";
 import { PaymentQuotaEntityImpl } from "@salc/core/features/admin-desk/payments/domain/entities/PaymentQuota.entity";
 import type { EntityValidator } from "@salc/core/interfaces/EntityValidator";
@@ -11,9 +14,8 @@ export interface PaymentMapper {
 }
 
 export class PaymentMapperImpl implements PaymentMapper {
-
     /**
-     * 
+     *
      * @param validator - Payment plan entity validator
      * @param arrayValidator - Payment plan array entity validator
      * @param quotaValidator - Payment quota entity validator
@@ -21,8 +23,8 @@ export class PaymentMapperImpl implements PaymentMapper {
     constructor(
         private readonly validator: EntityValidator<PaymentPlanEntity>,
         private readonly arrayValidator: EntityValidator<PaymentPlanEntity[]>,
-        private readonly quotaValidator: EntityValidator<PaymentQuotaEntity>
-    ) { }
+        private readonly quotaValidator: EntityValidator<PaymentQuotaEntity>,
+    ) {}
 
     toPlanEntity(rawObject: any): PaymentPlanEntity {
         if (!rawObject) throw CustomError.notFound("Payment plan data is missing");
@@ -30,10 +32,16 @@ export class PaymentMapperImpl implements PaymentMapper {
         const value = this.validator.validate(rawObject);
 
         return new PaymentPlanEntityImpl(
-            value.id, value.studentId, value.sellerId, value.enrollmentFee, value.totalAmount, value.isSinglePayment, value.status,
+            value.id,
+            value.studentId,
+            value.sellerId,
+            value.enrollmentFee,
+            value.totalAmount,
+            value.isSinglePayment,
+            value.status,
             value.quotas ? value.quotas.map((q: any) => this.toQuotaEntity(q)) : undefined,
             value.createdAt ? new Date(value.createdAt) : undefined,
-            value.updatedAt ? new Date(value.updatedAt) : undefined
+            value.updatedAt ? new Date(value.updatedAt) : undefined,
         );
     }
 
@@ -49,7 +57,20 @@ export class PaymentMapperImpl implements PaymentMapper {
         if (!rawObject) throw CustomError.notFound("Payment quota data is missing");
 
         const value = this.quotaValidator.validate(rawObject);
-        const { id, paymentPlanId, quotaNumber, paymentMethod, baseAmount, rolloverDebt, totalExpected, amountPaid, dueDate, status, createdAt, updatedAt } = value;
+        const {
+            id,
+            paymentPlanId,
+            quotaNumber,
+            paymentMethod,
+            baseAmount,
+            rolloverDebt,
+            totalExpected,
+            amountPaid,
+            dueDate,
+            status,
+            createdAt,
+            updatedAt,
+        } = value;
 
         return new PaymentQuotaEntityImpl(
             id,
@@ -63,8 +84,7 @@ export class PaymentMapperImpl implements PaymentMapper {
             new Date(dueDate),
             status,
             createdAt ? new Date(createdAt) : undefined,
-            updatedAt ? new Date(updatedAt) : undefined
+            updatedAt ? new Date(updatedAt) : undefined,
         );
-        
     }
 }

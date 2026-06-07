@@ -9,7 +9,7 @@ A continuación se presenta la jerarquía de carpetas del monorepositorio, estru
 │   ├── admin-desk/                     <-- Portal administrativo
 │   │   ├── public/
 │   │   └── src/
-│   │       ├── core/                   <-- Configuraciones, layouts y hooks globales de la app
+│   │       ├── core/                   <-- Configuraciones, layouts y hooks globales
 │   │       │   ├── adapters/
 │   │       │   ├── components/
 │   │       │   ├── config/
@@ -17,50 +17,78 @@ A continuación se presenta la jerarquía de carpetas del monorepositorio, estru
 │   │       │   ├── hooks/
 │   │       │   ├── interfaces/
 │   │       │   ├── layouts/
-│   │       │   ├── pages/
-│   │       │   └── routes/
+│   │       │   └── pages/
 │   │       └── features/               <-- Módulos visuales de la aplicación
-│   │           ├── contracts/
-│   │           ├── indentity/
-│   │           │   ├── application/    <-- (Hooks y Stores locales)
-│   │           │   └── presentation/   <-- (Componentes y Páginas)
-│   │           ├── modules/
-│   │           │   ├── application/
-│   │           │   └── presentation/
-│   │           └── students/
-│   │               ├── application/
-│   │               └── presentation/
-│   └── class-track/                    <-- Aplicación para estudiantes/docentes
+│   │           ├── admin-desk/         <-- Features agrupados para admin-desk
+│   │           │   ├── modules/
+│   │           │   │   ├── application/
+│   │           │   │   │   └── hooks/ (forms, use-cases)
+│   │           │   │   └── presentation/ (components, pages)
+│   │           │   ├── students/
+│   │           │   │   ├── application/
+│   │           │   │   └── presentation/ (components, interfaces, mappers, pages)
+│   │           │   └── students-levels/
+│   │           │       ├── application/
+│   │           │       └── presentation/
+│   │           ├── class-track/        <-- Features agrupados para class-track
+│   │           └── shared/             <-- Features compartidos como autenticacion
+│   │               └── identity/
+│   │                   ├── application/ (hooks, store)
+│   │                   └── presentation/ (components, interfaces, mappers, pages, routes)
+│   ├── class-track-students/
+│   │   ├── public/
+│   │   └── src/
+│   └── class-track-teacher/
 │       ├── public/
 │       └── src/
 │
 ├── packages/                           <-- Código compartido agnóstico
 │   ├── core/                           <-- Núcleo de Negocio (TypeScript puro)
 │   │   └── src/
-│   │       ├── adapters/               <-- Adaptadores genéricos (ej. Data Access Layer)
-│   │       ├── config/                 <-- Variables de entorno y configuración
-│   │       ├── enums/                  <-- Enumeradores globales
-│   │       ├── interfaces/             <-- Interfaces globales
-│   │       ├── lib/                    <-- Envoltorios y utilidades base
+│   │       ├── adapters/               <-- Adaptadores genéricos (ej. Validator Adapter)
+│   │       ├── config/                 <-- Variables de entorno y configuración general
+│   │       ├── enums/                  <-- Enumeradores globales (ej. Códigos de error)
+│   │       ├── interfaces/             <-- Interfaces globales (ej. Respuestas HTTP base)
+│   │       ├── lib/                    <-- Envoltorios y utilidades base (ej. Cliente API)
 │   │       ├── schemas/                <-- Esquemas de validación globales
-│   │       ├── utils/                  <-- Funciones utilitarias puras
+│   │       ├── utils/                  <-- Funciones utilitarias puras (ej. regex, validadores)
 │   │       └── features/               <-- Reglas de negocio divididas por módulos
 │   │           ├── admin-desk/         <-- Lógica exclusiva de AdminDesk
 │   │           │   ├── modules/
-│   │           │   │   ├── application/<-- (Casos de uso)
-│   │           │   │   ├── di/         <-- (Inyección de dependencias)
-│   │           │   │   ├── domain/     <-- (Entidades, DTOs, interfaces de datasources)
-│   │           │   │   └── infrastructure/ <-- (Repositorios, mappers, esquemas locales)
+│   │           │   │   ├── application/
+│   │           │   │   ├── di/
+│   │           │   │   ├── domain/ (datasource, dtos, entities, repositories)
+│   │           │   │   └── infrastructure/ (datasources, mapper, repositories, schemas)
 │   │           │   ├── payments/
 │   │           │   │   ├── application/
 │   │           │   │   ├── di/
 │   │           │   │   ├── domain/
 │   │           │   │   └── infrastructure/
-│   │           │   └── students/
+│   │           │   ├── students/
+│   │           │   │   ├── application/
+│   │           │   │   ├── di/
+│   │           │   │   ├── domain/
+│   │           │   │   └── infrastructure/
+│   │           │   └── students-level/
 │   │           │       ├── application/
 │   │           │       ├── di/
 │   │           │       ├── domain/
 │   │           │       └── infrastructure/
+│   │           ├── class-track-teachers/
+│   │           │   └── attendance/
+│   │           │       ├── application/
+│   │           │       │   └── use-cases/      <-- Orquestadores de negocio (ej. RegisterStudentUseCase)
+│   │           │       ├── di/                 <-- Inyección de Dependencias (une las capas)
+│   │           │       ├── domain/             <-- Capa más interna, contratos puros
+│   │           │       │   ├── datasources/    <-- Firmas abstractas para acceso a datos
+│   │           │       │   ├── dtos/           <-- Data Transfer Objects (con validación propia)
+│   │           │       │   ├── entities/       <-- Modelos de dominio puros
+│   │           │       │   └── interfaces/     <-- Enums y tipos de las entidades
+│   │           │       └── infrastructure/     <-- Capa de detalles técnicos (APIs)
+│   │           │           ├── datasources/    <-- Implementación de peticiones HTTP
+│   │           │           ├── mappers/        <-- Transforman Data cruda (JSON) -> Entities puras
+│   │           │           ├── repositories/   <-- Puente: Implementa los domain datasources usando infra datasources
+│   │           │           └── schemas/        <-- Esquemas locales de Zod para mapeo
 │   │           └── shared/             <-- Lógica compartida entre aplicaciones
 │   │               └── indentity/
 │   │                   ├── application/
@@ -81,4 +109,4 @@ A continuación se presenta la jerarquía de carpetas del monorepositorio, estru
 | **`Domain`** | El núcleo del negocio. Estructuras de datos puras (Entidades) que no saben nada de bases de datos o APIs externas. | **Enterprise Business Rules**: Define contratos (Interfaces) e implementa Entidades/DTOs estables. Sin dependencias de terceros. |
 | **`Application`** | El coordinador. Define *qué* hace el sistema agrupando la lógica de negocio y usándola paso a paso (Casos de uso). | **Application Business Rules (Use Cases)**: Orquesta las interacciones del Dominio con la Infraestructura para lograr un objetivo de negocio. |
 | **`Infrastructure`** | El traductor con el mundo exterior. Aquí adaptamos las APIs, manejamos fetch/axios y mapeamos los datos para que el dominio los entienda. | **Frameworks & Drivers**: Implementa los contratos del Dominio usando tecnologías específicas. Contiene Repositorios concretos, Mappers y llamadas HTTP. |
-| **`Presentation`** | (En apps) Componentes específicos de un módulo (ej. formulario de login). Muestran datos y detectan los clics del usuario. | **Feature-Specific UI**: Componentes React que conectan el estado de la aplicación (Hooks/Stores) y delegan las acciones a la capa Application. |
+| **`Presentation`** | (En apps) Componentes específicos de un módulo (ej. formulario de login). Muestran datos y detectan los clics del usuario. | **Feature-Specific UI**: Componentes React que conectan el estado de la aplicación (Hooks/Stores) y delegan las acciones a la capa Application. |

@@ -1,13 +1,15 @@
 import { StudentDataSource } from "@salc/core/features/admin-desk/students/domain/datasources/Student.datasource";
-import type { RegisterStudentDto, UpdateStudentDto, ChangeContractStatusDto } from "@salc/core/features/admin-desk/students/domain/dtos";
+import type {
+    RegisterStudentDto,
+    UpdateStudentDto,
+    ChangeContractStatusDto,
+} from "@salc/core/features/admin-desk/students/domain/dtos";
 import { StudentEntity } from "@salc/core/features/admin-desk/students/domain/entities/Student.entity";
 import { StudentRepository } from "@salc/core/features/admin-desk/students/domain/repositories/Student.repository";
 import type { SuccessResponse } from "@salc/core/interfaces";
 
 export class StudentRepositoryImpl implements StudentRepository {
-    constructor(
-        private readonly studentDataSource: StudentDataSource
-    ) { }
+    constructor(private readonly studentDataSource: StudentDataSource) {}
 
     register(dto: RegisterStudentDto): Promise<SuccessResponse<StudentEntity>> {
         return this.studentDataSource.register(dto);

@@ -1,20 +1,29 @@
-import { studentModuleStatus, type StudentModuleStatus } from "@salc/core/features/admin-desk/students-level/domain/interfaces/StudentLevels.interface";
-import { certificateType, type CertificateType, studentContractStatus, type StudentContractStatus } from "@salc/core/features/admin-desk/students/domain/interfaces/Student.interface";
-import type { UserState } from "@salc/core/features/shared/indentity/domain/entities";
-import { userState } from "@salc/core/features/shared/indentity/domain/entities/UserAuthResponse.entity";
+import {
+    studentModuleStatus,
+    type StudentModuleStatus,
+} from "@salc/core/features/admin-desk/students-level/domain/interfaces/StudentLevels.interface";
+import {
+    certificateType,
+    type CertificateType,
+    studentContractStatus,
+    type StudentContractStatus,
+} from "@salc/core/features/admin-desk/students/domain/interfaces/Student.interface";
+import type { UserState } from "@salc/core/features/shared/identity/domain/entities";
+import { userState } from "@salc/core/features/shared/identity/domain/entities/UserAuthResponse.entity";
 import type { UserRoles } from "@salc/core/interfaces";
 import { userRoles } from "@salc/core/interfaces";
 
 export const Validators = {
     isEmail: (email: string): boolean => {
         const emailRegularExpression = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+
         return emailRegularExpression.test(email);
     },
 
     isStrongPassword: (password: string): boolean => {
         const isStrongPassword = password.length >= 6;
 
-        return isStrongPassword
+        return isStrongPassword;
     },
 
     isRole: (role: string): boolean => {
@@ -29,11 +38,13 @@ export const Validators = {
 
     isIdentificationCard: (identificationCard: string): boolean => {
         const identificationCardRegex: RegExp = /^[0-9]{10}$/;
+
         return identificationCardRegex.test(identificationCard);
     },
 
     isPhoneNumber: (phoneNumber: string): boolean => {
         const phoneNumberRegex: RegExp = /^[0-9]{10}$/;
+
         return phoneNumberRegex.test(phoneNumber);
     },
 
@@ -50,7 +61,7 @@ export const Validators = {
     },
 
     isBoolean: (value: any): boolean => {
-        return typeof value === 'boolean';
+        return typeof value === "boolean";
     },
 
     isDate: (value: string | undefined | null): boolean => {
@@ -62,8 +73,6 @@ export const Validators = {
     },
 
     isCertificateType: (certificate: string): boolean => {
-
         return Object.values(certificateType).includes(certificate as CertificateType);
-    }
-
+    },
 };

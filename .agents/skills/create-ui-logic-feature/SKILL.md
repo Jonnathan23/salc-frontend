@@ -25,13 +25,14 @@ When the user asks to create UI logic for a feature (e.g., "Product"), generate 
 
 #### Step 1: Presentation - Interfaces (View Models)
 
-Generate the `BaseFormValues` interface representing the raw, flexible state of the UI form.
+Generate the `BaseFormValues` interface representing the raw, flexible state of the UI form. Note that the UI manages flexible types like `Date` whereas the Domain DTO might require a strict `string`.
 
 ```typescript
 // presentation/interfaces/BaseProductFormValues.interface.ts
 export interface BaseProductFormValues {
     productName: string;
-    productPrice: string; // En la UI suele manejarse como string antes de transformarse
+    productPrice: string; // En la UI suele manejarse como string en los inputs
+    releaseDate: Date; // Usamos Date en la UI, se formatea en el mapper
     stockAvailable: boolean;
 }
 ```
@@ -41,7 +42,8 @@ export interface BaseProductFormValues {
 Generate the Mapper to translate between the UI View Model and the Domain DTOs/Entities.
 
 ```typescript
-// presentation/mappers/ProductFormMapper.ts
+// presentation/mappers/ProductForm.mapper.ts
+import { format } from "date-fns";
 import type { BaseProductFormValues } from "../interfaces/BaseProductFormValues.interface";
 import { CreateProductDtoImpl, type CreateProductDto } from "@salc/core/features/admin-desk/products/domain/dtos";
 import type { ProductEntity } from "@salc/core/features/admin-desk/products/domain/entities/Product.entity";
@@ -49,9 +51,12 @@ import type { ProductEntity } from "@salc/core/features/admin-desk/products/doma
 export class ProductFormMapper {
     // Transforma los datos crudos del formulario al DTO validado
     public static toCreateDto(formValues: BaseProductFormValues): CreateProductDto {
+        const formattedReleaseDate = format(formValues.releaseDate, 'yyyy-MM-dd');
+
         return CreateProductDtoImpl.create({
             productName: formValues.productName.trim(),
             productPrice: Number(formValues.productPrice),
+            releaseDate: formattedReleaseDate,
             stockAvailable: formValues.stockAvailable
         });
     }
@@ -61,6 +66,7 @@ export class ProductFormMapper {
         return {
             productName: productEntity.productName,
             productPrice: productEntity.productPrice.toString(),
+            releaseDate: productEntity.releaseDate, // La entidad ya devuelve Date
             stockAvailable: productEntity.stockAvailable
         };
     }
@@ -74,16 +80,17 @@ Generate the TanStack Query hook that acts as the adapter for the core use case.
 ```typescript
 // application/hooks/use-cases/useCreateProduct.use.ts
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import type { UseFormReset } from "react-hook-form";
 import { ShowMessageAdapter } from "@/core/adapters/ShowMessage.adapter";
 import { createProductUseCase } from "@salc/core/features/admin-desk/products/di/ProductModule";
-import { ProductFormMapper } from "../../../presentation/mappers/ProductFormMapper";
+import { ProductFormMapper } from "../../../presentation/mappers/ProductForm.mapper";
 import type { BaseProductFormValues } from "../../../presentation/interfaces/BaseProductFormValues.interface";
 
 interface UseCreateProductProps {
-    handleSuccess: () => void;
+    reset: UseFormReset<BaseProductFormValues>;
 }
 
-export const useCreateProduct = ({ handleSuccess }: UseCreateProductProps) => {
+export const useCreateProduct = ({ reset }: UseCreateProductProps) => {
     const queryClient = useQueryClient();
 
     return useMutation({
@@ -95,8 +102,8 @@ export const useCreateProduct = ({ handleSuccess }: UseCreateProductProps) => {
         },
         onSuccess: (successResponse) => {
             queryClient.invalidateQueries({ queryKey: ["products"] });
+            reset();
             ShowMessageAdapter.success(successResponse.message);
-            handleSuccess();
         },
         onError: (error: any) => {
             ShowMessageAdapter.error(error.message || "Ocurrió un error al crear el registro");
@@ -111,18 +118,15 @@ Generate the react-hook-form hook that manages the visual state and consumes the
 
 ```typescript
 // application/hooks/forms/useCreateProductForm.use.ts
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useCreateProduct } from "../use-cases/useCreateProduct.use";
 import type { BaseProductFormValues } from "../../../presentation/interfaces/BaseProductFormValues.interface";
 
 export const useCreateProductForm = () => {
-    // Estado local para manejar el éxito visual en la UI
-    const [submitSuccess, setSubmitSuccess] = useState(false);
-
     const defaultValues: BaseProductFormValues = {
         productName: '',
         productPrice: '',
+        releaseDate: new Date(),
         stockAvailable: true
     };
 
@@ -130,23 +134,13 @@ export const useCreateProductForm = () => {
         defaultValues
     });
 
-    const handleSuccess = () => {
-        setSubmitSuccess(true);
-        reset();
-
-        setTimeout(() => {
-            setSubmitSuccess(false);
-        }, 3000);
-    };
-
-    const { mutate: createProductMutation, isPending: isSubmitting } = useCreateProduct({ handleSuccess });
+    const { mutate: createProductMutation, isPending: isSubmitting } = useCreateProduct({ reset });
 
     const onSubmit = (formData: BaseProductFormValues) => {
         createProductMutation(formData);
     };
 
     return {
-        submitSuccess,
         errors,
         control,
         handleSubmit,

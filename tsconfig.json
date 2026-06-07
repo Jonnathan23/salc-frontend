@@ -1,0 +1,4 @@
+{
+    "files": [],
+    "references": [{ "path": "./apps/salc-portal" }, { "path": "./apps/class-track-students" }]
+}

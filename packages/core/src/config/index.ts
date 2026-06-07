@@ -1,1 +1,1 @@
-export * from '@salc/core/config/envs'
+export * from "@salc/core/config/Envs";

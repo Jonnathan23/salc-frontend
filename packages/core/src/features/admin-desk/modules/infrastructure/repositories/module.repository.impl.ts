@@ -4,11 +4,8 @@ import type { CreateModuleDto, UpdateModuleDto } from "@salc/core/features/admin
 import type { ModuleEntity } from "@salc/core/features/admin-desk/modules/domain/entities/Module.entity";
 import { type SuccessResponse } from "@salc/core/interfaces";
 
-
 export class ModuleRepositoryImpl implements ModuleRepository {
-    constructor(
-        private readonly moduleDataSource: ModuleDataSource
-    ) { }
+    constructor(private readonly moduleDataSource: ModuleDataSource) {}
 
     getAllModules(): Promise<SuccessResponse<ModuleEntity[]>> {
         return this.moduleDataSource.getAllModules();
