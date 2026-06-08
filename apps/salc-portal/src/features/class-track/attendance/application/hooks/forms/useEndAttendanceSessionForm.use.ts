@@ -1,36 +1,44 @@
 import { useEndAttendanceSession } from "@/features/class-track/attendance/application/hooks/use-cases/useEndAttendanceSession.use";
 import type { BaseEndSessionFormValues } from "@/features/class-track/attendance/presentation/interfaces/BaseEndSessionFormValues.interface";
-import { useForm } from "react-hook-form";
+import { useState } from "react";
 
 export const useEndAttendanceSessionForm = () => {
-    const defaultValues: BaseEndSessionFormValues = {
-        sessionId: "",
-        teacherId: "",
-        exitTime: new Date(),
+    const [errorForm, setErrorForm] = useState<string>("");
+
+    const verify = (checkInForm: BaseEndSessionFormValues) => {
+        if (!checkInForm.sessionId) {
+            setErrorForm("Debe ingresar el codigo de sesion");
+
+            return false;
+        }
+        if (!checkInForm.teacherId) {
+            setErrorForm("Debe ingresar el codigo de profesor");
+
+            return false;
+        }
+        if (!checkInForm.exitTime) {
+            setErrorForm("Debe ingresar la fecha de salida");
+
+            return false;
+        }
+        setErrorForm("");
+
+        return true;
     };
 
-    const {
-        register,
-        handleSubmit,
-        control,
-        formState: { errors },
-        reset,
-    } = useForm<BaseEndSessionFormValues>({
-        defaultValues,
-    });
+    const { mutate: endSessionMutation, isPending: isSubmitting } = useEndAttendanceSession();
 
-    const { mutate: endSessionMutation, isPending: isSubmitting } = useEndAttendanceSession({ reset });
+    const onSubmit = (student: BaseEndSessionFormValues) => {
+        const isValid = verify(student);
 
-    const onSubmit = (formData: BaseEndSessionFormValues) => {
-        endSessionMutation(formData);
+        if (!isValid) return;
+
+        endSessionMutation(student);
     };
 
     return {
-        errors,
-        control,
-        handleSubmit,
-        register,
-        onSubmit,
         isSubmitting,
+        errorForm,
+        onSubmit,
     };
 };

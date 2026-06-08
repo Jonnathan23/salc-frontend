@@ -26,6 +26,10 @@ const DashboardClassTrackPage = lazy(
 );
 const StudentLevelsPage = lazy(() => import("@/features/admin-desk/students-levels/presentation/pages/StudentLevels.page"));
 
+// Class track
+//const AccessControlView = lazy(() => import("@/features/class-track/attendance/presentation/pages/AccesControl.page"));
+const AccessControlView = lazy(() => import("@/features/class-track/attendance/presentation/pages/AccesControl.page"));
+
 export default function Router() {
     //TODO: redireccionar al login apenas se detecte que el JWT expiró
 
@@ -95,6 +99,7 @@ export default function Router() {
                     <Route element={<ProtectedRoute requiredPermissions={[systemPermissions.CLASSTRACK_MAIN_ACCESS]} />}>
                         <Route path="/class-track/" element={<ClassTrackLayout />}>
                             <Route path="dashboard" element={<DashboardClassTrackPage />} />
+                            <Route path="acces-control" element={<AccessControlView />} />
                         </Route>
                     </Route>
                 </Route>

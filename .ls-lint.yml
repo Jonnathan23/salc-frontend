@@ -30,7 +30,6 @@ ls:
         # Capa Presentation
         .controller.ts: PascalCase
         .worker.ts: PascalCase
-        .routes.ts: camelCase
 
     # Excepciones específicas para la capa de configuración en tus packages
     "packages/**/src/data/config/**":
@@ -55,3 +54,4 @@ ignore:
     - vite.config.ts
     - "*.json"
     - .wakatime-project
+    - "**/routes/**"

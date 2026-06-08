@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { useState } from "react";
 
 import type { BaseStartSessionFormValues } from "@/features/class-track/attendance/presentation/interfaces/BaseStartSessionFormValues.interface";
 import { useStartAttendanceSession } from "@/features/class-track/attendance/application/hooks/use-cases/useStartAttendanceSession.use";
@@ -9,28 +9,52 @@ export const useStartAttendanceSessionForm = () => {
         entryTime: new Date(),
     };
 
-    const {
-        register,
-        handleSubmit,
-        control,
-        formState: { errors },
-        reset,
-    } = useForm<BaseStartSessionFormValues>({
-        defaultValues,
-    });
+    const [startForm, setStartForm] = useState<BaseStartSessionFormValues>(defaultValues);
+    const [errorStartForm, setErrorStartForm] = useState<string>("");
 
-    const { mutate: startSessionMutation, isPending: isSubmitting } = useStartAttendanceSession({ reset });
+    const verify = (startForm: BaseStartSessionFormValues) => {
+        if (!startForm.studentId) {
+            setErrorStartForm("Debe ingresar el codigo de estudiante");
 
-    const onSubmit = (formData: BaseStartSessionFormValues) => {
-        startSessionMutation(formData);
+            return false;
+        }
+        if (!startForm.entryTime) {
+            setErrorStartForm("Debe ingresar la fecha de entrada");
+
+            return false;
+        }
+        setErrorStartForm("");
+
+        return true;
+    };
+
+    const handleChangeStartForm = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+
+        setStartForm((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
+
+    const handleReset = () => {
+        setStartForm(defaultValues);
+    };
+
+    const { mutate: startSessionMutation, isPending: isSubmittingStartForm } = useStartAttendanceSession({ reset: handleReset });
+
+    const onSubmitStartForm = () => {
+        const isValid = verify(startForm);
+
+        if (!isValid) return;
+        startSessionMutation(startForm);
     };
 
     return {
-        errors,
-        control,
-        handleSubmit,
-        register,
-        onSubmit,
-        isSubmitting,
+        startForm,
+        errorStartForm,
+        isSubmittingStartForm,
+        onSubmitStartForm,
+        handleChangeStartForm,
     };
 };
