@@ -22,7 +22,7 @@ export default function Inset({ filteredNavItems, pathname }: InsetProps) {
                     {filteredNavItems.find((item) => item.href === pathname)?.title || "dashboard"}
                 </h1>
             </header>
-            <main className="flex-1 p-6">
+            <main className="flex-1 p-6 bg-background-document/10">
                 <Suspense fallback={<AdminDeskSkeleton />}>
                     <Outlet />
                 </Suspense>
