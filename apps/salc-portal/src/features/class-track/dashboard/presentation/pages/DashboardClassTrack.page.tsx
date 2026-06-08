@@ -1,7 +1,7 @@
 import { Users, Clock, AlertTriangle, CheckCircle, BookOpen } from "lucide-react";
 
 import { useGetDashboardSummary } from "@/features/class-track/dashboard/application/hooks/use-cases/useGetDashboardSummary.use";
-import { ContractStatusBadge, ProgressCategoryBadge } from "@/core/components/class-track/shared/Badges";
+import { ContractStatusBadge } from "@/core/components/class-track/shared/Badges";
 
 interface StatCardProps {
     readonly label: string;
@@ -213,22 +213,19 @@ TODO: Construir en la version 2.0 del MVP, no es prioridad
                                         Estudiante
                                     </th>
                                     <th className="px-5 py-3 text-left text-xs font-semibold text-[var(--color-quinary)] uppercase tracking-wide">
-                                        Cedula
-                                    </th>
-                                    <th className="px-5 py-3 text-left text-xs font-semibold text-[var(--color-quinary)] uppercase tracking-wide">
-                                        Certificado
+                                        Identificador
                                     </th>
                                     <th className="px-5 py-3 text-left text-xs font-semibold text-[var(--color-quinary)] uppercase tracking-wide">
                                         Contrato
                                     </th>
                                     <th className="px-5 py-3 text-left text-xs font-semibold text-[var(--color-quinary)] uppercase tracking-wide">
-                                        Progreso
+                                        Ingreso
                                     </th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-[var(--color-tertiary)]/15">
                                 {data.studentsInClass.map((student) => (
-                                    <tr key={student.studentId} className="hover:bg-[var(--color-primary)]/10 transition-colors">
+                                    <tr key={student.sessionId} className="hover:bg-[var(--color-primary)]/10 transition-colors">
                                         <td className="px-5 py-3">
                                             <div className="flex items-center gap-3">
                                                 <div className="w-7 h-7 rounded-full bg-[var(--color-quinary)] flex items-center justify-center flex-shrink-0">
@@ -239,11 +236,12 @@ TODO: Construir en la version 2.0 del MVP, no es prioridad
                                                 <span className="font-medium text-[var(--color-font)]">{student.fullName}</span>
                                             </div>
                                         </td>
+                                        <td className="px-5 py-3 text-[var(--color-font)]">{student.studentId}</td>
                                         <td className="px-5 py-3">
                                             <ContractStatusBadge status={student.contractStatus} />
                                         </td>
-                                        <td className="px-5 py-3">
-                                            <ProgressCategoryBadge category={student.entryTime} />
+                                        <td className="px-5 py-3 text-[var(--color-font)]">
+                                            {student.entryTime.toLocaleTimeString()}
                                         </td>
                                     </tr>
                                 ))}

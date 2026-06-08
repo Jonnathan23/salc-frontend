@@ -2,8 +2,8 @@
 
 import { useState, useRef, useEffect } from "react";
 import { Search, LogIn, LogOut, Settings } from "lucide-react";
-import { mockStudents } from "@/lib/classtrack-mock-data";
-import { Student } from "@/lib/classtrack-types";
+import { mockStudents } from "./classTrackMockData";
+import type { Student } from "./classTrackTypes";
 
 interface KioskViewProps {
     onSwitchToAdmin: () => void;

@@ -12,7 +12,7 @@ import {
 } from "@salc/core/features/admin-desk/students/domain/interfaces/Student.interface";
 import { userState, type UserState } from "@salc/core/features/shared/identity/domain/entities";
 
-//import { ContractStatus, ProgressCategory, SessionStatus, AlertStatus } from '@/lib/classtrack-types';
+//import { ContractStatus, ProgressCategory, SessionStatus, AlertStatus } from '@/lib/classtrackTypes';
 
 export function ProfileStatusBadge({ status }: { status: UserState }) {
     return status === userState.ACTIVE ? (
