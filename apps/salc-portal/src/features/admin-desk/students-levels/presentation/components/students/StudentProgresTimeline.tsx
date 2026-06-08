@@ -26,6 +26,8 @@ interface StudentProgressTimelineProps {
 }
 
 export default function StudentProgressTimeline(props: StudentProgressTimelineProps) {
+    //FIXME: El filtrado no está funcionando correctamente, cuando un estudiante compra un módulo, no se refleja en la lista de módulos disponibles,
+    //ademas de que cuando se compra mas de un modulo, se repiten los mismos en la lista de modulos seleccionados
     const {
         selectedStudent,
         studentLevels,

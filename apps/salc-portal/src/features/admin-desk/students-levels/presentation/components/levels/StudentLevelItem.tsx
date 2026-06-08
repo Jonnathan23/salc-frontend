@@ -10,6 +10,7 @@ interface StudentLevelItemProps {
 }
 
 export default function StudentLevelItem({ level, cnFunction }: StudentLevelItemProps) {
+    //FIXME: Por alguna razon no se muestra el nombre del modulo
     const config = statusConfig[level.status];
     const Icon = config.icon;
 

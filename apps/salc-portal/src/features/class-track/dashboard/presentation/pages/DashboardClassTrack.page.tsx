@@ -1,28 +1,26 @@
 import { Users, Clock, AlertTriangle, CheckCircle, BookOpen } from "lucide-react";
 
 import { useGetDashboardSummary } from "@/features/class-track/dashboard/application/hooks/use-cases/useGetDashboardSummary.use";
-import { ContractStatusBadge, ProgressCategoryBadge } from "@/core/components/class-track/shared/Badges";
+import { ContractStatusBadge } from "@/core/components/class-track/shared/Badges";
 
 interface StatCardProps {
     readonly label: string;
     readonly value: number;
     readonly icon: React.ReactNode;
-    readonly color: string;
-    readonly lightColor: string;
+    readonly colorClass: string;
+    readonly bgClass: string;
 }
 
-function StatCard({ label, value, icon, color, lightColor }: StatCardProps) {
+function StatCard({ label, value, icon, colorClass, bgClass }: StatCardProps) {
     return (
-        <div className="bg-white rounded-xl border border-[var(--color-tertiary)]/30 p-5">
+        <div className="bg-card rounded-xl  p-5">
             <div className="flex items-start justify-between mb-3">
-                <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: lightColor }}>
-                    <span style={{ color }}>{icon}</span>
+                <div className={`w-9 h-9 rounded-lg flex items-center justify-center ${bgClass}`}>
+                    <span className={colorClass}>{icon}</span>
                 </div>
             </div>
-            <p className="text-3xl font-bold" style={{ color }}>
-                {value}
-            </p>
-            <p className="text-xs text-[var(--color-font)]/50 mt-1 leading-relaxed">{label}</p>
+            <p className={`text-3xl font-bold ${colorClass}`}>{value}</p>
+            <p className="text-xs text-muted-foreground mt-1 leading-relaxed">{label}</p>
         </div>
     );
 }
@@ -47,8 +45,8 @@ TODO: Construir en la version 2.0 del MVP, no es prioridad
             <div className="p-6 space-y-6">
                 {/* Page Header */}
                 <div>
-                    <h1 className="text-2xl font-bold text-[var(--color-font)]">Resumen General</h1>
-                    <p className="text-[var(--color-font)]/50 text-sm mt-0.5">
+                    <h1 className="text-2xl font-bold text-foreground">Resumen General</h1>
+                    <p className="text-muted-foreground text-sm mt-0.5">
                         {new Date().toLocaleDateString("es-VE", {
                             weekday: "long",
                             year: "numeric",
@@ -64,67 +62,67 @@ TODO: Construir en la version 2.0 del MVP, no es prioridad
                         label="Estudiantes Adentro"
                         value={data.studentsInsideCount}
                         icon={<Users className="w-5 h-5" />}
-                        color="var(--color-quinary)"
-                        lightColor="var(--color-primary)"
+                        colorClass="text-primary"
+                        bgClass="bg-primary/20"
                     />
                     <StatCard
                         label="Salidas Pendientes"
                         value={data.pendingCheckoutsCount}
                         icon={<Clock className="w-5 h-5" />}
-                        color="var(--color-sextary)"
-                        lightColor="#fde8dc"
+                        colorClass="text-secondary"
+                        bgClass="bg-secondary/20"
                     />
                     <StatCard
                         label="Alertas Activas"
                         value={data.activeAlertsCount}
                         icon={<AlertTriangle className="w-5 h-5" />}
-                        color="var(--color-quaternary)"
-                        lightColor="#f5e0d4"
+                        colorClass="text-destructive"
+                        bgClass="bg-destructive/20"
                     />
                     <StatCard
                         label="Contratos Activos"
                         value={data.activeContractsCount}
                         icon={<CheckCircle className="w-5 h-5" />}
-                        color="var(--color-septenary)"
-                        lightColor="var(--color-primary)"
+                        colorClass="text-accent-foreground"
+                        bgClass="bg-accent/20"
                     />
                 </div>
 
                 {/* Two Column Layout */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     {/* Students Currently Inside */}
-                    <div className="bg-white rounded-xl border border-[var(--color-tertiary)]/30 overflow-hidden">
-                        <div className="px-5 py-4 border-b border-[var(--color-tertiary)]/20 flex items-center justify-between">
+                    <div className="bg-card rounded-xl border-border overflow-hidden">
+                        <div className="px-5 py-4 border-b border-border flex items-center justify-between">
                             <div className="flex items-center gap-2">
-                                <Users className="w-4 h-4 text-[var(--color-quinary)]" />
-                                <h2 className="font-semibold text-[var(--color-font)] text-sm">Actualmente en Clase</h2>
+                                <Users className="w-4 h-4 text-primary" />
+                                <h2 className="font-semibold text-foreground text-sm">Actualmente en Clase</h2>
                             </div>
-                            <span className="text-xs bg-[var(--color-primary)] text-[var(--color-quinary)] font-semibold px-2 py-0.5 rounded-full">
+                            <span className="text-xs bg-primary/20 text-primary font-semibold px-2 py-0.5 rounded-full">
                                 {data.studentsInsideCount} activos
                             </span>
                         </div>
-                        <div className="divide-y divide-[var(--color-tertiary)]/15">
+                        <div className="divide-y divide-border">
                             {data.studentsInClass.map(({ sessionId, fullName, contractStatus, entryTime }) => (
                                 <div key={sessionId} className="px-5 py-3 flex items-center justify-between">
                                     <div className="flex items-center gap-3">
-                                        <div className="w-8 h-8 rounded-full bg-[var(--color-quinary)] flex items-center justify-center flex-shrink-0">
-                                            <span className="text-white text-xs font-bold">{fullName.charAt(0)}</span>
+                                        <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
+                                            <span className="text-primary-foreground text-xs font-bold">
+                                                {fullName.charAt(0)}
+                                            </span>
                                         </div>
                                         <div>
-                                            <p className="text-sm font-medium text-[var(--color-font)]">{fullName}</p>
-                                            <p className="text-xs text-[var(--color-font)]/50">{contractStatus}</p>
+                                            <p className="text-sm font-medium text-foreground">{fullName}</p>
+                                            <p className="text-xs text-muted-foreground">{contractStatus}</p>
                                         </div>
                                     </div>
                                     <div className="text-right">
-                                        <p className="text-xs font-semibold text-[var(--color-quinary)]">
-                                            Desde {entryTime.toString()}
-                                        </p>
-                                        <span className="text-[10px] text-[var(--color-font)]/40">Hoy</span>
+                                        <p className="text-xs font-semibold text-primary">Desde {entryTime.toString()}</p>
+                                        <span className="text-[10px] text-muted-foreground">Hoy</span>
                                     </div>
                                 </div>
                             ))}
                             {data.studentsInClass.length === 0 && (
-                                <div className="px-5 py-8 text-center text-[var(--color-font)]/40 text-sm">
+                                <div className="px-5 py-8 text-center text-muted-foreground text-sm">
                                     Ningun estudiante en clase actualmente
                                 </div>
                             )}
@@ -200,51 +198,47 @@ TODO: Construir en la version 2.0 del MVP, no es prioridad
                 </div>
 
                 {/* All Students Table */}
-                <div className="bg-white rounded-xl border border-[var(--color-tertiary)]/30 overflow-hidden">
-                    <div className="px-5 py-4 border-b border-[var(--color-tertiary)]/20 flex items-center gap-2">
-                        <BookOpen className="w-4 h-4 text-[var(--color-font-title)]" />
-                        <h2 className="font-semibold text-[var(--color-font)] text-sm">Directorio de Estudiantes</h2>
+                <div className="bg-card rounded-xl overflow-hidden">
+                    <div className="px-5 py-4 flex items-center gap-2">
+                        <BookOpen className="w-4 h-4 text-title" />
+                        <h2 className="font-semibold text-foreground text-sm">Directorio de Estudiantes</h2>
                     </div>
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm">
                             <thead>
-                                <tr className="bg-[var(--color-primary)]/20">
-                                    <th className="px-5 py-3 text-left text-xs font-semibold text-[var(--color-quinary)] uppercase tracking-wide">
+                                <tr className="bg-primary">
+                                    <th className="px-5 py-3 text-left text-xs font-semibold text-primary-foreground uppercase tracking-wide">
                                         Estudiante
                                     </th>
-                                    <th className="px-5 py-3 text-left text-xs font-semibold text-[var(--color-quinary)] uppercase tracking-wide">
-                                        Cedula
+                                    <th className="px-5 py-3 text-left text-xs font-semibold text-primary-foreground uppercase tracking-wide">
+                                        Identificador
                                     </th>
-                                    <th className="px-5 py-3 text-left text-xs font-semibold text-[var(--color-quinary)] uppercase tracking-wide">
-                                        Certificado
-                                    </th>
-                                    <th className="px-5 py-3 text-left text-xs font-semibold text-[var(--color-quinary)] uppercase tracking-wide">
+                                    <th className="px-5 py-3 text-left text-xs font-semibold text-primary-foreground uppercase tracking-wide">
                                         Contrato
                                     </th>
-                                    <th className="px-5 py-3 text-left text-xs font-semibold text-[var(--color-quinary)] uppercase tracking-wide">
-                                        Progreso
+                                    <th className="px-5 py-3 text-left text-xs font-semibold text-primary-foreground uppercase tracking-wide">
+                                        Ingreso
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-[var(--color-tertiary)]/15">
+                            <tbody className="divide-y divide-border">
                                 {data.studentsInClass.map((student) => (
-                                    <tr key={student.studentId} className="hover:bg-[var(--color-primary)]/10 transition-colors">
+                                    <tr key={student.sessionId} className="hover:bg-muted/50 transition-colors">
                                         <td className="px-5 py-3">
                                             <div className="flex items-center gap-3">
-                                                <div className="w-7 h-7 rounded-full bg-[var(--color-quinary)] flex items-center justify-center flex-shrink-0">
-                                                    <span className="text-white text-xs font-bold">
+                                                <div className="w-7 h-7 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
+                                                    <span className="text-primary-foreground text-xs font-bold">
                                                         {student.fullName.charAt(0)}
                                                     </span>
                                                 </div>
-                                                <span className="font-medium text-[var(--color-font)]">{student.fullName}</span>
+                                                <span className="font-medium text-foreground">{student.fullName}</span>
                                             </div>
                                         </td>
+                                        <td className="px-5 py-3 text-foreground">{student.studentId}</td>
                                         <td className="px-5 py-3">
                                             <ContractStatusBadge status={student.contractStatus} />
                                         </td>
-                                        <td className="px-5 py-3">
-                                            <ProgressCategoryBadge category={student.entryTime} />
-                                        </td>
+                                        <td className="px-5 py-3 text-foreground">{student.entryTime.toLocaleTimeString()}</td>
                                     </tr>
                                 ))}
                             </tbody>

@@ -1,8 +1,6 @@
 @import "tailwindcss";
 @source "../../../packages/ui";
 
-
-
 /* * ==========================================================================
  * SALC-PORTAL BRAND VARIABLES & SEMANTIC TOKENS
  * ==========================================================================
@@ -17,9 +15,11 @@
     --brand-teal-dark: #578f83;
     --brand-burnt-orange: #c55a24;
     --brand-teal-medium: #73bbac;
+    --brand-grey: lab(80.1381% -27.6029 0.826669);
 
     /* * MAPEO SEMÁNTICO - LIGHT MODE */
     --background: #ffffff;
+    --background-document: var(--brand-grey);
     --foreground: var(--brand-brown);
     --title: var(--brand-orange);
 
@@ -122,13 +122,13 @@
  * ==========================================================================
  */
 @theme inline {
-    --font-sans: 'Geist', 'Geist Fallback', sans-serif;
-    --font-mono: 'Geist Mono', 'Geist Mono Fallback', monospace;
+    --font-sans: "Geist", "Geist Fallback", sans-serif;
+    --font-mono: "Geist Mono", "Geist Mono Fallback", monospace;
 
     --color-background: var(--background);
     --color-foreground: var(--foreground);
-    
-    --color-title: var(--title); 
+    --color-background-document: var(--background-document);
+    --color-title: var(--title);
 
     --color-card: var(--card);
     --color-card-foreground: var(--card-foreground);
@@ -186,7 +186,12 @@
         @apply bg-background text-foreground;
     }
 
-    h1, h2, h3, h4, h5, h6 {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
         color: var(--title);
     }
 }
