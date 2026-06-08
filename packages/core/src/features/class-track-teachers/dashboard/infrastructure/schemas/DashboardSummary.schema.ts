@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const studentInClassSchema = z.object({
+export const studentInClassDashboardSchema = z.object({
     sessionId: z.string(),
     studentId: z.string(),
     fullName: z.string(),
@@ -13,5 +13,5 @@ export const dashboardSummarySchema = z.object({
     pendingCheckoutsCount: z.number(),
     activeAlertsCount: z.number(),
     activeContractsCount: z.number(),
-    studentsInClass: z.array(studentInClassSchema),
+    studentsInClass: z.array(studentInClassDashboardSchema),
 });

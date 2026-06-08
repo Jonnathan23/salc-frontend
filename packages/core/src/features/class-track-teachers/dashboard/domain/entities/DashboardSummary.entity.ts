@@ -1,4 +1,4 @@
-import type { StudentInClassEntity } from "@salc/core/features/class-track-teachers/dashboard/domain/entities/StudentInClass.entity";
+import type { StudentInClassDashboardEntity } from "@salc/core/features/class-track-teachers/dashboard/domain/entities/StudentInClass.entity";
 
 export class DashboardSummaryEntity {
     constructor(
@@ -6,6 +6,6 @@ export class DashboardSummaryEntity {
         public readonly pendingCheckoutsCount: number,
         public readonly activeAlertsCount: number,
         public readonly activeContractsCount: number,
-        public readonly studentsInClass: StudentInClassEntity[],
+        public readonly studentsInClass: StudentInClassDashboardEntity[],
     ) {}
 }
