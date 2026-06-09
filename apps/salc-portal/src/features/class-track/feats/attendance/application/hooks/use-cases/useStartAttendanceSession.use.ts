@@ -2,8 +2,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { UseFormReset } from "react-hook-form";
 import { ShowMessageAdapter } from "@/core/adapters/ShowMessage.adapter";
 import { startAttendanceSessionUseCase } from "@salc/core/features/class-track-teachers/attendance/di/AttendanceModule";
-import type { BaseStartSessionFormValues } from "@/features/class-track/attendance/presentation/interfaces/BaseStartSessionFormValues.interface";
-import { StartSessionFormMapper } from "@/features/class-track/attendance/presentation/mappers/startSessionForm.mapper";
+import type { BaseStartSessionFormValues } from "@/features/class-track/feats/attendance/presentation/interfaces/BaseStartSessionFormValues.interface";
+import { StartSessionFormMapper } from "@/features/class-track/feats/attendance/presentation/mappers/startSessionForm.mapper";
 
 interface UseStartAttendanceSessionProps {
     reset: UseFormReset<BaseStartSessionFormValues>;

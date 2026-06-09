@@ -1,5 +1,5 @@
-import { useEndAttendanceSession } from "@/features/class-track/attendance/application/hooks/use-cases/useEndAttendanceSession.use";
-import type { BaseEndSessionFormValues } from "@/features/class-track/attendance/presentation/interfaces/BaseEndSessionFormValues.interface";
+import { useEndAttendanceSession } from "@/features/class-track/feats/attendance/application/hooks/use-cases/useEndAttendanceSession.use";
+import type { BaseEndSessionFormValues } from "@/features/class-track/feats/attendance/presentation/interfaces/BaseEndSessionFormValues.interface";
 import { useState } from "react";
 
 export const useEndAttendanceSessionForm = () => {

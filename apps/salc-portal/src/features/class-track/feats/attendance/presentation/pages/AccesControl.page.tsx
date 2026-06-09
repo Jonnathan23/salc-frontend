@@ -1,41 +1,61 @@
-import { useEndAttendanceSessionForm } from "@/features/class-track/attendance/application/hooks/forms/useEndAttendanceSessionForm.use";
-import { useStartAttendanceSessionForm } from "@/features/class-track/attendance/application/hooks/forms/useStartAttendanceSessionForm.use";
-import { useGetInProgressSessions } from "@/features/class-track/attendance/application/hooks/use-cases/useGetInProgressSessions.use";
-import { useGetPendingApprovalSessions } from "@/features/class-track/attendance/application/hooks/use-cases/useGetPendingApprovalSessions.use";
-import type { BaseStudentInClass } from "@/features/class-track/attendance/presentation/interfaces/BaseStudentInClass.interface";
-import { EndSessionFormMapper } from "@/features/class-track/attendance/presentation/mappers/endSessionForm.mapper";
 import { SessionStatusBadge } from "@/core/components/class-track/shared/Badges";
 import { SessionStatus } from "@salc/core/features/class-track-teachers/attendance/domain/interfaces/AttendanceSessionStatus.interface";
 
 import { CheckCheck, PlusCircle, UserPlus } from "lucide-react";
+import { useMemo, useState } from "react";
+import { useSearchStudents } from "@/features/class-track/core/students/application/hooks/use-cases/useSearchStudents.hook";
+import { useEndAttendanceSessionForm } from "@/features/class-track/feats/attendance/application/hooks/forms/useEndAttendanceSessionForm.use";
+import { useStartAttendanceSessionForm } from "@/features/class-track/feats/attendance/application/hooks/forms/useStartAttendanceSessionForm.use";
+import { useDebounce } from "@/core/hooks/useDebounce.use";
+import type { BaseSearchStudentsFormValues } from "@/features/class-track/core/students/presentation/interfaces/BaseSearchStudentsFormValues.interface";
+import { useGetInProgressSessions } from "@/features/class-track/feats/attendance/application/hooks/use-cases/useGetInProgressSessions.use";
+import { useGetPendingApprovalSessions } from "@/features/class-track/feats/attendance/application/hooks/use-cases/useGetPendingApprovalSessions.use";
+import { ComboBox } from "@/core/components/search/ComboBox";
+import type { StudentInClassProjection } from "@salc/core/features/class-track-teachers/attendance/domain/entities/StudentInClassProjection.entity";
 
 export default function AccessControlView() {
+    //* hooks
+    const { isSubmitting } = useEndAttendanceSessionForm();
+    const { isSubmittingStartForm, onSubmitStartForm, handleSetStudentId, handleSetEntryTime } = useStartAttendanceSessionForm();
+
+    const [searchTerm, setSearchTerm] = useState("");
+    const [isComboOpen, setIsComboOpen] = useState(false);
+
+    const debouncedSearchTerm = useDebounce(searchTerm, 300);
+
+    const searchParameters: BaseSearchStudentsFormValues = {
+        searchTerm: debouncedSearchTerm.length >= 2 ? debouncedSearchTerm : "",
+    };
+
     //* Queries
     const { data: sessionsList, isLoading: isLoadingInProgress } = useGetInProgressSessions();
     const { data: pendingApprovals, isLoading: isLoadingPending } = useGetPendingApprovalSessions();
+    const { data: searchResults, isLoading: isSearching } = useSearchStudents(searchParameters);
 
-    const activeSessionsList = sessionsList ?? [];
-    const pendingApprovalsList = pendingApprovals ?? [];
+    //* memos
+    const activeSessionsList = useMemo(() => sessionsList ?? [], [sessionsList]);
+    const pendingApprovalsList = useMemo(() => pendingApprovals ?? [], [pendingApprovals]);
+    const searchStudentsList = useMemo(() => searchResults ?? [], [searchResults]);
 
-    //* hooks
-    const { isSubmitting, onSubmit } = useEndAttendanceSessionForm();
-    const { startForm, isSubmittingStartForm, onSubmitStartForm, handleChangeStartForm } = useStartAttendanceSessionForm();
-
+    //* handlers
     const handleApproveAll = () => {
-        for (const element of pendingApprovalsList) {
-            handleApproveOne(element);
-        }
+        //TODO:
+        console.error("TODO");
     };
 
-    const handleApproveOne = (student: BaseStudentInClass) => {
-        const studentBaseEndSession = EndSessionFormMapper.toBaseEndSessionFormValues(student, "TODO-teacherId");
-
-        onSubmit(studentBaseEndSession);
+    const handleApproveOne = (session: StudentInClassProjection) => {
+        //TODO:
+        console.error("TODO", session);
     };
 
-    const handleManualEntry = (e: React.FormEvent) => {
+    const handleSelectStudent = (studentId: string, identificationCard: string, fullName: string) => {
+        handleSetStudentId(studentId);
+        setSearchTerm(`${identificationCard} - ${fullName}`);
+        setIsComboOpen(false);
+    };
+
+    const handleCheckInSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-
         onSubmitStartForm();
     };
 
@@ -54,27 +74,50 @@ export default function AccessControlView() {
                             <UserPlus className="w-4 h-4 text-title" />
                             <h2 className="font-semibold text-foreground text-sm">Entrada Manual</h2>
                         </div>
-                        <form onSubmit={handleManualEntry} className="p-5 space-y-4">
+                        <form onSubmit={handleCheckInSubmit} className="p-5 space-y-4">
                             <div>
                                 <label className="block text-xs font-semibold text-foreground mb-1.5 uppercase tracking-wide">
-                                    Cedula del Estudiante
+                                    Buscar Estudiante
                                 </label>
-                                <input
-                                    type="text"
-                                    value={startForm?.studentId || ""}
-                                    onChange={(e) => handleChangeStartForm(e)}
-                                    placeholder="Ej. V-12345678"
-                                    className="w-full px-3 py-2.5 bg-background border border-input rounded-lg text-foreground text-sm focus:outline-none focus:ring-1 focus:ring-ring focus:border-ring transition-colors"
-                                />
+                                <ComboBox
+                                    value={searchTerm}
+                                    onChange={setSearchTerm}
+                                    placeholder="Buscar por cédula o nombre..."
+                                    isLoading={isSearching}
+                                    isOpen={isComboOpen}
+                                    onOpenChange={setIsComboOpen}
+                                    hasResults={!!searchStudentsList && searchStudentsList.length > 0}
+                                >
+                                    {searchStudentsList?.map((student) => (
+                                        <li
+                                            key={student.studentId}
+                                            onClick={() =>
+                                                handleSelectStudent(
+                                                    student.studentId,
+                                                    student.identificationCard,
+                                                    student.fullName,
+                                                )
+                                            }
+                                            className="px-3 py-2 cursor-pointer hover:bg-muted/50 transition-colors flex flex-col"
+                                        >
+                                            <span className="text-sm font-medium text-foreground">{student.fullName}</span>
+                                            <span className="text-xs text-muted-foreground font-mono mt-0.5">
+                                                {student.identificationCard}
+                                            </span>
+                                        </li>
+                                    ))}
+                                </ComboBox>
                             </div>
+
+                            {/* Input Oculto de Seguridad (Opcional, para debug) */}
+                            {/* <input type="hidden" value={startForm?.studentId || ""} /> */}
                             <div>
                                 <label className="block text-xs font-semibold text-foreground mb-1.5 uppercase tracking-wide">
                                     Hora de Entrada
                                 </label>
                                 <input
                                     type="time"
-                                    value={startForm?.entryTime || ""}
-                                    onChange={(e) => handleChangeStartForm(e)}
+                                    onChange={(e) => handleSetEntryTime(e.target.value)}
                                     className="w-full px-3 py-2.5 bg-background border border-input rounded-lg text-foreground text-sm focus:outline-none focus:ring-1 focus:ring-ring focus:border-ring transition-colors"
                                 />
                             </div>

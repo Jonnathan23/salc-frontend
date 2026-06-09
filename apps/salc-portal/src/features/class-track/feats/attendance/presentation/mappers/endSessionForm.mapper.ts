@@ -1,9 +1,9 @@
-import type { BaseEndSessionFormValues } from "@/features/class-track/attendance/presentation/interfaces/BaseEndSessionFormValues.interface";
+import type { BaseEndSessionFormValues } from "@/features/class-track/feats/attendance/presentation/interfaces/BaseEndSessionFormValues.interface";
 import {
     EndAttendanceSessionDtoImpl,
     type EndAttendanceSessionDto,
 } from "@salc/core/features/class-track-teachers/attendance/domain/dtos/EndAttendanceSession.dto";
-import type { BaseStudentInClass } from "@/features/class-track/attendance/presentation/interfaces/BaseStudentInClass.interface";
+import type { BaseStudentInClass } from "@/features/class-track/feats/attendance/presentation/interfaces/BaseStudentInClass.interface";
 
 export class EndSessionFormMapper {
     public static toEndSessionDto(formValues: BaseEndSessionFormValues): EndAttendanceSessionDto {

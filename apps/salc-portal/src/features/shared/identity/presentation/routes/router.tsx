@@ -28,7 +28,7 @@ const StudentLevelsPage = lazy(() => import("@/features/admin-desk/students-leve
 
 // Class track
 //const AccessControlView = lazy(() => import("@/features/class-track/attendance/presentation/pages/AccesControl.page"));
-const AccessControlView = lazy(() => import("@/features/class-track/attendance/presentation/pages/AccesControl.page"));
+const AccessControlView = lazy(() => import("@/features/class-track/feats/attendance/presentation/pages/AccesControl.page"));
 
 export default function Router() {
     //TODO: redireccionar al login apenas se detecte que el JWT expiró

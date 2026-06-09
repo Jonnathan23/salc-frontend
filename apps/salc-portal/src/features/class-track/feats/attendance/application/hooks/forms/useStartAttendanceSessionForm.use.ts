@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-import type { BaseStartSessionFormValues } from "@/features/class-track/attendance/presentation/interfaces/BaseStartSessionFormValues.interface";
-import { useStartAttendanceSession } from "@/features/class-track/attendance/application/hooks/use-cases/useStartAttendanceSession.use";
+import type { BaseStartSessionFormValues } from "@/features/class-track/feats/attendance/presentation/interfaces/BaseStartSessionFormValues.interface";
+import { useStartAttendanceSession } from "@/features/class-track/feats/attendance/application/hooks/use-cases/useStartAttendanceSession.use";
 
 export const useStartAttendanceSessionForm = () => {
     const defaultValues: BaseStartSessionFormValues = {
@@ -28,13 +28,14 @@ export const useStartAttendanceSessionForm = () => {
         return true;
     };
 
-    const handleChangeStartForm = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
+    const handleSetStudentId = (studentId: string) => {
+        setStartForm((prev) => ({ ...prev, studentId }));
+    };
 
-        setStartForm((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
+    const handleSetEntryTime = (entryTime: string) => {
+        const entryDate = new Date(entryTime);
+
+        setStartForm((prev) => ({ ...prev, entryTime: entryDate }));
     };
 
     const handleReset = () => {
@@ -55,6 +56,7 @@ export const useStartAttendanceSessionForm = () => {
         errorStartForm,
         isSubmittingStartForm,
         onSubmitStartForm,
-        handleChangeStartForm,
+        handleSetStudentId,
+        handleSetEntryTime,
     };
 };

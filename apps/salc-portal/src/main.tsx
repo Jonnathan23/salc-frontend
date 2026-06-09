@@ -4,9 +4,10 @@ import { ToastContainer } from "react-toastify";
 import { QueryClientProvider } from "@tanstack/react-query";
 
 import "./index.css";
-import Router from "@/features/shared/identity/presentation/routes/Router";
+
 import { loadCoreEnvs } from "@/core/config/envsLocal";
 import { createQueryClient } from "@/core/config/queryClient";
+import Router from "@/features/shared/identity/presentation/routes/router";
 
 loadCoreEnvs();
 

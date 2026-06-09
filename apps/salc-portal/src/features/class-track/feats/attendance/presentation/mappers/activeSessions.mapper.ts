@@ -1,5 +1,5 @@
 import type { StudentInClassProjection } from "@salc/core/features/class-track-teachers/attendance/domain/entities/StudentInClassProjection.entity";
-import type { BaseStudentInClass } from "@/features/class-track/attendance/presentation/interfaces/BaseStudentInClass.interface";
+import type { BaseStudentInClass } from "@/features/class-track/feats/attendance/presentation/interfaces/BaseStudentInClass.interface";
 
 export class ActiveSessionsMapper {
     public static toBaseStudentInClass(entity: StudentInClassProjection): BaseStudentInClass {

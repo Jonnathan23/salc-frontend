@@ -1,5 +1,5 @@
 import { CustomError } from "@salc/core/enums";
-import { type ErrorResponse, type FormattedErrorResponse, type Api } from "@salc/core/interfaces";
+import { type ErrorResponse, type FormattedErrorResponse, type Api, type HttpConfig } from "@salc/core/interfaces";
 import axios, { AxiosError, type AxiosInstance, type AxiosResponse } from "axios";
 import type { EntityValidator } from "@salc/core/interfaces/EntityValidator";
 
@@ -81,20 +81,41 @@ export class ApiAxios implements Api {
 
     //* Public Methods
 
-    public async get<ResponseType>(url: string): Promise<ResponseType> {
-        return this.apiInstance.get<ResponseType>(url).then((response) => response.data);
+    public async get<ResponseType>(url: string, config?: HttpConfig): Promise<ResponseType> {
+        // TRADUCCIÓN VITAL: Pasamos de 'parameters' (nuestro dominio) a 'params' (lo que exige Axios)
+        // eslint-disable-next-line unicorn/prevent-abbreviations
+        const axiosConfig = config ? { ...config, params: config.parameters } : undefined;
+
+        return this.apiInstance.get<ResponseType>(url, axiosConfig).then((response) => response.data);
     }
 
-    public async post<ResponseType, RequestDataType>(url: string, data: RequestDataType): Promise<ResponseType> {
-        return this.apiInstance.post<ResponseType>(url, data).then((response) => response.data);
+    public async post<ResponseType, RequestDataType>(
+        url: string,
+        data: RequestDataType,
+        config?: HttpConfig,
+    ): Promise<ResponseType> {
+        // eslint-disable-next-line unicorn/prevent-abbreviations
+        const axiosConfig = config ? { ...config, params: config.parameters } : undefined;
+
+        return this.apiInstance.post<ResponseType>(url, data, axiosConfig).then((response) => response.data);
     }
 
-    public async patch<ResponseType, RequestDataType>(url: string, data: RequestDataType): Promise<ResponseType> {
-        return this.apiInstance.patch<ResponseType>(url, data).then((response) => response.data);
+    public async patch<ResponseType, RequestDataType>(
+        url: string,
+        data: RequestDataType,
+        config?: HttpConfig,
+    ): Promise<ResponseType> {
+        // eslint-disable-next-line unicorn/prevent-abbreviations
+        const axiosConfig = config ? { ...config, params: config.parameters } : undefined;
+
+        return this.apiInstance.patch<ResponseType>(url, data, axiosConfig).then((response) => response.data);
     }
 
-    public async delete<ResponseType>(url: string): Promise<ResponseType> {
-        return this.apiInstance.delete<ResponseType>(url).then((response) => response.data);
+    public async delete<ResponseType>(url: string, config?: HttpConfig): Promise<ResponseType> {
+        // eslint-disable-next-line unicorn/prevent-abbreviations
+        const axiosConfig = config ? { ...config, params: config.parameters } : undefined;
+
+        return this.apiInstance.delete<ResponseType>(url, axiosConfig).then((response) => response.data);
     }
 
     public setBaseUrl(baseUrl: string): void {

@@ -1,4 +1,4 @@
-import type { BaseStartSessionFormValues } from "@/features/class-track/attendance/presentation/interfaces/BaseStartSessionFormValues.interface";
+import type { BaseStartSessionFormValues } from "@/features/class-track/feats/attendance/presentation/interfaces/BaseStartSessionFormValues.interface";
 import {
     StartAttendanceSessionDtoImpl,
     type StartAttendanceSessionDto,

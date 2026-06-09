@@ -13,7 +13,7 @@ import {
 import type { StudentInClassMapper } from "@salc/core/features/class-track-teachers/attendance/infrastructure/mappers/studentInClass.mapper";
 
 export class AttendanceSessionDataSourceImpl implements AttendanceSessionDataSource {
-    private readonly baseUrl = "/api/attendance";
+    private readonly baseUrl = "/attendance";
     private readonly urlTypeAttendance = {
         [SessionStatus.InProgress]: "in-progress",
         [SessionStatus.PendingApproval]: "pending-approval",
