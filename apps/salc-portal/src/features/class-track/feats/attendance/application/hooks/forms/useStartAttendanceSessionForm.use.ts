@@ -33,7 +33,10 @@ export const useStartAttendanceSessionForm = () => {
     };
 
     const handleSetEntryTime = (entryTime: string) => {
-        const entryDate = new Date(entryTime);
+        const [hours, minutes] = entryTime.split(":").map(Number);
+        const entryDate = new Date();
+
+        entryDate.setHours(hours, minutes, 0, 0);
 
         setStartForm((prev) => ({ ...prev, entryTime: entryDate }));
     };
@@ -48,6 +51,7 @@ export const useStartAttendanceSessionForm = () => {
         const isValid = verify(startForm);
 
         if (!isValid) return;
+
         startSessionMutation(startForm);
     };
 

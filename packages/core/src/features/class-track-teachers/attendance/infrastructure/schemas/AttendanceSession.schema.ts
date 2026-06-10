@@ -8,7 +8,7 @@ export const attendanceSessionSchema = z.object({
     atSeEntryTime: z.string().or(z.date()),
     atSeExitTime: z.string().or(z.date()).nullable(),
     atSeTotalMinutes: z.number().nullable(),
-    atSeStatus: z.enum(["Active", "Closed", "ClosedSystem"]),
+    atSeStatus: z.enum(["IN_PROGRESS", "PENDING_APPROVAL", "APPROVED"]),
 });
 
 export const arrayAttendanceSessionsSchema = z.array(attendanceSessionSchema);

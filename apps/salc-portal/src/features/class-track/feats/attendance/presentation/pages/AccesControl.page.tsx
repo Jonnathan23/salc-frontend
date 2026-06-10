@@ -166,9 +166,6 @@ export default function AccessControlView() {
                                             Estudiante
                                         </th>
                                         <th className="px-5 py-3 text-left text-xs font-semibold text-primary-foreground uppercase tracking-wide">
-                                            Cedula
-                                        </th>
-                                        <th className="px-5 py-3 text-left text-xs font-semibold text-primary-foreground uppercase tracking-wide">
                                             Entrada
                                         </th>
                                         <th className="px-5 py-3 text-left text-xs font-semibold text-primary-foreground uppercase tracking-wide">
@@ -189,11 +186,8 @@ export default function AccessControlView() {
                                                     <span className="font-medium text-foreground">{session.fullName}</span>
                                                 </div>
                                             </td>
-                                            <td className="px-5 py-3 text-muted-foreground font-mono text-xs">
-                                                {session.studentId}
-                                            </td>
-                                            <td className="px-5 py-3 font-semibold text-primary-foreground">
-                                                {session.entryTime.toString()}
+                                            <td className="px-8 py-3 font-semibold text-primary-foreground">
+                                                {session.entryTime}
                                             </td>
                                             <td className="px-5 py-3">
                                                 <SessionStatusBadge status={SessionStatus.InProgress} />

@@ -19,9 +19,14 @@ export class StudentInClassMapperImpl implements StudentInClassMapper {
 
         const validationResponse = this.validator.validate(rawObject);
 
-        const { sessionId, studentId, fullName, contractStatus, entryTime } = validationResponse;
+        const { sessionId, studentId, fullName, sessionStatus, entryTime } = validationResponse;
 
-        return new StudentInClassProjection(sessionId, studentId, fullName, contractStatus, entryTime);
+        const date = new Date(entryTime);
+        const hours = String(date.getHours()).padStart(2, "0");
+        const minutes = String(date.getMinutes()).padStart(2, "0");
+        const formattedTime = `${hours}:${minutes}`;
+
+        return new StudentInClassProjection(sessionId, studentId, fullName, sessionStatus, formattedTime);
     }
 
     toArrayEntities(rawArray: StudentInClassMapperrProps[]): StudentInClassProjection[] {
