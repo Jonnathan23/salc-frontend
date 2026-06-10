@@ -1,9 +1,9 @@
-import type { StudentContractStatus } from "@salc/core/features/admin-desk/students/domain/interfaces/Student.interface";
+import type { AttendanceSessionStatus } from "@salc/core/features/class-track-teachers/attendance/domain/interfaces/AttendanceSessionStatus.interface";
 
 export interface BaseStudentInClass {
     sessionId: string;
     studentId: string;
     fullName: string;
-    contractStatus: StudentContractStatus;
-    entryTime: Date;
+    sessionStatus: AttendanceSessionStatus;
+    entryTime: string;
 }
