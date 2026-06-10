@@ -1,8 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { purchaseModulesUseCase } from "@salc/core/features/admin-desk/students-level/di/StudentLevelModule";
-import { StudentLevelFormMapper } from "../../../presentation/mappers/StudentLevelFormMapper";
-import type { BaseStudentLevelFormValues } from "../../../presentation/interfaces/BaseStudentLevelFormValues.interface";
+
 import { ShowMessageAdapter } from "@/core/adapters/ShowMessage.adapter";
+import type { BaseStudentLevelFormValues } from "@/features/admin-desk/students-levels/presentation/interfaces/BaseStudentLevelFormValues.interface";
+import { StudentLevelFormMapper } from "@/features/admin-desk/students-levels/presentation/mappers/StudentLevelFormMapper";
 
 interface UsePurchaseModulesProps {
     handleSuccess: () => void;
@@ -18,7 +19,14 @@ export const usePurchaseModules = ({ handleSuccess }: UsePurchaseModulesProps) =
             return await purchaseModulesUseCase.execute(validDataTransferObject);
         },
         onSuccess: (successResponse) => {
-            queryClient.invalidateQueries({ queryKey: ["get-all-student-levels"] });
+            const data = successResponse.data;
+
+            if (!data) return;
+
+            const entity = data[0];
+
+            queryClient.invalidateQueries({ queryKey: ["students-levels", "timeline", entity.studentId] });
+            queryClient.invalidateQueries({ queryKey: ["students-levels", "search"] });
             ShowMessageAdapter.success(successResponse.message || "Módulos comprados exitosamente");
             handleSuccess();
         },

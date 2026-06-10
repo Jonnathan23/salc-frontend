@@ -7,7 +7,7 @@ export class ActiveSessionsMapper {
             sessionId: entity.sessionId,
             studentId: entity.studentId,
             fullName: entity.fullName,
-            contractStatus: entity.contractStatus,
+            sessionStatus: entity.sessionStatus,
             entryTime: entity.entryTime,
         };
     }
