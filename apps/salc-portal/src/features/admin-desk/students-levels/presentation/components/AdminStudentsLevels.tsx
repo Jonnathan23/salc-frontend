@@ -8,21 +8,18 @@ export default function AdminStudentsLevels() {
     // TODO: marcar cuando finaliza un nivel
 
     const {
-        //states
         searchQuery,
-        selectedStudent,
+        isComboOpen,
         modulesSelectedForUpsell,
-        //Queries - loading
         isLoadingStudents,
-        // Memos
-        canUserPurchaseModules,
-        filteredStudents,
-        studentLevels,
-        availableModulesForUpsell,
         isLoadingProgressTimeline,
         isLoadingPurchaseModules,
-        totalStudents,
-        // handlers
+        canUserPurchaseModules,
+        filteredStudents,
+        studentTimelineInfo,
+        studentLevels,
+        availableModulesForUpsell,
+        setIsComboOpen,
         handleSelectStudent,
         handleSearchStudent,
         handleAddModulesForUpsell,
@@ -36,18 +33,17 @@ export default function AdminStudentsLevels() {
             {/* Student Search and List */}
             <SearchStudent
                 searchQuery={searchQuery}
+                isComboOpen={isComboOpen}
                 filteredStudents={filteredStudents}
-                selectedStudent={selectedStudent}
-                totalStudentLevels={totalStudents}
                 isLoading={isLoadingStudents}
                 handleSearchStudent={handleSearchStudent}
                 handleSelectStudent={handleSelectStudent}
-                cnFunction={cnFunction}
+                setIsComboOpen={setIsComboOpen}
             />
 
             {/* Student Progress Timeline */}
             <StudentProgressTimeline
-                selectedStudent={selectedStudent}
+                studentTimelineInfo={studentTimelineInfo}
                 studentLevels={studentLevels}
                 modulesSelectedForUpsell={modulesSelectedForUpsell}
                 availableModulesForUpsell={availableModulesForUpsell}

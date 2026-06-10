@@ -1,16 +1,19 @@
 import type { ClassValue } from "class-variance-authority/types";
 import { useMemo, useState } from "react";
 
-import type { StudentEntity } from "@salc/core/features/admin-desk/students/domain/entities/Student.entity";
-import type { ModuleEntity } from "@salc/core/features/admin-desk/modules/domain/entities/Module.entity";
 import { cn } from "@salc/ui/lib/utils";
 
-import { useGetAllStudentLevels, usePurchaseModules } from "@/features/admin-desk/students-levels/application/hooks/use-cases";
-import { useGetAllStudents } from "@/features/admin-desk/students/application/hooks";
-import { useGetAllModules } from "@/features/admin-desk/modules/application/hooks";
+import { usePurchaseModules } from "@/features/admin-desk/students-levels/application/hooks/use-cases";
 import type { BaseStudentLevelFormValues } from "@/features/admin-desk/students-levels/presentation/interfaces/BaseStudentLevelFormValues.interface";
 import { useAuthStore } from "@/features/shared/identity/application/store/auth.store";
 import { systemPermissions } from "@salc/core/enums/Permissions";
+
+import { useDebounce } from "@/core/hooks/useDebounce.use";
+import { useSearchStudentsLevels } from "@/features/admin-desk/students-levels/application/hooks/use-cases/useSearchStudentsLevels.hook";
+import { useGetStudentTimeline } from "@/features/admin-desk/students-levels/application/hooks/use-cases/useGetStudentTimeline.hook";
+
+import type { SearchStudentsLevelsDto } from "@salc/core/features/admin-desk/students-level/domain/dtos/SearchStudentsLevels.dto";
+import type { TimelineAvailableModule } from "@salc/core/features/admin-desk/students-level/domain/entities/StudentTimelineProjection.entity";
 
 export const useAdminStudentsLevels = () => {
     //* Store
@@ -18,17 +21,25 @@ export const useAdminStudentsLevels = () => {
 
     //* States
     const [searchQuery, setSearchQuery] = useState("");
-    const [selectedStudent, setSelectedStudent] = useState<StudentEntity | null>(null);
-    const [modulesSelectedForUpsell, setModulesSelectedForUpsell] = useState<ModuleEntity[]>([]);
+    const [isComboOpen, setIsComboOpen] = useState(false);
+    const [selectedStudentId, setSelectedStudentId] = useState<string | null>(null);
+    const [modulesSelectedForUpsell, setModulesSelectedForUpsell] = useState<TimelineAvailableModule[]>([]);
+
+    //* Debounce
+    const debouncedSearchQuery = useDebounce(searchQuery, 300);
+    const searchParameters: SearchStudentsLevelsDto | null =
+        debouncedSearchQuery.length >= 2
+            ? {
+                  searchTerm: debouncedSearchQuery,
+                  limit: 10,
+              }
+            : null;
 
     //* Queries
-    const { data: responseStudents, isLoading: isLoadingStudents } = useGetAllStudents();
-    const { data: responseModules, isLoading: isLoadingModules } = useGetAllModules();
-    const { data: responseStudentLevels, isLoading: isLoadingStudentLevels } = useGetAllStudentLevels(selectedStudent?.id || "");
+    const { data: searchResults, isLoading: isLoadingStudents } = useSearchStudentsLevels(searchParameters);
+    const { data: timelineData, isLoading: isLoadingProgressTimeline } = useGetStudentTimeline(selectedStudentId);
 
     //* Memos
-    const allStudents = useMemo(() => responseStudents?.data || [], [responseStudents]);
-
     const canUserPurchaseModules = useMemo(() => {
         if (!userResponse) return false;
         if (!userResponse.permissions) return false;
@@ -36,51 +47,27 @@ export const useAdminStudentsLevels = () => {
         return userResponse.permissions.includes(systemPermissions.ADMINDESK_CONTRACTS_WRITE);
     }, [userResponse]);
 
-    const filteredStudents = useMemo(() => {
-        if (isLoadingStudents || !allStudents || allStudents.length === 0) return [];
-        if (!searchQuery.trim()) return allStudents;
-
-        const query = searchQuery.toLowerCase();
-
-        return allStudents.filter(
-            (student) =>
-                student.fullName.toLowerCase().includes(query) ||
-                student.identificationCard.toLowerCase().includes(query) ||
-                student.phoneNumber.includes(query) ||
-                student.email.toLowerCase().includes(query),
-        );
-    }, [searchQuery, isLoadingStudents, allStudents]);
-
-    const studentLevels = useMemo(() => responseStudentLevels?.data || [], [responseStudentLevels]);
-    const allEnglishModules = useMemo(() => responseModules?.data || [], [responseModules]);
-
-    const availableModulesForUpsell: ModuleEntity[] = useMemo(() => {
-        if (isLoadingStudents || !allEnglishModules || !studentLevels) return [];
-
-        return allEnglishModules.filter((module) => {
-            return !studentLevels.some((studentLevel) => studentLevel.module.moduleId === module.moduleId);
-        });
-    }, [isLoadingStudents, allEnglishModules, studentLevels]);
-
-    const isLoadingProgressTimeline = useMemo(
-        () => isLoadingModules || isLoadingStudentLevels,
-        [isLoadingModules, isLoadingStudentLevels],
-    );
+    const filteredStudents = useMemo(() => searchResults ?? [], [searchResults]);
+    const studentTimelineInfo = useMemo(() => timelineData?.studentInfo ?? null, [timelineData]);
+    const studentLevels = useMemo(() => timelineData?.enrolledLevels ?? [], [timelineData]);
+    const availableModulesForUpsell = useMemo(() => timelineData?.availableModules ?? [], [timelineData]);
 
     //* Adapters
     const cnFunction = (...inputs: ClassValue[]): string => cn(...inputs);
 
     //* Handlers
-    const handleSelectStudent = (student: StudentEntity) => {
-        setSelectedStudent(student);
+    const handleSelectStudent = (studentId: string, identificationCard: string, fullName: string) => {
+        setSelectedStudentId(studentId);
+        setSearchQuery(`${identificationCard} - ${fullName}`);
+        setIsComboOpen(false);
         setModulesSelectedForUpsell([]);
     };
 
-    const handleSearchStudent = (searchQuery: string) => {
-        setSearchQuery(searchQuery);
+    const handleSearchStudent = (query: string) => {
+        setSearchQuery(query);
     };
 
-    const handleAddModulesForUpsell = (newModule: ModuleEntity) => {
+    const handleAddModulesForUpsell = (newModule: TimelineAvailableModule) => {
         setModulesSelectedForUpsell((previousModulesSelected) => {
             if (previousModulesSelected.some((moduleSelected) => moduleSelected.moduleId === newModule.moduleId))
                 return previousModulesSelected;
@@ -89,7 +76,7 @@ export const useAdminStudentsLevels = () => {
         });
     };
 
-    const handleRemoveModulesForUpsell = (removeModule: ModuleEntity) => {
+    const handleRemoveModulesForUpsell = (removeModule: TimelineAvailableModule) => {
         setModulesSelectedForUpsell((previousModulesSelected) =>
             previousModulesSelected.filter((moduleSelected) => moduleSelected.moduleId !== removeModule.moduleId),
         );
@@ -100,7 +87,7 @@ export const useAdminStudentsLevels = () => {
     };
 
     const handleValidation = (): boolean => {
-        if (!selectedStudent) return false;
+        if (!selectedStudentId) return false;
         if (!userResponse?.userId) return false;
         if (modulesSelectedForUpsell.length === 0) return false;
 
@@ -115,7 +102,7 @@ export const useAdminStudentsLevels = () => {
 
         const moduleIds = modulesSelectedForUpsell.map((module) => module.moduleId);
         const formValues: BaseStudentLevelFormValues = {
-            studentId: selectedStudent!.id,
+            studentId: selectedStudentId!,
             sellerId: userResponse!.userId,
             moduleIds: moduleIds,
         };
@@ -126,21 +113,22 @@ export const useAdminStudentsLevels = () => {
     return {
         //states
         userResponse,
-        //states
         searchQuery,
-        selectedStudent,
+        isComboOpen,
+        selectedStudentId,
         modulesSelectedForUpsell,
         //Queries - loading
         isLoadingStudents,
+        isLoadingProgressTimeline,
+        isLoadingPurchaseModules,
         // Memos
         canUserPurchaseModules,
         filteredStudents,
+        studentTimelineInfo,
         studentLevels,
         availableModulesForUpsell,
-        isLoadingProgressTimeline,
-        isLoadingPurchaseModules,
-        totalStudents: studentLevels.length,
         // handlers
+        setIsComboOpen,
         handleSelectStudent,
         handleSearchStudent,
         handleAddModulesForUpsell,

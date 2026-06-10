@@ -1,17 +1,16 @@
 import { Button } from "@/core/components/ui/admin-desk/buttons/Button";
-import type { ModuleEntity } from "@salc/core/features/admin-desk/modules/domain/entities/Module.entity";
+import type { TimelineAvailableModule } from "@salc/core/features/admin-desk/students-level/domain/entities/StudentTimelineProjection.entity";
 import { X } from "lucide-react";
 
 interface ModulesSelectedForUpsellItemProps {
-    module: ModuleEntity;
+    readonly module: TimelineAvailableModule;
 
-    handleRemoveModulesForUpsell: (removeModule: ModuleEntity) => void;
+    readonly handleRemoveModulesForUpsell: (removeModule: TimelineAvailableModule) => void;
 }
 
-export default function ModulesSelectedForUpsellItem({
-    module,
-    handleRemoveModulesForUpsell,
-}: ModulesSelectedForUpsellItemProps) {
+export default function ModulesSelectedForUpsellItem(props: ModulesSelectedForUpsellItemProps) {
+    const { module, handleRemoveModulesForUpsell } = props;
+
     return (
         <div className="flex items-center justify-between rounded-lg border p-3">
             <div>

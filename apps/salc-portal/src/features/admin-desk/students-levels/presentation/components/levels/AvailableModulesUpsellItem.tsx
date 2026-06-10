@@ -1,12 +1,12 @@
 import { Plus } from "lucide-react";
 
 import { Button } from "@/core/components/ui/admin-desk/buttons/Button";
-import type { ModuleEntity } from "@salc/core/features/admin-desk/modules/domain/entities/Module.entity";
+import type { TimelineAvailableModule } from "@salc/core/features/admin-desk/students-level/domain/entities/StudentTimelineProjection.entity";
 
 interface AvailableModulesForUpsellProps {
-    module: ModuleEntity;
-    modulesSelectedForUpsell: ModuleEntity[];
-    handleAddModulesForUpsell: (newModule: ModuleEntity) => void;
+    module: TimelineAvailableModule;
+    modulesSelectedForUpsell: TimelineAvailableModule[];
+    handleAddModulesForUpsell: (newModule: TimelineAvailableModule) => void;
 }
 
 export default function AvailableModulesForUpsell({

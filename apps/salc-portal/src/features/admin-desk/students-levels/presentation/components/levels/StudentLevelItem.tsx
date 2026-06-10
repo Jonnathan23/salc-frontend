@@ -1,22 +1,21 @@
 import { Badge } from "@/core/components/ui/Badge";
 import { statusConfig } from "@/features/admin-desk/students-levels/presentation/enums/statusConfig";
-import type { StudentLevelDetailsEntity } from "@salc/core/features/admin-desk/students-level/domain/entities";
+import type { TimelineEnrolledLevel } from "@salc/core/features/admin-desk/students-level/domain/entities/StudentTimelineProjection.entity";
 import { studentModuleStatus } from "@salc/core/features/admin-desk/students-level/domain/interfaces/StudentLevels.interface";
 import type { ClassValue } from "class-variance-authority/types";
 
 interface StudentLevelItemProps {
-    level: StudentLevelDetailsEntity;
+    level: TimelineEnrolledLevel;
 
     cnFunction: (...inputs: ClassValue[]) => string;
 }
 
 export default function StudentLevelItem({ level, cnFunction }: StudentLevelItemProps) {
-    //FIXME: Por alguna razon no se muestra el nombre del modulo
     const config = statusConfig[level.status];
     const Icon = config.icon;
 
     return (
-        <div key={level.id} className="relative flex items-start gap-4">
+        <div key={level.contractId} className="relative flex items-start gap-4">
             <div
                 className={cnFunction(
                     "absolute -left-6 flex h-4 w-4 items-center justify-center rounded-full border-2 bg-background",
