@@ -6,6 +6,6 @@ export class StudentInClassProjection {
         public readonly studentId: string,
         public readonly fullName: string,
         public readonly sessionStatus: AttendanceSessionStatus,
-        public readonly entryTime: Date,
+        public readonly entryTime: string,
     ) {}
 }
