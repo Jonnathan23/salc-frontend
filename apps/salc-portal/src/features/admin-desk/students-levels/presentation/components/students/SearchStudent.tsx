@@ -1,62 +1,23 @@
-import { Loader2, Search } from "lucide-react";
+import { Search } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/core/components/ui/Card";
-import { Input } from "@/core/components/ui/Input";
-import type { StudentEntity } from "@salc/core/features/admin-desk/students/domain/entities/Student.entity";
-import type { ClassValue } from "class-variance-authority/types";
+import { ComboBox } from "@/core/components/search/ComboBox";
+import type { StudentSearchProjectionEntity } from "@salc/core/features/admin-desk/students-level/domain/entities/StudentSearchProjection.entity";
 
 interface SearchStudentProps {
-    searchQuery: string;
-    filteredStudents: StudentEntity[];
-    selectedStudent: StudentEntity | null;
-    totalStudentLevels: number;
-    isLoading: boolean;
+    readonly searchQuery: string;
+    readonly isComboOpen: boolean;
+    readonly filteredStudents: StudentSearchProjectionEntity[];
+    readonly isLoading: boolean;
 
     handleSearchStudent: (searchQuery: string) => void;
-    handleSelectStudent: (student: StudentEntity) => void;
-    cnFunction: (...inputs: ClassValue[]) => string;
+    handleSelectStudent: (studentId: string, identificationCard: string, fullName: string) => void;
+    setIsComboOpen: (isOpen: boolean) => void;
 }
 
 export default function SearchStudent(props: SearchStudentProps) {
-    const {
-        searchQuery,
-        filteredStudents,
-        selectedStudent,
-        totalStudentLevels,
-        isLoading,
-        handleSearchStudent,
-        handleSelectStudent,
-        cnFunction,
-    } = props;
-
-    const renderContent = () => {
-        if (isLoading) {
-            return (
-                <p className="flex items-center justify-center">
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Cargando estudiantes...
-                </p>
-            );
-        }
-
-        if (filteredStudents.length === 0) {
-            return <p className="py-4 text-center text-sm text-muted-foreground">No se encontraron estudiantes</p>;
-        }
-
-        return filteredStudents.map((student) => (
-            <button
-                key={student.id}
-                onClick={() => handleSelectStudent(student)}
-                className={cnFunction(
-                    "w-full rounded-lg border p-3 text-left transition-colors hover:border-primary",
-                    selectedStudent?.id === student.id ? "border-primary bg-primary/5" : "border-border",
-                )}
-            >
-                <p className="font-medium text-foreground">{student.fullName}</p>
-                <p className="text-xs text-muted-foreground">{totalStudentLevels} módulo(s) inscrito(s)</p>
-            </button>
-        ));
-    };
+    const { searchQuery, isComboOpen, filteredStudents, isLoading, handleSearchStudent, handleSelectStudent, setIsComboOpen } =
+        props;
 
     return (
         <Card className="lg:col-span-1">
@@ -67,17 +28,31 @@ export default function SearchStudent(props: SearchStudentProps) {
                 </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-                <div className="relative">
-                    <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                    <Input
-                        placeholder="Nombre o teléfono..."
+                <div>
+                    <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-foreground">Buscador</label>
+                    <ComboBox
                         value={searchQuery}
-                        onChange={(e) => handleSearchStudent(e.target.value)}
-                        className="pl-10"
-                    />
+                        onChange={handleSearchStudent}
+                        placeholder="Buscar por cédula o nombre..."
+                        isLoading={isLoading}
+                        isOpen={isComboOpen}
+                        onOpenChange={setIsComboOpen}
+                        hasResults={filteredStudents.length > 0}
+                    >
+                        {filteredStudents.map((student) => (
+                            <li
+                                key={student.id}
+                                onClick={() => handleSelectStudent(student.id, student.identificationCard, student.fullName)}
+                                className="flex cursor-pointer flex-col px-3 py-2 transition-colors hover:bg-muted/50"
+                            >
+                                <span className="text-sm font-medium text-foreground">{student.fullName}</span>
+                                <span className="mt-0.5 font-mono text-xs text-muted-foreground">
+                                    {student.identificationCard} • {student.totalEnrolledLevels} módulo(s) inscrito(s)
+                                </span>
+                            </li>
+                        ))}
+                    </ComboBox>
                 </div>
-
-                <div className="space-y-2">{renderContent()}</div>
             </CardContent>
         </Card>
     );

@@ -3,31 +3,34 @@ import { BookPlus, Calendar, Layers, Loader2, Phone, ShoppingCart, User } from "
 import AvailableModulesForUpsell from "@/features/admin-desk/students-levels/presentation/components/levels/AvailableModulesUpsellItem";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/core/components/ui/Card";
 import StudentLevelItem from "@/features/admin-desk/students-levels/presentation/components/levels/StudentLevelItem";
-import type { ModuleEntity } from "@salc/core/features/admin-desk/modules/domain/entities/Module.entity";
-import type { StudentLevelDetailsEntity } from "@salc/core/features/admin-desk/students-level/domain/entities";
-import type { StudentEntity } from "@salc/core/features/admin-desk/students/domain/entities/Student.entity";
 import type { ClassValue } from "class-variance-authority/types";
 import ModulesSelectedForUpsellItem from "@/features/admin-desk/students-levels/presentation/components/levels/ModulesSelectedUpsellItem";
 import { Button } from "@/core/components/ui/admin-desk/buttons/Button";
 
+import type {
+    TimelineStudentInfo,
+    TimelineEnrolledLevel,
+    TimelineAvailableModule,
+} from "@salc/core/features/admin-desk/students-level/domain/entities/StudentTimelineProjection.entity";
+
 interface StudentProgressTimelineProps {
-    selectedStudent: StudentEntity | null;
-    studentLevels: StudentLevelDetailsEntity[];
-    modulesSelectedForUpsell: ModuleEntity[];
-    availableModulesForUpsell: ModuleEntity[];
+    studentTimelineInfo: TimelineStudentInfo | null;
+    studentLevels: TimelineEnrolledLevel[];
+    modulesSelectedForUpsell: TimelineAvailableModule[];
+    availableModulesForUpsell: TimelineAvailableModule[];
     isLoading: boolean;
     isLoadingPurchaseModules: boolean;
     canUserPurchaseModules: boolean;
 
     cnFunction: (...inputs: ClassValue[]) => string;
-    handleAddModulesForUpsell: (newModule: ModuleEntity) => void;
-    handleRemoveModulesForUpsell: (removeModule: ModuleEntity) => void;
+    handleAddModulesForUpsell: (newModule: TimelineAvailableModule) => void;
+    handleRemoveModulesForUpsell: (removeModule: TimelineAvailableModule) => void;
     handlePurchaseModules: () => void;
 }
 
 export default function StudentProgressTimeline(props: StudentProgressTimelineProps) {
     const {
-        selectedStudent,
+        studentTimelineInfo,
         studentLevels,
         modulesSelectedForUpsell,
         availableModulesForUpsell,
@@ -60,7 +63,7 @@ export default function StudentProgressTimeline(props: StudentProgressTimelinePr
                         <div className="absolute bottom-0 left-2 top-0 w-0.5 bg-border" />
                         {isThereStudentLevels ? (
                             studentLevels.map((level) => (
-                                <StudentLevelItem key={level.id} level={level} cnFunction={cnFunction} />
+                                <StudentLevelItem key={level.contractId} level={level} cnFunction={cnFunction} />
                             ))
                         ) : (
                             <p className="text-muted-foreground">El estudiante no tiene módulos inscritos</p>
@@ -128,7 +131,7 @@ export default function StudentProgressTimeline(props: StudentProgressTimelinePr
     };
 
     const renderMainContent = () => {
-        if (!selectedStudent)
+        if (!studentTimelineInfo)
             return (
                 <div className="flex min-h-[300px] flex-col items-center justify-center text-center">
                     <Layers className="mb-4 h-12 w-12 text-muted-foreground/50" />
@@ -144,21 +147,21 @@ export default function StudentProgressTimeline(props: StudentProgressTimelinePr
                         <User className="h-4 w-4 text-muted-foreground" />
                         <div>
                             <p className="text-xs text-muted-foreground">Nombre</p>
-                            <p className="text-sm font-medium">{selectedStudent.fullName}</p>
+                            <p className="text-sm font-medium">{studentTimelineInfo.fullName}</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-2">
                         <Phone className="h-4 w-4 text-muted-foreground" />
                         <div>
                             <p className="text-xs text-muted-foreground">Teléfono</p>
-                            <p className="text-sm font-medium">{selectedStudent.phoneNumber}</p>
+                            <p className="text-sm font-medium">{studentTimelineInfo.phoneNumber}</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-2">
                         <Calendar className="h-4 w-4 text-muted-foreground" />
                         <div>
                             <p className="text-xs text-muted-foreground">Inicio</p>
-                            <p className="text-sm font-medium">{selectedStudent.startDate.toLocaleDateString("es-MX")}</p>
+                            <p className="text-sm font-medium">{studentTimelineInfo.startDate.toLocaleDateString("es-MX")}</p>
                         </div>
                     </div>
                 </div>
@@ -176,8 +179,8 @@ export default function StudentProgressTimeline(props: StudentProgressTimelinePr
                     Progreso del Estudiante
                 </CardTitle>
                 <CardDescription>
-                    {selectedStudent
-                        ? `Línea de tiempo de ${selectedStudent.fullName}`
+                    {studentTimelineInfo
+                        ? `Línea de tiempo de ${studentTimelineInfo.fullName}`
                         : "Selecciona un estudiante para ver su progreso"}
                 </CardDescription>
             </CardHeader>

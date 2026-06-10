@@ -1,17 +1,29 @@
 import { type MethodsHttp, type SuccessResponse } from "@salc/core/interfaces";
 import { CustomError } from "@salc/core/enums";
-import type { AttendanceSessionDataSource } from "@salc/core/features/class-track-teachers/attendance/domain/datasources/AttendanceSession.datasource";
+import type { AttendanceSessionDataSource } from "@salc/core/features/class-track-teachers/attendance/domain/datasources/attendanceSession.datasource";
 import type { AttendanceSessionMapper } from "@salc/core/features/class-track-teachers/attendance/infrastructure/mappers/attendanceSession.mapper";
 import type { StartAttendanceSessionDto } from "@salc/core/features/class-track-teachers/attendance/domain/dtos/StartAttendanceSession.dto";
 import type { AttendanceSessionEntity } from "@salc/core/features/class-track-teachers/attendance/domain/entities/AttendanceSession.entity";
 import type { EndAttendanceSessionDto } from "@salc/core/features/class-track-teachers/attendance/domain/dtos/EndAttendanceSession.dto";
+import type { StudentInClassProjection } from "@salc/core/features/class-track-teachers/attendance/domain/entities/StudentInClassProjection.entity";
+import {
+    SessionStatus,
+    type AttendanceSessionStatus,
+} from "@salc/core/features/class-track-teachers/attendance/domain/interfaces/AttendanceSessionStatus.interface";
+import type { StudentInClassMapper } from "@salc/core/features/class-track-teachers/attendance/infrastructure/mappers/studentInClass.mapper";
 
 export class AttendanceSessionDataSourceImpl implements AttendanceSessionDataSource {
-    private readonly baseUrl = "/api/attendance";
+    private readonly baseUrl = "/attendance";
+    private readonly urlTypeAttendance = {
+        [SessionStatus.InProgress]: "in-progress",
+        [SessionStatus.PendingApproval]: "pending-approval",
+        [SessionStatus.Approved]: "completed",
+    };
 
     constructor(
         private readonly api: MethodsHttp,
         private readonly mapper: AttendanceSessionMapper,
+        private readonly mapperStudent: StudentInClassMapper,
     ) {}
 
     async startSession(dto: StartAttendanceSessionDto): Promise<SuccessResponse<AttendanceSessionEntity>> {
@@ -45,6 +57,24 @@ export class AttendanceSessionDataSourceImpl implements AttendanceSessionDataSou
         return {
             ...rawResponse,
             data: session,
+        };
+    }
+    public async getActiveSessionsWithStudentDetails(
+        status: AttendanceSessionStatus,
+    ): Promise<SuccessResponse<StudentInClassProjection[]>> {
+        const url = `${this.baseUrl}/${this.urlTypeAttendance[status]}`;
+
+        const rawResponse = await this.api.get<SuccessResponse<StudentInClassProjection[]>>(url);
+
+        if (!rawResponse.data) {
+            throw CustomError.notFound("Could not get active sessions with student details");
+        }
+
+        const studentsInClass = this.mapperStudent.toArrayEntities(rawResponse.data);
+
+        return {
+            ...rawResponse,
+            data: studentsInClass,
         };
     }
 }

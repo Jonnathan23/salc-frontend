@@ -1,52 +1,57 @@
 ls:
-  "apps/**/src/**":
-    .dir: kebab-case
-    .ts: camelCase | PascalCase
-    .tsx: PascalCase
-  "packages/**/src/**":
-    .dir: kebab-case
-    .ts: camelCase | PascalCase
-  "{apps,packages}/**/domain/**":
-    .dto.ts: PascalCase
-    .model.ts: PascalCase
-    .projection.ts: PascalCase
-    .interface.ts: PascalCase
-    .datasource.ts: camelCase
-    .repository.ts: camelCase
-  "{apps,packages}/**/infrastructure/**":
-    .interface.ts: PascalCase
-    .datasource.impl.ts: camelCase
-    .mapper.ts: camelCase
-  "{apps,packages}/**/application/**":
-    .use-case.ts: camelCase
-  "{apps,packages}/**/presentation/**":
-    .controller.ts: PascalCase
-    .worker.ts: PascalCase
-    .routes.ts: camelCase
-  "{apps,packages}/**/src/**":
-    .hook.ts: camelCase
-    .page.tsx: PascalCase
-    .layout.tsx: PascalCase
-    .adapter.ts: PascalCase
-    .schema.ts: PascalCase
-  "packages/**/src/data/config/**":
-    .ts: camelCase | PascalCase
-  "packages/**/src/data/models/**":
-    .model.ts: PascalCase
+    # Regla maestra: Abarca todo el código fuente en tus apps y packages
+    "{apps,packages}/**/src/**":
+        .dir: kebab-case
+        .ts: camelCase | PascalCase
+        .tsx: PascalCase
+
+        # Específicos de Frontend (React / TanStack)
+        .hook.ts: camelCase
+        .page.tsx: PascalCase
+        .layout.tsx: PascalCase
+        .adapter.ts: PascalCase
+        .schema.ts: PascalCase
+
+        # Capa Domain
+        .dto.ts: PascalCase
+        .model.ts: PascalCase
+        .projection.ts: PascalCase
+        .interface.ts: PascalCase
+        .datasource.ts: camelCase
+        .repository.ts: camelCase
+
+        # Capa Infrastructure
+        .datasource.impl.ts: camelCase
+        .mapper.ts: camelCase
+
+        # Capa Application
+        .use-case.ts: camelCase
+
+        # Capa Presentation
+        .controller.ts: PascalCase
+        .worker.ts: PascalCase
+
+    # Excepciones específicas para la capa de configuración en tus packages
+    "packages/**/src/data/config/**":
+        .ts: camelCase | PascalCase
+
+    "packages/**/src/data/models/**":
+        .model.ts: PascalCase
 
 ignore:
-  - node_modules
-  - .git
-  - dist
-  - build
-  - docs
-  - .vscode
-  - scripts
-  - .agents
-  - __test__
-  - __tests__
-  - .env.local
-  - .env.template
-  - vite.config.ts
-  - "*.json"
-  - .wakatime-project
+    - node_modules
+    - .git
+    - dist
+    - build
+    - docs
+    - .vscode
+    - scripts
+    - .agents
+    - __test__
+    - __tests__
+    - .env.local
+    - .env.template
+    - vite.config.ts
+    - "*.json"
+    - .wakatime-project
+    - "**/routes/**"

@@ -1,4 +1,4 @@
-import type { DashboardDataSource } from "@salc/core/features/class-track-teachers/dashboard/domain/datasources/Dashboard.datasource";
+import type { DashboardDataSource } from "@salc/core/features/class-track-teachers/dashboard/domain/datasources/dashboard.datasource";
 import type { DashboardSummaryEntity } from "@salc/core/features/class-track-teachers/dashboard/domain/entities/DashboardSummary.entity";
 import type { DashboardSummaryMapper } from "@salc/core/features/class-track-teachers/dashboard/infrastructure/mappers/dashboardSummary.mapper";
 import { CustomError } from "@salc/core/enums";

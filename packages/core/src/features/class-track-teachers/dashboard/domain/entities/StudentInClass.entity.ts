@@ -1,6 +1,6 @@
 import type { StudentContractStatus } from "@salc/core/features/admin-desk/students/domain/interfaces";
 
-export class StudentInClassEntity {
+export class StudentInClassDashboardEntity {
     constructor(
         public readonly sessionId: string,
         public readonly studentId: string,

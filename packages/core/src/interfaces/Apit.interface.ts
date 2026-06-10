@@ -1,8 +1,13 @@
+export interface HttpConfig {
+    parameters?: Record<string, unknown>;
+    headers?: Record<string, string>;
+}
+
 export interface MethodsHttp {
-    get<ResponseType>(url: string): Promise<ResponseType>;
-    post<ResponseType, RequestDataType>(url: string, data: RequestDataType): Promise<ResponseType>;
-    patch<ResponseType, RequestDataType>(url: string, data: RequestDataType): Promise<ResponseType>;
-    delete<ResponseType>(url: string): Promise<ResponseType>;
+    get<ResponseType>(url: string, config?: HttpConfig): Promise<ResponseType>;
+    post<ResponseType, RequestDataType>(url: string, data: RequestDataType, config?: HttpConfig): Promise<ResponseType>;
+    patch<ResponseType, RequestDataType>(url: string, data: RequestDataType, config?: HttpConfig): Promise<ResponseType>;
+    delete<ResponseType>(url: string, config?: HttpConfig): Promise<ResponseType>;
 }
 
 export interface ApiSettings {

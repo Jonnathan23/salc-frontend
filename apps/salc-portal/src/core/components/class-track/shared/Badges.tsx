@@ -1,55 +1,67 @@
 "use client";
 
-import { ContractStatus, ProgressCategory, SessionStatus, AlertStatus } from "@/lib/classtrack-types";
+import {
+    studentContractStatus,
+    studentProgressCategory,
+    type StudentContractStatus,
+    type StudentProgressCategory,
+} from "@salc/core/features/admin-desk/students/domain/interfaces";
 
-export function ContractStatusBadge({ status }: { status: ContractStatus }) {
-    if (status === ContractStatus.ACTIVE) {
+import {
+    retentionAlertStatus,
+    SessionStatus,
+    type AttendanceSessionStatus,
+    type RetentionAlertStatus,
+} from "@salc/core/features/class-track-teachers/attendance/domain/interfaces/AttendanceSessionStatus.interface";
+
+export function ContractStatusBadge({ status }: { status: StudentContractStatus }) {
+    if (status === studentContractStatus.ACTIVE) {
         return (
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--color-primary)] text-[var(--color-quinary)]">
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-primary text-primary-foreground">
                 Activo
             </span>
         );
-    } else if (status === ContractStatus.FROZEN) {
+    } else if (status === studentContractStatus.FROZEN) {
         return (
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--color-tertiary)] text-[var(--color-font)]">
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-secondary text-secondary-foreground">
                 Congelado
             </span>
         );
     } else {
         return (
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--color-quaternary)] text-[var(--white)]">
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-destructive text-destructive-foreground">
                 Inactivo
             </span>
         );
     }
 }
 
-export function ProgressCategoryBadge({ category }: { category: ProgressCategory }) {
+export function ProgressCategoryBadge({ category }: { category: StudentProgressCategory }) {
     switch (category) {
-        case ProgressCategory.FAST: {
+        case studentProgressCategory.FAST: {
             return (
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--color-quinary)] text-[var(--white)]">
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-primary text-primary-foreground">
                     Avance Rapido
                 </span>
             );
         }
-        case ProgressCategory.MODERATE: {
+        case studentProgressCategory.MODERATE: {
             return (
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--color-septenary)] text-[var(--white)]">
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-accent text-accent-foreground">
                     Moderado
                 </span>
             );
         }
-        case ProgressCategory.SLOW: {
+        case studentProgressCategory.SLOW: {
             return (
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--color-sextary)] text-[var(--white)]">
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-destructive text-destructive-foreground">
                     Lento
                 </span>
             );
         }
         default: {
             return (
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--color-tertiary)] text-[var(--color-font)]">
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-muted text-muted-foreground">
                     Sin Datos
                 </span>
             );
@@ -57,45 +69,45 @@ export function ProgressCategoryBadge({ category }: { category: ProgressCategory
     }
 }
 
-export function SessionStatusBadge({ status }: { status: SessionStatus }) {
-    if (status === SessionStatus.IN_PROGRESS) {
+export function SessionStatusBadge({ status }: { status: AttendanceSessionStatus }) {
+    if (status === SessionStatus.InProgress) {
         return (
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--color-quinary)] text-[var(--white)]">
-                <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-primary text-primary-foreground">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary-foreground animate-pulse" />
                 En Curso
             </span>
         );
-    } else if (status === SessionStatus.PENDING_APPROVAL) {
+    } else if (status === SessionStatus.PendingApproval) {
         return (
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--color-sextary)] text-[var(--white)]">
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-accent text-accent-foreground">
                 Pendiente Aprobacion
             </span>
         );
     } else {
         return (
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--color-tertiary)] text-[var(--color-font)]">
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-secondary text-secondary-foreground">
                 Aprobado
             </span>
         );
     }
 }
 
-export function AlertStatusBadge({ alertStatus }: { alertStatus: AlertStatus }) {
-    if (alertStatus === AlertStatus.PENDING) {
+export function AlertStatusBadge({ alertStatus }: { alertStatus: RetentionAlertStatus }) {
+    if (alertStatus === retentionAlertStatus.Pending) {
         return (
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--color-quaternary)] text-[var(--white)]">
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-destructive text-destructive-foreground">
                 Pendiente
             </span>
         );
-    } else if (alertStatus === AlertStatus.RESOLVED) {
+    } else if (alertStatus === retentionAlertStatus.Resolved) {
         return (
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--color-primary)] text-[var(--color-font)]">
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-primary text-primary-foreground">
                 Resuelto
             </span>
         );
     } else {
         return (
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-gray-200 text-gray-700">
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-muted text-muted-foreground">
                 Cerrado / Congelado
             </span>
         );

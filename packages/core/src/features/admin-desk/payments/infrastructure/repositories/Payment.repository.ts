@@ -1,5 +1,5 @@
-import type { PaymentDataSource } from "@salc/core/features/admin-desk/payments/domain/datasources/Payment.datasource";
-import type { PaymentRepository } from "@salc/core/features/admin-desk/payments/domain/repositories/Payment.repository";
+import type { PaymentDataSource } from "@salc/core/features/admin-desk/payments/domain/datasources/payment.datasource";
+import type { PaymentRepository } from "@salc/core/features/admin-desk/payments/domain/repositories/payment.repository";
 import type { CreatePaymentPlanDto } from "@salc/core/features/admin-desk/payments/domain/dtos";
 import type { PayQuotaDto } from "@salc/core/features/admin-desk/payments/domain/dtos";
 import type { PaymentPlanEntity } from "@salc/core/features/admin-desk/payments/domain/entities";

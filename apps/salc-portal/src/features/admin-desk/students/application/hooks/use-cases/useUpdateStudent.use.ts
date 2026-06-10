@@ -1,6 +1,6 @@
 import { ShowMessageAdapter } from "@/core/adapters/ShowMessage.adapter";
 import type { BaseStudentFormValues } from "@/features/admin-desk/students/presentation/interfaces";
-import { StudentFormMapper } from "@/features/admin-desk/students/presentation/mappers/StudentForm.mapper";
+import { StudentFormMapper } from "@/features/admin-desk/students/presentation/mappers/studentForm.mapper";
 import { updateStudentUseCase } from "@salc/core/features/admin-desk/students/di/StudentModule";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 

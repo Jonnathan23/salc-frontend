@@ -5,7 +5,7 @@ import type { Dispatch, SetStateAction } from "react";
 import { registerStudentUseCase } from "@salc/core/features/admin-desk/students/di/StudentModule";
 import { ShowMessageAdapter } from "@/core/adapters/ShowMessage.adapter";
 import type { BaseStudentFormValues } from "@/features/admin-desk/students/presentation/interfaces";
-import { StudentFormMapper } from "@/features/admin-desk/students/presentation/mappers/StudentForm.mapper";
+import { StudentFormMapper } from "@/features/admin-desk/students/presentation/mappers/studentForm.mapper";
 
 interface UseRegisterStudentProps {
     setSubmitSuccess: Dispatch<SetStateAction<boolean>>;
