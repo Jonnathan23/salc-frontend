@@ -4,20 +4,18 @@ import {
     DeleteStudentLevelUseCaseImpl,
     PurchaseModulesUseCaseImpl,
 } from "@salc/core/features/admin-desk/students-level/application/use-cases";
-
 import {
     arrayStudentLevelDetailsSchema,
     studentLevelDetailsSchema,
     arrayStudentLevelSchema,
     studentLevelSchema,
 } from "@salc/core/features/admin-desk/students-level/infrastructure/schemas";
-
-import { StudentLevelRepositoryImpl } from "@salc/core/features/admin-desk/students-level/infrastructure/repositories/student-level.repository.impl";
-import { StudentLevelDataSourceImpl } from "@salc/core/features/admin-desk/students-level/infrastructure/datasources/studentLevel.datasource.impl";
 import {
     StudentLevelDetailsMapperImpl,
     StudentLevelMapperImpl,
 } from "@salc/core/features/admin-desk/students-level/infrastructure/mappers";
+import { StudentLevelRepositoryImpl } from "@salc/core/features/admin-desk/students-level/infrastructure/repositories/student-level.repository.impl";
+import { StudentLevelDataSourceImpl } from "@salc/core/features/admin-desk/students-level/infrastructure/datasources/studentLevel.datasource.impl";
 import { StudentLevelDetailsEntity, StudentLevelEntity } from "@salc/core/features/admin-desk/students-level/domain/entities";
 import { validatorFactory } from "@salc/core/adapters";
 import { api } from "@salc/core/lib";
@@ -32,6 +30,7 @@ const studentLevelDetailsValidatorArray =
 
 //* Mapper
 export const studentLevelMapper = new StudentLevelMapperImpl(studentLevelValidator, studentLevelValidatorArray);
+
 export const studentLevelDetailsMapper = new StudentLevelDetailsMapperImpl(
     studentLevelDetailsValidator,
     studentLevelDetailsValidatorArray,

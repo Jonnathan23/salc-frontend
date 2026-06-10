@@ -1,6 +1,7 @@
 import { Badge } from "@/core/components/ui/Badge";
 import { statusConfig } from "@/features/admin-desk/students-levels/presentation/enums/statusConfig";
 import type { StudentLevelDetailsEntity } from "@salc/core/features/admin-desk/students-level/domain/entities";
+import { studentModuleStatus } from "@salc/core/features/admin-desk/students-level/domain/interfaces/StudentLevels.interface";
 import type { ClassValue } from "class-variance-authority/types";
 
 interface StudentLevelItemProps {
@@ -19,9 +20,9 @@ export default function StudentLevelItem({ level, cnFunction }: StudentLevelItem
             <div
                 className={cnFunction(
                     "absolute -left-6 flex h-4 w-4 items-center justify-center rounded-full border-2 bg-background",
-                    level.status === "APPROVED"
+                    level.status === studentModuleStatus.APPROVED
                         ? "border-success"
-                        : level.status === "ACTIVE"
+                        : level.status === studentModuleStatus.ACTIVE
                           ? "border-primary"
                           : "border-muted-foreground",
                 )}
@@ -29,9 +30,9 @@ export default function StudentLevelItem({ level, cnFunction }: StudentLevelItem
                 <div
                     className={cnFunction(
                         "h-2 w-2 rounded-full",
-                        level.status === "APPROVED"
+                        level.status === studentModuleStatus.APPROVED
                             ? "bg-success"
-                            : level.status === "ACTIVE"
+                            : level.status === studentModuleStatus.ACTIVE
                               ? "bg-primary"
                               : "bg-muted-foreground",
                     )}

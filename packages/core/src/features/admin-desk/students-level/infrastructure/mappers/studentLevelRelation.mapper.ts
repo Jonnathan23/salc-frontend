@@ -19,7 +19,9 @@ export class StudentLevelRelationMapper {
             level: module.mo_level,
         } as ModuleEntity;
 
-        return pickFields({ objectToFilter: moduleEntity, fieldsToKeep: moduleRelationFields });
+        const moduleConvert = pickFields({ objectToFilter: moduleEntity, fieldsToKeep: moduleRelationFields });
+
+        return moduleConvert;
     }
 
     public static sellerRelationFromObject(seller: { [key: string]: any }): SellerEntityRelation {
