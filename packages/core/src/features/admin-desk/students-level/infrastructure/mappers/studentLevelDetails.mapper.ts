@@ -3,6 +3,7 @@ import { CustomError } from "@salc/core/enums";
 import type { EntityValidator } from "@salc/core/interfaces/EntityValidator";
 import { StudentLevelDetailsEntity } from "@salc/core/features/admin-desk/students-level/domain/entities/StudentLevelDetails.entity";
 import type { BackendResponseProps } from "@salc/core/types/BackendResponse.type";
+import { StudentLevelRelationMapper } from "@salc/core/features/admin-desk/students-level/infrastructure/mappers/studentLevelRelation.mapper";
 
 export interface StudentLevelDetailsMapper {
     toEntity(rawObject: BackendResponseProps): StudentLevelDetailsEntity;
@@ -26,9 +27,9 @@ export class StudentLevelDetailsMapperImpl implements StudentLevelDetailsMapper 
             validationResponse.id,
             validationResponse.status,
             validationResponse.purchaseDate,
-            validationResponse.module,
-            validationResponse.seller,
-            validationResponse.student,
+            StudentLevelRelationMapper.moduleRelationFromObject(validationResponse.module),
+            StudentLevelRelationMapper.sellerRelationFromObject(validationResponse.seller),
+            StudentLevelRelationMapper.studentRelationFromObject(validationResponse.student),
         );
     }
 

@@ -3,14 +3,22 @@ import type { StudentModuleStatus } from "@salc/core/features/admin-desk/student
 import type { StudentEntity } from "@salc/core/features/admin-desk/students/domain/entities/Student.entity";
 import type { UserEntity } from "@salc/core/features/shared/identity/domain/entities";
 
-interface ModuleEntityRelation extends Pick<ModuleEntity, "moduleId" | "name" | "level"> {}
+export const moduleRelationFields: readonly (keyof ModuleEntity)[] = ["moduleId", "name", "level"] as const;
 
-interface SellerEntityRelation extends Pick<UserEntity, "userId" | "fullName" | "email"> {}
+export const sellerRelationFields: readonly (keyof UserEntity)[] = ["userId", "fullName", "email"] as const;
 
-interface StudentEntityRelation extends Pick<
-    StudentEntity,
-    "id" | "identificationCard" | "fullName" | "email" | "isGraduated" | "contractStatus"
-> {}
+export const studentRelationFields: readonly (keyof StudentEntity)[] = [
+    "id",
+    "identificationCard",
+    "fullName",
+    "email",
+    "isGraduated",
+    "contractStatus",
+] as const;
+
+export type ModuleEntityRelation = Pick<ModuleEntity, (typeof moduleRelationFields)[number]>;
+export type SellerEntityRelation = Pick<UserEntity, (typeof sellerRelationFields)[number]>;
+export type StudentEntityRelation = Pick<StudentEntity, (typeof studentRelationFields)[number]>;
 
 export class StudentLevelDetailsEntity {
     constructor(
