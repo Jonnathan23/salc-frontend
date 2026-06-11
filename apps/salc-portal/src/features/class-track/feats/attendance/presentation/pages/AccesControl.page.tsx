@@ -5,6 +5,7 @@ import { CheckCheck, PlusCircle, UserPlus } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useSearchStudents } from "@/features/class-track/core/students/application/hooks/use-cases/useSearchStudents.hook";
 import { useEndAttendanceSessionForm } from "@/features/class-track/feats/attendance/application/hooks/forms/useEndAttendanceSessionForm.use";
+import { useApproveAttendanceSessionForm } from "@/features/class-track/feats/attendance/application/hooks/forms/useApproveAttendanceSessionForm.use";
 import { useStartAttendanceSessionForm } from "@/features/class-track/feats/attendance/application/hooks/forms/useStartAttendanceSessionForm.use";
 import { useDebounce } from "@/core/hooks/useDebounce.use";
 import type { BaseSearchStudentsFormValues } from "@/features/class-track/core/students/presentation/interfaces/BaseSearchStudentsFormValues.interface";
@@ -15,7 +16,8 @@ import type { StudentInClassProjection } from "@salc/core/features/class-track-t
 
 export default function AccessControlView() {
     //* hooks
-    const { isSubmitting } = useEndAttendanceSessionForm();
+    const { isSubmitting, onSubmit } = useEndAttendanceSessionForm();
+    const { isSubmittingApprove, onSubmitApprove } = useApproveAttendanceSessionForm();
     const { isSubmittingStartForm, onSubmitStartForm, handleSetStudentId, handleSetEntryTime } = useStartAttendanceSessionForm();
 
     const [searchTerm, setSearchTerm] = useState("");
@@ -39,13 +41,17 @@ export default function AccessControlView() {
 
     //* handlers
     const handleApproveAll = () => {
-        //TODO:
-        console.error("TODO");
+        for (const session of pendingApprovalsList) {
+            onSubmitApprove({ sessionId: session.sessionId });
+        }
     };
 
     const handleApproveOne = (session: StudentInClassProjection) => {
-        //TODO:
-        console.error("TODO", session);
+        onSubmitApprove({ sessionId: session.sessionId });
+    };
+
+    const handleEndSession = (session: StudentInClassProjection) => {
+        onSubmit({ sessionId: session.sessionId, exitTime: new Date() });
     };
 
     const handleSelectStudent = (studentId: string, identificationCard: string, fullName: string) => {
@@ -171,6 +177,9 @@ export default function AccessControlView() {
                                         <th className="px-5 py-3 text-left text-xs font-semibold text-primary-foreground uppercase tracking-wide">
                                             Estado
                                         </th>
+                                        <th className="px-5 py-3 text-left text-xs font-semibold text-primary-foreground uppercase tracking-wide">
+                                            Acción
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-border/50">
@@ -191,6 +200,15 @@ export default function AccessControlView() {
                                             </td>
                                             <td className="px-5 py-3">
                                                 <SessionStatusBadge status={SessionStatus.InProgress} />
+                                            </td>
+                                            <td className="px-5 py-3">
+                                                <button
+                                                    onClick={() => handleEndSession(session)}
+                                                    disabled={isSubmitting}
+                                                    className="px-3 py-1.5 bg-primary-foreground text-primary text-xs font-semibold rounded-lg hover:bg-primary-foreground/90 transition-all disabled:opacity-50"
+                                                >
+                                                    Check Out
+                                                </button>
                                             </td>
                                         </tr>
                                     ))}
@@ -272,7 +290,7 @@ export default function AccessControlView() {
                                                 <td className="px-5 py-3">
                                                     <button
                                                         onClick={() => handleApproveOne(session)}
-                                                        disabled={isSubmitting}
+                                                        disabled={isSubmittingApprove}
                                                         className="px-3 py-1.5 bg-primary text-primary-foreground text-xs font-semibold rounded-lg hover:bg-primary-foreground hover:text-primary transition-all disabled:opacity-50"
                                                     >
                                                         Aprobar

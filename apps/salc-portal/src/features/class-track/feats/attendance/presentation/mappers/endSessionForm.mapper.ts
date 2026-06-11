@@ -9,15 +9,13 @@ export class EndSessionFormMapper {
     public static toEndSessionDto(formValues: BaseEndSessionFormValues): EndAttendanceSessionDto {
         return EndAttendanceSessionDtoImpl.create({
             sessionId: formValues.sessionId.trim(),
-            teacherId: formValues.teacherId.trim(),
             exitTime: formValues.exitTime,
         });
     }
 
-    public static toBaseEndSessionFormValues(student: BaseStudentInClass, teacherId: string): BaseEndSessionFormValues {
+    public static toBaseEndSessionFormValues(student: BaseStudentInClass): BaseEndSessionFormValues {
         return {
             sessionId: student.sessionId,
-            teacherId: teacherId,
             exitTime: new Date(),
         };
     }
