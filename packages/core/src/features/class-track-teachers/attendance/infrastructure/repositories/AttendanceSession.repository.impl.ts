@@ -1,5 +1,6 @@
 import type { AttendanceSessionDataSource } from "@salc/core/features/class-track-teachers/attendance/domain/datasources/attendanceSession.datasource";
 import type { EndAttendanceSessionDto } from "@salc/core/features/class-track-teachers/attendance/domain/dtos/EndAttendanceSession.dto";
+import type { ApproveAttendanceSessionDto } from "@salc/core/features/class-track-teachers/attendance/domain/dtos/ApproveAttendanceSession.dto";
 import type { StartAttendanceSessionDto } from "@salc/core/features/class-track-teachers/attendance/domain/dtos/StartAttendanceSession.dto";
 import type { AttendanceSessionEntity } from "@salc/core/features/class-track-teachers/attendance/domain/entities/AttendanceSession.entity";
 import type { AttendanceSessionRepository } from "@salc/core/features/class-track-teachers/attendance/domain/repositories/AttendanceSession.repository";
@@ -16,6 +17,10 @@ export class AttendanceSessionRepositoryImpl implements AttendanceSessionReposit
 
     async endSession(dto: EndAttendanceSessionDto): Promise<SuccessResponse<AttendanceSessionEntity>> {
         return this.dataSource.endSession(dto);
+    }
+
+    async approveSession(dto: ApproveAttendanceSessionDto): Promise<SuccessResponse<AttendanceSessionEntity>> {
+        return this.dataSource.approveSession(dto);
     }
 
     async getActiveSessionsWithStudentDetails(
