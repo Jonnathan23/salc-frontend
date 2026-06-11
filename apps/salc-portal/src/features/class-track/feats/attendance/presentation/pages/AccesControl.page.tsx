@@ -15,6 +15,8 @@ import { ComboBox } from "@/core/components/search/ComboBox";
 import type { StudentInClassProjection } from "@salc/core/features/class-track-teachers/attendance/domain/entities/StudentInClassProjection.entity";
 
 export default function AccessControlView() {
+    // FIXME: refactorizar esta pagina, separarla en componententes, mover la logica de programacion en un custom hook `logic`
+    //TODO: Al marcar salida, se debe indicar la leccion que avanzo el estudiante
     //* hooks
     const { isSubmitting, onSubmit } = useEndAttendanceSessionForm();
     const { isSubmittingApprove, onSubmitApprove } = useApproveAttendanceSessionForm();
