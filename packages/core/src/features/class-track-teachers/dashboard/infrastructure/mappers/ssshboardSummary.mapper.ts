@@ -1,5 +1,6 @@
 import { CustomError } from "@salc/core/enums";
 import { DashboardSummaryEntity } from "@salc/core/features/class-track-teachers/dashboard/domain/entities/DashboardSummary.entity";
+
 import { StudentInClassDashboardEntity } from "@salc/core/features/class-track-teachers/dashboard/domain/entities/StudentInClass.entity";
 import type { EntityValidator } from "@salc/core/interfaces/EntityValidator";
 
@@ -28,7 +29,7 @@ export class DashboardSummaryMapperImpl implements DashboardSummaryMapper {
                     student.sessionId,
                     student.studentId,
                     student.fullName,
-                    student.contractStatus,
+                    student.sessionStatus,
                     new Date(student.entryTime),
                 ),
         );

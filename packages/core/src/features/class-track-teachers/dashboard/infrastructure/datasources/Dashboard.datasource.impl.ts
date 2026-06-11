@@ -1,6 +1,6 @@
 import type { DashboardDataSource } from "@salc/core/features/class-track-teachers/dashboard/domain/datasources/dashboard.datasource";
 import type { DashboardSummaryEntity } from "@salc/core/features/class-track-teachers/dashboard/domain/entities/DashboardSummary.entity";
-import type { DashboardSummaryMapper } from "@salc/core/features/class-track-teachers/dashboard/infrastructure/mappers/dashboardSummary.mapper";
+import type { DashboardSummaryMapper } from "@salc/core/features/class-track-teachers/dashboard/infrastructure/mappers/ssshboardSummary.mapper";
 import { CustomError } from "@salc/core/enums";
 import type { MethodsHttp, SuccessResponse } from "@salc/core/interfaces";
 
