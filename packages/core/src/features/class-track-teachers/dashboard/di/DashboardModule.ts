@@ -1,6 +1,6 @@
 import { GetDashboardSummaryUseCase } from "@salc/core/features/class-track-teachers/dashboard/application/use-cases/getDashboardSummary.use-case";
 import { DashboardDataSourceImpl } from "@salc/core/features/class-track-teachers/dashboard/infrastructure/datasources/dashboard.datasource.impl";
-import { DashboardRepositoryImpl } from "@salc/core/features/class-track-teachers/dashboard/infrastructure/repositories/sssssashboard.repository.impl";
+import { DashboardRepositoryImpl } from "@salc/core/features/class-track-teachers/dashboard/infrastructure/repositories/dashboard.repository.impl";
 import { DashboardSummaryMapperImpl } from "@salc/core/features/class-track-teachers/dashboard/infrastructure/mappers/dashboardSummary.mapper";
 import { dashboardSummarySchema } from "@salc/core/features/class-track-teachers/dashboard/infrastructure/schemas/DashboardSummary.schema";
 import { DashboardSummaryEntity } from "@salc/core/features/class-track-teachers/dashboard/domain/entities/DashboardSummary.entity";
