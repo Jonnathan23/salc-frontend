@@ -11,11 +11,6 @@ export const useEndAttendanceSessionForm = () => {
 
             return false;
         }
-        if (!checkInForm.teacherId) {
-            setErrorForm("Debe ingresar el codigo de profesor");
-
-            return false;
-        }
         if (!checkInForm.exitTime) {
             setErrorForm("Debe ingresar la fecha de salida");
 

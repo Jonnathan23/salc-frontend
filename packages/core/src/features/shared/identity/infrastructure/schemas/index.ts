@@ -1,2 +1,2 @@
-export * from "@salc/core/features/shared/identity/infrastructure/schemas/user.schema";
-export * from "@salc/core/features/shared/identity/infrastructure/schemas/userAuthResponse.schema";
+export * from "@salc/core/features/shared/identity/infrastructure/schemas/User.schema";
+export * from "@salc/core/features/shared/identity/infrastructure/schemas/UserAuthResponse.schema";

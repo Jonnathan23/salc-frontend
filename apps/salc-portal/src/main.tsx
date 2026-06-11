@@ -7,7 +7,7 @@ import "./index.css";
 
 import { loadCoreEnvs } from "@/core/config/envsLocal";
 import { createQueryClient } from "@/core/config/queryClient";
-import Router from "@/features/shared/identity/presentation/routes/router";
+import Router from "@/features/shared/identity/presentation/routes/Router";
 
 loadCoreEnvs();
 

@@ -15,7 +15,6 @@ type ToasterToast = ToastProps & {
     action?: ToastActionElement;
 };
 
-
 let count = 0;
 
 function genId() {
@@ -150,7 +149,7 @@ function toast({ ...props }: Toast) {
             ...props,
             id,
             open: true,
-            onOpenChange: (open) => {
+            onOpenChange: (open: boolean) => {
                 if (!open) dismiss();
             },
         },

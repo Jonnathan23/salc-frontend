@@ -1,11 +1,12 @@
 import { validatorFactory } from "@salc/core/adapters";
 import { EndAttendanceSessionUseCase } from "@salc/core/features/class-track-teachers/attendance/application/use-cases/endAttendanceSession.use-case";
 import { StartAttendanceSessionUseCase } from "@salc/core/features/class-track-teachers/attendance/application/use-cases/startAttendanceSession.use-case";
+import { ApproveAttendanceSessionUseCase } from "@salc/core/features/class-track-teachers/attendance/application/use-cases/approveAttendanceSession.use-case";
 import type { AttendanceSessionEntity } from "@salc/core/features/class-track-teachers/attendance/domain/entities/AttendanceSession.entity";
 import { SessionStatus } from "@salc/core/features/class-track-teachers/attendance/domain/interfaces/AttendanceSessionStatus.interface";
 import { AttendanceSessionDataSourceImpl } from "@salc/core/features/class-track-teachers/attendance/infrastructure/datasources/attendanceSession.datasource.impl";
 import { AttendanceSessionMapperImpl } from "@salc/core/features/class-track-teachers/attendance/infrastructure/mappers/attendanceSession.mapper";
-import { AttendanceSessionRepositoryImpl } from "@salc/core/features/class-track-teachers/attendance/infrastructure/repositories/AttendanceSession.repository.impl";
+import { AttendanceSessionRepositoryImpl } from "@salc/core/features/class-track-teachers/attendance/infrastructure/repositories/attendanceSession.repository.impl";
 import { attendanceSessionSchema } from "@salc/core/features/class-track-teachers/attendance/infrastructure/schemas/AttendanceSession.schema";
 
 import { GetActiveSessionsUseCase } from "@salc/core/features/class-track-teachers/attendance/application/use-cases/getActiveSessions.use-case";
@@ -32,6 +33,7 @@ const attendanceSessionRepository = new AttendanceSessionRepositoryImpl(attendan
 //* Use Cases
 export const startAttendanceSessionUseCase = new StartAttendanceSessionUseCase(attendanceSessionRepository);
 export const endAttendanceSessionUseCase = new EndAttendanceSessionUseCase(attendanceSessionRepository);
+export const approveAttendanceSessionUseCase = new ApproveAttendanceSessionUseCase(attendanceSessionRepository);
 
 export const getApprovedSessionsUseCase = new GetActiveSessionsUseCase(attendanceSessionRepository, SessionStatus.Approved);
 export const getInProgressSessionsUseCase = new GetActiveSessionsUseCase(attendanceSessionRepository, SessionStatus.InProgress);

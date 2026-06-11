@@ -4,7 +4,7 @@ import {
     CreateModuleUseCaseImpl,
     UpdateModuleUseCaseImpl,
 } from "@salc/core/features/admin-desk/modules/application/use-cases";
-import { arrayModulesSchema, moduleSchema } from "@salc/core/features/admin-desk/modules/infrastructure/schemas/module.schema";
+import { arrayModulesSchema, moduleSchema } from "@salc/core/features/admin-desk/modules/infrastructure/schemas/Module.schema";
 import { ModuleDataSourceImpl } from "@salc/core/features/admin-desk/modules/infrastructure/datasources/module.datasource.impl";
 import { ModuleRepositoryImpl } from "@salc/core/features/admin-desk/modules/infrastructure/repositories/module.repository.impl";
 import { ModuleMapperImpl } from "@salc/core/features/admin-desk/modules/infrastructure/mapper/module.mapper";

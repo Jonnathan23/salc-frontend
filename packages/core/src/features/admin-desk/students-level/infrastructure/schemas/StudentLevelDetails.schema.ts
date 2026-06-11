@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { moduleSchema } from "@salc/core/features/admin-desk/modules/infrastructure/schemas/module.schema";
+import { moduleSchema } from "@salc/core/features/admin-desk/modules/infrastructure/schemas/Module.schema";
 import { studentSchema } from "@salc/core/features/admin-desk/students/infrastructure/schemas/Student.schema";
 import { userSchema } from "@salc/core/features/shared/identity/infrastructure/schemas";
 
