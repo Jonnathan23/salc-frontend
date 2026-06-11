@@ -1,7 +1,7 @@
 import { Users, Clock, AlertTriangle, CheckCircle, BookOpen } from "lucide-react";
 
 import { useGetDashboardSummary } from "@/features/class-track/dashboard/application/hooks/use-cases/useGetDashboardSummary.use";
-import { ContractStatusBadge } from "@/core/components/class-track/shared/Badges";
+import { SessionStatusBadge } from "@/core/components/class-track/shared/Badges";
 
 interface StatCardProps {
     readonly label: string;
@@ -102,7 +102,7 @@ TODO: Construir en la version 2.0 del MVP, no es prioridad
                             </span>
                         </div>
                         <div className="divide-y divide-border">
-                            {data.studentsInClass.map(({ sessionId, fullName, contractStatus, entryTime }) => (
+                            {data.studentsInClass.map(({ sessionId, fullName, entryTime }) => (
                                 <div key={sessionId} className="px-5 py-3 flex items-center justify-between">
                                     <div className="flex items-center gap-3">
                                         <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
@@ -112,11 +112,12 @@ TODO: Construir en la version 2.0 del MVP, no es prioridad
                                         </div>
                                         <div>
                                             <p className="text-sm font-medium text-foreground">{fullName}</p>
-                                            <p className="text-xs text-muted-foreground">{contractStatus}</p>
                                         </div>
                                     </div>
                                     <div className="text-right">
-                                        <p className="text-xs font-semibold text-primary">Desde {entryTime.toString()}</p>
+                                        <p className="text-xs font-semibold text-primary">
+                                            Desde {entryTime.toLocaleTimeString()}
+                                        </p>
                                         <span className="text-[10px] text-muted-foreground">Hoy</span>
                                     </div>
                                 </div>
@@ -201,7 +202,7 @@ TODO: Construir en la version 2.0 del MVP, no es prioridad
                 <div className="bg-card rounded-xl overflow-hidden">
                     <div className="px-5 py-4 flex items-center gap-2">
                         <BookOpen className="w-4 h-4 text-title" />
-                        <h2 className="font-semibold text-foreground text-sm">Directorio de Estudiantes</h2>
+                        <h2 className="font-semibold text-foreground text-sm">Directorio de Estudiantes en clase</h2>
                     </div>
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm">
@@ -214,7 +215,7 @@ TODO: Construir en la version 2.0 del MVP, no es prioridad
                                         Identificador
                                     </th>
                                     <th className="px-5 py-3 text-left text-xs font-semibold text-primary-foreground uppercase tracking-wide">
-                                        Contrato
+                                        Estado
                                     </th>
                                     <th className="px-5 py-3 text-left text-xs font-semibold text-primary-foreground uppercase tracking-wide">
                                         Ingreso
@@ -236,7 +237,7 @@ TODO: Construir en la version 2.0 del MVP, no es prioridad
                                         </td>
                                         <td className="px-5 py-3 text-foreground">{student.studentId}</td>
                                         <td className="px-5 py-3">
-                                            <ContractStatusBadge status={student.contractStatus} />
+                                            <SessionStatusBadge status={student.sessionStatus} />
                                         </td>
                                         <td className="px-5 py-3 text-foreground">{student.entryTime.toLocaleTimeString()}</td>
                                     </tr>

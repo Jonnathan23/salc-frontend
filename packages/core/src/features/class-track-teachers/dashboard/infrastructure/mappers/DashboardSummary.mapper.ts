@@ -28,7 +28,7 @@ export class DashboardSummaryMapperImpl implements DashboardSummaryMapper {
                     student.sessionId,
                     student.studentId,
                     student.fullName,
-                    student.contractStatus,
+                    student.sessionStatus,
                     new Date(student.entryTime),
                 ),
         );
