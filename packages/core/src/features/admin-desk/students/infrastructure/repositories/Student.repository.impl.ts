@@ -1,11 +1,11 @@
-import { StudentDataSource } from "@salc/core/features/admin-desk/students/domain/datasources/Student.datasource";
+import { StudentDataSource } from "@salc/core/features/admin-desk/students/domain/datasources/student.datasource";
 import type {
     RegisterStudentDto,
     UpdateStudentDto,
     ChangeContractStatusDto,
 } from "@salc/core/features/admin-desk/students/domain/dtos";
 import { StudentEntity } from "@salc/core/features/admin-desk/students/domain/entities/Student.entity";
-import { StudentRepository } from "@salc/core/features/admin-desk/students/domain/repositories/Student.repository";
+import { StudentRepository } from "@salc/core/features/admin-desk/students/domain/repositories/student.repository";
 import type { SuccessResponse } from "@salc/core/interfaces";
 
 export class StudentRepositoryImpl implements StudentRepository {

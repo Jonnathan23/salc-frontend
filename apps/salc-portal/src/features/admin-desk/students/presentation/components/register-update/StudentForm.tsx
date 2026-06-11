@@ -138,7 +138,7 @@ export default function StudentForm(options: StudentFormProps) {
                                         mode="single"
                                         selected={field.value}
                                         onSelect={field.onChange}
-                                        disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
+                                        disabled={(date: Date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
                                     />
                                 </PopoverContent>
                             </Popover>
@@ -178,7 +178,7 @@ export default function StudentForm(options: StudentFormProps) {
                                         captionLayout="dropdown"
                                         fromYear={1920}
                                         toYear={maxAllowedDate.getFullYear()}
-                                        disabled={(date) => date > maxAllowedDate}
+                                        disabled={(date: Date) => date > maxAllowedDate}
                                         defaultMonth={minDate}
                                     />
                                 </PopoverContent>

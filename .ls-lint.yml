@@ -54,7 +54,5 @@ ignore:
     - vite.config.ts
     - "*.json"
     - .wakatime-project
-    - "**/routes/**"
-    - "**/core/components/ui/**"
-    - "**/admin-desk/sidebar/**"
+    - "main.tsx"
     - "**/main.tsx"

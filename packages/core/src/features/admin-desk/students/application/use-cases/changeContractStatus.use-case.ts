@@ -1,4 +1,4 @@
-import { StudentDataSource } from "@salc/core/features/admin-desk/students/domain/datasources/Student.datasource";
+import { StudentDataSource } from "@salc/core/features/admin-desk/students/domain/datasources/student.datasource";
 import type { ChangeContractStatusDto } from "@salc/core/features/admin-desk/students/domain/dtos";
 import { StudentEntity } from "@salc/core/features/admin-desk/students/domain/entities/Student.entity";
 import type { SuccessResponse } from "@salc/core/interfaces";

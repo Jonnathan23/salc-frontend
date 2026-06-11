@@ -4,7 +4,7 @@ import type {
     ChangeContractStatusDto,
 } from "@salc/core/features/admin-desk/students/domain/dtos";
 import { type StudentMapper } from "@salc/core/features/admin-desk/students/infrastructure/mappers/student.mapper";
-import { StudentDataSource } from "@salc/core/features/admin-desk/students/domain/datasources/Student.datasource";
+import { StudentDataSource } from "@salc/core/features/admin-desk/students/domain/datasources/student.datasource";
 import { type StudentEntity } from "@salc/core/features/admin-desk/students/domain/entities/Student.entity";
 import { type SuccessResponse, type MethodsHttp } from "@salc/core/interfaces";
 import { CustomError } from "@salc/core/enums";

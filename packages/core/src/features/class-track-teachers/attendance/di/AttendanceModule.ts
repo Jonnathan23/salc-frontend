@@ -1,6 +1,6 @@
 import { validatorFactory } from "@salc/core/adapters";
-import { EndAttendanceSessionUseCase } from "@salc/core/features/class-track-teachers/attendance/application/use-cases/EndAttendanceSession.use-case";
-import { StartAttendanceSessionUseCase } from "@salc/core/features/class-track-teachers/attendance/application/use-cases/StartAttendanceSession.use-case";
+import { EndAttendanceSessionUseCase } from "@salc/core/features/class-track-teachers/attendance/application/use-cases/endAttendanceSession.use-case";
+import { StartAttendanceSessionUseCase } from "@salc/core/features/class-track-teachers/attendance/application/use-cases/startAttendanceSession.use-case";
 import { ApproveAttendanceSessionUseCase } from "@salc/core/features/class-track-teachers/attendance/application/use-cases/approveAttendanceSession.use-case";
 import type { AttendanceSessionEntity } from "@salc/core/features/class-track-teachers/attendance/domain/entities/AttendanceSession.entity";
 import { SessionStatus } from "@salc/core/features/class-track-teachers/attendance/domain/interfaces/AttendanceSessionStatus.interface";

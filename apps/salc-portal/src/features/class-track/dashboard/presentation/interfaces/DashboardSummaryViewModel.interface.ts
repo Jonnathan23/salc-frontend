@@ -1,10 +1,8 @@
-import type { StudentContractStatus } from "@salc/core/features/admin-desk/students/domain/interfaces";
-
 export interface StudentInClassViewModel {
     sessionId: string;
     studentId: string;
     fullName: string;
-    contractStatus: StudentContractStatus;
+
     entryTime: string;
 }
 
