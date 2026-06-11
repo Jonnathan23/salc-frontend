@@ -10,7 +10,7 @@ RUN corepack enable && corepack prepare pnpm@latest --activate
 # Copiar los archivos de configuración
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY packages/ ./packages/
-COPY apps/admin-desk/ ./apps/admin-desk/
+COPY apps/salc-portal/ ./apps/salc-portal/
 
 RUN pnpm install --frozen-lockfile --ignore-scripts
 
@@ -20,19 +20,19 @@ RUN pnpm install --frozen-lockfile --ignore-scripts
 ENV VITE_API_URL="__VITE_API_URL_PLACEHOLDER__"
 ENV VITE_CLASS_TRACK_URL="__VITE_CLASS_TRACK_URL_PLACEHOLDER__"
 
-RUN pnpm --filter admin-desk build
+RUN pnpm --filter salc-portal build
 
 # ==========================================
 # Etapa 2: Servidor Web de Producción (Nginx)
 # ==========================================
 FROM nginx:alpine AS production
 
-COPY apps/admin-desk/nginx.config /etc/nginx/conf.d/default.conf
-COPY --from=builder /app/apps/admin-desk/dist /usr/share/nginx/html
+COPY apps/salc-portal/nginx.config /etc/nginx/conf.d/default.conf
+COPY --from=builder /app/apps/salc-portal/dist /usr/share/nginx/html
 
 # --- INYECCIÓN DE RUNTIME ---
 # Nginx ejecutará automáticamente cualquier script .sh dentro de esta carpeta al iniciar
-COPY apps/admin-desk/entrypoint.sh /docker-entrypoint.d/40-inject-env.sh
+COPY apps/salc-portal/entrypoint.sh /docker-entrypoint.d/40-inject-env.sh
 
 # Le damos permisos de ejecución al script
 RUN chmod +x /docker-entrypoint.d/40-inject-env.sh
