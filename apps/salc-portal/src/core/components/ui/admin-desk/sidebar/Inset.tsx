@@ -23,7 +23,7 @@ export default function Inset({ filteredNavItems, pathname }: InsetProps) {
                 </h1>
             </header>
             <main className="flex-1 p-6 bg-background-document/10">
-                <Suspense fallback={<AdminDeskSkeleton />}>
+                <Suspense key={pathname} fallback={<AdminDeskSkeleton />}>
                     <Outlet />
                 </Suspense>
             </main>

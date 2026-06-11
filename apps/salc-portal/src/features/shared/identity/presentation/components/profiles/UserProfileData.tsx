@@ -29,7 +29,7 @@ export const UserProfileData = ({
 
     const { userId, fullName, role, isActive } = user;
 
-    const handleBack = () => navigation("/view-profiles");
+    const handleBack = () => navigation("/admin-desk/view-profiles");
 
     const { mutate: changeStateUser, isPending } = useChangeUserState();
 

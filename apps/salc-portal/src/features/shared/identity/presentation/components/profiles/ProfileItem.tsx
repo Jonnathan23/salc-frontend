@@ -13,7 +13,7 @@ export default function ProfileItem({ user }: ProfileItemProps) {
     const navigation = useNavigate();
 
     const handleViewStudent = (userId: string) => {
-        navigation(`/view-profiles/${userId}/profile`);
+        navigation(`${userId}/profile`);
     };
 
     return (
