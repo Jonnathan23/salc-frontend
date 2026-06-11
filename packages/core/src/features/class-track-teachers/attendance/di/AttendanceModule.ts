@@ -4,9 +4,9 @@ import { StartAttendanceSessionUseCase } from "@salc/core/features/class-track-t
 import { ApproveAttendanceSessionUseCase } from "@salc/core/features/class-track-teachers/attendance/application/use-cases/approveAttendanceSession.use-case";
 import type { AttendanceSessionEntity } from "@salc/core/features/class-track-teachers/attendance/domain/entities/AttendanceSession.entity";
 import { SessionStatus } from "@salc/core/features/class-track-teachers/attendance/domain/interfaces/AttendanceSessionStatus.interface";
-import { AttendanceSessionDataSourceImpl } from "@salc/core/features/class-track-teachers/attendance/infrastructure/datasources/ndanceSession.datasource.impl";
+import { AttendanceSessionDataSourceImpl } from "@salc/core/features/class-track-teachers/attendance/infrastructure/datasources/attendanceSession.datasource.impl";
 import { AttendanceSessionMapperImpl } from "@salc/core/features/class-track-teachers/attendance/infrastructure/mappers/attendanceSession.mapper";
-import { AttendanceSessionRepositoryImpl } from "@salc/core/features/class-track-teachers/attendance/infrastructure/repositories/ndanceSession.repository.impl";
+import { AttendanceSessionRepositoryImpl } from "@salc/core/features/class-track-teachers/attendance/infrastructure/repositories/attendanceSession.repository.impl";
 import { attendanceSessionSchema } from "@salc/core/features/class-track-teachers/attendance/infrastructure/schemas/AttendanceSession.schema";
 
 import { GetActiveSessionsUseCase } from "@salc/core/features/class-track-teachers/attendance/application/use-cases/getActiveSessions.use-case";

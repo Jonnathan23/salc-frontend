@@ -1,6 +1,6 @@
 import { type MethodsHttp, type SuccessResponse } from "@salc/core/interfaces";
 import { CustomError } from "@salc/core/enums";
-import type { AttendanceSessionDataSource } from "@salc/core/features/class-track-teachers/attendance/domain/datasources/tendanceSession.datasource";
+import type { AttendanceSessionDataSource } from "@salc/core/features/class-track-teachers/attendance/domain/datasources/attendanceSession.datasource";
 import type { AttendanceSessionMapper } from "@salc/core/features/class-track-teachers/attendance/infrastructure/mappers/attendanceSession.mapper";
 import type { StartAttendanceSessionDto } from "@salc/core/features/class-track-teachers/attendance/domain/dtos/StartAttendanceSession.dto";
 import type { AttendanceSessionEntity } from "@salc/core/features/class-track-teachers/attendance/domain/entities/AttendanceSession.entity";

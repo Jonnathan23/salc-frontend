@@ -1,5 +1,5 @@
 import type { AttendanceSessionStatus } from "@salc/core/features/class-track-teachers/attendance/domain/interfaces/AttendanceSessionStatus.interface";
-import type { AttendanceSessionRepository } from "@salc/core/features/class-track-teachers/attendance/domain/repositories/danceSession.repository";
+import type { AttendanceSessionRepository } from "@salc/core/features/class-track-teachers/attendance/domain/repositories/attendanceSession.repository";
 import type { StudentInClassProjection } from "@salc/core/features/class-track-teachers/attendance/domain/entities/StudentInClassProjection.entity";
 import type { SuccessResponse } from "@salc/core/interfaces";
 
