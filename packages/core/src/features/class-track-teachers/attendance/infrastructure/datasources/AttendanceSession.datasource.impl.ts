@@ -5,6 +5,7 @@ import type { AttendanceSessionMapper } from "@salc/core/features/class-track-te
 import type { StartAttendanceSessionDto } from "@salc/core/features/class-track-teachers/attendance/domain/dtos/StartAttendanceSession.dto";
 import type { AttendanceSessionEntity } from "@salc/core/features/class-track-teachers/attendance/domain/entities/AttendanceSession.entity";
 import type { EndAttendanceSessionDto } from "@salc/core/features/class-track-teachers/attendance/domain/dtos/EndAttendanceSession.dto";
+import type { ApproveAttendanceSessionDto } from "@salc/core/features/class-track-teachers/attendance/domain/dtos/ApproveAttendanceSession.dto";
 import type { StudentInClassProjection } from "@salc/core/features/class-track-teachers/attendance/domain/entities/StudentInClassProjection.entity";
 import {
     SessionStatus,
@@ -50,6 +51,23 @@ export class AttendanceSessionDataSourceImpl implements AttendanceSessionDataSou
 
         if (!rawResponse.data) {
             throw CustomError.notFound("Could not end attendance session");
+        }
+
+        const session = this.mapper.toEntity(rawResponse.data);
+
+        return {
+            ...rawResponse,
+            data: session,
+        };
+    }
+
+    async approveSession(dto: ApproveAttendanceSessionDto): Promise<SuccessResponse<AttendanceSessionEntity>> {
+        const url = `${this.baseUrl}/approve`;
+
+        const rawResponse = await this.api.patch<SuccessResponse<AttendanceSessionEntity>, ApproveAttendanceSessionDto>(url, dto);
+
+        if (!rawResponse.data) {
+            throw CustomError.notFound("Could not approve attendance session");
         }
 
         const session = this.mapper.toEntity(rawResponse.data);
