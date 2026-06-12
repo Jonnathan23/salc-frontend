@@ -23,6 +23,10 @@ export class RetentionAlertDataSourceImpl implements RetentionAlertDataSource {
             status: dto.status,
             page: dto.page,
             limit: dto.limit,
+            studentParameter: dto.studentParameter,
+            contractStatus: dto.contractStatus,
+            daysAbsent: dto.daysAbsent,
+            isJustified: dto.isJustified,
         };
 
         const rawResponse = await this.api.get<SuccessResponse<RetentionAlertWithStudentProjection[]>>(this.baseUrl, {

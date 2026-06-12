@@ -21,6 +21,7 @@ export const useChangeRetentionAlertStatus = (onSuccessCallback?: () => void) =>
         },
         onSuccess: (response) => {
             queryClient.invalidateQueries({ queryKey: ["retention-alerts"] });
+            queryClient.invalidateQueries({ queryKey: ["retention-alerts-historial"] });
             ShowMessageAdapter.success(response.message || "Estado de alerta actualizado");
 
             if (onSuccessCallback) onSuccessCallback();

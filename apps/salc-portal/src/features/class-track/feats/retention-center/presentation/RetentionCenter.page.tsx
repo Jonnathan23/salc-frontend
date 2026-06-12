@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { AlertTriangle, X, Calendar, Phone, MessageSquare, Loader2, FileText, Filter } from "lucide-react";
+import { AlertTriangle, X, Calendar, Phone, MessageSquare, Loader2, FileText, Filter, Search } from "lucide-react";
 
 import {
     retentionAlertStatus,
@@ -9,15 +9,21 @@ import { RetentionAlertWithStudentProjection } from "@salc/core/features/class-t
 
 import { AlertStatusBadge, ContractStatusBadge } from "@/core/components/class-track/shared/Badges";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/core/components/ui/Select";
-import type { StudentContractStatus } from "@salc/core/features/admin-desk/students/domain/interfaces";
+import { studentContractStatus, type StudentContractStatus } from "@salc/core/features/admin-desk/students/domain/interfaces";
 import { useRetentionAlertForm } from "@/features/class-track/feats/retention-center/application/hooks/forms/useRetentionAlertForm.hook";
 
-import { useGetHistorialAlerts } from "@/features/class-track/feats/retention-center/application/hooks/use-cases/useGetHistorialAlerts.hook";
+import {
+    useGetHistorialAlerts,
+    type AlertsHistorialFilters,
+} from "@/features/class-track/feats/retention-center/application/hooks/use-cases/useGetHistorialAlerts.hook";
 import type {
     AlertsResolvedParameters,
     RetetionAlertsActives,
 } from "@/features/class-track/feats/retention-center/presentation/interfaces/AlertsHooks.interface";
-import { useGetRetetionAlertsActives } from "@/features/class-track/feats/retention-center/application/hooks/use-cases/useGetRetentionAlerts.hook";
+import {
+    useGetRetetionAlertsActives,
+    type AlertsActivesFilters,
+} from "@/features/class-track/feats/retention-center/application/hooks/use-cases/useGetRetentionAlerts.hook";
 import { useChangeStatusForm } from "@/features/class-track/feats/retention-center/application/hooks/forms/useChangeStatusForm.hook";
 import type { RetentionAlertEntity } from "@salc/core/features/class-track-teachers/retation-alert/domain/entities/RetentionAlert.entity";
 
@@ -61,8 +67,8 @@ export function RetentionCenterView() {
         onSuccessCallback: handleCloseModal,
     });
 
-    const [alertsDataFilters, setAlertsDataFilters] = useState<RetetionAlertsActives>();
-    const [historialDataFilters, setHistorialDataFilters] = useState<AlertsResolvedParameters>();
+    const [alertsDataFilters, setAlertsDataFilters] = useState<AlertsActivesFilters>({});
+    const [historialDataFilters, setHistorialDataFilters] = useState<AlertsHistorialFilters>({});
 
     //* Queries
     const {
@@ -87,14 +93,6 @@ export function RetentionCenterView() {
 
     const handleHistorialRowClick = (alert: RetentionAlertWithStudentProjection) => {
         setSelectedHistorialAlert(alert);
-    };
-
-    const handleSetFilterAlert = (status: RetetionAlertsActives) => {
-        setAlertsDataFilters(status);
-    };
-
-    const handleSetFilterHistorial = (status: AlertsResolvedParameters) => {
-        setHistorialDataFilters(status);
     };
 
     return (
@@ -126,28 +124,116 @@ export function RetentionCenterView() {
                     </span>
                 </div>
                 <div className="overflow-x-auto">
-                    <div className="flex items-center justify-between px-5 py-3 bg-muted/30">
+                    {/** TODO: FILTROS DE ALERTA en base al dto para las alertas activas */}
+                    <div className="flex flex-wrap items-center gap-4 px-5 py-3 bg-muted/30">
+                        {/* Status Filter */}
                         <div className="flex items-center gap-2">
                             <Filter className="w-4 h-4 text-muted-foreground" />
-                            <span className="text-sm font-medium text-muted-foreground">Filtrar por estado:</span>
+                            <Select
+                                value={alertsDataFilters.status || "all"}
+                                onValueChange={(value) =>
+                                    setAlertsDataFilters((prev) => ({
+                                        ...prev,
+                                        status: value === "all" ? undefined : (value as RetetionAlertsActives),
+                                    }))
+                                }
+                            >
+                                <SelectTrigger className="w-[150px] bg-background text-xs">
+                                    <SelectValue placeholder="Estado" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        <SelectItem value="all">Todos los estados</SelectItem>
+                                        <SelectItem value={retentionAlertStatus.Pending}>Pendiente</SelectItem>
+                                        <SelectItem value={retentionAlertStatus.InProgress}>En Progreso</SelectItem>
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
                         </div>
-                        <Select
-                            value={alertsDataFilters || "all"}
-                            onValueChange={(value) =>
-                                handleSetFilterAlert(value === "all" ? undefined : (value as RetetionAlertsActives))
-                            }
-                        >
-                            <SelectTrigger className="w-[180px] bg-background">
-                                <SelectValue placeholder="Todos" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectGroup>
-                                    <SelectItem value="all">Todos</SelectItem>
-                                    <SelectItem value={retentionAlertStatus.Pending}>Pendiente</SelectItem>
-                                    <SelectItem value={retentionAlertStatus.InProgress}>En Progreso</SelectItem>
-                                </SelectGroup>
-                            </SelectContent>
-                        </Select>
+
+                        {/* Contract Status Filter */}
+                        <div className="flex items-center gap-2">
+                            <Select
+                                value={alertsDataFilters.contractStatus || "all"}
+                                onValueChange={(value) =>
+                                    setAlertsDataFilters((prev) => ({
+                                        ...prev,
+                                        contractStatus: value === "all" ? undefined : (value as StudentContractStatus),
+                                    }))
+                                }
+                            >
+                                <SelectTrigger className="w-[150px] bg-background text-xs">
+                                    <SelectValue placeholder="Estado Contrato" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        <SelectItem value="all">Cualquier contrato</SelectItem>
+                                        <SelectItem value={studentContractStatus.ACTIVE}>Activo</SelectItem>
+                                        <SelectItem value={studentContractStatus.FROZEN}>Congelado</SelectItem>
+                                        <SelectItem value={studentContractStatus.INACTIVE}>Inactivo</SelectItem>
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+                        </div>
+
+                        {/* Student Name Filter */}
+                        <div className="flex items-center gap-2 flex-1 min-w-[200px]">
+                            <Search className="w-4 h-4 text-muted-foreground" />
+                            <input
+                                type="text"
+                                placeholder="Buscar estudiante (nombre, cédula...)"
+                                value={alertsDataFilters.studentParameter || ""}
+                                onChange={(e) =>
+                                    setAlertsDataFilters((prev) => ({
+                                        ...prev,
+                                        studentParameter: e.target.value || undefined,
+                                    }))
+                                }
+                                className="w-full px-3 py-1.5 border border-border rounded-lg text-xs bg-background focus:outline-none focus:border-primary transition-colors"
+                            />
+                        </div>
+
+                        {/* Days Absent Filter */}
+                        <div className="flex items-center gap-2">
+                            <label className="text-xs font-medium text-muted-foreground whitespace-nowrap">Días ausente:</label>
+                            <input
+                                type="number"
+                                placeholder="Ej. 3"
+                                min={1}
+                                value={alertsDataFilters.daysAbsent || ""}
+                                onChange={(e) =>
+                                    setAlertsDataFilters((prev) => ({
+                                        ...prev,
+                                        daysAbsent: e.target.value ? Number(e.target.value) : undefined,
+                                    }))
+                                }
+                                className="w-[70px] px-3 py-1.5 border border-border rounded-lg text-xs bg-background focus:outline-none focus:border-primary transition-colors"
+                            />
+                        </div>
+
+                        {/* Is Justified Filter */}
+                        <div className="flex items-center gap-2">
+                            <Select
+                                value={alertsDataFilters.isJustified ? String(alertsDataFilters.isJustified) : "all"}
+                                onValueChange={(value) =>
+                                    setAlertsDataFilters((prev) => ({
+                                        ...prev,
+                                        isJustified: value === "all" ? undefined : value === "true",
+                                    }))
+                                }
+                            >
+                                <SelectTrigger className="w-[120px] bg-background text-xs">
+                                    <SelectValue placeholder="¿Justificado?" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        <SelectItem value="all">¿Justificado?</SelectItem>
+                                        <SelectItem value="true">Sí</SelectItem>
+                                        <SelectItem value="false">No</SelectItem>
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+                        </div>
                     </div>
                     <table className="w-full text-sm">
                         <thead>
@@ -162,7 +248,10 @@ export function RetentionCenterView() {
                                     Dias Ausente
                                 </th>
                                 <th className="px-5 py-3 text-left text-xs font-semibold text-destructive uppercase tracking-wide">
-                                    Contacto
+                                    Fecha de Contacto
+                                </th>
+                                <th className="px-5 py-3 text-left text-xs font-semibold text-destructive uppercase tracking-wide">
+                                    Justificado
                                 </th>
                                 <th className="px-5 py-3 text-left text-xs font-semibold text-destructive uppercase tracking-wide">
                                     Estado
@@ -220,6 +309,13 @@ export function RetentionCenterView() {
                                             )}
                                         </td>
                                         <td className="px-5 py-3">
+                                            <span
+                                                className={`text-xs font-semibold ${alert.isJustified ? "text-primary" : "text-destructive"}`}
+                                            >
+                                                {alert.isJustified ? "Si" : "No"}
+                                            </span>
+                                        </td>
+                                        <td className="px-5 py-3">
                                             <AlertStatusBadge alertStatus={alert.status} />
                                         </td>
                                     </tr>
@@ -240,28 +336,117 @@ export function RetentionCenterView() {
                         <h2 className="font-semibold text-title text-sm">Historial de Alertas</h2>
                     </div>
                     <div className="overflow-x-auto">
-                        <div className="flex items-center justify-between px-5 py-3 bg-muted/30">
+                        <div className="flex flex-wrap items-center gap-4 px-5 py-3 bg-muted/30">
+                            {/* Status Filter */}
                             <div className="flex items-center gap-2">
                                 <Filter className="w-4 h-4 text-muted-foreground" />
-                                <span className="text-sm font-medium text-muted-foreground">Filtrar por estado:</span>
+                                <Select
+                                    value={historialDataFilters.status || "all"}
+                                    onValueChange={(value) =>
+                                        setHistorialDataFilters((prev) => ({
+                                            ...prev,
+                                            status: value === "all" ? undefined : (value as AlertsResolvedParameters),
+                                        }))
+                                    }
+                                >
+                                    <SelectTrigger className="w-[150px] bg-background text-xs">
+                                        <SelectValue placeholder="Estado" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            <SelectItem value="all">Todos los estados</SelectItem>
+                                            <SelectItem value={retentionAlertStatus.Resolved}>Resuelto</SelectItem>
+                                            <SelectItem value={retentionAlertStatus.Unresolved}>No Resuelto</SelectItem>
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
                             </div>
-                            <Select
-                                value={historialDataFilters || "all"}
-                                onValueChange={(value) =>
-                                    handleSetFilterHistorial(value === "all" ? undefined : (value as AlertsResolvedParameters))
-                                }
-                            >
-                                <SelectTrigger className="w-[180px] bg-background">
-                                    <SelectValue placeholder="Todos" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectGroup>
-                                        <SelectItem value="all">Todos</SelectItem>
-                                        <SelectItem value={retentionAlertStatus.Resolved}>Resuelto</SelectItem>
-                                        <SelectItem value={retentionAlertStatus.Unresolved}>Cerrado Frozen</SelectItem>
-                                    </SelectGroup>
-                                </SelectContent>
-                            </Select>
+
+                            {/* Contract Status Filter */}
+                            <div className="flex items-center gap-2">
+                                <Select
+                                    value={historialDataFilters.contractStatus || "all"}
+                                    onValueChange={(value) =>
+                                        setHistorialDataFilters((prev) => ({
+                                            ...prev,
+                                            contractStatus: value === "all" ? undefined : (value as StudentContractStatus),
+                                        }))
+                                    }
+                                >
+                                    <SelectTrigger className="w-[150px] bg-background text-xs">
+                                        <SelectValue placeholder="Estado Contrato" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            <SelectItem value="all">Cualquier contrato</SelectItem>
+                                            <SelectItem value={studentContractStatus.ACTIVE}>Activo</SelectItem>
+                                            <SelectItem value={studentContractStatus.FROZEN}>Congelado</SelectItem>
+                                            <SelectItem value={studentContractStatus.INACTIVE}>Inactivo</SelectItem>
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+
+                            {/* Student Name Filter */}
+                            <div className="flex items-center gap-2 flex-1 min-w-[200px]">
+                                <Search className="w-4 h-4 text-muted-foreground" />
+                                <input
+                                    type="text"
+                                    placeholder="Buscar estudiante (nombre, cédula...)"
+                                    value={historialDataFilters.studentParameter || ""}
+                                    onChange={(e) =>
+                                        setHistorialDataFilters((prev) => ({
+                                            ...prev,
+                                            studentParameter: e.target.value || undefined,
+                                        }))
+                                    }
+                                    className="w-full px-3 py-1.5 border border-border rounded-lg text-xs bg-background focus:outline-none focus:border-primary transition-colors"
+                                />
+                            </div>
+
+                            {/* Days Absent Filter */}
+                            <div className="flex items-center gap-2">
+                                <label className="text-xs font-medium text-muted-foreground whitespace-nowrap">
+                                    Días ausente:
+                                </label>
+                                <input
+                                    type="number"
+                                    placeholder="Ej. 3"
+                                    min={1}
+                                    value={historialDataFilters.daysAbsent || ""}
+                                    onChange={(e) =>
+                                        setHistorialDataFilters((prev) => ({
+                                            ...prev,
+                                            daysAbsent: e.target.value ? Number(e.target.value) : undefined,
+                                        }))
+                                    }
+                                    className="w-[70px] px-3 py-1.5 border border-border rounded-lg text-xs bg-background focus:outline-none focus:border-primary transition-colors"
+                                />
+                            </div>
+
+                            {/* Is Justified Filter */}
+                            <div className="flex items-center gap-2">
+                                <Select
+                                    value={historialDataFilters.isJustified ? String(historialDataFilters.isJustified) : "all"}
+                                    onValueChange={(value) =>
+                                        setHistorialDataFilters((prev) => ({
+                                            ...prev,
+                                            isJustified: value === "all" ? undefined : value === "true",
+                                        }))
+                                    }
+                                >
+                                    <SelectTrigger className="w-[120px] bg-background text-xs">
+                                        <SelectValue placeholder="¿Justificado?" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            <SelectItem value="all">¿Justificado?</SelectItem>
+                                            <SelectItem value="true">Sí</SelectItem>
+                                            <SelectItem value="false">No</SelectItem>
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
+                            </div>
                         </div>
                         <table className="w-full text-sm">
                             <thead>
@@ -480,7 +665,7 @@ export function RetentionCenterView() {
                     </div>
                 </div>
             )}
-            {/**TODO: Crear modal para ver el historial de alertas de un alumno */}
+
             {selectedHistorialAlert && (
                 <div className="fixed inset-0 z-50 flex">
                     <div className="flex-1 bg-black/30" onClick={handleCloseModal} />
