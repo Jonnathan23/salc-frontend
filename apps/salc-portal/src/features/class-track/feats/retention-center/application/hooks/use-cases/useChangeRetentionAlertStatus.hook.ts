@@ -10,7 +10,7 @@ interface UseChangeRetentionAlertStatusProps {
     status: RetentionAlertStatus;
 }
 
-export const useChangeRetentionAlertStatus = () => {
+export const useChangeRetentionAlertStatus = (onSuccessCallback?: () => void) => {
     const queryClient = useQueryClient();
 
     return useMutation({
@@ -22,6 +22,8 @@ export const useChangeRetentionAlertStatus = () => {
         onSuccess: (response) => {
             queryClient.invalidateQueries({ queryKey: ["retention-alerts"] });
             ShowMessageAdapter.success(response.message || "Estado de alerta actualizado");
+
+            if (onSuccessCallback) onSuccessCallback();
         },
     });
 };

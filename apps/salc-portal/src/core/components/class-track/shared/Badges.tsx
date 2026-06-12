@@ -121,10 +121,10 @@ export function AlertStatusBadge({ alertStatus }: { alertStatus: RetentionAlertS
         );
     }
 
-    if (alertStatus === retentionAlertStatus.ClosedFrozen) {
+    if (alertStatus === retentionAlertStatus.Unresolved) {
         return (
             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-muted text-muted-foreground">
-                Congelado
+                No Resuelto
             </span>
         );
     }

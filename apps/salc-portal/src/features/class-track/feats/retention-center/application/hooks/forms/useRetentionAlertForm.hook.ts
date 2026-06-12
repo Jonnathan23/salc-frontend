@@ -4,6 +4,12 @@ import type { RetentionAlertWithStudentProjection } from "@salc/core/features/cl
 import type { BaseRetentionAlertFormValues } from "@/features/class-track/feats/retention-center/presentation/interfaces/BaseRetentionAlertFormValues.interface";
 import { RetentionAlertFormMapper } from "@/features/class-track/feats/retention-center/presentation/mappers/retentionAlertForm.mapper";
 import { useUpdateRetentionAlert } from "@/features/class-track/feats/retention-center/application/hooks/use-cases/useUpdateRetentionAlert.hook";
+import type { RetentionAlertEntity } from "@salc/core/features/class-track-teachers/retation-alert/domain/entities/RetentionAlert.entity";
+
+interface UseRetentionAlertFormProps {
+    alertProjection: RetentionAlertWithStudentProjection | null;
+    handleUpdateAlertSate?: (updatedEntity: RetentionAlertEntity) => void;
+}
 
 const defaultValues: BaseRetentionAlertFormValues = {
     contactDate: "",
@@ -14,10 +20,7 @@ const defaultValues: BaseRetentionAlertFormValues = {
     observations: "",
 };
 
-export const useRetentionAlertForm = (
-    alertProjection: RetentionAlertWithStudentProjection | null,
-    onSuccessCallback: () => void,
-) => {
+export const useRetentionAlertForm = ({ alertProjection, handleUpdateAlertSate }: UseRetentionAlertFormProps) => {
     const [formValues, setFormValues] = useState<BaseRetentionAlertFormValues>(() =>
         alertProjection ? RetentionAlertFormMapper.toBaseFormValues(alertProjection) : defaultValues,
     );
@@ -32,10 +35,10 @@ export const useRetentionAlertForm = (
         setFormValues((prev) => ({ ...prev, [field]: value }));
     };
 
-    const { mutate: updateAlertMutation, isPending: isSubmitting } = useUpdateRetentionAlert(
-        alertProjection?.id || "",
-        onSuccessCallback,
-    );
+    const { mutate: updateAlertMutation, isPending: isSubmitting } = useUpdateRetentionAlert({
+        alertId: alertProjection?.id || "",
+        handleUpdateAlertSate,
+    });
 
     const handleSubmit = (e?: React.FormEvent) => {
         if (e) e.preventDefault();

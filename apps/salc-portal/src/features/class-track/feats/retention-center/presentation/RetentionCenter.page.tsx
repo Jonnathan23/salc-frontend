@@ -5,7 +5,7 @@ import {
     retentionAlertStatus,
     type RetentionAlertStatus,
 } from "@salc/core/features/class-track-teachers/retation-alert/domain/interfaces/RetentionAlert.interface";
-import type { RetentionAlertWithStudentProjection } from "@salc/core/features/class-track-teachers/retation-alert/domain/projections/RetentionAlertWithStudent.projection";
+import { RetentionAlertWithStudentProjection } from "@salc/core/features/class-track-teachers/retation-alert/domain/projections/RetentionAlertWithStudent.projection";
 
 import { AlertStatusBadge, ContractStatusBadge } from "@/core/components/class-track/shared/Badges";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/core/components/ui/Select";
@@ -18,14 +18,48 @@ import type {
     RetetionAlertsActives,
 } from "@/features/class-track/feats/retention-center/presentation/interfaces/AlertsHooks.interface";
 import { useGetRetetionAlertsActives } from "@/features/class-track/feats/retention-center/application/hooks/use-cases/useGetRetentionAlerts.hook";
+import { useChangeStatusForm } from "@/features/class-track/feats/retention-center/application/hooks/forms/useChangeStatusForm.hook";
+import type { RetentionAlertEntity } from "@salc/core/features/class-track-teachers/retation-alert/domain/entities/RetentionAlert.entity";
 
 export function RetentionCenterView() {
     //* hooks
     const [selectedAlert, setSelectedAlert] = useState<RetentionAlertWithStudentProjection | null>(null);
 
-    const handleCloseModal = () => setSelectedAlert(null);
+    const [selectedHistorialAlert, setSelectedHistorialAlert] = useState<RetentionAlertWithStudentProjection | null>(null);
 
-    const { formValues, handleChange, handleSubmit, isSubmitting } = useRetentionAlertForm(selectedAlert, handleCloseModal);
+    const handleCloseModal = () => {
+        setSelectedAlert(null);
+        setSelectedHistorialAlert(null);
+    };
+
+    const onUpdateAlertSate = (updatedEntity: RetentionAlertEntity) => {
+        if (selectedAlert) {
+            const updatedProjection = new RetentionAlertWithStudentProjection(
+                selectedAlert.id,
+                updatedEntity.reAlContactDate,
+                updatedEntity.reAlHasResponded,
+                updatedEntity.reAlDaysAbsent,
+                updatedEntity.reAlIsJustified,
+                updatedEntity.reAlJustificationReason,
+                updatedEntity.reAlReturnDeadline,
+                updatedEntity.reAlObservations,
+                updatedEntity.reAlStatus,
+                selectedAlert.student,
+                updatedEntity.reAlCreatedAt,
+            );
+
+            setSelectedAlert(updatedProjection);
+        }
+    };
+
+    const { formValues, handleChange, handleSubmit, isSubmitting } = useRetentionAlertForm({
+        alertProjection: selectedAlert,
+        handleUpdateAlertSate: onUpdateAlertSate,
+    });
+
+    const { handleMarkAsResolved, handleMarkAsUnresolved, handleMarkAsPending, handleMarkAsInProgress } = useChangeStatusForm({
+        onSuccessCallback: handleCloseModal,
+    });
 
     const [alertsDataFilters, setAlertsDataFilters] = useState<RetetionAlertsActives>();
     const [historialDataFilters, setHistorialDataFilters] = useState<AlertsResolvedParameters>();
@@ -49,6 +83,10 @@ export function RetentionCenterView() {
     //* handlers
     const handleRowClick = (alert: RetentionAlertWithStudentProjection) => {
         setSelectedAlert(alert);
+    };
+
+    const handleHistorialRowClick = (alert: RetentionAlertWithStudentProjection) => {
+        setSelectedHistorialAlert(alert);
     };
 
     const handleSetFilterAlert = (status: RetetionAlertsActives) => {
@@ -220,7 +258,7 @@ export function RetentionCenterView() {
                                     <SelectGroup>
                                         <SelectItem value="all">Todos</SelectItem>
                                         <SelectItem value={retentionAlertStatus.Resolved}>Resuelto</SelectItem>
-                                        <SelectItem value={retentionAlertStatus.ClosedFrozen}>Cerrado Frozen</SelectItem>
+                                        <SelectItem value={retentionAlertStatus.Unresolved}>Cerrado Frozen</SelectItem>
                                     </SelectGroup>
                                 </SelectContent>
                             </Select>
@@ -257,7 +295,7 @@ export function RetentionCenterView() {
                                     </tr>
                                 ) : (
                                     historialAlerts.map((alert) => (
-                                        <tr key={alert.id} className="opacity-70">
+                                        <tr key={alert.id} className="opacity-70" onClick={() => handleHistorialRowClick(alert)}>
                                             <td className="px-5 py-3 font-medium text-foreground">{alert.student.fullName}</td>
                                             <td className="px-5 py-3 text-muted-foreground">{alert.daysAbsent} dias</td>
                                             <td className="px-5 py-3">
@@ -297,10 +335,21 @@ export function RetentionCenterView() {
                                 <X className="w-4 h-4 text-muted-foreground" />
                             </button>
                         </div>
-                        {/* TODO: crear zona de peligro
-                         * En esta zona es para consumir los mutations del cambio de estado de la alerta a
-                         * Resolved y ClosedFrozen
-                         */}
+                        {/* Status Actions */}
+                        <div className="px-6 py-4 bg-background border-b border-border flex gap-3">
+                            <button
+                                onClick={() => handleMarkAsResolved(selectedAlert)}
+                                className="flex-1 py-2 px-3 rounded-lg text-sm font-semibold text-primary-foreground bg-primary hover:bg-primary/90 transition-colors"
+                            >
+                                Marcar Resuelto
+                            </button>
+                            <button
+                                onClick={() => handleMarkAsUnresolved(selectedAlert)}
+                                className="flex-1 py-2 px-3 rounded-lg text-sm font-semibold text-secondary-foreground bg-secondary hover:bg-secondary/90 transition-colors"
+                            >
+                                Marcar No Resuelto
+                            </button>
+                        </div>
 
                         {/* Student Info */}
                         <div className="px-6 py-4 bg-muted">
@@ -426,6 +475,137 @@ export function RetentionCenterView() {
                                 ) : (
                                     "Guardar Cambios"
                                 )}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {/**TODO: Crear modal para ver el historial de alertas de un alumno */}
+            {selectedHistorialAlert && (
+                <div className="fixed inset-0 z-50 flex">
+                    <div className="flex-1 bg-black/30" onClick={handleCloseModal} />
+                    <div className="w-full max-w-md bg-card shadow-2xl flex flex-col h-full overflow-y-auto">
+                        {/* Header */}
+                        <div className="px-6 py-5 border-b border-border flex items-center justify-between sticky top-0 bg-card z-10">
+                            <div>
+                                <h3 className="font-bold text-title">Historial de Alerta</h3>
+                                <p className="text-xs text-muted-foreground mt-0.5">{selectedHistorialAlert.student.fullName}</p>
+                            </div>
+                            <button onClick={handleCloseModal} className="p-1.5 hover:bg-muted rounded-lg transition-colors">
+                                <X className="w-4 h-4 text-muted-foreground" />
+                            </button>
+                        </div>
+                        {/* Status Actions */}
+                        <div className="px-6 py-4 bg-background border-b border-border flex gap-3">
+                            <button
+                                onClick={() => handleMarkAsPending(selectedHistorialAlert)}
+                                className="flex-1 py-2 px-3 rounded-lg text-sm font-semibold text-destructive-foreground bg-destructive hover:bg-destructive/90 transition-colors"
+                            >
+                                Marcar Pendiente
+                            </button>
+                            <button
+                                onClick={() => handleMarkAsInProgress(selectedHistorialAlert)}
+                                className="flex-1 py-2 px-3 rounded-lg text-sm font-semibold text-warning-foreground bg-warning hover:bg-warning/90 transition-colors"
+                            >
+                                Marcar En Progreso
+                            </button>
+                        </div>
+
+                        {/* Student Info */}
+                        <div className="px-6 py-4 bg-muted">
+                            <div className="flex items-center gap-3">
+                                <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center">
+                                    <span className="text-primary-foreground font-bold">
+                                        {selectedHistorialAlert.student.fullName.charAt(0)}
+                                    </span>
+                                </div>
+                                <div>
+                                    <p className="font-semibold text-foreground">{selectedHistorialAlert.student.fullName}</p>
+                                    <p className="text-xs text-muted-foreground">
+                                        {selectedHistorialAlert.student.identificationCard}
+                                    </p>
+                                    <p className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
+                                        <Phone className="w-3 h-3" /> {selectedHistorialAlert.student.phoneNumber}
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="mt-3 p-3 bg-background rounded-lg">
+                                <p className="text-sm font-semibold text-destructive">
+                                    {selectedHistorialAlert.daysAbsent} dias de ausencia
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Informational Data */}
+                        <div className="flex-1 px-6 py-5 space-y-5">
+                            <div>
+                                <label className="flex items-center gap-1.5 text-xs font-semibold text-foreground mb-1.5 uppercase tracking-wide">
+                                    <Calendar className="w-3.5 h-3.5" /> Fecha de Contacto
+                                </label>
+                                <p className="text-sm text-foreground bg-muted p-3 rounded-lg">
+                                    {selectedHistorialAlert.contactDate
+                                        ? new Date(selectedHistorialAlert.contactDate).toLocaleDateString()
+                                        : "No se registró"}
+                                </p>
+                            </div>
+
+                            <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
+                                <label className="text-sm font-medium text-foreground">Respondió al contacto</label>
+                                <span
+                                    className={`text-xs font-semibold px-2 py-1 rounded-full ${selectedHistorialAlert.hasResponded ? "bg-primary text-primary-foreground" : "bg-destructive text-destructive-foreground"}`}
+                                >
+                                    {selectedHistorialAlert.hasResponded ? "Sí" : "No"}
+                                </span>
+                            </div>
+
+                            <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
+                                <label className="text-sm font-medium text-foreground">Ausencia justificada</label>
+                                <span
+                                    className={`text-xs font-semibold px-2 py-1 rounded-full ${selectedHistorialAlert.isJustified ? "bg-primary text-primary-foreground" : "bg-destructive text-destructive-foreground"}`}
+                                >
+                                    {selectedHistorialAlert.isJustified ? "Sí" : "No"}
+                                </span>
+                            </div>
+
+                            {selectedHistorialAlert.isJustified && (
+                                <div>
+                                    <label className="flex items-center gap-1.5 text-xs font-semibold text-foreground mb-1.5 uppercase tracking-wide">
+                                        <MessageSquare className="w-3.5 h-3.5" /> Razón de Justificación
+                                    </label>
+                                    <p className="text-sm text-foreground bg-muted p-3 rounded-lg min-h-[80px]">
+                                        {selectedHistorialAlert.justificationReason || "Sin justificación detallada"}
+                                    </p>
+                                </div>
+                            )}
+
+                            <div>
+                                <label className="flex items-center gap-1.5 text-xs font-semibold text-foreground mb-1.5 uppercase tracking-wide">
+                                    <Calendar className="w-3.5 h-3.5" /> Fecha Límite de Regreso
+                                </label>
+                                <p className="text-sm text-foreground bg-muted p-3 rounded-lg">
+                                    {selectedHistorialAlert.returnDeadline
+                                        ? new Date(selectedHistorialAlert.returnDeadline).toLocaleDateString()
+                                        : "No se registró"}
+                                </p>
+                            </div>
+
+                            <div>
+                                <label className="flex items-center gap-1.5 text-xs font-semibold text-foreground mb-1.5 uppercase tracking-wide">
+                                    <FileText className="w-3.5 h-3.5" /> Observaciones Generales
+                                </label>
+                                <p className="text-sm text-foreground bg-muted p-3 rounded-lg min-h-[100px] whitespace-pre-wrap">
+                                    {selectedHistorialAlert.observations || "Sin observaciones generales"}
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Footer */}
+                        <div className="px-6 py-4 border-t border-border flex gap-3">
+                            <button
+                                onClick={handleCloseModal}
+                                className="w-full py-2.5 border border-border rounded-lg text-sm font-semibold text-foreground hover:bg-muted transition-colors"
+                            >
+                                Cerrar
                             </button>
                         </div>
                     </div>

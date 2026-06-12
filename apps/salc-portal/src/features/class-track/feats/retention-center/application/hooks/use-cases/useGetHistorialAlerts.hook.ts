@@ -12,15 +12,15 @@ export const useGetHistorialAlerts = (status: AlertsResolvedParameters) => {
         queryFn: async () => {
             if (!status) {
                 const dtoResolved = GetRetentionAlertsDto.create({ status: retentionAlertStatus.Resolved });
-                const dtoClosedFrozen = GetRetentionAlertsDto.create({ status: retentionAlertStatus.ClosedFrozen });
+                const dtoUnresolved = GetRetentionAlertsDto.create({ status: retentionAlertStatus.Unresolved });
 
                 const resolved = await getRetentionAlertsUseCase.execute(dtoResolved);
-                const closedFrozen = await getRetentionAlertsUseCase.execute(dtoClosedFrozen);
+                const unresolved = await getRetentionAlertsUseCase.execute(dtoUnresolved);
 
                 const allHistory: SuccessResponse<RetentionAlertWithStudentProjection[]> = {
                     success: true,
                     message: "Historial de alertas obtenido exitosamente",
-                    data: [...(resolved.data ?? []), ...(closedFrozen.data ?? [])],
+                    data: [...(resolved.data ?? []), ...(unresolved.data ?? [])],
                 };
 
                 return allHistory;
