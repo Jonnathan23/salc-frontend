@@ -21,19 +21,21 @@ export function ContractStatusBadge({ status }: { status: StudentContractStatus 
                 Activo
             </span>
         );
-    } else if (status === studentContractStatus.FROZEN) {
+    }
+
+    if (status === studentContractStatus.FROZEN) {
         return (
             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-secondary text-secondary-foreground">
                 Congelado
             </span>
         );
-    } else {
-        return (
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-destructive text-destructive-foreground">
-                Inactivo
-            </span>
-        );
     }
+
+    return (
+        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-destructive text-destructive-foreground">
+            Inactivo
+        </span>
+    );
 }
 
 export function ProgressCategoryBadge({ category }: { category: StudentProgressCategory }) {
@@ -77,19 +79,21 @@ export function SessionStatusBadge({ status }: { status: AttendanceSessionStatus
                 En Curso
             </span>
         );
-    } else if (status === SessionStatus.PendingApproval) {
+    }
+
+    if (status === SessionStatus.PendingApproval) {
         return (
             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-accent text-accent-foreground">
                 Pendiente Aprobacion
             </span>
         );
-    } else {
-        return (
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-secondary text-secondary-foreground">
-                Aprobado
-            </span>
-        );
     }
+
+    return (
+        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-secondary text-secondary-foreground">
+            Aprobado
+        </span>
+    );
 }
 
 export function AlertStatusBadge({ alertStatus }: { alertStatus: RetentionAlertStatus }) {
@@ -99,17 +103,36 @@ export function AlertStatusBadge({ alertStatus }: { alertStatus: RetentionAlertS
                 Pendiente
             </span>
         );
-    } else if (alertStatus === retentionAlertStatus.Resolved) {
+    }
+
+    if (alertStatus === retentionAlertStatus.InProgress) {
+        return (
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-warning text-warning-foreground">
+                En Progreso
+            </span>
+        );
+    }
+
+    if (alertStatus === retentionAlertStatus.Resolved) {
         return (
             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-primary text-primary-foreground">
                 Resuelto
             </span>
         );
-    } else {
+    }
+
+    if (alertStatus === retentionAlertStatus.Unresolved) {
         return (
             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-muted text-muted-foreground">
-                Cerrado / Congelado
+                No Resuelto
             </span>
         );
     }
+
+    // Caso por defecto o estado cerrado genérico
+    return (
+        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-secondary text-secondary-foreground">
+            Cerrado
+        </span>
+    );
 }

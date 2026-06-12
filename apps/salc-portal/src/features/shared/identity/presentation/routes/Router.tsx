@@ -9,6 +9,7 @@ import NotFoundView from "@/core/pages/NotFound.page";
 import AdminDeskLayout from "@/core/layouts/AdminDesk.layout";
 import IndexRedirect from "@/features/shared/identity/presentation/pages/IndexRedirect.page";
 import ClassTrackLayout from "@/core/layouts/ClassTrack.layout";
+import { RetentionCenterView } from "@/features/class-track/feats/retention-center/presentation/RetentionCenter.page";
 
 const DirectoryStudents = lazy(
     () => import("@/features/admin-desk/students/presentation/pages/students-items/DirectoryStudents.page"),
@@ -100,6 +101,7 @@ export default function Router() {
                         <Route path="/class-track/" element={<ClassTrackLayout />}>
                             <Route path="dashboard" element={<DashboardClassTrackPage />} />
                             <Route path="acces-control" element={<AccessControlView />} />
+                            <Route path="retention-center" element={<RetentionCenterView />} />
                         </Route>
                     </Route>
                 </Route>
