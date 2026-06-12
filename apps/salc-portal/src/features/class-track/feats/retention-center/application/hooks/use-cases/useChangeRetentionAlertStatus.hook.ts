@@ -5,11 +5,16 @@ import { ChangeRetentionAlertStatusDto } from "@salc/core/features/class-track-t
 import type { RetentionAlertStatus } from "@salc/core/features/class-track-teachers/retation-alert/domain/interfaces/RetentionAlert.interface";
 import { ShowMessageAdapter } from "@/core/adapters/ShowMessage.adapter";
 
+interface UseChangeRetentionAlertStatusProps {
+    alertId: string;
+    status: RetentionAlertStatus;
+}
+
 export const useChangeRetentionAlertStatus = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: async ({ alertId, status }: { alertId: string; status: RetentionAlertStatus }) => {
+        mutationFn: async ({ alertId, status }: UseChangeRetentionAlertStatusProps) => {
             const dto = ChangeRetentionAlertStatusDto.create({ status });
 
             return await changeRetentionAlertStatusUseCase.execute(alertId, dto);
@@ -17,9 +22,6 @@ export const useChangeRetentionAlertStatus = () => {
         onSuccess: (response) => {
             queryClient.invalidateQueries({ queryKey: ["retention-alerts"] });
             ShowMessageAdapter.success(response.message || "Estado de alerta actualizado");
-        },
-        onError: (error: any) => {
-            ShowMessageAdapter.error(error.message || "Ocurrió un error al cambiar el estado");
         },
     });
 };

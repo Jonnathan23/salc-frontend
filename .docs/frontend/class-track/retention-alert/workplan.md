@@ -46,7 +46,7 @@ En `apps/salc-portal/src/features/class-track/feats/retention-center/`:
 
 ### 4.2 Custom Hooks (TanStack Query)
 
-- **`useGetRetentionAlerts`:**
+- **`RetetionAlertsActives`:**
     - Consume `GetRetentionAlertsUseCase`.
     - Opcionalmente puede recibir el filtro de estado (pendientes vs resueltas).
 - **`useUpdateRetentionAlert`:**
@@ -56,6 +56,6 @@ En `apps/salc-portal/src/features/class-track/feats/retention-center/`:
 ### 4.3 Refactorización de la Vista (`RetentionCenterView.tsx`)
 
 - Eliminar `mockAlerts` y `mockStudents`.
-- Reemplazar el estado local `alerts` por la data proveniente de `useGetRetentionAlerts`.
+- Reemplazar el estado local `alerts` por la data proveniente de `RetetionAlertsActives`.
 - Reemplazar la función local `handleSave` por la llamada a la mutación de `useUpdateRetentionAlert`, pasándole el `FormMapper` con el estado del `editForm`.
 - Implementar estados de "Cargando" y "Error" para las tablas mientras los datos se recuperan de la API.
