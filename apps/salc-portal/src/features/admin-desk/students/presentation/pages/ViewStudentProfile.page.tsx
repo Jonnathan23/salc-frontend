@@ -6,17 +6,21 @@ import StudentProfileData from "@/features/admin-desk/students/presentation/comp
 import { systemPermissions } from "@salc/core/enums/Permissions";
 import { Loader2 } from "lucide-react";
 import { useMemo, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 
 export default function ViewStudentProfile() {
     const parameters = useParams();
     const studentId = parameters.studentId!;
     const navigation = useNavigate();
+    const location = useLocation();
 
     const { userResponse } = useAuthStore();
+
     const { data: successResponse, isLoading, isError } = useSearchStudent(studentId);
 
     const student = successResponse?.data?.[0] ? successResponse.data[0] : null;
+
+    const baseUrl = location.pathname.includes("/class-track") ? "/class-track" : "/admin-desk";
 
     const [isEdit, setIsEdit] = useState(false);
 
@@ -31,8 +35,10 @@ export default function ViewStudentProfile() {
     };
 
     const onViewProfile = () => {
-        navigation("/view-profiles");
+        navigation(`${baseUrl}/view-students`);
     };
+
+    const onBack = () => navigation(`${baseUrl}/view-students`);
 
     if (isLoading) return <Loader2 className="w-4 h-4 animate-spin" />;
 
@@ -55,5 +61,12 @@ export default function ViewStudentProfile() {
             />
         );
 
-    return <StudentProfileData student={student} handleSetEdit={handleSetEdit} />;
+    return (
+        <StudentProfileData
+            student={student}
+            canUserResponseEdit={canUserResponseEdit}
+            handleSetEdit={handleSetEdit}
+            onBack={onBack}
+        />
+    );
 }

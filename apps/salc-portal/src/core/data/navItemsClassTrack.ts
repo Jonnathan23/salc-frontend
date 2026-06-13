@@ -44,8 +44,8 @@ export const classTrackNavItems: NavItem[] = [
         title: "Perfiles",
         description: "Perfiles",
         icon: Users,
-        href: baseUrl + "/profiles",
-        permissions: [systemPermissions.CLASSTRACK_ATTENDANCE_READ],
+        href: baseUrl + "/view-students",
+        permissions: [systemPermissions.ADMINDESK_STUDENTS_READ],
         color: "bg-secondary",
     },
 ];

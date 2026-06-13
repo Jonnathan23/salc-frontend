@@ -102,6 +102,14 @@ export default function Router() {
                             <Route path="dashboard" element={<DashboardClassTrackPage />} />
                             <Route path="acces-control" element={<AccessControlView />} />
                             <Route path="retention-center" element={<RetentionCenterView />} />
+
+                            <Route element={<ProtectedRoute requiredPermissions={[systemPermissions.ADMINDESK_STUDENTS_READ]} />}>
+                                <Route path="view-students" element={<DirectoryStudents />} />
+                            </Route>
+
+                            <Route element={<ProtectedRoute requiredPermissions={[systemPermissions.ADMINDESK_STUDENTS_READ]} />}>
+                                <Route path="view-students/:studentId/profile" element={<ViewStudentProfile />} />
+                            </Route>
                         </Route>
                     </Route>
                 </Route>
