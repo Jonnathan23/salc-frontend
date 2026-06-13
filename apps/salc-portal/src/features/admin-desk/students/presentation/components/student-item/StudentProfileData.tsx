@@ -3,24 +3,23 @@ import { Globe, CreditCard, Phone, Mail, BookOpen, Clock, DollarSign, ArrowLeft,
 import { useState } from "react";
 import { ContractStatusBadge, ProgressCategoryBadge } from "@/core/components/ui/admin-desk/badges/Badges";
 import { Button } from "@/core/components/ui/admin-desk/buttons/Button";
-import { useNavigate } from "react-router-dom";
+
 import type { StudentEntity } from "@salc/core/features/admin-desk/students/domain/entities/Student.entity";
 
 type ProfileTab = "academic" | "attendance" | "financial";
 
 interface StudentProfileViewDataProps {
     student: StudentEntity;
+    readonly canUserResponseEdit: boolean;
     handleSetEdit: () => void;
+    onBack: () => void | Promise<void>;
 }
 
-export default function StudentProfileData({ student, handleSetEdit }: StudentProfileViewDataProps) {
+export default function StudentProfileData({ student, handleSetEdit, canUserResponseEdit, onBack }: StudentProfileViewDataProps) {
     //TODO: Implementar el cambio del estado del contrato
     //TODO: Implementar marcar como graduado
 
     const [activeTab, setActiveTab] = useState<ProfileTab>("academic");
-    const navigation = useNavigate();
-
-    const onBack = () => navigation("/admin-desk/view-students");
 
     const tabs: { key: ProfileTab; label: string; icon: React.ReactNode }[] = [
         { key: "academic", label: "Academico", icon: <BookOpen className="w-4 h-4" /> },
@@ -40,10 +39,12 @@ export default function StudentProfileData({ student, handleSetEdit }: StudentPr
                         <ArrowLeft className="mr-2 h-4 w-4" />
                         Volver
                     </Button>
-                    <Button onClick={handleSetEdit}>
-                        <Pencil className="mr-2 h-4 w-4" />
-                        Editar
-                    </Button>
+                    {canUserResponseEdit && (
+                        <Button onClick={handleSetEdit}>
+                            <Pencil className="mr-2 h-4 w-4" />
+                            Editar
+                        </Button>
+                    )}
                 </div>
             </div>
 
@@ -51,7 +52,7 @@ export default function StudentProfileData({ student, handleSetEdit }: StudentPr
                 <div className="h-20 bg-primary-foreground" />
                 <div className="px-6 pb-6">
                     <div className="flex items-end gap-4 -mt-8 mb-4">
-                        <div className="w-16 h-16 rounded-2xl bg-accent border-4 border-card flex items-center justify-center flex-shrink-0 shadow-md">
+                        <div className="w-16 h-16 rounded-2xl bg-accent border-4 border-card flex items-center justify-center shrink-0 shadow-md">
                             <span className="text-accent-foreground text-2xl font-bold">{student.fullName.charAt(0)}</span>
                         </div>
                         <div className="mb-1">

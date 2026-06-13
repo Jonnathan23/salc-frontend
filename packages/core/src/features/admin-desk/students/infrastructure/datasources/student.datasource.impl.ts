@@ -2,11 +2,12 @@ import type {
     RegisterStudentDto,
     UpdateStudentDto,
     ChangeContractStatusDto,
+    SearchStudentsByCriteriaDto,
 } from "@salc/core/features/admin-desk/students/domain/dtos";
 import { type StudentMapper } from "@salc/core/features/admin-desk/students/infrastructure/mappers/student.mapper";
 import { StudentDataSource } from "@salc/core/features/admin-desk/students/domain/datasources/student.datasource";
 import { type StudentEntity } from "@salc/core/features/admin-desk/students/domain/entities/Student.entity";
-import { type SuccessResponse, type MethodsHttp } from "@salc/core/interfaces";
+import { type SuccessResponse, type MethodsHttp, type PaginatedResult } from "@salc/core/interfaces";
 import { CustomError } from "@salc/core/enums";
 
 export class StudentDataSourceImpl implements StudentDataSource {
@@ -34,8 +35,14 @@ export class StudentDataSourceImpl implements StudentDataSource {
     }
 
     async search(query: string): Promise<SuccessResponse<StudentEntity[]>> {
-        const url = `${this.baseUrl}/search?q=${query}`;
-        const rawResponse = await this.apiStudents.get<SuccessResponse<StudentEntity[]>>(url);
+        const url = `${this.baseUrl}/search`;
+        const queryParameters = {
+            q: query,
+        };
+
+        const rawResponse = await this.apiStudents.get<SuccessResponse<StudentEntity[]>>(url, {
+            parameters: queryParameters,
+        });
 
         if (!rawResponse.data) {
             throw CustomError.notFound("No students found");
@@ -46,6 +53,37 @@ export class StudentDataSourceImpl implements StudentDataSource {
         return {
             ...rawResponse,
             data: students,
+        };
+    }
+
+    async searchByCriteria(dto: SearchStudentsByCriteriaDto): Promise<SuccessResponse<PaginatedResult<StudentEntity>>> {
+        const url = `${this.baseUrl}/search/criteria`;
+        const queryParameters = {
+            page: dto.page,
+            searchTerm: dto.searchTerm,
+            st_nationality: dto.st_nationality,
+            st_certificate_type: dto.st_certificate_type,
+            st_is_graduated: dto.st_is_graduated,
+            st_contract_status: dto.st_contract_status,
+            st_progress_category: dto.st_progress_category,
+        };
+
+        const rawResponse = await this.apiStudents.get<SuccessResponse<PaginatedResult<StudentEntity>>>(url, {
+            parameters: queryParameters,
+        });
+
+        if (!rawResponse.data) {
+            throw CustomError.notFound("No students found by criteria");
+        }
+
+        const students = this.studentMapper.toArrayEntities(rawResponse.data.data);
+
+        return {
+            ...rawResponse,
+            data: {
+                ...rawResponse.data,
+                data: students,
+            },
         };
     }
 
