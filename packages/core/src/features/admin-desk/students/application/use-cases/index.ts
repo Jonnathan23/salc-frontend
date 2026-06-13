@@ -4,3 +4,4 @@ export * from "@salc/core/features/admin-desk/students/application/use-cases/upd
 export * from "@salc/core/features/admin-desk/students/application/use-cases/changeContractStatus.use-case";
 export * from "@salc/core/features/admin-desk/students/application/use-cases/toggleGraduated.use-case";
 export * from "@salc/core/features/admin-desk/students/application/use-cases/deactivateStudent.use-case";
+export * from "@salc/core/features/admin-desk/students/application/use-cases/searchStudentsByCriteria.use-case";

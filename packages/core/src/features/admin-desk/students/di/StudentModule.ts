@@ -3,6 +3,7 @@ import { DeactivateStudentUseCase } from "@salc/core/features/admin-desk/student
 import { GetAllStudentsUseCaseImpl } from "@salc/core/features/admin-desk/students/application/use-cases/getAllStudents.use-case";
 import { RegisterStudentUseCase } from "@salc/core/features/admin-desk/students/application/use-cases/registerStudent.use-case";
 import { ToggleGraduatedUseCase } from "@salc/core/features/admin-desk/students/application/use-cases/toggleGraduated.use-case";
+import { SearchStudentsByCriteriaUseCase } from "@salc/core/features/admin-desk/students/application/use-cases/searchStudentsByCriteria.use-case";
 import { StudentDataSourceImpl } from "@salc/core/features/admin-desk/students/infrastructure/datasources/student.datasource.impl";
 import { StudentRepositoryImpl } from "@salc/core/features/admin-desk/students/infrastructure/repositories/Student.repository.impl";
 import { SearchStudentsUseCase } from "@salc/core/features/admin-desk/students/application/use-cases/searchStudents.use-case";
@@ -43,3 +44,5 @@ export const changeContractStatusUseCase = new ChangeContractStatusUseCase(stude
 export const toggleGraduatedUseCase = new ToggleGraduatedUseCase(studentRepository);
 
 export const deactivateStudentUseCase = new DeactivateStudentUseCase(studentRepository);
+
+export const searchStudentsByCriteriaUseCase = new SearchStudentsByCriteriaUseCase(studentRepository);

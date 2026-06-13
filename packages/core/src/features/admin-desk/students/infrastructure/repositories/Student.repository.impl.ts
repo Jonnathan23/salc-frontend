@@ -3,6 +3,7 @@ import type {
     RegisterStudentDto,
     UpdateStudentDto,
     ChangeContractStatusDto,
+    SearchStudentsByCriteriaDto,
 } from "@salc/core/features/admin-desk/students/domain/dtos";
 import { StudentEntity } from "@salc/core/features/admin-desk/students/domain/entities/Student.entity";
 import { StudentRepository } from "@salc/core/features/admin-desk/students/domain/repositories/student.repository";
@@ -17,6 +18,10 @@ export class StudentRepositoryImpl implements StudentRepository {
 
     search(query: string): Promise<SuccessResponse<StudentEntity[]>> {
         return this.studentDataSource.search(query);
+    }
+
+    searchByCriteria(dto: SearchStudentsByCriteriaDto): Promise<SuccessResponse<StudentEntity[]>> {
+        return this.studentDataSource.searchByCriteria(dto);
     }
 
     getAllStudents(): Promise<SuccessResponse<StudentEntity[]>> {
