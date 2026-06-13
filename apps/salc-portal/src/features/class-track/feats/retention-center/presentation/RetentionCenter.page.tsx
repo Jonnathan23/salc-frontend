@@ -9,6 +9,14 @@ import { RetentionAlertWithStudentProjection } from "@salc/core/features/class-t
 
 import { AlertStatusBadge, ContractStatusBadge } from "@/core/components/class-track/shared/Badges";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/core/components/ui/Select";
+import {
+    Pagination,
+    PaginationContent,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from "@/core/components/ui/Pagination";
 import { studentContractStatus, type StudentContractStatus } from "@salc/core/features/admin-desk/students/domain/interfaces";
 import { useRetentionAlertForm } from "@/features/class-track/feats/retention-center/application/hooks/forms/useRetentionAlertForm.hook";
 
@@ -67,8 +75,8 @@ export function RetentionCenterView() {
         onSuccessCallback: handleCloseModal,
     });
 
-    const [alertsDataFilters, setAlertsDataFilters] = useState<AlertsActivesFilters>({});
-    const [historialDataFilters, setHistorialDataFilters] = useState<AlertsHistorialFilters>({});
+    const [alertsDataFilters, setAlertsDataFilters] = useState<AlertsActivesFilters>({ page: 1 });
+    const [historialDataFilters, setHistorialDataFilters] = useState<AlertsHistorialFilters>({ page: 1 });
 
     //* Queries
     const {
@@ -83,8 +91,15 @@ export function RetentionCenterView() {
     } = useGetHistorialAlerts(historialDataFilters);
 
     //* memos
-    const allAlerts = useMemo(() => alertsData?.data || [], [alertsData]);
-    const historialAlerts = useMemo(() => historialData?.data || [], [historialData]);
+    const allAlerts = useMemo(() => alertsData?.data?.data || [], [alertsData]);
+    const allAlertsMeta = useMemo(() => alertsData?.data?.meta || null, [alertsData]);
+
+    const historialAlerts = useMemo(() => historialData?.data?.data || [], [historialData]);
+    const historialAlertsMeta = useMemo(() => historialData?.data?.meta || null, [historialData]);
+
+    //* pagination handlers
+    const handleSetAlertsPage = (page: number) => setAlertsDataFilters((prev) => ({ ...prev, page }));
+    const handleSetHistorialPage = (page: number) => setHistorialDataFilters((prev) => ({ ...prev, page }));
 
     //* handlers
     const handleRowClick = (alert: RetentionAlertWithStudentProjection) => {
@@ -324,6 +339,45 @@ export function RetentionCenterView() {
                         </tbody>
                     </table>
                 </div>
+                {allAlertsMeta && allAlertsMeta.totalPages > 1 && (
+                    <div className="py-4 border-t border-border/50">
+                        <Pagination>
+                            <PaginationContent>
+                                <PaginationItem>
+                                    <PaginationPrevious
+                                        onClick={() => handleSetAlertsPage(Math.max(1, allAlertsMeta.currentPage - 1))}
+                                        className={
+                                            allAlertsMeta.currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"
+                                        }
+                                    />
+                                </PaginationItem>
+                                {Array.from({ length: allAlertsMeta.totalPages }).map((_, index) => (
+                                    <PaginationItem key={index + 1}>
+                                        <PaginationLink
+                                            onClick={() => handleSetAlertsPage(index + 1)}
+                                            isActive={allAlertsMeta.currentPage === index + 1}
+                                            className="cursor-pointer"
+                                        >
+                                            {index + 1}
+                                        </PaginationLink>
+                                    </PaginationItem>
+                                ))}
+                                <PaginationItem>
+                                    <PaginationNext
+                                        onClick={() =>
+                                            handleSetAlertsPage(Math.min(allAlertsMeta.totalPages, allAlertsMeta.currentPage + 1))
+                                        }
+                                        className={
+                                            allAlertsMeta.currentPage === allAlertsMeta.totalPages
+                                                ? "pointer-events-none opacity-50"
+                                                : "cursor-pointer"
+                                        }
+                                    />
+                                </PaginationItem>
+                            </PaginationContent>
+                        </Pagination>
+                    </div>
+                )}
                 <p className="text-center text-muted-foreground text-xs py-2 bg-muted/50">
                     Haz clic en una fila para gestionar la alerta
                 </p>
@@ -502,6 +556,54 @@ export function RetentionCenterView() {
                             </tbody>
                         </table>
                     </div>
+                    <p className="text-center text-muted-foreground text-xs py-2 bg-muted/50">
+                        Haz clic en una fila para gestionar la alerta
+                    </p>
+                    {historialAlertsMeta && historialAlertsMeta.totalPages > 1 && (
+                        <div className="py-4 border-t border-border/50">
+                            <Pagination>
+                                <PaginationContent>
+                                    <PaginationItem>
+                                        <PaginationPrevious
+                                            onClick={() =>
+                                                handleSetHistorialPage(Math.max(1, historialAlertsMeta.currentPage - 1))
+                                            }
+                                            className={
+                                                historialAlertsMeta.currentPage === 1
+                                                    ? "pointer-events-none opacity-50"
+                                                    : "cursor-pointer"
+                                            }
+                                        />
+                                    </PaginationItem>
+                                    {Array.from({ length: historialAlertsMeta.totalPages }).map((_, index) => (
+                                        <PaginationItem key={index + 1}>
+                                            <PaginationLink
+                                                onClick={() => handleSetHistorialPage(index + 1)}
+                                                isActive={historialAlertsMeta.currentPage === index + 1}
+                                                className="cursor-pointer"
+                                            >
+                                                {index + 1}
+                                            </PaginationLink>
+                                        </PaginationItem>
+                                    ))}
+                                    <PaginationItem>
+                                        <PaginationNext
+                                            onClick={() =>
+                                                handleSetHistorialPage(
+                                                    Math.min(historialAlertsMeta.totalPages, historialAlertsMeta.currentPage + 1),
+                                                )
+                                            }
+                                            className={
+                                                historialAlertsMeta.currentPage === historialAlertsMeta.totalPages
+                                                    ? "pointer-events-none opacity-50"
+                                                    : "cursor-pointer"
+                                            }
+                                        />
+                                    </PaginationItem>
+                                </PaginationContent>
+                            </Pagination>
+                        </div>
+                    )}
                 </div>
             )}
 

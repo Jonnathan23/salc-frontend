@@ -6,7 +6,7 @@ import type { RetentionAlertWithStudentMapper } from "@salc/core/features/class-
 import { RetentionAlertDataSource } from "@salc/core/features/class-track-teachers/retation-alert/domain/datasources/retentionAlert.datasource";
 import type { RetentionAlertEntity } from "@salc/core/features/class-track-teachers/retation-alert/domain/entities/RetentionAlert.entity";
 import type { RetentionAlertWithStudentProjection } from "@salc/core/features/class-track-teachers/retation-alert/domain/projections/RetentionAlertWithStudent.projection";
-import type { MethodsHttp, SuccessResponse } from "@salc/core/interfaces";
+import type { MethodsHttp, SuccessResponse, PaginatedResult } from "@salc/core/interfaces";
 import { CustomError } from "@salc/core/enums";
 
 export class RetentionAlertDataSourceImpl implements RetentionAlertDataSource {
@@ -18,7 +18,7 @@ export class RetentionAlertDataSourceImpl implements RetentionAlertDataSource {
         private readonly retentionAlertWithStudentMapper: RetentionAlertWithStudentMapper,
     ) {}
 
-    async getAlerts(dto: GetRetentionAlertsDto): Promise<SuccessResponse<RetentionAlertWithStudentProjection[]>> {
+    async getAlerts(dto: GetRetentionAlertsDto): Promise<SuccessResponse<PaginatedResult<RetentionAlertWithStudentProjection>>> {
         const queryParameters = {
             status: dto.status,
             page: dto.page,
@@ -29,7 +29,7 @@ export class RetentionAlertDataSourceImpl implements RetentionAlertDataSource {
             isJustified: dto.isJustified,
         };
 
-        const rawResponse = await this.api.get<SuccessResponse<RetentionAlertWithStudentProjection[]>>(this.baseUrl, {
+        const rawResponse = await this.api.get<SuccessResponse<PaginatedResult<any>>>(this.baseUrl, {
             parameters: queryParameters,
         });
 
@@ -37,11 +37,14 @@ export class RetentionAlertDataSourceImpl implements RetentionAlertDataSource {
             throw CustomError.notFound("Could not fetch retention alerts");
         }
 
-        const alerts = this.retentionAlertWithStudentMapper.toArrayProjections(rawResponse.data);
+        const alerts = this.retentionAlertWithStudentMapper.toArrayProjections(rawResponse.data.data);
 
         return {
             ...rawResponse,
-            data: alerts,
+            data: {
+                ...rawResponse.data,
+                data: alerts,
+            },
         };
     }
 

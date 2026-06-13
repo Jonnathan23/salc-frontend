@@ -5,12 +5,12 @@ import type { GetRetentionAlertsDto } from "@salc/core/features/class-track-teac
 import type { ChangeRetentionAlertStatusDto } from "@salc/core/features/class-track-teachers/retation-alert/domain/dtos/ChangeRetentionAlertStatus.dto";
 import type { RetentionAlertEntity } from "@salc/core/features/class-track-teachers/retation-alert/domain/entities/RetentionAlert.entity";
 import type { RetentionAlertWithStudentProjection } from "@salc/core/features/class-track-teachers/retation-alert/domain/projections/RetentionAlertWithStudent.projection";
-import type { SuccessResponse } from "@salc/core/interfaces";
+import type { SuccessResponse, PaginatedResult } from "@salc/core/interfaces";
 
 export class RetentionAlertRepositoryImpl implements RetentionAlertRepository {
     constructor(private readonly dataSource: RetentionAlertDataSource) {}
 
-    async getAlerts(dto: GetRetentionAlertsDto): Promise<SuccessResponse<RetentionAlertWithStudentProjection[]>> {
+    async getAlerts(dto: GetRetentionAlertsDto): Promise<SuccessResponse<PaginatedResult<RetentionAlertWithStudentProjection>>> {
         return this.dataSource.getAlerts(dto);
     }
 
