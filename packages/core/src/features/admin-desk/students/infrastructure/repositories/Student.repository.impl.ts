@@ -7,7 +7,7 @@ import type {
 } from "@salc/core/features/admin-desk/students/domain/dtos";
 import { StudentEntity } from "@salc/core/features/admin-desk/students/domain/entities/Student.entity";
 import { StudentRepository } from "@salc/core/features/admin-desk/students/domain/repositories/student.repository";
-import type { SuccessResponse } from "@salc/core/interfaces";
+import type { SuccessResponse, PaginatedResult } from "@salc/core/interfaces";
 
 export class StudentRepositoryImpl implements StudentRepository {
     constructor(private readonly studentDataSource: StudentDataSource) {}
@@ -20,7 +20,7 @@ export class StudentRepositoryImpl implements StudentRepository {
         return this.studentDataSource.search(query);
     }
 
-    searchByCriteria(dto: SearchStudentsByCriteriaDto): Promise<SuccessResponse<StudentEntity[]>> {
+    searchByCriteria(dto: SearchStudentsByCriteriaDto): Promise<SuccessResponse<PaginatedResult<StudentEntity>>> {
         return this.studentDataSource.searchByCriteria(dto);
     }
 

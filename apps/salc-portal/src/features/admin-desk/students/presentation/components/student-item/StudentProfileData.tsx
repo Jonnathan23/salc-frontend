@@ -52,7 +52,7 @@ export default function StudentProfileData({ student, handleSetEdit, canUserResp
                 <div className="h-20 bg-primary-foreground" />
                 <div className="px-6 pb-6">
                     <div className="flex items-end gap-4 -mt-8 mb-4">
-                        <div className="w-16 h-16 rounded-2xl bg-accent border-4 border-card flex items-center justify-center flex-shrink-0 shadow-md">
+                        <div className="w-16 h-16 rounded-2xl bg-accent border-4 border-card flex items-center justify-center shrink-0 shadow-md">
                             <span className="text-accent-foreground text-2xl font-bold">{student.fullName.charAt(0)}</span>
                         </div>
                         <div className="mb-1">

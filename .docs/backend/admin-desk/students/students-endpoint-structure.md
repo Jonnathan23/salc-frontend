@@ -18,17 +18,13 @@
 - **Description**: Busca estudiantes en el sistema mediante múltiples parámetros opcionales y retorna resultados paginados.
 - **Query**: (Recibe los parámetros del `SearchStudentsByCriteriaDto`)
     - `page` (number, required): Página de resultados (cada página trae 10 estudiantes máximo).
-    - `st_identification_card` (string, optional): Cédula.
-    - `st_full_name` (string, optional): Nombre.
-    - `st_phone_number` (string, optional): Teléfono.
-    - `st_email` (string, optional): Correo.
+    - `searchTerm` (string, optional): Término general (cédula, nombre, teléfono o correo).
     - `st_nationality` (string, optional): Nacionalidad.
     - `st_certificate_type` (CertificateType, optional): Tipo de certificado.
-    - `st_start_date` (Date, optional): Fecha de inicio.
     - `st_is_graduated` (boolean, optional): Estado de graduado.
     - `st_contract_status` (StudentContractStatus, optional): Estado de contrato.
     - `st_progress_category` (StudentProgressCategory, optional): Categoría de progreso.
-- **Response**: `SuccessResponse<StudentEntity[]>`
+- **Response**: `SuccessResponse<PaginatedResult<StudentEntity>>`
 
 ## `PATCH /api/students/:id`
 
