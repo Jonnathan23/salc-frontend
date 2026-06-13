@@ -2,8 +2,8 @@ import type { RetentionAlertStatus } from "@salc/core/features/class-track-teach
 import type { StudentContractStatus } from "@salc/core/features/admin-desk/students/domain/interfaces";
 
 export interface GetRetentionAlertsDtoProps {
+    page: number;
     status?: RetentionAlertStatus;
-    page?: number;
     limit?: number;
     studentParameter?: string;
     contractStatus?: StudentContractStatus;
@@ -13,8 +13,8 @@ export interface GetRetentionAlertsDtoProps {
 
 export class GetRetentionAlertsDto {
     private constructor(
-        public readonly status?: RetentionAlertStatus,
-        public readonly page?: number,
+        public readonly status: RetentionAlertStatus | undefined,
+        public readonly page: number,
         public readonly limit?: number,
         public readonly studentParameter?: string,
         public readonly contractStatus?: StudentContractStatus,
