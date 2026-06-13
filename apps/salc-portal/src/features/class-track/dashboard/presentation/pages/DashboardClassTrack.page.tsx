@@ -83,8 +83,8 @@ TODO: Construir en la version 2.0 del MVP, no es prioridad
                         label="Contratos Activos"
                         value={data.activeContractsCount}
                         icon={<CheckCircle className="w-5 h-5" />}
-                        colorClass="text-accent-foreground"
-                        bgClass="bg-accent/20"
+                        colorClass="text-sidebar-accent"
+                        bgClass="bg-sidebar-accent/20"
                     />
                 </div>
 
