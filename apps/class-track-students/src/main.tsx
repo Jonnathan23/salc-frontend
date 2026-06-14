@@ -1,12 +1,22 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { ToastContainer } from "react-toastify";
+
 import "./index.css";
+import { QueryClientProvider } from "@tanstack/react-query";
+import Router from "@/core/routes/Router";
+import { createQueryClient } from "@/core/config/queryClient";
+import { loadCoreEnvs } from "@/core/config/envsLocal";
+
+loadCoreEnvs();
+
+const queryClient = createQueryClient();
 
 createRoot(document.querySelector("#root")!).render(
     <StrictMode>
-        <div className="bg-red-500 text-white p-4 text-center font-bold text-2xl">
-            <h1>Class Track</h1>
-            <p>SI VES ESTO ROJO, TAILWIND ESTÁ VIVO</p>
-        </div>
+        <QueryClientProvider client={queryClient}>
+            <Router />
+            <ToastContainer position="top-right" autoClose={3000} />
+        </QueryClientProvider>
     </StrictMode>,
 );
