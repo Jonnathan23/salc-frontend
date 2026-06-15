@@ -1,5 +1,6 @@
 // import { useAuthStore } from "@/features/shared/identity/application/store/auth.store";
 import { loadEnvs } from "@salc/core/config";
+import { clientContextValues } from "@salc/core/enums/ClientContext";
 import { setupApiClient } from "@salc/core/lib";
 
 export const envsLocal = {
@@ -15,5 +16,5 @@ export const loadCoreEnvs = () => {
 
     setupApiClient(() => {
         console.warn("Unauthorized request. TODO: Implement logout/redirect logic.");
-    });
+    }, clientContextValues.classTrackStudent);
 };
