@@ -1,3 +1,9 @@
-export default function SessionActiveLayout() {
-    return <></>;
+import { Outlet } from "react-router-dom";
+
+export default function SessionStudentLayout() {
+    return (
+        <>
+            <Outlet />
+        </>
+    );
 }
