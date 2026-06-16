@@ -1,3 +1,5 @@
+import type { ClientContext } from "@salc/core/enums/ClientContext";
+
 export interface HttpConfig {
     parameters?: Record<string, unknown>;
     headers?: Record<string, string>;
@@ -13,6 +15,7 @@ export interface MethodsHttp {
 export interface ApiSettings {
     setUnauthorizedCallback(callback: () => void): void;
     setBaseUrl(baseUrl: string): void;
+    setClientContext(clientContext: ClientContext): void;
 }
 
 export interface Api extends MethodsHttp, ApiSettings {}

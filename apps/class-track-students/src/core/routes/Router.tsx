@@ -1,6 +1,8 @@
+import SessionStudentLayout from "@/core/layouts/SesionStudent.layout";
 import WelcomeLayout from "@/core/layouts/Welcome.layout";
 import NotFoundView from "@/core/pages/NotFound.page";
 import CheckInPage from "@/features/attendance/presentation/pages/check-in/CheckIn.page";
+import CheckOutPage from "@/features/attendance/presentation/pages/check-out/CheckOut.page";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 export default function Router() {
@@ -12,6 +14,10 @@ export default function Router() {
                 <Route>
                     <Route element={<WelcomeLayout />}>
                         <Route path="/check-in" element={<CheckInPage />} />
+                    </Route>
+
+                    <Route element={<SessionStudentLayout />}>
+                        <Route path="/dashboard" element={<CheckOutPage />} />
                     </Route>
                 </Route>
             </Routes>
