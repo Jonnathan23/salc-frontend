@@ -1,24 +1,19 @@
-import { useState } from "react";
-import { useEndAttendanceSession } from "../use-cases/useEndAttendanceSession.hook";
+import { useEndAttendanceSession } from "@/features/attendance/application/hooks/use-cases/useEndAttendanceSession.hook";
 
 export const useCheckout = () => {
-    const [sessionId, setSessionId] = useState<string>("");
-
     const onSuccessCallback = () => {
-        setSessionId("");
+        // Redirigir o limpiar estado si es necesario
     };
 
     const { mutate: endSessionMutation, isPending: isSubmitting } = useEndAttendanceSession({ onSuccessCallback });
 
-    const onSubmit = () => {
+    const onSubmit = (sessionId: string) => {
         if (!sessionId) return;
 
         endSessionMutation({ sessionId });
     };
 
     return {
-        sessionId,
-        setSessionId,
         onSubmit,
         isSubmitting,
     };

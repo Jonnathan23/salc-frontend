@@ -6,9 +6,10 @@ import { AttendanceFormMapper } from "@/features/attendance/presentation/mappers
 
 interface UseStartAttendanceSessionProps {
     onSuccessCallback?: () => void;
+    setEntryTime: (time: string) => void;
 }
 
-export const useStartAttendanceSession = ({ onSuccessCallback }: UseStartAttendanceSessionProps) => {
+export const useStartAttendanceSession = ({ onSuccessCallback, setEntryTime }: UseStartAttendanceSessionProps) => {
     const queryClient = useQueryClient();
 
     return useMutation({
@@ -18,6 +19,12 @@ export const useStartAttendanceSession = ({ onSuccessCallback }: UseStartAttenda
             return await startAttendanceSessionUseCase.execute(validDataTransferObject);
         },
         onSuccess: (successResponse) => {
+            const entryTime = successResponse.data?.atSeEntryTime;
+
+            if (entryTime) {
+                setEntryTime(entryTime.toString());
+            }
+
             queryClient.invalidateQueries({ queryKey: ["attendance-sessions"] });
             if (onSuccessCallback) onSuccessCallback();
             ShowMessageAdapter.success(successResponse.message);
