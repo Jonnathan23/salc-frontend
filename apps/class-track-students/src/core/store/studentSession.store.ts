@@ -5,9 +5,11 @@ import type { StudentTokenPayloadEntity } from "@salc/core/features/shared/verif
 interface StudentSessionState {
     studentResponse: StudentTokenPayloadEntity | null;
     entryTime: string | null;
+    hasCreatedLessonLogs: boolean;
     isAuthenticated: boolean;
     setLoginSession: (studentResponse: StudentTokenPayloadEntity) => void;
     setEntryTime: (time: string) => void;
+    setHasCreatedLessonLogs: (status: boolean) => void;
     setLogoutSession: () => void;
 }
 
@@ -17,6 +19,7 @@ export const useStudentSessionStore = create<StudentSessionState>()(
             (set) => ({
                 studentResponse: null,
                 entryTime: null,
+                hasCreatedLessonLogs: false,
                 isAuthenticated: false,
 
                 setLoginSession: (studentResponse) => {
@@ -32,10 +35,17 @@ export const useStudentSessionStore = create<StudentSessionState>()(
                     });
                 },
 
+                setHasCreatedLessonLogs: (status) => {
+                    set({
+                        hasCreatedLessonLogs: status,
+                    });
+                },
+
                 setLogoutSession: () => {
                     set({
                         studentResponse: null,
                         entryTime: null,
+                        hasCreatedLessonLogs: false,
                         isAuthenticated: false,
                     });
                 },

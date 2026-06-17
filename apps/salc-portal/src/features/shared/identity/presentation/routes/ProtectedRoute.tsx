@@ -2,6 +2,7 @@ import { usePermissions } from "@/features/shared/identity/application/hooks/for
 import { useAuthStore } from "@/features/shared/identity/application/store/auth.store";
 import type { SystemPermission } from "@salc/core/enums/Permissions";
 import { Navigate, Outlet } from "react-router-dom";
+import { useVerifyUser } from "@/features/shared/identity/application/hooks/use-cases/useVerifyUser.hook";
 
 interface ProtectedRouteProps {
     requiredPermissions?: SystemPermission[];
@@ -10,8 +11,9 @@ interface ProtectedRouteProps {
 export const ProtectedRoute = ({ requiredPermissions }: ProtectedRouteProps) => {
     const { isAuthenticated, userResponse } = useAuthStore();
     const { hasPermission } = usePermissions();
+    const { isError } = useVerifyUser(isAuthenticated);
 
-    if (!isAuthenticated || !userResponse) {
+    if (!isAuthenticated || !userResponse || isError) {
         return <Navigate to="/auth/Login" replace />;
     }
 

@@ -10,6 +10,7 @@ import AdminDeskLayout from "@/core/layouts/AdminDesk.layout";
 import IndexRedirect from "@/features/shared/identity/presentation/pages/IndexRedirect.page";
 import ClassTrackLayout from "@/core/layouts/ClassTrack.layout";
 import { RetentionCenterView } from "@/features/class-track/feats/retention-center/presentation/RetentionCenter.page";
+import NotPermissionsView from "@/core/pages/NotPermissions.page";
 
 const DirectoryStudents = lazy(
     () => import("@/features/admin-desk/students/presentation/pages/students-items/DirectoryStudents.page"),
@@ -32,13 +33,12 @@ const StudentLevelsPage = lazy(() => import("@/features/admin-desk/students-leve
 const AccessControlView = lazy(() => import("@/features/class-track/feats/attendance/presentation/pages/AccesControl.page"));
 
 export default function Router() {
-    //TODO: redireccionar al login apenas se detecte que el JWT expiró
-
     return (
         <BrowserRouter>
             <Routes>
                 {/* --- Ruta para 404 (fuera de AppLayout) --- */}
                 <Route path="*" element={<NotFoundView />} />
+                <Route path="/no-permissions" element={<NotPermissionsView />} />
 
                 {/* --- ZONA PÚBLICA (Solo para visitantes) --- */}
                 <Route element={<PublicRoute />}>

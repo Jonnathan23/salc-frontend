@@ -6,9 +6,10 @@ import type { BaseCheckoutFormValues } from "../../../presentation/interfaces/Ba
 
 interface UseEndAttendanceSessionProps {
     onSuccessCallback?: () => void;
+    setLogoutSession?: () => void;
 }
 
-export const useEndAttendanceSession = ({ onSuccessCallback }: UseEndAttendanceSessionProps = {}) => {
+export const useEndAttendanceSession = ({ onSuccessCallback, setLogoutSession }: UseEndAttendanceSessionProps = {}) => {
     const queryClient = useQueryClient();
 
     return useMutation({
@@ -19,6 +20,7 @@ export const useEndAttendanceSession = ({ onSuccessCallback }: UseEndAttendanceS
         },
         onSuccess: (successResponse) => {
             queryClient.invalidateQueries({ queryKey: ["attendance-sessions"] });
+            if (setLogoutSession) setLogoutSession();
             if (onSuccessCallback) onSuccessCallback();
             ShowMessageAdapter.success(successResponse.message);
         },
