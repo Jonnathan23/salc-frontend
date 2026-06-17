@@ -1,2 +1,197 @@
 @import "tailwindcss";
 @source "../../../packages/ui";
+
+/* * ==========================================================================
+ * SALC-PORTAL BRAND VARIABLES & SEMANTIC TOKENS
+ * ==========================================================================
+ */
+:root {
+    /* Tus colores base (Paleta original) */
+    --brand-orange: #f36e2b;
+    --brand-mint-light: #a0e3d5;
+    --brand-brown: #685c46;
+    --brand-tan: #cbbd91;
+    --brand-rust: #a85226;
+    --brand-teal-dark: #578f83;
+    --brand-burnt-orange: #c55a24;
+    --brand-teal-medium: #73bbac;
+    --brand-grey: lab(80.1381% -27.6029 0.826669);
+
+    /* * MAPEO SEMÁNTICO - LIGHT MODE */
+    --background: #ffffff;
+    --background-document: var(--brand-grey);
+    --foreground: var(--brand-brown);
+    --title: var(--brand-orange);
+
+    --card: #ffffff;
+    --card-foreground: var(--brand-brown);
+
+    --popover: #ffffff;
+    --popover-foreground: var(--brand-brown);
+
+    --primary: var(--brand-mint-light);
+    --primary-foreground: var(--brand-teal-dark);
+
+    --secondary: var(--brand-tan);
+    --secondary-foreground: var(--brand-brown);
+
+    --muted: #f4f1e9;
+    --muted-foreground: var(--brand-rust);
+
+    --accent: var(--brand-orange);
+    --accent-foreground: #ffffff;
+
+    --destructive: var(--brand-burnt-orange);
+    --destructive-foreground: #ffffff;
+
+    --border: var(--brand-tan);
+    --input: var(--brand-tan);
+    --ring: var(--brand-teal-dark);
+
+    /* V0 ClassTrack Chart Variables (No modificar) */
+    --chart-1: oklch(0.646 0.222 41.116);
+    --chart-2: oklch(0.6 0.118 184.704);
+    --chart-3: oklch(0.398 0.07 227.392);
+    --chart-4: oklch(0.828 0.189 84.429);
+    --chart-5: oklch(0.769 0.188 70.08);
+
+    /* Sidebar */
+    --sidebar: var(--brand-teal-dark);
+    --sidebar-foreground: #ffffff;
+    --sidebar-primary: var(--brand-mint-light);
+    --sidebar-primary-foreground: var(--brand-teal-dark);
+    --sidebar-accent: var(--brand-teal-medium);
+    --sidebar-accent-foreground: #ffffff;
+    --sidebar-border: var(--brand-brown);
+    --sidebar-ring: var(--brand-mint-light);
+
+    --radius: 0.5rem;
+}
+
+.dark {
+    /* * MAPEO SEMÁNTICO - DARK MODE */
+    --background: #2a251c;
+    --foreground: var(--brand-tan);
+    --title: var(--brand-orange);
+
+    --card: #363025;
+    --card-foreground: var(--brand-tan);
+
+    --popover: #363025;
+    --popover-foreground: var(--brand-tan);
+
+    --primary: var(--brand-teal-dark);
+    --primary-foreground: var(--brand-mint-light);
+
+    --secondary: var(--brand-brown);
+    --secondary-foreground: var(--brand-tan);
+
+    --muted: #4a4232;
+    --muted-foreground: var(--brand-tan);
+
+    --accent: var(--brand-rust);
+    --accent-foreground: #ffffff;
+
+    --destructive: var(--brand-burnt-orange);
+    --destructive-foreground: #ffffff;
+
+    --border: var(--brand-brown);
+    --input: var(--brand-brown);
+    --ring: var(--brand-teal-medium);
+
+    /* V0 ClassTrack Chart Variables (No modificar) */
+    --chart-1: oklch(0.488 0.243 264.376);
+    --chart-2: oklch(0.696 0.17 162.48);
+    --chart-3: oklch(0.769 0.188 70.08);
+    --chart-4: oklch(0.627 0.265 303.9);
+    --chart-5: oklch(0.645 0.246 16.439);
+
+    /* Sidebar */
+    --sidebar: #2a251c;
+    --sidebar-foreground: var(--brand-tan);
+    --sidebar-primary: var(--brand-teal-dark);
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #363025;
+    --sidebar-accent-foreground: var(--brand-mint-light);
+    --sidebar-border: var(--brand-brown);
+    --sidebar-ring: var(--brand-teal-medium);
+}
+
+/* * ==========================================================================
+ * INTEGRACIÓN CON TAILWIND V4
+ * ==========================================================================
+ */
+@theme inline {
+    --font-sans: "Geist", "Geist Fallback", sans-serif;
+    --font-mono: "Geist Mono", "Geist Mono Fallback", monospace;
+
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-background-document: var(--background-document);
+    --color-title: var(--title);
+
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+
+    /* Integración de variables Chart V0 */
+    --color-chart-1: var(--chart-1);
+    --color-chart-2: var(--chart-2);
+    --color-chart-3: var(--chart-3);
+    --color-chart-4: var(--chart-4);
+    --color-chart-5: var(--chart-5);
+
+    --radius-sm: calc(var(--radius) - 4px);
+    --radius-md: calc(var(--radius) - 2px);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) + 4px);
+
+    --color-sidebar: var(--sidebar);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+    * {
+        @apply border-border outline-ring/50;
+    }
+
+    body {
+        @apply bg-background text-foreground;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        color: var(--title);
+    }
+}

@@ -2,6 +2,7 @@ import { CustomError } from "@salc/core/enums";
 import { type ErrorResponse, type FormattedErrorResponse, type Api, type HttpConfig } from "@salc/core/interfaces";
 import axios, { AxiosError, type AxiosInstance, type AxiosResponse } from "axios";
 import type { EntityValidator } from "@salc/core/interfaces/EntityValidator";
+import { headerConstants, type ClientContext } from "@salc/core/enums/ClientContext";
 
 type ErrorFactory = (errors: Array<FormattedErrorResponse>) => CustomError;
 
@@ -21,7 +22,7 @@ export class ApiAxios implements Api {
     private readonly validateErrorResponse: EntityValidator<ErrorResponse>;
     private onUnauthorizedCallback?: () => void;
 
-    constructor(baseUrl: string, validateErrorResponse: EntityValidator<ErrorResponse>) {
+    constructor(baseUrl: string, validateErrorResponse: EntityValidator<ErrorResponse>, clientContext: ClientContext) {
         this.baseUrl = baseUrl;
         this.validateErrorResponse = validateErrorResponse;
         this.apiInstance = axios.create({
@@ -29,6 +30,7 @@ export class ApiAxios implements Api {
             withCredentials: true,
             headers: {
                 "Content-Type": "application/json",
+                [headerConstants.clientContextName]: clientContext,
             },
         });
 
@@ -41,6 +43,10 @@ export class ApiAxios implements Api {
 
     public setUnauthorizedCallback(callback: () => void): void {
         this.onUnauthorizedCallback = callback;
+    }
+
+    public setClientContext(clientContext: ClientContext): void {
+        this.apiInstance.defaults.headers[headerConstants.clientContextName] = clientContext;
     }
 
     private interceptorResponse(): void {
