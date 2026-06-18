@@ -1,7 +1,8 @@
-import { BookOpen, Loader2, Search, Filter } from "lucide-react";
+import { BookOpen, Search, Filter } from "lucide-react";
 
 import { useSearchStudentsCriteriaState } from "@/features/admin-desk/students/application/hooks";
 import StudentItem from "@/features/admin-desk/students/presentation/components/student-item/StudentItem";
+import { StudentItemSkeleton } from "@/core/components/ui/skeletons/StudentItemSkeleton";
 import { Input } from "@/core/components/ui/Input";
 import {
     Pagination,
@@ -196,14 +197,7 @@ export default function DirectoryStudents() {
                     </thead>
                     <tbody className="divide-y divide-border/30">
                         {isLoading ? (
-                            <tr>
-                                <td colSpan={5} className="py-20 text-center">
-                                    <div className="flex flex-col items-center justify-center text-muted-foreground gap-2">
-                                        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                                        <span className="text-sm">Cargando estudiantes...</span>
-                                    </div>
-                                </td>
-                            </tr>
+                            <StudentItemSkeleton numbersRows={5} />
                         ) : students.length === 0 ? (
                             <tr>
                                 <td colSpan={5} className="py-20 text-center">

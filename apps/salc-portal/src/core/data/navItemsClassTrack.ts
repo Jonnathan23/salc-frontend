@@ -1,6 +1,6 @@
 import type { NavItem } from "@/core/interfaces/NavItem";
 import { systemPermissions } from "@salc/core/enums/Permissions";
-import { LayoutDashboard, ShieldCheck, AlertTriangle, Users } from "lucide-react";
+import { LayoutDashboard, ShieldCheck, AlertTriangle, School } from "lucide-react";
 
 const baseUrl = "/class-track";
 
@@ -26,7 +26,7 @@ export const classTrackNavItems: NavItem[] = [
         description: "Centro de Retención",
         icon: AlertTriangle,
         href: baseUrl + "/retention-center",
-        permissions: [systemPermissions.CLASSTRACK_ATTENDANCE_READ],
+        permissions: [systemPermissions.CLASSTRACK_RETENTION_ALERTS_READ, systemPermissions.CLASSTRACK_RETENTION_ALERTS_WRITE],
         color: "bg-accent",
     },
     /*
@@ -41,9 +41,9 @@ export const classTrackNavItems: NavItem[] = [
     },
     */
     {
-        title: "Perfiles",
-        description: "Perfiles",
-        icon: Users,
+        title: "Ver Estudiantes",
+        description: "Diccionario de Estudiantes",
+        icon: School,
         href: baseUrl + "/view-students",
         permissions: [systemPermissions.ADMINDESK_STUDENTS_READ],
         color: "bg-secondary",

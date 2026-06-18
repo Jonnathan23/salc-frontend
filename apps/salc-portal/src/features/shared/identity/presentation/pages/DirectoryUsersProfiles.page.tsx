@@ -1,17 +1,11 @@
-import { BookOpen, Loader2 } from "lucide-react";
+import { BookOpen } from "lucide-react";
 import { useGetAllUsers } from "@/features/shared/identity/application/hooks/use-cases/useGetAllUsers.use";
 import ProfileItem from "@/features/shared/identity/presentation/components/profiles/ProfileItem";
+import { StudentItemSkeleton } from "@/core/components/ui/skeletons/StudentItemSkeleton";
 
 export default function DirectoryProfilesPage() {
     const { data: successResponse, isLoading } = useGetAllUsers();
     const users = successResponse?.data ?? [];
-
-    if (isLoading)
-        return (
-            <div className="flex h-64 items-center justify-center">
-                <Loader2 className="h-10 w-10 animate-spin text-primary" />
-            </div>
-        );
 
     return (
         <div className="bg-card text-card-foreground rounded-xl border border-border/50 shadow-sm overflow-hidden">
@@ -36,9 +30,11 @@ export default function DirectoryProfilesPage() {
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-border/30">
-                        {users.map((user) => (
-                            <ProfileItem key={user.userId} user={user} />
-                        ))}
+                        {isLoading ? (
+                            <StudentItemSkeleton numbersRows={4} />
+                        ) : (
+                            users.map((user) => <ProfileItem key={user.userId} user={user} />)
+                        )}
                     </tbody>
                 </table>
             </div>

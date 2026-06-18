@@ -7,7 +7,8 @@ import ModuleItem from "@/features/admin-desk/modules/presentation/components/Mo
 import UpdateModuleForm from "@/features/admin-desk/modules/presentation/components/UpdateModule";
 import { systemPermissions } from "@salc/core/enums/Permissions";
 import type { ModuleEntity } from "@salc/core/features/admin-desk/modules/domain/entities/Module.entity";
-import { BookOpenText, Loader2 } from "lucide-react";
+import { BookOpenText } from "lucide-react";
+import { CardGridSkeleton } from "@/core/components/ui/skeletons/CardGridSkeleton";
 
 export default function ModulePage() {
     const { userResponse } = useAuthStore();
@@ -20,13 +21,6 @@ export default function ModulePage() {
     const { data: response, isLoading, error } = useGetAllModules();
 
     const modules = response?.data ?? [];
-
-    if (isLoading)
-        return (
-            <div className="flex h-64 items-center justify-center">
-                <Loader2 className="h-10 w-10 animate-spin text-primary" />
-            </div>
-        );
 
     if (error)
         return (
@@ -73,16 +67,22 @@ export default function ModulePage() {
 
                 <article className="lg:col-span-2">
                     <div className="grid gap-6 sm:grid-cols-2">
-                        {modules.map((module) => (
-                            <ModuleItem
-                                key={module.moduleId}
-                                module={module}
-                                setModuleSelected={setModuleSelected}
-                                setIsEditing={setIsEditing}
-                                canWrite={canWrite}
-                            />
-                        ))}
-                        {modules.length === 0 && <p className="text-muted-foreground col-span-2">No hay módulos registrados.</p>}
+                        {isLoading ? (
+                            <CardGridSkeleton itemsCount={4} showFooter={canWrite} />
+                        ) : (
+                            modules.map((module) => (
+                                <ModuleItem
+                                    key={module.moduleId}
+                                    module={module}
+                                    setModuleSelected={setModuleSelected}
+                                    setIsEditing={setIsEditing}
+                                    canWrite={canWrite}
+                                />
+                            ))
+                        )}
+                        {!isLoading && modules.length === 0 && (
+                            <p className="text-muted-foreground col-span-2">No hay módulos registrados.</p>
+                        )}
                     </div>
                 </article>
             </div>

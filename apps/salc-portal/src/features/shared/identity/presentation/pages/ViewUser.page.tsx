@@ -7,7 +7,7 @@ import { useAuthStore } from "@/features/shared/identity/application/store/auth.
 import { useFindUserById } from "@/features/shared/identity/application/hooks";
 import { systemPermissions } from "@salc/core/enums/Permissions";
 import { Button } from "@/core/components/ui/admin-desk/buttons/Button";
-import { Loader2 } from "lucide-react";
+import { CardGridSkeleton } from "@/core/components/ui/skeletons/CardGridSkeleton";
 
 export default function ViewProfilePage() {
     const parameters = useParams();
@@ -28,7 +28,7 @@ export default function ViewProfilePage() {
         return userResponse.permissions.includes(systemPermissions.SHARED_IDENTITY_WRITE);
     }, [userResponse]);
 
-    if (isLoading) return <Loader2 className="w-4 h-4 animate-spin" />;
+    if (isLoading) return <CardGridSkeleton itemsCount={1} />;
 
     if (isError || !user) {
         return (

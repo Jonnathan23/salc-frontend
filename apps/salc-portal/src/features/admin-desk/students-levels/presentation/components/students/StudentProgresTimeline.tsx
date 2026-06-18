@@ -12,6 +12,7 @@ import type {
     TimelineEnrolledLevel,
     TimelineAvailableModule,
 } from "@salc/core/features/admin-desk/students-level/domain/entities/StudentTimelineProjection.entity";
+import { CardGridSkeleton } from "@/core/components/ui/skeletons/CardGridSkeleton";
 
 interface StudentProgressTimelineProps {
     studentTimelineInfo: TimelineStudentInfo | null;
@@ -48,10 +49,9 @@ export default function StudentProgressTimeline(props: StudentProgressTimelinePr
     const renderTimelineAndUpsell = () => {
         if (isLoading)
             return (
-                <p className="flex items-center justify-center">
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Cargando progreso...
-                </p>
+                <div className="flex h-64 items-center justify-center">
+                    <CardGridSkeleton itemsCount={2} />
+                </div>
             );
 
         return (

@@ -4,9 +4,9 @@ import { useSearchStudent } from "@/features/admin-desk/students/application/hoo
 import UpdateStudent from "@/features/admin-desk/students/presentation/components/register-update/UpdateStudent";
 import StudentProfileData from "@/features/admin-desk/students/presentation/components/student-item/StudentProfileData";
 import { systemPermissions } from "@salc/core/enums/Permissions";
-import { Loader2 } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { CardGridSkeleton } from "@/core/components/ui/skeletons/CardGridSkeleton";
 
 export default function ViewStudentProfile() {
     const parameters = useParams();
@@ -40,7 +40,7 @@ export default function ViewStudentProfile() {
 
     const onBack = () => navigation(`${baseUrl}/view-students`);
 
-    if (isLoading) return <Loader2 className="w-4 h-4 animate-spin" />;
+    if (isLoading) return <CardGridSkeleton itemsCount={1} />;
 
     if (isError || !student || !userResponse) {
         return (

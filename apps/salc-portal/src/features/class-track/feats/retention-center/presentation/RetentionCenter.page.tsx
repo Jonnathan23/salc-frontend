@@ -34,6 +34,7 @@ import {
 } from "@/features/class-track/feats/retention-center/application/hooks/use-cases/useGetRetentionAlerts.hook";
 import { useChangeStatusForm } from "@/features/class-track/feats/retention-center/application/hooks/forms/useChangeStatusForm.hook";
 import type { RetentionAlertEntity } from "@salc/core/features/class-track-teachers/retation-alert/domain/entities/RetentionAlert.entity";
+import { StudentItemSkeleton } from "@/core/components/ui/skeletons/StudentItemSkeleton";
 
 export function RetentionCenterView() {
     //* hooks
@@ -277,10 +278,7 @@ export function RetentionCenterView() {
                             {isLoadingAlerts || isFetchingAlerts ? (
                                 <tr>
                                     <td colSpan={5} className="px-5 py-8 text-center">
-                                        <div className="flex items-center justify-center gap-2 text-muted-foreground">
-                                            <Loader2 className="w-5 h-5 animate-spin text-primary" />
-                                            <span>Cargando alertas...</span>
-                                        </div>
+                                        <StudentItemSkeleton numbersRows={6} background="bg-accent" />
                                     </td>
                                 </tr>
                             ) : (
@@ -526,10 +524,7 @@ export function RetentionCenterView() {
                                 {isLoadingHistorial || isFetchingHistorial ? (
                                     <tr>
                                         <td colSpan={5} className="px-5 py-8 text-center">
-                                            <div className="flex items-center justify-center gap-2 text-muted-foreground">
-                                                <Loader2 className="w-5 h-5 animate-spin text-primary" />
-                                                <span>Cargando historial...</span>
-                                            </div>
+                                            <StudentItemSkeleton numbersRows={5} background="bg-accent" />
                                         </td>
                                     </tr>
                                 ) : (

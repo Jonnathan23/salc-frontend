@@ -9,19 +9,9 @@ import { Input } from "@/core/components/ui/Input";
 import { Label } from "@/core/components/ui/Label";
 
 export default function LoginPage() {
-    const isLoading = false;
     const [showPassword, setShowPassword] = useState(false);
 
     const { register, handleSubmit, errors, isPendingLogin, isError, errorLogin, onSubmit } = useLoginForm();
-
-    // Show loading state while checking auth
-    if (isLoading) {
-        return (
-            <div className="flex min-h-screen items-center justify-center bg-background">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            </div>
-        );
-    }
 
     return (
         <main className="flex min-h-screen items-center justify-center bg-background p-4">
