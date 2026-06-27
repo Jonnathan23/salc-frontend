@@ -12,7 +12,8 @@ export const useVerifyUser = (enabled: boolean = true) => {
         },
         retry: false,
         staleTime: Infinity,
-        refetchOnWindowFocus: true,
+        refetchOnMount: "always",
+        refetchOnWindowFocus: "always",
         refetchOnReconnect: true,
         enabled,
     });
